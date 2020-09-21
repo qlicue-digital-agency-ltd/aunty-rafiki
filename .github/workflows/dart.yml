@@ -21,5 +21,7 @@ jobs:
         channel: 'stable'  
     # Get flutter packages
     - run: flutter pub get
+    # Test the app
+    - run: flutter test
     # Build :D 
-    - run: flutter build aot
+    - run: flutter build apk
