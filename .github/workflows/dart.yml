@@ -24,4 +24,4 @@ jobs:
     # Test the app
     #- run: flutter test
     # Build :D 
-    - run: flutter build apk
+    - run: flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi
