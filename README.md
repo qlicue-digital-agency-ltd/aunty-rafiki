@@ -2,6 +2,8 @@
 
 # aunty_rafiki
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1cd26a6d1a594dac845176948a37d964)](https://app.codacy.com/gh/qlicue-digital-agency-ltd/aunty-rafiki?utm_source=github.com&utm_medium=referral&utm_content=qlicue-digital-agency-ltd/aunty-rafiki&utm_campaign=Badge_Grade_Settings)
+
 A new Flutter project.
 
 ## Getting Started
