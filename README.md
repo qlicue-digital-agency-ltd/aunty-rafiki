@@ -1,5 +1,3 @@
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/dc38e055b0434da8896e7b0082d458dc)](https://www.codacy.com/gh/qlicue-digital-agency-ltd/aunty-rafiki/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=qlicue-digital-agency-ltd/aunty-rafiki&amp;utm_campaign=Badge_Grade)
-
 # aunty_rafiki
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1cd26a6d1a594dac845176948a37d964)](https://app.codacy.com/gh/qlicue-digital-agency-ltd/aunty-rafiki?utm_source=github.com&utm_medium=referral&utm_content=qlicue-digital-agency-ltd/aunty-rafiki&utm_campaign=Badge_Grade_Settings)
