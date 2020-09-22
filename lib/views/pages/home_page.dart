@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 // import from screens dir
-import '../screens/tracker.dart';
-import '../screens/chat.dart';
-import '../screens/baby_bump.dart';
-import '../screens/appointment.dart';
-import '../screens/profile.dart';
+import '../screens/tracker_screen.dart';
+import '../screens/chat_screen.dart';
+import '../screens/baby_bump_screen.dart';
+import '../screens/appointment_screen.dart';
+import '../screens/profile_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,6 +15,33 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // current selected item in bottom navigation bar
   int _currentIndex = 0;
+  String _title = "Tracker";
+
+  _selectTab(int index) {
+    setState(() {
+      _currentIndex = index;
+      switch (index) {
+        case 0:
+          _title = "Tracker";
+          break;
+        case 1:
+          _title = "Charts";
+          break;
+        case 2:
+          _title = "Baby Bump";
+          break;
+        case 3:
+          _title = "Appointment";
+          break;
+        case 4:
+          _title = "Profile";
+          break;
+
+        default:
+          _title = "Tracker";
+      }
+    });
+  }
 
   // list of widgets corresponding to navigation bar items
   List<Widget> _screens = [
@@ -28,7 +55,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(_title),
+      ),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -55,12 +84,7 @@ class _HomePageState extends State<HomePage> {
             title: Text('Profile'),
           ),
         ],
-        onTap: (int index) {
-          // update the current index to recent selected item index in bottom navigation bar
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onTap: _selectTab,
       ),
     );
   }

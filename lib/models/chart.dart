@@ -4,6 +4,8 @@ class Chart {
   final String uuid;
   final String name;
   final String lastMessage;
+  final int messageCounter;
+
   final String time;
   final String chartType;
   final String avatar;
@@ -14,7 +16,8 @@ class Chart {
       @required this.lastMessage,
       @required this.time,
       @required this.chartType,
-      @required this.avatar});
+      @required this.avatar,
+      @required this.messageCounter});
 }
 
 List<Chart> chartList = <Chart>[
@@ -24,6 +27,7 @@ List<Chart> chartList = <Chart>[
       name: 'Matias',
       time: '12:30',
       uuid: 'YYUU90989',
+      messageCounter: 0,
       chartType: 'private'),
   Chart(
       avatar: 'assets/images/b.jpg',
@@ -31,6 +35,7 @@ List<Chart> chartList = <Chart>[
       name: 'Goup Soccer',
       time: 'Yesterday',
       uuid: 'YYUU90989',
+      messageCounter: 2,
       chartType: 'group'),
   Chart(
       avatar: 'assets/images/c.jpeg',
@@ -38,6 +43,7 @@ List<Chart> chartList = <Chart>[
       name: 'Marry',
       time: 'Sunday',
       uuid: 'YYUU90989',
+      messageCounter: 10,
       chartType: 'private'),
   Chart(
       avatar: 'assets/images/d.jpeg',
@@ -45,6 +51,7 @@ List<Chart> chartList = <Chart>[
       name: 'Family',
       time: '12:30',
       uuid: 'YYUU90989',
+      messageCounter: 0,
       chartType: 'group'),
   Chart(
       avatar: 'assets/images/a.jpg',
@@ -52,5 +59,6 @@ List<Chart> chartList = <Chart>[
       name: 'Peter',
       time: '12:30',
       uuid: 'YYUU90989',
-      chartType: 'private')
+      chartType: 'private',
+      messageCounter: 3,)
 ];
