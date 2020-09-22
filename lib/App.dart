@@ -1,3 +1,5 @@
+import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/views/pages/chart_room_page.dart';
 import 'package:aunty_rafiki/views/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,7 @@ class App extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(),
+      routes: {chartRoomPage: (_) => ChartRoomPage()},
     );
   }
 }
