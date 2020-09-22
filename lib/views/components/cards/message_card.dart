@@ -14,6 +14,7 @@ class MessageCard extends StatelessWidget {
           padding: EdgeInsets.all(10),
           color: Colors.white,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 message.sender == null
@@ -22,15 +23,16 @@ class MessageCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(message.phoneNumber),
-                          Spacer(),
+                          SizedBox(width: 50,),
                           Text(message.userName)
                         ],
                       )
                     : Text(message.sender),
                 Text(message.text),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Spacer(),
+                    
                     Text(message.time),
                   ],
                 )
