@@ -13,14 +13,14 @@ class TrackerScreen extends StatelessWidget {
 
   // indicator style
   final IndicatorStyle _indicatorStyle = IndicatorStyle(
-    color: _defaultColor,
+    color: _defaultColor.withGreen(150),
     padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
     // iconStyle: IconStyle(
     //   iconData: Icons.add_circle_outline,
     //   fontSize: 16.0,
     //   color: Colors.grey,
     // ),
-    indicatorXY: 0.05,
+    indicatorXY: 0.1,
   );
 
   @override
