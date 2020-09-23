@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import '../../models/tracker.dart';
-import '../widgets/cards/tracker_card.dart';
+import '../components/cards/tracker_card.dart';
 
 class TrackerScreen extends StatelessWidget {
   // default color
@@ -13,14 +13,14 @@ class TrackerScreen extends StatelessWidget {
 
   // indicator style
   final IndicatorStyle _indicatorStyle = IndicatorStyle(
-    color: _defaultColor,
+    color: _defaultColor.withGreen(150),
     padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
     // iconStyle: IconStyle(
     //   iconData: Icons.add_circle_outline,
     //   fontSize: 16.0,
     //   color: Colors.grey,
     // ),
-    indicatorXY: 0.05,
+    indicatorXY: 0.1,
   );
 
   @override
