@@ -5,7 +5,6 @@ class Chat {
   final String name;
   final String lastMessage;
   final int messageCounter;
-
   final String time;
   final String chartType;
   final String avatar;
