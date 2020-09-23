@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import '../../models/tracker.dart';
-import '../widgets/cards/tracker_card.dart';
+import '../components/cards/tracker_card.dart';
 
 class TrackerScreen extends StatelessWidget {
   // default color
