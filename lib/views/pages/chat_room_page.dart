@@ -2,7 +2,7 @@ import 'package:aunty_rafiki/models/message.dart';
 import 'package:aunty_rafiki/views/components/cards/message_card.dart';
 import 'package:flutter/material.dart';
 
-class ChartRoomPage extends StatelessWidget {
+class ChatRoomPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

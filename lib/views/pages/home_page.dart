@@ -17,6 +17,8 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   String _title = "Tracker";
 
+
+///select current tab
   _selectTab(int index) {
     setState(() {
       _currentIndex = index;
@@ -25,7 +27,7 @@ class _HomePageState extends State<HomePage> {
           _title = "Tracker";
           break;
         case 1:
-          _title = "Charts";
+          _title = "Chats";
           break;
         case 2:
           _title = "Baby Bump";

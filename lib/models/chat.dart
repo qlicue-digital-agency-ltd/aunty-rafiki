@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Chart {
+class Chat {
   final String uuid;
   final String name;
   final String lastMessage;
@@ -10,7 +10,7 @@ class Chart {
   final String chartType;
   final String avatar;
 
-  Chart(
+  Chat(
       {@required this.uuid,
       @required this.name,
       @required this.lastMessage,
@@ -20,8 +20,8 @@ class Chart {
       @required this.messageCounter});
 }
 
-List<Chart> chartList = <Chart>[
-  Chart(
+List<Chat> chatList = <Chat>[
+  Chat(
       avatar: 'assets/images/a.jpg',
       lastMessage: 'Hello world',
       name: 'Matias',
@@ -29,7 +29,7 @@ List<Chart> chartList = <Chart>[
       uuid: 'YYUU90989',
       messageCounter: 0,
       chartType: 'private'),
-  Chart(
+  Chat(
       avatar: 'assets/images/b.jpg',
       lastMessage: 'Hello world',
       name: 'Goup Soccer',
@@ -37,7 +37,7 @@ List<Chart> chartList = <Chart>[
       uuid: 'YYUU90989',
       messageCounter: 2,
       chartType: 'group'),
-  Chart(
+  Chat(
       avatar: 'assets/images/c.jpeg',
       lastMessage: 'Hello iisoais world',
       name: 'Marry',
@@ -45,7 +45,7 @@ List<Chart> chartList = <Chart>[
       uuid: 'YYUU90989',
       messageCounter: 10,
       chartType: 'private'),
-  Chart(
+  Chat(
       avatar: 'assets/images/d.jpeg',
       lastMessage: 'Hellohsjas world',
       name: 'Family',
@@ -53,7 +53,7 @@ List<Chart> chartList = <Chart>[
       uuid: 'YYUU90989',
       messageCounter: 0,
       chartType: 'group'),
-  Chart(
+  Chat(
       avatar: 'assets/images/a.jpg',
       lastMessage: 'Hello world',
       name: 'Peter',

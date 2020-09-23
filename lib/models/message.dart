@@ -6,13 +6,13 @@ class Message {
   final String sender;
   final String phoneNumber;
   final String userName;
-  final String chartUuid;
+  final String chatUuid;
   final bool ownedByme;
 
   Message(
       {@required this.text,
       @required this.time,
-      @required this.chartUuid,
+      @required this.chatUuid,
       @required this.ownedByme,
       this.sender,
       @required this.phoneNumber,
@@ -23,7 +23,7 @@ List<Message> messagePool = <Message>[
   Message(
       text: 'Hello world today',
       time: 'Yesterday',
-      chartUuid: 'YYUU90989',
+      chatUuid: 'YYUU90989',
       ownedByme: false,
       sender: 'Henry Victor',
       phoneNumber: '+29982222',
@@ -31,14 +31,14 @@ List<Message> messagePool = <Message>[
   Message(
       text: 'Hello world today',
       time: 'Yesterday',
-      chartUuid: 'YYUU90989',
+      chatUuid: 'YYUU90989',
       ownedByme: false,
       phoneNumber: '+255715785672',
       userName: "~P-L😂"),
   Message(
       text: 'Hello world today',
       time: 'Yesterday',
-      chartUuid: 'YYUU90989',
+      chatUuid: 'YYUU90989',
       ownedByme: false,
       sender: 'Mary Paul',
       phoneNumber: '+29982222',
@@ -46,7 +46,7 @@ List<Message> messagePool = <Message>[
   Message(
       text: 'Hello world today',
       time: 'Yesterday',
-      chartUuid: 'YYUU90989',
+      chatUuid: 'YYUU90989',
       ownedByme: true,
       sender: 'James',
       phoneNumber: '+29982222',

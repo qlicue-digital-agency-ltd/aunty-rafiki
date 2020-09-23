@@ -1,11 +1,11 @@
-import 'package:aunty_rafiki/models/chart.dart';
+import 'package:aunty_rafiki/models/chat.dart';
 import 'package:flutter/material.dart';
 
-class ChartTile extends StatelessWidget {
-  final Chart chart;
+class ChatTile extends StatelessWidget {
+  final Chat chart;
   final Function onTap;
 
-  const ChartTile({Key key, @required this.chart, @required this.onTap})
+  const ChatTile({Key key, @required this.chart, @required this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
