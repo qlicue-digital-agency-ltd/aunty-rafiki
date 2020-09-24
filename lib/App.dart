@@ -14,7 +14,7 @@ class App extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(),
-      routes: {chartRoomPage: (_) => ChatRoomPage()},
+      routes: {chatRoomPage: (_) => ChatRoomPage()},
     );
   }
 }

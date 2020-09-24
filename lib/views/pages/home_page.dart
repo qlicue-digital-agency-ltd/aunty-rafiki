@@ -1,4 +1,6 @@
+import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // import from screens dir
 import '../screens/tracker_screen.dart';
@@ -7,46 +9,9 @@ import '../screens/baby_bump_screen.dart';
 import '../screens/appointment_screen.dart';
 import '../screens/profile_screen.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  // current selected item in bottom navigation bar
-  int _currentIndex = 0;
-  String _title = "Tracker";
-
-
-///select current tab
-  _selectTab(int index) {
-    setState(() {
-      _currentIndex = index;
-      switch (index) {
-        case 0:
-          _title = "Tracker";
-          break;
-        case 1:
-          _title = "Chats";
-          break;
-        case 2:
-          _title = "Baby Bump";
-          break;
-        case 3:
-          _title = "Appointment";
-          break;
-        case 4:
-          _title = "Profile";
-          break;
-
-        default:
-          _title = "Tracker";
-      }
-    });
-  }
-
+class HomePage extends StatelessWidget {
   // list of widgets corresponding to navigation bar items
-  List<Widget> _screens = [
+  final List<Widget> _screens = [
     TrackerScreen(),
     ChatScreen(),
     BabyBumpScreen(),
@@ -56,13 +21,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _utilityProvider = Provider.of<UtilityProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(_title),
+        title: Text(_utilityProvider.title),
       ),
-      body: _screens[_currentIndex],
+      body: _screens[_utilityProvider.currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: _utilityProvider.currentIndex,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
@@ -86,14 +52,10 @@ class _HomePageState extends State<HomePage> {
             title: Text('Profile'),
           ),
         ],
-        onTap: _selectTab,
+        onTap: _utilityProvider.selectTab,
       ),
     );
   }
 }
 
-// tracker
-// chats
-// baby bump
-// appointments
-// profile
+

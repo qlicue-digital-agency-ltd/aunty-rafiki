@@ -1,11 +1,12 @@
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ChatTile extends StatelessWidget {
-  final Chat chart;
+  final Chat chat;
   final Function onTap;
 
-  const ChatTile({Key key, @required this.chart, @required this.onTap})
+  const ChatTile({Key key, @required this.chat, @required this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class ChatTile extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: CircleAvatar(
               radius: 35,
-              backgroundImage: AssetImage(chart.avatar),
+              backgroundImage: AssetImage(chat.avatar),
             ),
           ),
           Expanded(
@@ -34,11 +35,11 @@ class ChatTile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              chart.name,
+                              chat.name,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            Text(chart.lastMessage)
+                            Text(chat.messages.last.text)
                           ]),
                     ),
                     Expanded(
@@ -48,18 +49,20 @@ class ChatTile extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              Text(chart.time,
+                              Text(DateFormat('yyyy-MM-dd').format(chat.date),
                                   style: TextStyle(
-                                      color: chart.messageCounter > 0
+                                      color: chat.unreadMessageCounter > 0
                                           ? Theme.of(context).primaryColor
                                           : Colors.black38)),
-                              chart.messageCounter > 0
-                                  ? Chip(
+                              chat.unreadMessageCounter > 0
+                                  ? CircleAvatar(
+                                      radius: 12,
                                       backgroundColor:
                                           Theme.of(context).primaryColor,
-                                      label: Text(
-                                        chart.messageCounter.toString(),
-                                        style: TextStyle(color: Colors.white),
+                                      child: Text(
+                                        chat.unreadMessageCounter.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 12),
                                       ))
                                   : Container()
                             ]),
