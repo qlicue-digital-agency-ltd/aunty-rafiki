@@ -76,7 +76,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                       )),
             ),
 
-            // Sticker
+            // Sticker for us
             (_chatProvider.isShowSticker ? StickerSheet() : Container()),
             TextInputTile()
           ],
