@@ -1,1 +1,1 @@
-const chartRoomPage = "/chartRoomPage";
+const chatRoomPage = "/chatRoomPage";
