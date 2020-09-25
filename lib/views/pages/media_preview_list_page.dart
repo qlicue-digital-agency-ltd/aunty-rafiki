@@ -1,0 +1,54 @@
+import 'package:aunty_rafiki/providers/chat_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import 'media_preview_page.dart';
+
+class MediaPreviewListPage extends StatelessWidget {
+  final List<String> images;
+
+  const MediaPreviewListPage({Key key, @required this.images})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final _chatProvider = Provider.of<ChatProvider>(context);
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(_chatProvider.selectedChat.name.toString()),
+          Text(
+            DateFormat('Hm').format(_chatProvider.selectedChat.date),
+            style: TextStyle(fontSize: 12),
+          )
+        ]),
+        actions: [
+          IconButton(icon: Icon(Icons.star_border), onPressed: () {}),
+          IconButton(icon: Icon(Icons.share), onPressed: () {}),
+          IconButton(icon: Icon(Icons.more_vert), onPressed: () {})
+        ],
+      ),
+      backgroundColor: Colors.black,
+      body: Center(
+          child: ListView.builder(
+              itemCount: images.length,
+              itemBuilder: (_, index) => InkWell(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => MediaPreviewPage(
+                                  image: images[index],
+                                ))),
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: Hero(
+                        tag: images[index],
+                        child: Image.asset(images[index]),
+                      ),
+                    ),
+                  ))),
+    );
+  }
+}

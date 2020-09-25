@@ -41,6 +41,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/baby/
+    - assets/chats/
     - assets/images/gif/
   #   - images/a_dot_ham.jpeg
 
