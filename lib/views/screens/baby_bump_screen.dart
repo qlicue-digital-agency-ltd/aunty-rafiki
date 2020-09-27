@@ -11,7 +11,7 @@ class BabyBumpScreen extends StatefulWidget {
 
 class _BabyBumpScreenState extends State<BabyBumpScreen>
     with SingleTickerProviderStateMixin {
-  TabController _controller;
+  // TabController _controller;
 
   @override
   void initState() {
@@ -24,17 +24,15 @@ class _BabyBumpScreenState extends State<BabyBumpScreen>
 
   @override
   Widget build(BuildContext context) {
-    _controller = TabController(length: babyBump.length, vsync: this)
-      ..addListener(() {
-        print(_controller.index);
-      });
+    final _babyBumpProvider = Provider.of<BabyBumpProvider>(context);
     final screenWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         TabBarView(
           // controller: _controller,
-          children:
-              babyBump.map((e) => BabyBumpCard(image: e.image)).toList(),
+          children: _babyBumpProvider.babyBumps
+              .map((e) => BabyBumpCard(image: e.image))
+              .toList(),
         ),
         Positioned(
           top: 20,

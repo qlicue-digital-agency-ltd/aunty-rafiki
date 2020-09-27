@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
+import 'package:aunty_rafiki/providers/tracker_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,5 +12,6 @@ void main() {
     ChangeNotifierProvider(create: (_) => ChatProvider()),
     ChangeNotifierProvider(create: (_) => UtilityProvider()),
     ChangeNotifierProvider<BabyBumpProvider>(create: (_) => BabyBumpProvider()),
+    ChangeNotifierProvider<TrackerProvider>(create: (_) => TrackerProvider()),
   ], child: App()));
 }

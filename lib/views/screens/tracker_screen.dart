@@ -1,7 +1,8 @@
+import 'package:aunty_rafiki/providers/tracker_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-import '../../models/tracker.dart';
 import '../components/cards/tracker_card.dart';
 
 class TrackerScreen extends StatelessWidget {
@@ -25,15 +26,16 @@ class TrackerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _trackerProvider = Provider.of<TrackerProvider>(context);
     return ListView.builder(
-      itemCount: trackers.length,
+      itemCount: _trackerProvider.trackers.length,
       itemBuilder: (BuildContext context, int index) {
         return TimelineTile(
           alignment: TimelineAlign.manual,
           lineXY: 0.05,
           isFirst: index == 0 ? true : false,
-          isLast: index == trackers.length - 1 ? true : false,
-          endChild: TrackerCard(tracker: trackers[index]),
+          isLast: index == _trackerProvider.trackers.length - 1 ? true : false,
+          endChild: TrackerCard(tracker: _trackerProvider.trackers[index]),
           afterLineStyle: _lineStyle,
           beforeLineStyle: _lineStyle,
           indicatorStyle: _indicatorStyle,
