@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
+import 'package:aunty_rafiki/views/pages/tracker_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -24,6 +25,17 @@ class TrackerScreen extends StatelessWidget {
     indicatorXY: 0.1,
   );
 
+  // action to be performed when the card is tapped
+  void _handleCardTap(BuildContext context, int index) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return TrackerPage(index);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
@@ -35,7 +47,12 @@ class TrackerScreen extends StatelessWidget {
           lineXY: 0.05,
           isFirst: index == 0 ? true : false,
           isLast: index == _trackerProvider.trackers.length - 1 ? true : false,
-          endChild: TrackerCard(tracker: _trackerProvider.trackers[index]),
+          endChild: InkWell(
+            onTap: () {
+              _handleCardTap(context, index);
+            },
+            child: TrackerCard(tracker: _trackerProvider.trackers[index]),
+          ),
           afterLineStyle: _lineStyle,
           beforeLineStyle: _lineStyle,
           indicatorStyle: _indicatorStyle,

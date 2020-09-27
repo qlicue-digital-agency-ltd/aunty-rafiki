@@ -8,6 +8,8 @@ class BabyBumpProvider extends ChangeNotifier {
   // getter
   int get tabIndex => _tabIndex;
 
+  List<BabyBump> get babyBumps => _babyBumps.toList();
+
   // setter
   void setTabIndex(int index) {
     _tabIndex = index + 1;
@@ -15,7 +17,7 @@ class BabyBumpProvider extends ChangeNotifier {
   }
 
   // baby bump mock data
-  List<BabyBump> babyBumps = [
+  List<BabyBump> _babyBumps = [
     BabyBump(
       id: 1,
       image: 'assets/baby/comp_rm_photo_ultrasound_20_weeks.jpg',

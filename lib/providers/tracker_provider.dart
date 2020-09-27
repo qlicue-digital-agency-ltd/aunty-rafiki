@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:aunty_rafiki/models/tracker.dart';
 
 class TrackerProvider extends ChangeNotifier {
+  // getters
+
+  List<Tracker> get trackers => _trackers.toList();
+
+  // get a single tracker object
+  Tracker getTracker(int index) {
+    return _trackers[index];
+  }
+
   // tracker mock data
-  List<Tracker> trackers = [
+  List<Tracker> _trackers = [
     Tracker(
       headText: "Your baby's growth: Conception to birth",
       subheadText: "Expert Advice",

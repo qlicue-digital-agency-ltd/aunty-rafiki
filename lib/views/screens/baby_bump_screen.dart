@@ -1,8 +1,8 @@
-import 'package:aunty_rafiki/models/baby_bump.dart';
-import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:aunty_rafiki/views/components/cards/baby_bump_card.dart';
 import 'package:provider/provider.dart';
+
+import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
+import 'package:aunty_rafiki/views/components/cards/baby_bump_card.dart';
 
 class BabyBumpScreen extends StatefulWidget {
   @override
