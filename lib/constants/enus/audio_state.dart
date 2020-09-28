@@ -1,0 +1,1 @@
+enum AudioState { PLAYING, STOPPED }

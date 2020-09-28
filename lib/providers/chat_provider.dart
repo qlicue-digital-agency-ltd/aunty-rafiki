@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/models/audio.dart';
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/models/media.dart';
 import 'package:aunty_rafiki/models/message.dart';
@@ -56,6 +57,22 @@ class ChatProvider with ChangeNotifier {
               sentByMe: false,
               sender: 'Henry Victor',
               phoneNumber: '+29982222',
+              userName: '~P-L',
+              media: [
+                Media(
+                    url:
+                        'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
+                    type: 'video'),
+              ],
+            ),
+            Message(
+              date: DateTime.now(),
+              chatUuid: 'YYUU90989',
+              sentByMe: false,
+              sender: 'Henry Victor',
+              phoneNumber: '+29982222',
+              audio: Audio(
+                  url: 'http://127.0.0.1:8000/api/music', duration: '12:28'),
               userName: '~P-L',
               media: [
                 Media(

@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/models/message.dart';
+import 'package:aunty_rafiki/views/components/cards/media/audio_card.dart';
 
 import 'package:aunty_rafiki/views/components/cards/message/double_media.dart';
 import 'package:aunty_rafiki/views/components/cards/message/no_media.dart';
@@ -52,20 +53,21 @@ class OthersMessageTile extends StatelessWidget {
                       : Container(
                           width: 0,
                         ),
-                  message.media == null
-                      ? NoMedia(message: message)
-                      : message.media.length == 1
-                          ? SingleMedia(
-                              message: message,
-                            )
-                          : message.media.length == 2
-                              ? DoubleMedia(message: message)
-                              : message.media.length == 3
-                                  ? TrippleMedia(message: message)
-                                  : QuardrippleMedia(
-                                      message: message,
-                                    ),
-                  
+                  message.audio != null
+                      ? AudioCard(audio: message.audio)
+                      : message.media == null
+                          ? NoMedia(message: message)
+                          : message.media.length == 1
+                              ? SingleMedia(
+                                  message: message,
+                                )
+                              : message.media.length == 2
+                                  ? DoubleMedia(message: message)
+                                  : message.media.length == 3
+                                      ? TrippleMedia(message: message)
+                                      : QuardrippleMedia(
+                                          message: message,
+                                        ),
                 ])),
       ),
     );
