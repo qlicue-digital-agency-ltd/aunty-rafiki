@@ -24,12 +24,12 @@ class QuardrippleMedia extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (_) => MediaPreviewListPage(
-                                images: message.media,
+                                media: message.media,
                               ))),
                   child: Hero(
                     tag: message.media[0],
                     child: Image.asset(
-                      message.media[0],
+                      message.media[0].url,
                       height: _imageHeight,
                       fit: BoxFit.cover,
                     ),
@@ -42,12 +42,12 @@ class QuardrippleMedia extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (_) => MediaPreviewListPage(
-                                images: message.media,
+                                media: message.media,
                               ))),
                   child: Hero(
                     tag: message.media[1],
                     child: Image.asset(
-                      message.media[1],
+                      message.media[1].url,
                       height: _imageHeight,
                       fit: BoxFit.cover,
                     ),
@@ -62,12 +62,12 @@ class QuardrippleMedia extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (_) => MediaPreviewListPage(
-                                images: message.media,
+                                media: message.media,
                               ))),
                   child: Hero(
                     tag: message.media[2],
                     child: Image.asset(
-                      message.media[2],
+                      message.media[2].url,
                       height: _imageHeight,
                       fit: BoxFit.cover,
                     ),
@@ -82,7 +82,7 @@ class QuardrippleMedia extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (_) => MediaPreviewListPage(
-                                    images: message.media,
+                                    media: message.media,
                                   ))),
                       child: Hero(
                         tag: message.media[3],
@@ -93,7 +93,7 @@ class QuardrippleMedia extends StatelessWidget {
                               image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: AssetImage(
-                                    message.media[3],
+                                    message.media[3].url,
                                   ))),
                         ),
                       ),
@@ -104,7 +104,7 @@ class QuardrippleMedia extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => MediaPreviewListPage(
-                                          images: message.media,
+                                          media: message.media,
                                         ))),
                             child: Container(
                               height: _imageHeight,

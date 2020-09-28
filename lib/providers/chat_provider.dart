@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/models/media.dart';
 import 'package:aunty_rafiki/models/message.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +58,7 @@ class ChatProvider with ChangeNotifier {
               phoneNumber: '+29982222',
               userName: '~P-L',
               media: [
-                'assets/chats/1.jpg',
+                Media(url: 'assets/chats/1.jpg', type: 'image'),
               ],
             ),
             Message(
@@ -68,8 +69,8 @@ class ChatProvider with ChangeNotifier {
               phoneNumber: '+255715785672',
               userName: "~P-L😂",
               media: [
-                'assets/chats/2.jpg',
-                'assets/chats/3.jpg',
+                Media(url: 'assets/chats/2.jpg', type: 'image'),
+                Media(url: 'assets/chats/3.jpg', type: 'image')
               ],
             ),
             Message(
@@ -80,9 +81,9 @@ class ChatProvider with ChangeNotifier {
               phoneNumber: '+255715785672',
               userName: "~P-L😂",
               media: [
-                'assets/chats/4.jpg',
-                'assets/chats/5.jpg',
-                'assets/chats/6.jpg',
+                Media(url: 'assets/chats/4.jpg', type: 'image'),
+                Media(url: 'assets/chats/5.jpg', type: 'image'),
+                Media(url: 'assets/chats/6.jpg', type: 'image')
               ],
             ),
             Message(
@@ -93,10 +94,10 @@ class ChatProvider with ChangeNotifier {
               phoneNumber: '+255715785672',
               userName: "~P-L😂",
               media: [
-                'assets/chats/7.jpg',
-                'assets/chats/8.jpg',
-                'assets/chats/9.jpg',
-                'assets/chats/10.jpg',
+                Media(url: 'assets/chats/7.jpg', type: 'image'),
+                Media(url: 'assets/chats/8.jpg', type: 'image'),
+                Media(url: 'assets/chats/9.jpg', type: 'image'),
+                Media(url: 'assets/chats/10.jpg', type: 'image'),
               ],
             ),
             Message(
@@ -107,9 +108,9 @@ class ChatProvider with ChangeNotifier {
               phoneNumber: '+255715785672',
               userName: "~P-L😂",
               media: [
-                'assets/chats/11.jpg',
-                'assets/chats/12.jpg',
-                'assets/chats/13.jpg',
+                Media(url: 'assets/chats/11.jpg', type: 'image'),
+                Media(url: 'assets/chats/12.jpg', type: 'image'),
+                Media(url: 'assets/chats/13.jpg', type: 'image')
               ],
             ),
           ]),
@@ -130,9 +131,9 @@ class ChatProvider with ChangeNotifier {
               phoneNumber: '+29982222',
               userName: '~K-L',
               media: [
-                'assets/chats/1.jpg',
-                'assets/chats/2.jpg',
-                'assets/chats/3.jpg',
+                Media(url: 'assets/chats/1.jpg', type: 'image'),
+                Media(url: 'assets/chats/2.jpg', type: 'image'),
+                Media(url: 'assets/chats/3.jpg', type: 'image')
               ],
             ),
             Message(
@@ -144,12 +145,12 @@ class ChatProvider with ChangeNotifier {
               phoneNumber: '+29982222',
               userName: '~K-L',
               media: [
-                'assets/chats/4.jpg',
-                'assets/chats/5.jpg',
-                'assets/chats/6.jpg',
-                'assets/chats/7.jpg',
-                'assets/chats/8.jpg',
-                'assets/chats/9.jpg',
+                Media(url: 'assets/chats/4.jpg', type: 'image'),
+                Media(url: 'assets/chats/5.jpg', type: 'image'),
+                Media(url: 'assets/chats/6.jpg', type: 'image'),
+                Media(url: 'assets/chats/7.jpg', type: 'image'),
+                Media(url: 'assets/chats/8.jpg', type: 'image'),
+                Media(url: 'assets/chats/9.jpg', type: 'image')
               ],
             ),
             Message(
@@ -159,8 +160,8 @@ class ChatProvider with ChangeNotifier {
               sentByMe: true,
               sender: 'James',
               media: [
-                'assets/chats/10.jpg',
-                'assets/chats/11.jpg',
+                Media(url: 'assets/chats/10.jpg', type: 'image'),
+                Media(url: 'assets/chats/11.jpg', type: 'image'),
               ],
               phoneNumber: '+29982222',
               userName: '~R-D',
@@ -183,9 +184,9 @@ class ChatProvider with ChangeNotifier {
               phoneNumber: '+29982222',
               userName: '~K-L',
               media: [
-                'assets/chats/1.jpg',
-                'assets/chats/2.jpg',
-                'assets/chats/3.jpg',
+                Media(url: 'assets/chats/1.jpg', type: 'image'),
+                Media(url: 'assets/chats/2.jpg', type: 'image'),
+                Media(url: 'assets/chats/3.jpg', type: 'image')
               ],
             ),
             Message(
@@ -195,8 +196,8 @@ class ChatProvider with ChangeNotifier {
               sentByMe: true,
               sender: 'James',
               media: [
-                'assets/chats/4.jpg',
-                'assets/chats/5.jpg',
+                Media(url: 'assets/chats/4.jpg', type: 'image'),
+                Media(url: 'assets/chats/5.jpg', type: 'image'),
               ],
               phoneNumber: '+29982222',
               userName: '~R-D',
@@ -219,8 +220,8 @@ class ChatProvider with ChangeNotifier {
               phoneNumber: '+29982222',
               userName: '~K-L',
               media: [
-                'assets/chats/1.jpg',
-                'assets/chats/2.jpg',
+                Media(url: 'assets/chats/1.jpg', type: 'image'),
+                Media(url: 'assets/chats/2.jpg', type: 'image'),
               ],
             ),
             Message(
@@ -230,7 +231,7 @@ class ChatProvider with ChangeNotifier {
               sentByMe: true,
               sender: 'James',
               media: [
-                'assets/chats/3.jpg',
+                Media(url: 'assets/chats/3.jpg', type: 'image'),
               ],
               phoneNumber: '+29982222',
               userName: '~R-D',

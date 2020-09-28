@@ -1,12 +1,13 @@
+import 'package:aunty_rafiki/models/media.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MediaPreviewPage extends StatelessWidget {
-  final String image;
+  final Media media;
 
-  const MediaPreviewPage({Key key, @required this.image}) : super(key: key);
+  const MediaPreviewPage({Key key, @required this.media}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _chatProvider = Provider.of<ChatProvider>(context);
@@ -30,8 +31,8 @@ class MediaPreviewPage extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Center(
           child: Hero(
-        tag: image,
-        child: Image.asset(image),
+        tag: media.url,
+        child: Image.asset(media.url),
       )),
     );
   }

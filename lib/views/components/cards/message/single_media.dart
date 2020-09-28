@@ -20,13 +20,13 @@ class SingleMedia extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (_) => MediaPreviewPage(
-                            image: message.media[0],
+                            media: message.media[0],
                           ))
                           ),
               child: Hero(
                 tag: message.media[0],
                 child: Image.asset(
-                  message.media[0],
+                  message.media[0].url,
                   fit: BoxFit.cover,
                   width: MediaQuery.of(context).size.width * 0.7,
                 ),

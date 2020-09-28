@@ -1,9 +1,11 @@
+import 'package:aunty_rafiki/models/media.dart';
 import 'package:flutter/material.dart';
 
 class Message {
   final String text;
-  List<String> media;
+  List<Media> media;
   final String sticker;
+
 
   final DateTime date;
   final String sender;

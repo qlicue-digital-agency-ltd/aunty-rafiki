@@ -20,16 +20,16 @@ class TrippleMedia extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (_) => MediaPreviewListPage(
-                            images: [
+                           media: [
                               message.media[0],
                               message.media[1],
-                              message.media[2]
+                              message.media[2],
                             ],
                           ))),
               child: Hero(
                 tag: message.media[0],
                 child: Image.asset(
-                  message.media[0],
+                  message.media[0].url,
                   fit: BoxFit.cover,
                   width: MediaQuery.of(context).size.width * 0.7,
                 ),
@@ -43,16 +43,16 @@ class TrippleMedia extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (_) => MediaPreviewListPage(
-                            images: [
+                            media: [
                               message.media[0],
                               message.media[1],
-                              message.media[2]
+                              message.media[2],
                             ],
                           ))),
               child: Hero(
                 tag: message.media[1],
                 child: Image.asset(
-                  message.media[1],
+                  message.media[1].url,
                   fit: BoxFit.cover,
                   width: MediaQuery.of(context).size.width * 0.7,
                 ),
@@ -66,16 +66,16 @@ class TrippleMedia extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (_) => MediaPreviewListPage(
-                            images: [
+                             media: [
                               message.media[0],
                               message.media[1],
-                              message.media[2]
+                              message.media[2],
                             ],
                           ))),
               child: Hero(
                 tag: message.media[2],
                 child: Image.asset(
-                  message.media[2],
+                  message.media[2].url,
                   fit: BoxFit.cover,
                   width: MediaQuery.of(context).size.width * 0.7,
                 ),

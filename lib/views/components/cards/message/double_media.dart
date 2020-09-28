@@ -20,12 +20,15 @@ class DoubleMedia extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (_) => MediaPreviewListPage(
-                            images: [message.media[0], message.media[1]],
+                            media: [
+                              message.media[0],
+                              message.media[1],
+                            ],
                           ))),
               child: Hero(
                 tag: message.media[0],
                 child: Image.asset(
-                  message.media[0],
+                  message.media[0].url,
                   fit: BoxFit.cover,
                   width: MediaQuery.of(context).size.width * 0.7,
                 ),
@@ -39,12 +42,15 @@ class DoubleMedia extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (_) => MediaPreviewListPage(
-                            images: [message.media[0], message.media[1]],
+                            media: [
+                              message.media[0],
+                              message.media[1],
+                            ],
                           ))),
               child: Hero(
                 tag: message.media[1],
                 child: Image.asset(
-                  message.media[1],
+                  message.media[1].url,
                   fit: BoxFit.cover,
                   width: MediaQuery.of(context).size.width * 0.7,
                 ),
