@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/models/message.dart';
+import 'package:aunty_rafiki/views/components/cards/media/media_card.dart';
 import 'package:aunty_rafiki/views/pages/media_preview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -23,14 +24,7 @@ class SingleMedia extends StatelessWidget {
                             media: message.media[0],
                           ))
                           ),
-              child: Hero(
-                tag: message.media[0],
-                child: Image.asset(
-                  message.media[0].url,
-                  fit: BoxFit.cover,
-                  width: MediaQuery.of(context).size.width * 0.7,
-                ),
-              ),
+              child: MediaCard(media: message.media[0]),
             ),
             message.text != null
                 ? Column(

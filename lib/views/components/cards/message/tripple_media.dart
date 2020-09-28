@@ -27,7 +27,7 @@ class TrippleMedia extends StatelessWidget {
                             ],
                           ))),
               child: Hero(
-                tag: message.media[0],
+                tag: message.media[0].url,
                 child: Image.asset(
                   message.media[0].url,
                   fit: BoxFit.cover,
@@ -50,7 +50,7 @@ class TrippleMedia extends StatelessWidget {
                             ],
                           ))),
               child: Hero(
-                tag: message.media[1],
+                tag: message.media[1].url,
                 child: Image.asset(
                   message.media[1].url,
                   fit: BoxFit.cover,
@@ -73,7 +73,7 @@ class TrippleMedia extends StatelessWidget {
                             ],
                           ))),
               child: Hero(
-                tag: message.media[2],
+                tag: message.media[2].url,
                 child: Image.asset(
                   message.media[2].url,
                   fit: BoxFit.cover,
