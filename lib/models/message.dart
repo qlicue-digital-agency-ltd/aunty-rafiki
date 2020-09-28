@@ -1,10 +1,13 @@
+import 'package:aunty_rafiki/models/audio.dart';
+import 'package:aunty_rafiki/models/media.dart';
 import 'package:flutter/material.dart';
 
 class Message {
   final String text;
-  final String image;
+  Audio audio;
+  List<Media> media;
   final String sticker;
-  final String type;
+
   final DateTime date;
   final String sender;
   final String phoneNumber;
@@ -13,14 +16,14 @@ class Message {
   final bool sentByMe;
 
   Message(
-      {@required this.text,
+      {this.text,
       @required this.date,
       @required this.chatUuid,
       @required this.sentByMe,
       this.sender,
-      this.image,
+      this.media,
+      this.audio,
       this.sticker,
-      @required this.type,
       @required this.phoneNumber,
       @required this.userName});
 }

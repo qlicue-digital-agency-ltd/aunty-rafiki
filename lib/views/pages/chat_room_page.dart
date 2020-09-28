@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:aunty_rafiki/providers/chat_provider.dart';
-import 'package:aunty_rafiki/views/components/cards/message_card.dart';
+import 'package:aunty_rafiki/views/components/tiles/message_tile.dart';
 import 'package:aunty_rafiki/views/components/sheets/sticker_sheet.dart';
 import 'package:aunty_rafiki/views/components/tiles/text_input_tile.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +45,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   _chatProvider.selectedChat.unreadMessageCounter == 0
                       ? Container()
                       : Expanded(
-                        
                           child: Text(
-                            
                               _chatProvider.selectedChat.unreadMessageCounter
                                   .toString(),
                               style:
@@ -72,13 +70,15 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
               child: ListView.builder(
                   itemCount: _chatProvider.selectedChat.messages.length,
                   itemBuilder: (_, index) => MessageTile(
+                        chartType: _chatProvider.selectedChat.chartType,
                         message: _chatProvider.selectedChat.messages[index],
                       )),
             ),
 
-            // Sticker
+            // Sticker for us
             (_chatProvider.isShowSticker ? StickerSheet() : Container()),
-            TextInputTile()
+            TextInputTile(),
+            
           ],
         ),
       ),
