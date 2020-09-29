@@ -1,6 +1,6 @@
 import 'package:aunty_rafiki/models/appointment.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 
 class AppointmentTile extends StatelessWidget {
   final Appointment appointment;

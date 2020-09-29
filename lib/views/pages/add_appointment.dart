@@ -14,33 +14,33 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
 
   FocusNode _notesFocusNode = FocusNode();
 
-  String _date = 'Date';
-  String _time = 'Time';
+  String date = 'Date';
+  String time = 'Time';
   bool _syncToCalender = false;
-  String _valueDate = '';
-  String _valueToValidate3 = '';
-  String _valueSaved3 = '';
-  String _valueTime = '';
-  String _valueToValidate4 = '';
-  String _valueSaved4 = '';
+  String valueDate = '';
+  String valueToValidate3 = '';
+  String valueSaved3 = '';
+  String valueTime = '';
+  String valueToValidate4 = '';
+  String valueSaved4 = '';
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController _descriptionEditingController = TextEditingController();
 
   TextEditingController _notesEditingController = TextEditingController();
   TextEditingController _professionEditingController = TextEditingController();
-  TextEditingController _dateEditingController;
-  TextEditingController _timeEditingController;
+  TextEditingController dateEditingController;
+  TextEditingController timeEditingController;
   AvailableProfessions _character = AvailableProfessions.doctor;
 
   @override
   void initState() {
-    _dateEditingController =
+    dateEditingController =
         TextEditingController(text: DateTime.now().toString());
 
     String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
     String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
-    _timeEditingController = TextEditingController(text: '$lsHour:$lsMinute');
+    timeEditingController = TextEditingController(text: '$lsHour:$lsMinute');
     _getValue();
     super.initState();
   }
@@ -52,8 +52,8 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
         //_initialValue = '2000-10-22 14:30';
         // _controller1.text = '2000-09-20 14:30';
         // _controller2.text = '2001-10-21 15:31';
-        _dateEditingController.text = '22-11-2020';
-        _timeEditingController.text = '17:01';
+        dateEditingController.text = '22-11-2020';
+        timeEditingController.text = '17:01';
       });
     });
   }
@@ -200,18 +200,18 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   child: DateTimePicker(
                     type: DateTimePickerType.date,
                     dateMask: 'dd/MM/yyyy',
-                    controller: _dateEditingController,
+                    controller: dateEditingController,
                     //initialValue: _initialValue,
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
                     icon: Icon(Icons.event),
                     dateLabelText: 'Date',
-                    onChanged: (val) => setState(() => _valueDate = val),
+                    onChanged: (val) => setState(() => valueDate = val),
                     validator: (val) {
-                      setState(() => _valueToValidate3 = val);
+                      setState(() => valueToValidate3 = val);
                       return null;
                     },
-                    onSaved: (val) => setState(() => _valueSaved3 = val),
+                    onSaved: (val) => setState(() => valueSaved3 = val),
                   ),
                 ),
               ),
@@ -223,17 +223,17 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: DateTimePicker(
                     type: DateTimePickerType.time,
-                    controller: _timeEditingController,
+                    controller: timeEditingController,
                     //initialValue: _initialValue,
                     icon: Icon(Icons.access_time),
                     timeLabelText: "Time",
                     //use24HourFormat: false,
-                    onChanged: (val) => setState(() => _valueTime = val),
+                    onChanged: (val) => setState(() => valueTime = val),
                     validator: (val) {
-                      setState(() => _valueToValidate4 = val);
+                      setState(() => valueToValidate4 = val);
                       return null;
                     },
-                    onSaved: (val) => setState(() => _valueSaved4 = val),
+                    onSaved: (val) => setState(() => valueSaved4 = val),
                   ),
                 ),
               ),
@@ -282,9 +282,8 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                                     name: _descriptionEditingController.text,
                                     profession:
                                         _professionEditingController.text,
-                                    date: 
-                                        _dateEditingController.text,
-                                    time:  _timeEditingController.text,
+                                    date: dateEditingController.text,
+                                    time: timeEditingController.text,
                                     additionalNotes:
                                         _notesEditingController.text,
                                     syncToCalender: _syncToCalender)
