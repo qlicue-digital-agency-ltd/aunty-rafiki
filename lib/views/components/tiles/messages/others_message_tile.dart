@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 
 class OthersMessageTile extends StatelessWidget {
   final Message message;
-  final String chartType;
+  final String chatType;
 
   const OthersMessageTile(
-      {Key key, @required this.message, @required this.chartType})
+      {Key key, @required this.message, @required this.chatType})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class OthersMessageTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  chartType == 'group'
+                  chatType == 'group'
                       ? ((message.sender == null
                           ? Row(
                               mainAxisSize: MainAxisSize.min,

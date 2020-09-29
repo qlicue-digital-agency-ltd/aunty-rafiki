@@ -40,7 +40,7 @@ class ChatProvider with ChangeNotifier {
           date: DateTime.now(),
           uuid: 'chat1',
           unreadMessageCounter: 0,
-          chartType: 'private',
+          chatType: 'private',
           messages: [
             Message(
               text: 'Hello world',
@@ -140,7 +140,7 @@ class ChatProvider with ChangeNotifier {
           date: DateTime.now(),
           uuid: 'chat2',
           unreadMessageCounter: 2,
-          chartType: 'group',
+          chatType: 'group',
           messages: [
             Message(
               text: 'Hello world today',
@@ -193,7 +193,7 @@ class ChatProvider with ChangeNotifier {
           date: DateTime.now(),
           uuid: 'chat3',
           unreadMessageCounter: 10,
-          chartType: 'private',
+          chatType: 'private',
           messages: [
             Message(
               text: 'Hello world today',
@@ -229,7 +229,7 @@ class ChatProvider with ChangeNotifier {
           date: DateTime.now(),
           uuid: 'chat4',
           unreadMessageCounter: 0,
-          chartType: 'group',
+          chatType: 'group',
           messages: [
             Message(
               text: 'Hello world today',
@@ -262,7 +262,7 @@ class ChatProvider with ChangeNotifier {
           name: 'Peter',
           date: DateTime.now(),
           uuid: 'chat5',
-          chartType: 'private',
+          chatType: 'private',
           unreadMessageCounter: 3,
           messages: [
             Message(

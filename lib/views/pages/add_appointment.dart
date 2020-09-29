@@ -16,7 +16,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
 
   String date = 'Date';
   String time = 'Time';
-  bool _syncToCalender = false;
+  bool _syncToCalendar = false;
   String valueDate = '';
   String valueToValidate3 = '';
   String valueSaved3 = '';
@@ -244,11 +244,11 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   child: ListTile(
                     title: Text('Sync to Calendar'),
                     trailing: Switch(
-                        value: _syncToCalender,
+                        value: _syncToCalendar,
                         onChanged: (val) {
                           print(val);
                           setState(() {
-                            _syncToCalender = val;
+                            _syncToCalendar = val;
                           });
                         }),
                   )),
@@ -286,7 +286,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                                     time: timeEditingController.text,
                                     additionalNotes:
                                         _notesEditingController.text,
-                                    syncToCalender: _syncToCalender)
+                                    syncToCalendar: _syncToCalendar)
                                 .then((value) {
                               if (!value) {
                                 Navigator.pop(context);

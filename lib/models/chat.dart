@@ -7,7 +7,7 @@ class Chat {
 
   final int unreadMessageCounter;
   final DateTime date;
-  final String chartType;
+  final String chatType;
   final String avatar;
   List<Message> messages;
 
@@ -15,9 +15,8 @@ class Chat {
       {@required this.uuid,
       @required this.name,
       @required this.date,
-      @required this.chartType,
+      @required this.chatType,
       @required this.avatar,
       this.messages,
       @required this.unreadMessageCounter});
 }
-
