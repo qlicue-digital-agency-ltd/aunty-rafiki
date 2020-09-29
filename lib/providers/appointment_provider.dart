@@ -20,7 +20,7 @@ class AppointmentProvider with ChangeNotifier {
       @required profession,
       @required date,
       @required time,
-      @required syncToCalender,
+      @required syncToCalendar,
       @required additionalNotes}) async {
     _isSubmittingData = true;
     notifyListeners();
@@ -29,7 +29,7 @@ class AppointmentProvider with ChangeNotifier {
         profession: profession,
         date: date,
         time: time,
-        syncToCalender: syncToCalender,
+        syncToCalendar: syncToCalendar,
         additionalNotes: additionalNotes);
 
     _availableAppointments.add(_appointment);
