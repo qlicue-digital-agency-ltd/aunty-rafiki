@@ -33,7 +33,8 @@ class HomePage extends StatelessWidget {
           title: Text(_utilityProvider.title),
           actions: [
             IconButton(
-                icon: Icon(Icons.business),
+              tooltip: 'Appointments',
+                icon: Icon(Icons.access_time),
                 onPressed: () => Navigator.pushNamed(context, appointmentPage))
           ],
           bottom: _utilityProvider.currentIndex == 2
