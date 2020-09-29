@@ -1,8 +1,10 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/calender_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/appointment_tile.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppointmentPage extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   bool _calenderView = true;
   @override
   Widget build(BuildContext context) {
+    final _appointmentProvider = Provider.of<AppointmentProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Appointments'),
@@ -33,16 +36,30 @@ class _AppointmentPageState extends State<AppointmentPage> {
               children: [
                 CalenderCard(),
                 SizedBox(height: 100),
+                _appointmentProvider.availableAppointments.isEmpty ?
                 NoItemTile(
                   icon: 'assets/icons/calender.png',
                   title: 'No appointments to display',
                   subtitle: '',
-                )
+                ): AppointmentTile(appointment: _appointmentProvider.availableAppointments.last)
               ],
             ))
-          : ListView.builder(itemBuilder: (_, index) {
-              return AppointmentTile();
-            }),
+          : _appointmentProvider.availableAppointments.isEmpty
+              ? Center(
+                  child: NoItemTile(
+                    icon: 'assets/icons/calender.png',
+                    title: 'No appointments to display',
+                    subtitle: '',
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: _appointmentProvider.availableAppointments.length,
+                  itemBuilder: (_, index) {
+                    return AppointmentTile(
+                      appointment:
+                          _appointmentProvider.availableAppointments[index],
+                    );
+                  }),
       bottomNavigationBar: BottomAppBar(
           child: Container(
         height: 80,
