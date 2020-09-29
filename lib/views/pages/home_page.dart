@@ -1,8 +1,8 @@
-import 'package:aunty_rafiki/models/baby_bump.dart';
-import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
-import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
+import 'package:aunty_rafiki/providers/utility_provider.dart';
 
 // import from screens dir
 import '../screens/tracker_screen.dart';
@@ -24,9 +24,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
-    final _babyBumpProvider = Provider.of <BabyBumpProvider>(context);
+    final _babyBumpProvider = Provider.of<BabyBumpProvider>(context);
     return DefaultTabController(
-      length: babyBump.length,
+      length: _babyBumpProvider.babyBumps.length,
       child: Scaffold(
         appBar: AppBar(
           title: Text(_utilityProvider.title),
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
                     _babyBumpProvider.setTabIndex(index);
                   },
                   isScrollable: true,
-                  tabs: babyBump
+                  tabs: _babyBumpProvider.babyBumps
                       .map((e) => Tab(
                             icon: Text(e.id.toString()),
                             text: 'Month',
