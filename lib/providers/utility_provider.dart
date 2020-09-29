@@ -30,7 +30,7 @@ class UtilityProvider with ChangeNotifier {
   ///select current tab
   selectTab(int index) {
     _setCurrentIndex = index;
-    
+
     switch (index) {
       case 0:
         _setTitle = "Tracker";
@@ -42,12 +42,8 @@ class UtilityProvider with ChangeNotifier {
         _setTitle = "Baby Bump";
         break;
       case 3:
-        _setTitle = "Appointment";
-        break;
-      case 4:
         _setTitle = "Profile";
         break;
-
       default:
         _setTitle = "Tracker";
     }
