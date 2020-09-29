@@ -1,7 +1,9 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
+import 'package:aunty_rafiki/providers/utility_provider.dart';
 
 // import from screens dir
 import '../screens/tracker_screen.dart';
