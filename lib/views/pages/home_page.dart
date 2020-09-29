@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../screens/tracker_screen.dart';
 import '../screens/chat_screen.dart';
 import '../screens/baby_bump_screen.dart';
-import '../screens/appointment_screen.dart';
+
 import '../screens/profile_screen.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,7 +16,7 @@ class HomePage extends StatelessWidget {
     TrackerScreen(),
     ChatScreen(),
     BabyBumpScreen(),
-    AppointmentScreen(),
+    // AppointmentScreen(),
     ProfileScreen()
   ];
 
@@ -25,6 +26,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(_utilityProvider.title),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.business),
+              onPressed: () => Navigator.pushNamed(context, appointmentPage))
+        ],
       ),
       body: _screens[_utilityProvider.currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -43,10 +49,10 @@ class HomePage extends StatelessWidget {
             icon: Icon(Icons.photo_size_select_actual),
             title: Text('Baby Bump'),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Appointments'),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.business),
+          //   title: Text('Appointments'),
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             title: Text('Profile'),
@@ -57,5 +63,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
