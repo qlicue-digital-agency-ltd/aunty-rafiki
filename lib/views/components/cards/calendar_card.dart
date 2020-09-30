@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalenderCard extends StatefulWidget {
+class CalendarCard extends StatefulWidget {
   @override
-  _CalenderCardState createState() => _CalenderCardState();
+  _CalendarCardState createState() => _CalendarCardState();
 }
 
-class _CalenderCardState extends State<CalenderCard>
+class _CalendarCardState extends State<CalendarCard>
     with TickerProviderStateMixin {
   Map<DateTime, List> _events;
   List _selectedEvents;

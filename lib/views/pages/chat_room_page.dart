@@ -70,7 +70,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
               child: ListView.builder(
                   itemCount: _chatProvider.selectedChat.messages.length,
                   itemBuilder: (_, index) => MessageTile(
-                        chartType: _chatProvider.selectedChat.chartType,
+                        chatType: _chatProvider.selectedChat.chatType,
                         message: _chatProvider.selectedChat.messages[index],
                       )),
             ),
@@ -78,7 +78,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             // Sticker for us
             (_chatProvider.isShowSticker ? StickerSheet() : Container()),
             TextInputTile(),
-            
           ],
         ),
       ),

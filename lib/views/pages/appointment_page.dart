@@ -1,6 +1,6 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
-import 'package:aunty_rafiki/views/components/cards/calender_card.dart';
+import 'package:aunty_rafiki/views/components/cards/calendar_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/appointment_tile.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ class AppointmentPage extends StatefulWidget {
 }
 
 class _AppointmentPageState extends State<AppointmentPage> {
-  bool _calenderView = true;
+  bool _calendarView = true;
 
   @override
   Widget build(BuildContext context) {
@@ -22,25 +22,25 @@ class _AppointmentPageState extends State<AppointmentPage> {
         title: Text('Appointments'),
         actions: [
           IconButton(
-              tooltip: _calenderView ? 'List view' : 'Calendar view',
+              tooltip: _calendarView ? 'List view' : 'Calendar view',
               onPressed: () {
                 setState(() {
-                  _calenderView = !_calenderView;
+                  _calendarView = !_calendarView;
                 });
               },
               icon:
-                  Icon(_calenderView ? Icons.view_list : Icons.calendar_today))
+                  Icon(_calendarView ? Icons.view_list : Icons.calendar_today))
         ],
       ),
-      body: _calenderView
+      body: _calendarView
           ? SingleChildScrollView(
               child: Column(
               children: [
-                CalenderCard(),
+                CalendarCard(),
                 SizedBox(height: 100),
                 _appointmentProvider.availableAppointments.isEmpty
                     ? NoItemTile(
-                        icon: 'assets/icons/calender.png',
+                        icon: 'assets/icons/calendar.png',
                         title: 'No appointments to display',
                         subtitle: '',
                       )
@@ -52,7 +52,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           : _appointmentProvider.availableAppointments.isEmpty
               ? Center(
                   child: NoItemTile(
-                    icon: 'assets/icons/calender.png',
+                    icon: 'assets/icons/calendar.png',
                     title: 'No appointments to display',
                     subtitle: '',
                   ),

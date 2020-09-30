@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 class MessageTile extends StatelessWidget {
   final Message message;
-  final String chartType;
+  final String chatType;
 
-  MessageTile({@required this.message, @required this.chartType});
+  MessageTile({@required this.message, @required this.chatType});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class MessageTile extends StatelessWidget {
               print(direction);
             },
             child: OthersMessageTile(
-              chartType: chartType,
+              chatType: chatType,
               message: message,
             ),
           );
