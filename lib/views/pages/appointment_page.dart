@@ -13,6 +13,7 @@ class AppointmentPage extends StatefulWidget {
 
 class _AppointmentPageState extends State<AppointmentPage> {
   bool _calenderView = true;
+
   @override
   Widget build(BuildContext context) {
     final _appointmentProvider = Provider.of<AppointmentProvider>(context);
@@ -20,14 +21,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
       appBar: AppBar(
         title: Text('Appointments'),
         actions: [
-          FlatButton(
-              textColor: Colors.white,
+          IconButton(
+              tooltip: _calenderView ? 'List view' : 'Calendar view',
               onPressed: () {
                 setState(() {
                   _calenderView = !_calenderView;
                 });
               },
-              child: Text(_calenderView ? 'List View' : 'Calender View'))
+              icon:
+                  Icon(_calenderView ? Icons.view_list : Icons.calendar_today))
         ],
       ),
       body: _calenderView
@@ -36,12 +38,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
               children: [
                 CalenderCard(),
                 SizedBox(height: 100),
-                _appointmentProvider.availableAppointments.isEmpty ?
-                NoItemTile(
-                  icon: 'assets/icons/calender.png',
-                  title: 'No appointments to display',
-                  subtitle: '',
-                ): AppointmentTile(appointment: _appointmentProvider.availableAppointments.last)
+                _appointmentProvider.availableAppointments.isEmpty
+                    ? NoItemTile(
+                        icon: 'assets/icons/calender.png',
+                        title: 'No appointments to display',
+                        subtitle: '',
+                      )
+                    : AppointmentTile(
+                        appointment:
+                            _appointmentProvider.availableAppointments.last)
               ],
             ))
           : _appointmentProvider.availableAppointments.isEmpty
