@@ -14,10 +14,10 @@ class TrackerPage extends StatelessWidget {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
     final _tracker = _trackerProvider.getTracker(index);
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height -
-        kToolbarHeight -
-        kBottomNavigationBarHeight -
-        MediaQuery.of(context).padding.top;
+    // final screenHeight = MediaQuery.of(context).size.height -
+    //     kToolbarHeight -
+    //     kBottomNavigationBarHeight -
+    //     MediaQuery.of(context).padding.top;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +29,7 @@ class TrackerPage extends StatelessWidget {
           Image.asset(
             _tracker.media,
             width: screenWidth,
-            height: screenHeight * 0.5,
+            // height: screenHeight * 0.5,
             fit: BoxFit.fitWidth,
           ),
           ListTile(
