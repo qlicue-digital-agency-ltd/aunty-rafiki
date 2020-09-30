@@ -48,18 +48,32 @@ class BabyBumpScreen extends StatelessWidget {
                   Expanded(
                     child: RaisedButton(
                       onPressed: () {
+                        _babyBumpProvider.setBumpButtonToggle(false);
                         _babyBumpProvider.updateBumpType(Bumps.DefaultBumps);
                       },
                       child: Text('IMAGE'),
+                      color: !_babyBumpProvider.bumpButtonToggle
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey[200],
+                      textColor: !_babyBumpProvider.bumpButtonToggle
+                          ? Colors.white
+                          : Colors.black,
                       padding: EdgeInsets.all(20.0),
                     ),
                   ),
                   Expanded(
                     child: RaisedButton(
                       onPressed: () {
+                        _babyBumpProvider.setBumpButtonToggle(true);
                         _babyBumpProvider.updateBumpType(Bumps.UserBumps);
                       },
                       child: Text('MY BUMP'),
+                      color: _babyBumpProvider.bumpButtonToggle
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey[200],
+                      textColor: _babyBumpProvider.bumpButtonToggle
+                          ? Colors.white
+                          : Colors.black,
                       padding: EdgeInsets.all(20.0),
                     ),
                   ),

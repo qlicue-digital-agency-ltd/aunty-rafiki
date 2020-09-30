@@ -6,17 +6,25 @@ import '../models/baby_bump.dart';
 
 class BabyBumpProvider extends ChangeNotifier {
   int _tabIndex = 1;
+  bool _bumpButtonsToggle = false;
 
   var _bumpType = Bumps.DefaultBumps;
 
   // getter
   int get tabIndex => _tabIndex;
   Bumps get bumpType => _bumpType;
+  bool get bumpButtonToggle => _bumpButtonsToggle;
 
   List<BabyBump> get defaultBumps => _defaultBumps.toList();
   List<BabyBump> get myBumps => _myBumps.toList();
 
   // setter
+
+  void setBumpButtonToggle(bool val) {
+    _bumpButtonsToggle = val;
+    notifyListeners();
+  }
+
   void setTabIndex(int index) {
     _tabIndex = index + 1;
     notifyListeners();
