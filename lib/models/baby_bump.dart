@@ -4,10 +4,12 @@ enum Bumps { DefaultBumps, UserBumps }
 
 class BabyBump {
   final int id;
-  final String image;
+  String image;
+  final Bumps bumpType;
 
   BabyBump({
     @required this.id,
     @required this.image,
+    @required this.bumpType,
   });
 }

@@ -17,10 +17,10 @@ class BabyBumpScreen extends StatelessWidget {
           // controller: _controller,
           children: _babyBumpProvider.bumpType == Bumps.DefaultBumps
               ? _babyBumpProvider.defaultBumps
-                  .map((e) => BabyBumpCard(image: e.image))
+                  .map((e) => BabyBumpCard(bump: e))
                   .toList()
               : _babyBumpProvider.myBumps
-                  .map((e) => BabyBumpCard(image: e.image))
+                  .map((e) => BabyBumpCard(bump: e))
                   .toList(),
         ),
         Positioned(
