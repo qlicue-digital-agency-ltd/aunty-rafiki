@@ -4,24 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/baby_bump_card.dart';
 
-class BabyBumpScreen extends StatefulWidget {
-  @override
-  _BabyBumpScreenState createState() => _BabyBumpScreenState();
-}
+import '../../models/baby_bump.dart';
 
-class _BabyBumpScreenState extends State<BabyBumpScreen>
-    with SingleTickerProviderStateMixin {
-  // TabController _controller;
-
-  @override
-  void initState() {
-    // _controller = TabController(length: babyBumpModel.length, vsync: this)
-    //   ..addListener(() {
-    //     print(_controller.index);
-    //   });
-    super.initState();
-  }
-
+class BabyBumpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _babyBumpProvider = Provider.of<BabyBumpProvider>(context);
@@ -30,9 +15,13 @@ class _BabyBumpScreenState extends State<BabyBumpScreen>
       children: [
         TabBarView(
           // controller: _controller,
-          children: _babyBumpProvider.babyBumps
-              .map((e) => BabyBumpCard(image: e.image))
-              .toList(),
+          children: _babyBumpProvider.bumpType == Bumps.DefaultBumps
+              ? _babyBumpProvider.defaultBumps
+                  .map((e) => BabyBumpCard(image: e.image))
+                  .toList()
+              : _babyBumpProvider.myBumps
+                  .map((e) => BabyBumpCard(image: e.image))
+                  .toList(),
         ),
         Positioned(
           top: 20,
@@ -58,14 +47,18 @@ class _BabyBumpScreenState extends State<BabyBumpScreen>
                 children: [
                   Expanded(
                     child: RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _babyBumpProvider.updateBumpType(Bumps.DefaultBumps);
+                      },
                       child: Text('IMAGE'),
                       padding: EdgeInsets.all(20.0),
                     ),
                   ),
                   Expanded(
                     child: RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _babyBumpProvider.updateBumpType(Bumps.UserBumps);
+                      },
                       child: Text('MY BUMP'),
                       padding: EdgeInsets.all(20.0),
                     ),

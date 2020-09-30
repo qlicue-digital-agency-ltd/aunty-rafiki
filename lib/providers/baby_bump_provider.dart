@@ -2,13 +2,19 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:aunty_rafiki/models/baby_bump.dart';
 
+import '../models/baby_bump.dart';
+
 class BabyBumpProvider extends ChangeNotifier {
   int _tabIndex = 1;
 
+  var _bumpType = Bumps.DefaultBumps;
+
   // getter
   int get tabIndex => _tabIndex;
+  Bumps get bumpType => _bumpType;
 
-  List<BabyBump> get babyBumps => _babyBumps.toList();
+  List<BabyBump> get defaultBumps => _defaultBumps.toList();
+  List<BabyBump> get myBumps => _myBumps.toList();
 
   // setter
   void setTabIndex(int index) {
@@ -16,8 +22,15 @@ class BabyBumpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // baby bump mock data
-  List<BabyBump> _babyBumps = [
+  // update bump type
+  void updateBumpType(Bumps bumpType) {
+    _bumpType = bumpType;
+    notifyListeners();
+  }
+
+  // mock data
+  // default app bumps
+  List<BabyBump> _defaultBumps = [
     BabyBump(
       id: 1,
       image: 'assets/baby/comp_rm_photo_ultrasound_20_weeks.jpg',
@@ -54,5 +67,18 @@ class BabyBumpProvider extends ChangeNotifier {
       id: 9,
       image: 'assets/baby/phototake_photo_of_8_week_fetus_circle.jpg',
     ),
+  ];
+
+  // user bumps
+  List<BabyBump> _myBumps = [
+    BabyBump(id: 1, image: ''),
+    BabyBump(id: 2, image: ''),
+    BabyBump(id: 3, image: ''),
+    BabyBump(id: 4, image: ''),
+    BabyBump(id: 5, image: ''),
+    BabyBump(id: 6, image: ''),
+    BabyBump(id: 7, image: ''),
+    BabyBump(id: 8, image: ''),
+    BabyBump(id: 9, image: ''),
   ];
 }

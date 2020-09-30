@@ -15,12 +15,16 @@ class BabyBumpCard extends StatelessWidget {
     return Container(
       height: screenHeight,
       width: screenWidth,
-      child: Image.asset(
-        image,
-        height: screenHeight,
-        width: screenWidth,
-        fit: BoxFit.fitHeight,
-      ),
+      child: image != null && image.isNotEmpty
+          ? Image.asset(
+              image,
+              height: screenHeight,
+              width: screenWidth,
+              fit: BoxFit.fitHeight,
+            )
+          : Center(
+              child: Icon(Icons.camera),
+            ),
     );
   }
 }

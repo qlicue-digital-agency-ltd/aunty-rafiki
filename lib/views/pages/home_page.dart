@@ -27,8 +27,8 @@ class HomePage extends StatelessWidget {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
     final _babyBumpProvider = Provider.of<BabyBumpProvider>(context);
     return DefaultTabController(
-          length: _babyBumpProvider.babyBumps.length,
-          child: Scaffold(
+      length: _babyBumpProvider.defaultBumps.length,
+      child: Scaffold(
         appBar: AppBar(
           title: Text(_utilityProvider.title),
           actions: [
@@ -42,14 +42,13 @@ class HomePage extends StatelessWidget {
                     _babyBumpProvider.setTabIndex(index);
                   },
                   isScrollable: true,
-                  tabs: _babyBumpProvider.babyBumps
+                  tabs: _babyBumpProvider.defaultBumps
                       .map((e) => Tab(
                             icon: Text(e.id.toString()),
                             text: 'Month',
                           ))
                       .toList())
               : null,
-
         ),
         body: _screens[_utilityProvider.currentIndex],
         bottomNavigationBar: BottomNavigationBar(
