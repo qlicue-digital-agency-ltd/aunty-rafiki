@@ -8,6 +8,5 @@ Aunty Rafiki Mobile Platform.
 
 Aunty Rafiki is a mobile and web platform that provides maternity call to improve the Mother and Child safety prior pregnancy, during pregnancy and after delivery. The platform covers preconception health talks, pregnancy health talks providing Individual Birth Preparedness (IBP), Exclusive Breast Feeding and Family planning health talks, Child weaning, Mineral supplements inclusion, and maternity waiting home tips for at risk pregnant mothers.
 
-- [developers: Qlicue Digital Agency](https://qlicue.co.tz)
-- [Product: Aunty Rafiki](https://auntyrafiki.com)
-
+  - [developers: Qlicue Digital Agency](https://qlicue.co.tz)
+  - [Product: Aunty Rafiki](https://auntyrafiki.com)
