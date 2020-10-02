@@ -1,11 +1,13 @@
 import 'dart:io';
 
-import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 import 'package:aunty_rafiki/models/baby_bump.dart';
-import 'package:provider/provider.dart';
+import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
 
 class BabyBumpCard extends StatelessWidget {
   final BabyBump bump;
@@ -13,6 +15,13 @@ class BabyBumpCard extends StatelessWidget {
   final picker = ImagePicker();
 
   BabyBumpCard({@required this.bump});
+
+  // get local path
+  Future<String> _localPath() async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +56,16 @@ class BabyBumpCard extends StatelessWidget {
                   final pickedFile =
                       await picker.getImage(source: ImageSource.camera);
 
+                  final localPath = await _localPath();
+                  final fileName = path.basename(pickedFile.path);
+
+                  File tmpFile = File(pickedFile.path);
+
+                  tmpFile = await tmpFile.copy('$localPath/$fileName');
+
                   if (pickedFile != null) {
                     _babyBumpProvider.updateImageValue(
-                        bump.id - 1, pickedFile.path);
+                        bump.id - 1, tmpFile.path);
                   } else {
                     print('No image selected');
                   }
