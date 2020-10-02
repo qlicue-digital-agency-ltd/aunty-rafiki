@@ -29,15 +29,12 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
 
   TextEditingController _notesEditingController = TextEditingController();
   TextEditingController _professionEditingController = TextEditingController();
-  TextEditingController dateEditingController;
+  TextEditingController _dateEditingController;
   TextEditingController timeEditingController;
   AvailableProfessions _character = AvailableProfessions.doctor;
 
   @override
   void initState() {
-    dateEditingController =
-        TextEditingController(text: DateTime.now().toString());
-
     String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
     String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
     timeEditingController = TextEditingController(text: '$lsHour:$lsMinute');
@@ -49,10 +46,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
   Future<void> _getValue() async {
     await Future.delayed(const Duration(seconds: 3), () {
       setState(() {
-        //_initialValue = '2000-10-22 14:30';
-        // _controller1.text = '2000-09-20 14:30';
-        // _controller2.text = '2001-10-21 15:31';
-        dateEditingController.text = '22-11-2020';
+        _dateEditingController.text = '22-11-2020';
         timeEditingController.text = '17:01';
       });
     });
@@ -61,7 +55,8 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
   @override
   Widget build(BuildContext context) {
     final _appointmentProvider = Provider.of<AppointmentProvider>(context);
-
+    _dateEditingController = TextEditingController(
+        text: _appointmentProvider.selectedCalendarDay.toString());
     Future<void> _showDialog() async {
       return showDialog<void>(
         context: context,
@@ -200,7 +195,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   child: DateTimePicker(
                     type: DateTimePickerType.date,
                     dateMask: 'dd/MM/yyyy',
-                    controller: dateEditingController,
+                    controller: _dateEditingController,
                     //initialValue: _initialValue,
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
@@ -282,7 +277,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                                     name: _descriptionEditingController.text,
                                     profession:
                                         _professionEditingController.text,
-                                    date: dateEditingController.text,
+                                    date: _dateEditingController.text,
                                     time: timeEditingController.text,
                                     additionalNotes:
                                         _notesEditingController.text,

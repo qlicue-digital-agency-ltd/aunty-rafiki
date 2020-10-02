@@ -1,6 +1,6 @@
 import 'package:aunty_rafiki/models/appointment.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-
 
 class AppointmentTile extends StatelessWidget {
   final Appointment appointment;
@@ -16,9 +16,10 @@ class AppointmentTile extends StatelessWidget {
             radius: 40,
             child: Center(child: Image.asset('assets/icons/time.png')),
           ),
-          title: Text((appointment.date) +
-              '\t' +
-              appointment.name),
+          title: Text(
+              (DateFormat('dd/MM/yyyy').format(DateTime.parse(appointment.date))) +
+                  ',\t' +
+                  appointment.name),
           subtitle: Text(appointment.time + ', with ' + appointment.profession),
         ),
         Divider()
