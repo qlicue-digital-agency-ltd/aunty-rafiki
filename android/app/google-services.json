@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "600606480922",
+    "firebase_url": "https://auntyrafiki-6b22b.firebaseio.com",
+    "project_id": "auntyrafiki-6b22b",
+    "storage_bucket": "auntyrafiki-6b22b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600606480922:android:ffb5c8ee0b0ee941478fa3",
+        "android_client_info": {
+          "package_name": "com.qlicue.aunty_rafiki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600606480922-btfi58udoi2lal8ab6vh310a011d0nn8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qlicue.aunty_rafiki",
+            "certificate_hash": "f0f9aac30fa410ed6c64859b3157133cd50bb720"
+          }
+        },
+        {
+          "client_id": "600606480922-r4i31d3glg8knpct2sua3s37u9pot221.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNnCaJTBjray3ewR2KqEuAiiWwUIO89s4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600606480922-r4i31d3glg8knpct2sua3s37u9pot221.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

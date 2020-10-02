@@ -3,24 +3,49 @@ import 'package:aunty_rafiki/views/pages/add_appointment.dart';
 import 'package:aunty_rafiki/views/pages/appointment_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
 import 'package:aunty_rafiki/views/pages/home_page.dart';
+import 'package:aunty_rafiki/views/pages/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'views/pages/home_page.dart';
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: HomePage(),
-      routes: {
-        chatRoomPage: (_) => ChatRoomPage(),
-        appointmentPage: (_) => AppointmentPage(),
-        addAppointmentPage: (_) => AddAppointmentPage(),
-      },
-    );
+    return
+    FutureBuilder(
+      future: Firebase.initializeApp(),
+        builder: (BuildContext context,AsyncSnapshot<FirebaseApp> snapshot){
+      switch(snapshot.connectionState){
+        case ConnectionState.done:
+        case ConnectionState.none:
+          User user = FirebaseAuth.instance.currentUser;
+          user.providerData.add(UserInfo({'age':18}));
+
+          return  MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.pink,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            home:  FirebaseAuth.instance.currentUser == null ? LoginPage() : HomePage(),
+            routes: {
+              chatRoomPage: (_) => ChatRoomPage(),
+              appointmentPage: (_) => AppointmentPage(),
+              addAppointmentPage: (_) => AddAppointmentPage(),
+            },
+          );
+          break;
+
+        case ConnectionState.waiting:
+        case ConnectionState.active:
+          return Container();
+          break;
+      }
+      return Container();
+    });
   }
 }
