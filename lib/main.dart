@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'App.dart';
 
-void main() {
+void main()  {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ChatProvider()),
     ChangeNotifierProvider(create: (_) => UtilityProvider()),

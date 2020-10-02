@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
     final _babyBumpProvider = Provider.of<BabyBumpProvider>(context);
+    User user = FirebaseAuth.instance.currentUser;
+    if(user.providerData.contains('interviewed')){
+
+    }
     return DefaultTabController(
       length: _babyBumpProvider.defaultBumps.length,
       child: Scaffold(
