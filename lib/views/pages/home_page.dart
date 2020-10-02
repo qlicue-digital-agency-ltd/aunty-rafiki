@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,9 +27,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
     final _babyBumpProvider = Provider.of<BabyBumpProvider>(context);
+    User user = FirebaseAuth.instance.currentUser;
+    if(user.providerData.contains('interviewed')){
+
+    }
     return DefaultTabController(
-          length: _babyBumpProvider.babyBumps.length,
-          child: Scaffold(
+      length: _babyBumpProvider.defaultBumps.length,
+      child: Scaffold(
         appBar: AppBar(
           title: Text(_utilityProvider.title),
           actions: [
@@ -43,14 +48,13 @@ class HomePage extends StatelessWidget {
                     _babyBumpProvider.setTabIndex(index);
                   },
                   isScrollable: true,
-                  tabs: _babyBumpProvider.babyBumps
+                  tabs: _babyBumpProvider.defaultBumps
                       .map((e) => Tab(
                             icon: Text(e.id.toString()),
                             text: 'Month',
                           ))
                       .toList())
               : null,
-
         ),
         body: _screens[_utilityProvider.currentIndex],
         bottomNavigationBar: BottomNavigationBar(
