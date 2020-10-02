@@ -13,6 +13,7 @@ class AppointmentPage extends StatefulWidget {
 
 class _AppointmentPageState extends State<AppointmentPage> {
   bool _calendarView = true;
+
   @override
   Widget build(BuildContext context) {
     final _appointmentProvider = Provider.of<AppointmentProvider>(context);
@@ -20,14 +21,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
       appBar: AppBar(
         title: Text('Appointments'),
         actions: [
-          FlatButton(
-              textColor: Colors.white,
+          IconButton(
+              tooltip: _calendarView ? 'List view' : 'Calendar view',
               onPressed: () {
                 setState(() {
                   _calendarView = !_calendarView;
                 });
               },
-              child: Text(_calendarView ? 'List View' : 'Calendar View'))
+              icon:
+                  Icon(_calendarView ? Icons.view_list : Icons.calendar_today))
         ],
       ),
       body: _calendarView
@@ -36,15 +38,36 @@ class _AppointmentPageState extends State<AppointmentPage> {
               children: [
                 CalendarCard(),
                 SizedBox(height: 100),
-                _appointmentProvider.availableAppointments.isEmpty
+                _appointmentProvider.selectedCalendarAppointments.isEmpty
                     ? NoItemTile(
                         icon: 'assets/icons/calendar.png',
                         title: 'No appointments to display',
                         subtitle: '',
                       )
-                    : AppointmentTile(
-                        appointment:
-                            _appointmentProvider.availableAppointments.last)
+                    : Column(
+                        // mainAxisAlignment: MainAxisAlignment.,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Text('Recent'),
+                          ),
+                          AppointmentTile(
+                              appointment: _appointmentProvider
+                                  .selectedCalendarAppointments.last),
+                          _appointmentProvider
+                                      .selectedCalendarAppointments.length >
+                                  1
+                              ? FlatButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, dailyAppointmentsPage);
+                                  },
+                                  child: Text('View All'))
+                              : Container()
+                        ],
+                      )
               ],
             ))
           : _appointmentProvider.availableAppointments.isEmpty

@@ -1,18 +1,13 @@
-# aunty_rafiki
+# Aunty Rafiki
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1cd26a6d1a594dac845176948a37d964)](https://app.codacy.com/gh/qlicue-digital-agency-ltd/aunty-rafiki?utm_source=github.com&utm_medium=referral&utm_content=qlicue-digital-agency-ltd/aunty-rafiki&utm_campaign=Badge_Grade_Settings)
 
-A new Flutter project.
+Aunty Rafiki Mobile Platform.
 
-## Getting Started
+## About
 
-This project is a starting point for a Flutter application.
+Aunty Rafiki is a mobile and web platform that provides maternity call to improve the Mother and Child safety prior pregnancy, during pregnancy and after delivery. The platform covers preconception health talks, pregnancy health talks providing Individual Birth Preparedness (IBP), Exclusive Breast Feeding and Family planning health talks, Child weaning, Mineral supplements inclusion, and maternity waiting home tips for at risk pregnant mothers.
 
-A few resources to get you started if this is your first Flutter project:
+- [developers: Qlicue Digital Agency](https://qlicue.co.tz)
+- [Product: Aunty Rafiki](https://auntyrafiki.com)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
