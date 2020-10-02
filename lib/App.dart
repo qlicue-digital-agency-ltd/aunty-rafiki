@@ -2,6 +2,7 @@ import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
 import 'package:aunty_rafiki/views/pages/appointment_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
+import 'package:aunty_rafiki/views/pages/daily_appointments.dart';
 import 'package:aunty_rafiki/views/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class App extends StatelessWidget {
         chatRoomPage: (_) => ChatRoomPage(),
         appointmentPage: (_) => AppointmentPage(),
         addAppointmentPage: (_) => AddAppointmentPage(),
+        dailyAppointmentsPage: (_) => DailyAppointment(),
       },
     );
   }

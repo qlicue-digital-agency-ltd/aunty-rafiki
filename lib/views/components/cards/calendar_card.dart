@@ -1,4 +1,6 @@
+import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarCard extends StatefulWidget {
@@ -8,29 +10,12 @@ class CalendarCard extends StatefulWidget {
 
 class _CalendarCardState extends State<CalendarCard>
     with TickerProviderStateMixin {
-  Map<DateTime, List> _events;
-  List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
 
   @override
   void initState() {
     super.initState();
-    final _selectedDay = DateTime.now();
-
-    _events = {
-      _selectedDay.subtract(Duration(days: 2)): ['Event A6'],
-      _selectedDay: ['Event A7', 'Event B7'],
-      _selectedDay.add(Duration(days: 3)):
-          Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-      _selectedDay.add(Duration(days: 7)): [
-        'Event A10',
-        'Event B10',
-        'Event C10'
-      ],
-      _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-    };
-    _selectedEvents = _events[_selectedDay] ?? [];
 
     _calendarController = CalendarController();
 
@@ -49,13 +34,6 @@ class _CalendarCardState extends State<CalendarCard>
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events) {
-    print('CALLBACK: _onDaySelected');
-    setState(() {
-      _selectedEvents = events;
-    });
-  }
-
   void _onVisibleDaysChanged(
       DateTime first, DateTime last, CalendarFormat format) {
     print('CALLBACK: _onVisibleDaysChanged');
@@ -68,8 +46,17 @@ class _CalendarCardState extends State<CalendarCard>
 
   @override
   Widget build(BuildContext context) {
+    final _appointmentProvider = Provider.of<AppointmentProvider>(context);
+
+    void _onDaySelected(DateTime day, List events) {
+      print('CALLBACK: _onDaySelected');
+      _appointmentProvider.setCalendarDate = day;
+      _appointmentProvider.selectCalendarAppointments = events;
+      //_selectedEvents = events;
+    }
+
     return TableCalendar(
-      events: _events,
+      events: _appointmentProvider.calendarAppointments,
       //holidays: _holidays,
       calendarController: _calendarController,
       calendarStyle: CalendarStyle(

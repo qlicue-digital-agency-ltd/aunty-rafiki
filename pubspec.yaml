@@ -24,6 +24,7 @@ dependencies:
   audioplayers: ^0.16.1
   table_calendar: ^2.2.3
   date_time_picker: ^1.0.2
+  firebase_core: ^0.5.0
 
 dev_dependencies:
   flutter_test:
