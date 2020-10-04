@@ -2,6 +2,7 @@ import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
 import 'package:aunty_rafiki/views/pages/appointment_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
+import 'package:aunty_rafiki/views/pages/confirm_code_page.dart';
 import 'package:aunty_rafiki/views/pages/daily_appointments.dart';
 import 'package:aunty_rafiki/views/pages/home_page.dart';
 import 'package:aunty_rafiki/views/pages/login_page.dart';
@@ -22,18 +23,16 @@ class App extends StatelessWidget {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
             case ConnectionState.none:
-              User user = FirebaseAuth.instance.currentUser;
-              user.providerData.add(UserInfo({'age': 18}));
-
               return MaterialApp(
                 title: 'Flutter Demo',
                 theme: ThemeData(
                   primarySwatch: Colors.pink,
                   visualDensity: VisualDensity.adaptivePlatformDensity,
                 ),
-                home: FirebaseAuth.instance.currentUser == null
-                    ? LoginPage()
-                    : HomePage(),
+                // home: FirebaseAuth.instance.currentUser == null
+                //     ? LoginPage()
+                //     : HomePage(),
+                home: LoginPage(),
                 routes: {
                   chatRoomPage: (_) => ChatRoomPage(),
                   appointmentPage: (_) => AppointmentPage(),

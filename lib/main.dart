@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
@@ -8,8 +9,9 @@ import 'package:provider/provider.dart';
 
 import 'App.dart';
 
-void main()  {
+void main() {
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => AuthProvider()),
     ChangeNotifierProvider(create: (_) => ChatProvider()),
     ChangeNotifierProvider(create: (_) => UtilityProvider()),
     ChangeNotifierProvider(create: (_) => AppointmentProvider()),
