@@ -29,15 +29,15 @@ class App extends StatelessWidget {
                   primarySwatch: Colors.pink,
                   visualDensity: VisualDensity.adaptivePlatformDensity,
                 ),
-                // home: FirebaseAuth.instance.currentUser == null
-                //     ? LoginPage()
-                //     : HomePage(),
-                home: LoginPage(),
+                home: FirebaseAuth.instance.currentUser == null
+                    ? LoginPage()
+                    : HomePage(),
                 routes: {
                   chatRoomPage: (_) => ChatRoomPage(),
                   appointmentPage: (_) => AppointmentPage(),
                   addAppointmentPage: (_) => AddAppointmentPage(),
                   dailyAppointmentsPage: (_) => DailyAppointment(),
+                  confirmationPage: (_) => ConfirmResetCodePage(),
                 },
               );
               break;

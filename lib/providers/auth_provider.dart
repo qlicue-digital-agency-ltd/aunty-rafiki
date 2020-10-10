@@ -1,12 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 class AuthProvider with ChangeNotifier {
-  bool _sendingPhone = false;
+  bool _isSendingPhone = false;
   bool _sendingCode = false;
   bool _initialized, _error;
+  bool _isLoggedIn = false;
+  bool _isCodeSent = false;
   String _verificationId;
+  PhoneNumber _phoneNumber;
   AuthProvider() {
     initializeFlutterFire();
   }
@@ -29,8 +33,8 @@ class AuthProvider with ChangeNotifier {
 
   //setters
 
-  set setSendingPhone(bool val) {
-    _sendingPhone = val;
+  set setPhoneNumber(PhoneNumber phoneNumber) {
+    _phoneNumber = phoneNumber;
     notifyListeners();
   }
 
@@ -39,73 +43,82 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set setSendingCode(bool val) {
-    _sendingCode = val;
-    notifyListeners();
-  }
-
   //getters
 
-  bool get sendingPhone => _sendingPhone;
-  bool get sendingCode => _sendingCode;
+  bool get isSendingPhone => _isSendingPhone;
+  bool get isSendingCode => _sendingCode;
   String get verificationId => _verificationId;
   bool get initialized => _initialized;
   bool get error => _error;
+  PhoneNumber get phoneNumber => _phoneNumber;
+  bool get isLoggedIn => _isLoggedIn;
+  bool get isCodeSent => _isCodeSent;
 
   ///sigin user....
-  Future<void> signIn(verificationId, smsCode) async {
+  Future<UserCredential> signIn({@required smsCode}) async {
     //   _sendingCode = true;
     UserCredential credential = await FirebaseAuth.instance
         .signInWithCredential(PhoneAuthProvider.credential(
-      verificationId: verificationId,
+      verificationId: _verificationId,
       smsCode: smsCode,
     ));
 
     if (credential.user != null) {
       print("Auth User Phone: " + credential.user.phoneNumber);
-
-      ///nove to login page....
     }
+    return credential;
+  }
+
+  //sigin out user
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 
   ///code retrival timed out
-  codeAutoRetrievalTimeout(String verificationId) {
-    _sendingPhone = false;
+  _codeAutoRetrievalTimeout(String verificationId) {
+    _isSendingPhone = false;
     _sendingCode = false;
+    notifyListeners();
   }
 
   ///code sent
-  codeSent(String verificationId, int forceResendingToken) {
-    _sendingPhone = false;
+  _codeSent(String verificationId, int forceResendingToken) {
+    _isSendingPhone = false;
+    _isCodeSent = true;
     _verificationId = verificationId;
+    notifyListeners();
+    //write the logic to switch ui to go to code verification page
     //_pageContent = _enterCode();
   }
 
-  verificationFailed(FirebaseAuthException exception) {
-    _sendingPhone = false;
+  _verificationFailed(FirebaseAuthException exception) {
+    _isSendingPhone = false;
     _sendingCode = false;
+
     notifyListeners();
   }
 
-  requestVerificationCode(
-      {@required String phoneNumber,
-      @required verificationCompleted,
-      @required verificationFailed,
-      @required code,
-      @required codeAuto}) async {
-    _sendingPhone = true;
+  Future<void> requestVerificationCode() async {
+    _isSendingPhone = true;
+
     notifyListeners();
-    FirebaseAuth.instance.verifyPhoneNumber(
+    String _phone = _phoneNumber.completeNumber.replaceAll('(', "");
+    _phone = _phone.replaceAll(')', '');
+    _phone = _phone.replaceAll('-', '');
+    _phone = _phone.replaceAll(' ', '');
+
+    print(_phone);
+    await FirebaseAuth.instance.verifyPhoneNumber(
         timeout: Duration(seconds: 90),
-        phoneNumber: phoneNumber,
-        verificationCompleted: verificationCompleted,
-        verificationFailed: verificationFailed,
-        codeSent: code,
-        codeAutoRetrievalTimeout: codeAuto);
+        phoneNumber: _phone,
+        verificationCompleted: _verificationCompleted,
+        verificationFailed: _verificationFailed,
+        codeSent: _codeSent,
+        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
   }
 
-  verificationCompleted(PhoneAuthCredential credential) {
-    _sendingPhone = false;
+  _verificationCompleted(PhoneAuthCredential credential) {
+    _isSendingPhone = false;
     _sendingCode = false;
     notifyListeners();
 
@@ -114,8 +127,9 @@ class AuthProvider with ChangeNotifier {
         .then((UserCredential userCredential) {
       print("User Phone: " + userCredential.user.phoneNumber);
       print('got to home page');
-      // Navigator.pushReplacement(
-      //     context, MaterialPageRoute(builder: (context) => HomePage()));
+      //logic to trigger chage in ui...
+      _isLoggedIn = true;
+      notifyListeners();
     });
   }
 }

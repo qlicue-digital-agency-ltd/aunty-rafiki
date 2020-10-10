@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
 import 'package:aunty_rafiki/views/components/text-field/mobile_text_field.dart';
@@ -41,7 +42,7 @@ class LoginPage extends StatelessWidget {
             MobileTextfield(
               phoneTextEditingController: _phoneTextEditingController,
               onChange: (phone) {
-                print(phone);
+                _authProvider.setPhoneNumber = phone;
               },
             ),
             SizedBox(
@@ -51,16 +52,19 @@ class LoginPage extends StatelessWidget {
               height: 50,
               width: 300,
               child: RaisedButton(
-                onPressed: () => _authProvider.requestVerificationCode(
-                    codeAuto: null,
-                    phoneNumber: null,
-                    verificationCompleted: null,
-                    verificationFailed: null,
-                    code: null),
+                onPressed: () {
+                  print(_authProvider.phoneNumber.completeNumber);
+
+                  _authProvider.requestVerificationCode().then((value) {
+                 
+                      Navigator.pushNamed(context, confirmationPage);
+                    
+                  });
+                },
                 color: Colors.pink,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0)),
-                child: _authProvider.sendingPhone
+                child: _authProvider.isSendingPhone
                     ? CircularProgressIndicator()
                     : Text(
                         'NEXT',

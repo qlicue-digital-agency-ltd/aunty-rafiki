@@ -8,11 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
-class ConfirmResetCodePage extends StatefulWidget {
-  final String phoneNumber;
+import 'home_page.dart';
 
-  const ConfirmResetCodePage({Key key, @required this.phoneNumber})
-      : super(key: key);
+class ConfirmResetCodePage extends StatefulWidget {
   @override
   _ConfirmResetCodePageState createState() => _ConfirmResetCodePageState();
 }
@@ -54,7 +52,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final _authProvider = Provider.of<AuthProvider>(context);
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -97,7 +95,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                       text: "Enter the code sent to ",
                       children: [
                         TextSpan(
-                            text: widget.phoneNumber,
+                            text: '_authProvider.phoneNumber.completeNumber',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -111,9 +109,9 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                 key: formKey,
                 child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 60),
+                        vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
-                      length: 4,
+                      length: 6,
                       animationType: AnimationType.fade,
                       validator: (v) {
                         if (v.length < 3) {
@@ -223,13 +221,27 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                   .requestFocus(new FocusNode());
                               if (formKey.currentState.validate()) {
                                 // conditions for validating
-                                if (currentText.length != 4) {
+                                if (currentText.length != 6) {
                                   errorController.add(ErrorAnimationType
                                       .shake); // Triggering error shake animation
                                   setState(() {
                                     hasError = true;
                                   });
                                 } else {
+                                  print(currentText);
+                                  _authProvider
+                                      .signIn(smsCode: currentText)
+                                      .then((credential) {
+                                    if (credential.user != null) {
+                                      print("Auth User Phone: " +
+                                          credential.user.phoneNumber);
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomePage()));
+                                    }
+                                  });
                                   setState(() {
                                     hasError = false;
                                     _scaffoldKey.currentState

@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,21 +28,22 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
     final _babyBumpProvider = Provider.of<BabyBumpProvider>(context);
-    User user = FirebaseAuth.instance.currentUser;
-    if(user.providerData.contains('interviewed')){
+    final _authProvider = Provider.of<AuthProvider>(context);
 
-    }
     return DefaultTabController(
       length: _babyBumpProvider.defaultBumps.length,
       child: Scaffold(
         appBar: AppBar(
           title: Text(_utilityProvider.title),
-          actions: [
-            IconButton(
-              tooltip: 'Appointments',
-                icon: Icon(Icons.access_time),
-                onPressed: () => Navigator.pushNamed(context, appointmentPage))
-          ],
+          actions: _utilityProvider.currentIndex == 3
+              ? null
+              : [
+                  IconButton(
+                      tooltip: 'Appointments',
+                      icon: Icon(Icons.access_time),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, appointmentPage))
+                ],
           bottom: _utilityProvider.currentIndex == 2
               ? TabBar(
                   onTap: (int index) {
@@ -83,6 +85,20 @@ class HomePage extends StatelessWidget {
             ),
           ],
           onTap: _utilityProvider.selectTab,
+        ),
+        endDrawer: Drawer(
+          child: SingleChildScrollView(
+              child: Column(
+            children: [
+              SizedBox(height: 40,),
+              FlatButton(
+                  onPressed: () {
+                    _authProvider.signOut();
+                    print('****************hello bosss we are getting out*************');
+                  },
+                  child: Text('Sign Out'))
+            ],
+          )),
         ),
       ),
     );
