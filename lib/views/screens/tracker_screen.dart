@@ -14,16 +14,18 @@ class TrackerScreen extends StatelessWidget {
   final LineStyle _lineStyle = LineStyle(color: _defaultColor, thickness: 2);
 
   // indicator style
-  final IndicatorStyle _indicatorStyle = IndicatorStyle(
-    color: _defaultColor.withGreen(150),
-    padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
-    // iconStyle: IconStyle(
-    //   iconData: Icons.add_circle_outline,
-    //   fontSize: 16.0,
-    //   color: Colors.grey,
-    // ),
-    indicatorXY: 0.1,
-  );
+  IndicatorStyle indicatorStyle(BuildContext context) {
+    return IndicatorStyle(
+      color: Theme.of(context).primaryColor,
+      padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
+      // iconStyle: IconStyle(
+      //   iconData: Icons.add_circle_outline,
+      //   fontSize: 16.0,
+      //   color: Colors.grey,
+      // ),
+      indicatorXY: 0.1,
+    );
+  }
 
   // action to be performed when the card is tapped
   void _handleCardTap(BuildContext context, int index) {
@@ -58,7 +60,7 @@ class TrackerScreen extends StatelessWidget {
           ),
           afterLineStyle: _lineStyle,
           beforeLineStyle: _lineStyle,
-          indicatorStyle: _indicatorStyle,
+          indicatorStyle: indicatorStyle(context),
         );
       },
     );
