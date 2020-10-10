@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -117,19 +118,29 @@ class AuthProvider with ChangeNotifier {
         codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
   }
 
-  _verificationCompleted(PhoneAuthCredential credential) {
+  _verificationCompleted(PhoneAuthCredential credential) async {
     _isSendingPhone = false;
     _sendingCode = false;
     notifyListeners();
 
-    FirebaseAuth.instance
-        .signInWithCredential(credential)
-        .then((UserCredential userCredential) {
-      print("User Phone: " + userCredential.user.phoneNumber);
-      print('got to home page');
-      //logic to trigger chage in ui...
+    UserCredential _userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    if (_userCredential != null) {
+      saveUserToFirestore(userCredential: _userCredential);
       _isLoggedIn = true;
       notifyListeners();
+      
+    }
+  }
+
+  saveUserToFirestore({@required UserCredential userCredential}) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    users.doc(userCredential.user.uid).set({
+      'uid': userCredential.user.uid,
+      'displayName': userCredential.user.displayName,
+      'photoURL': userCredential.user.photoURL,
+      'phoneNumber': userCredential.user.phoneNumber,
     });
   }
 }
