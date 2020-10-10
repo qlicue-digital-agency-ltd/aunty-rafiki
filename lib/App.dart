@@ -16,38 +16,37 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return
-    FutureBuilder(
-      future: Firebase.initializeApp(),
-        builder: (BuildContext context,AsyncSnapshot<FirebaseApp> snapshot){
-      switch(snapshot.connectionState){
-        case ConnectionState.done:
-        case ConnectionState.none:
-          User user = FirebaseAuth.instance.currentUser;
-          user.providerData.add(UserInfo({'age':18}));
+    return FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+            case ConnectionState.none:
+              return MaterialApp(
+                title: 'Flutter Demo',
+                theme: ThemeData(
+                  primarySwatch: Colors.pink,
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                ),
+                // home: FirebaseAuth.instance.currentUser == null
+                //     ? LoginPage()
+                //     : HomePage(),
+                home: HomePage(),
+                routes: {
+                  chatRoomPage: (_) => ChatRoomPage(),
+                  appointmentPage: (_) => AppointmentPage(),
+                  addAppointmentPage: (_) => AddAppointmentPage(),
+                  dailyAppointmentsPage: (_) => DailyAppointment(),
+                },
+              );
+              break;
 
-          return  MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.pink,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-            ),
-            home:  FirebaseAuth.instance.currentUser == null ? LoginPage() : HomePage(),
-            routes: {
-             chatRoomPage: (_) => ChatRoomPage(),
-        appointmentPage: (_) => AppointmentPage(),
-        addAppointmentPage: (_) => AddAppointmentPage(),
-        dailyAppointmentsPage: (_) => DailyAppointment(),
-            },
-          );
-          break;
-
-        case ConnectionState.waiting:
-        case ConnectionState.active:
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              return Container();
+              break;
+          }
           return Container();
-          break;
-      }
-      return Container();
-    });
+        });
   }
 }

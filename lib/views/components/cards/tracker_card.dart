@@ -5,8 +5,9 @@ import '../../../models/tracker.dart';
 
 class TrackerCard extends StatelessWidget {
   final Tracker tracker;
+  final int index;
 
-  TrackerCard({@required this.tracker});
+  TrackerCard({@required this.tracker, @required this.index});
 
   // date format instance
   final DateFormat format = DateFormat("EEEE, MMMM d, y");
@@ -55,7 +56,10 @@ class TrackerCard extends StatelessWidget {
                     title: Text(tracker.headText),
                     subtitle: Text(tracker.subheadText),
                   ),
-                  Image.asset(tracker.media),
+                  Hero(
+                    tag: 'img.$index',
+                    child: Image.asset(tracker.media),
+                  ),
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 18.0, vertical: 14.0),
@@ -63,9 +67,7 @@ class TrackerCard extends StatelessWidget {
                       tracker.supportText,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16.0
-                      ),
+                      style: TextStyle(fontSize: 16.0),
                     ),
                   )
                 ],

@@ -27,10 +27,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
     final _babyBumpProvider = Provider.of<BabyBumpProvider>(context);
-    User user = FirebaseAuth.instance.currentUser;
-    if(user.providerData.contains('interviewed')){
+    // User user = FirebaseAuth.instance.currentUser;
+    // if(user.providerData.contains('interviewed')){
 
-    }
+    // }
     return DefaultTabController(
       length: _babyBumpProvider.defaultBumps.length,
       child: Scaffold(

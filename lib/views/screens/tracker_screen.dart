@@ -51,7 +51,10 @@ class TrackerScreen extends StatelessWidget {
             onTap: () {
               _handleCardTap(context, index);
             },
-            child: TrackerCard(tracker: _trackerProvider.trackers[index]),
+            child: TrackerCard(
+              tracker: _trackerProvider.trackers[index],
+              index: index,
+            ),
           ),
           afterLineStyle: _lineStyle,
           beforeLineStyle: _lineStyle,

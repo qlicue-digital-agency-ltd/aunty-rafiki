@@ -26,11 +26,14 @@ class TrackerPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            _tracker.media,
-            width: screenWidth,
-            // height: screenHeight * 0.5,
-            fit: BoxFit.fitWidth,
+          Hero(
+            tag: 'img.$index',
+            child: Image.asset(
+              _tracker.media,
+              width: screenWidth,
+              // height: screenHeight * 0.5,
+              fit: BoxFit.fitWidth,
+            ),
           ),
           ListTile(
             title: Text('${_tracker.headText}'),
