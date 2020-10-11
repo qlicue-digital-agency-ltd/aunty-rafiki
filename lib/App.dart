@@ -4,6 +4,7 @@ import 'package:aunty_rafiki/views/pages/appointment_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
 import 'package:aunty_rafiki/views/pages/confirm_code_page.dart';
 import 'package:aunty_rafiki/views/pages/daily_appointments.dart';
+import 'package:aunty_rafiki/views/pages/group/select_contact_page.dart';
 import 'package:aunty_rafiki/views/pages/home_page.dart';
 import 'package:aunty_rafiki/views/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,6 +39,7 @@ class App extends StatelessWidget {
                   addAppointmentPage: (_) => AddAppointmentPage(),
                   dailyAppointmentsPage: (_) => DailyAppointment(),
                   confirmationPage: (_) => ConfirmResetCodePage(),
+                  selectContactsPage: (_) => SelectContactPage(),
                 },
               );
               break;

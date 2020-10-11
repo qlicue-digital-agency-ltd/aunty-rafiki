@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 
@@ -38,11 +39,34 @@ class HomePage extends StatelessWidget {
           actions: _utilityProvider.currentIndex == 3
               ? null
               : [
-                  IconButton(
-                      tooltip: 'Appointments',
-                      icon: Icon(Icons.access_time),
-                      onPressed: () =>
-                          Navigator.pushNamed(context, appointmentPage))
+                  _utilityProvider.currentIndex == 1
+                      ? PopupMenuButton<ChatPopMenu>(
+                          icon: Icon(Icons.more_vert),
+                          onSelected: (ChatPopMenu result) {
+                            if (result == ChatPopMenu.NewGroup)
+                              Navigator.pushNamed(context, selectContactsPage);
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<ChatPopMenu>>[
+                            const PopupMenuItem<ChatPopMenu>(
+                              value: ChatPopMenu.NewGroup,
+                              child: Text('New Group'),
+                            ),
+                            const PopupMenuItem<ChatPopMenu>(
+                              value: ChatPopMenu.NewBroadcast,
+                              child: Text('New Broadcast'),
+                            ),
+                            const PopupMenuItem<ChatPopMenu>(
+                              value: ChatPopMenu.Settings,
+                              child: Text('Settings'),
+                            ),
+                          ],
+                        )
+                      : IconButton(
+                          tooltip: 'Appointments',
+                          icon: Icon(Icons.access_time),
+                          onPressed: () =>
+                              Navigator.pushNamed(context, appointmentPage))
                 ],
           bottom: _utilityProvider.currentIndex == 2
               ? TabBar(
@@ -90,13 +114,27 @@ class HomePage extends StatelessWidget {
           child: SingleChildScrollView(
               child: Column(
             children: [
-              SizedBox(height: 40,),
-              FlatButton(
-                  onPressed: () {
-                    _authProvider.signOut();
-                    print('****************hello bosss we are getting out*************');
-                  },
-                  child: Text('Sign Out'))
+              SizedBox(
+                height: 100,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: FlatButton(
+                          textColor: Colors.white,
+                          color: Colors.pink,
+                          onPressed: () {
+                            _authProvider
+                                .signOut()
+                                .then((value) => Navigator.pop(context));
+                          },
+                          child: Text('Sign Out')),
+                    ),
+                  ],
+                ),
+              )
             ],
           )),
         ),

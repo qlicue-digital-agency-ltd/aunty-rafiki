@@ -95,7 +95,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                       text: "Enter the code sent to ",
                       children: [
                         TextSpan(
-                            text: '_authProvider.phoneNumber.completeNumber',
+                            text: _authProvider.phoneNumber.completeNumber,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,

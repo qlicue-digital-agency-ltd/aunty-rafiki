@@ -66,6 +66,7 @@ class AuthProvider with ChangeNotifier {
 
     if (credential.user != null) {
       print("Auth User Phone: " + credential.user.phoneNumber);
+      saveUserToFirestore(userCredential: credential);
     }
     return credential;
   }
@@ -122,25 +123,22 @@ class AuthProvider with ChangeNotifier {
     _isSendingPhone = false;
     _sendingCode = false;
     notifyListeners();
-
-    UserCredential _userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-    if (_userCredential != null) {
-      saveUserToFirestore(userCredential: _userCredential);
-      _isLoggedIn = true;
-      notifyListeners();
-      
-    }
+    _isLoggedIn = true;
+    notifyListeners();
   }
 
   saveUserToFirestore({@required UserCredential userCredential}) {
+    print('we must reach here');
+    print('++++++++++++++++++++++++');
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     users.doc(userCredential.user.uid).set({
       'uid': userCredential.user.uid,
       'displayName': userCredential.user.displayName,
       'photoURL': userCredential.user.photoURL,
+      'nameInitials': '~Xcode',
       'phoneNumber': userCredential.user.phoneNumber,
+      'groups': []
     });
   }
 }
