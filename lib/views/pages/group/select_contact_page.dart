@@ -1,3 +1,5 @@
+import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/views/components/image/profile_avatar.dart';
 import 'package:aunty_rafiki/views/components/tiles/contact_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -22,45 +24,7 @@ class SelectContactPage extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
                   itemBuilder: (_, index) {
-                    return Container(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Stack(
-                            children: [
-                              CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage:
-                                      AssetImage('assets/images/b.jpg')),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () {
-                                    print('object');
-                                  },
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.pink,
-                                      ),
-                                      height: 30,
-                                      width: 30,
-                                      child: Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                      )),
-                                ),
-                              )
-                            ],
-                          ),
-                          Text('Robin')
-                        ],
-                      ),
-                    );
+                    return ProfileAvatar();
                   }),
             )),
       ),
@@ -72,7 +36,9 @@ class SelectContactPage extends StatelessWidget {
             );
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, createGroupPage);
+        },
         child: Center(child: Icon(Icons.arrow_forward)),
       ),
     );
