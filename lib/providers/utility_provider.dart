@@ -42,7 +42,7 @@ class UtilityProvider with ChangeNotifier {
         _setTitle = "Baby Bump";
         break;
       case 3:
-        _setTitle = "Profile";
+        _setTitle = "More";
         break;
       default:
         _setTitle = "Tracker";

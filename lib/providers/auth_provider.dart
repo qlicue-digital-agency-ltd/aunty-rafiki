@@ -17,7 +17,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   void initializeFlutterFire() async {
-    print('XXXXX: Initializing flutter');
+   
     try {
       // Wait for Firebase to initialize and set `_initialized` state to true
       await Firebase.initializeApp();
@@ -128,8 +128,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   saveUserToFirestore({@required UserCredential userCredential}) {
-    print('we must reach here');
-    print('++++++++++++++++++++++++');
+  
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     users.doc(userCredential.user.uid).set({

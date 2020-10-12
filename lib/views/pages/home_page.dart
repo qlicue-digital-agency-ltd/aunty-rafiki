@@ -13,7 +13,7 @@ import '../screens/tracker_screen.dart';
 import '../screens/chat_screen.dart';
 import '../screens/baby_bump_screen.dart';
 
-import '../screens/profile_screen.dart';
+import '../screens/more_screen.dart';
 
 class HomePage extends StatelessWidget {
   // list of widgets corresponding to navigation bar items
@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
     ChatScreen(),
     BabyBumpScreen(),
     // AppointmentScreen(),
-    ProfileScreen()
+    MoreScreen()
   ];
 
   @override
@@ -37,7 +37,20 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           title: Text(_utilityProvider.title),
           actions: _utilityProvider.currentIndex == 3
-              ? null
+              ? [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, profilePage);
+                      },
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundImage: AssetImage('assets/icons/female.png'),
+                      ),
+                    ),
+                  )
+                ]
               : [
                   _utilityProvider.currentIndex == 1
                       ? PopupMenuButton<ChatPopMenu>(
@@ -104,39 +117,11 @@ class HomePage extends StatelessWidget {
             //   title: Text('Appointments'),
             // ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('Profile'),
+              icon: Icon(Icons.more_horiz),
+              title: Text('More'),
             ),
           ],
           onTap: _utilityProvider.selectTab,
-        ),
-        endDrawer: Drawer(
-          child: SingleChildScrollView(
-              child: Column(
-            children: [
-              SizedBox(
-                height: 100,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: FlatButton(
-                          textColor: Colors.white,
-                          color: Colors.pink,
-                          onPressed: () {
-                            _authProvider
-                                .signOut()
-                                .then((value) => Navigator.pop(context));
-                          },
-                          child: Text('Sign Out')),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          )),
         ),
       ),
     );

@@ -1,11 +1,14 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/image/profile_avatar.dart';
 import 'package:aunty_rafiki/views/components/tiles/contact_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SelectContactPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+       // final _userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Column(

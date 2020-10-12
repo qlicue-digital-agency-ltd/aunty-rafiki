@@ -8,6 +8,7 @@ import 'package:aunty_rafiki/views/pages/group/create_group_page.dart';
 import 'package:aunty_rafiki/views/pages/group/select_contact_page.dart';
 import 'package:aunty_rafiki/views/pages/home_page.dart';
 import 'package:aunty_rafiki/views/pages/login_page.dart';
+import 'package:aunty_rafiki/views/pages/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,7 @@ class App extends StatelessWidget {
                   confirmationPage: (_) => ConfirmResetCodePage(),
                   selectContactsPage: (_) => SelectContactPage(),
                   createGroupPage: (_) => CreateGroupPage(),
+                   profilePage: (_) => ProfilePage(),
                 },
               );
               break;

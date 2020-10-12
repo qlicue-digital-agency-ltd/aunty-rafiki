@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatelessWidget {
+class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        child: Text('Profile screen'),
+        child: Text('More screen'),
       ),
     );
   }
