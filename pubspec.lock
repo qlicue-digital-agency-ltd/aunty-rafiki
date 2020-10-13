@@ -57,6 +57,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+
   cloud_firestore:
     dependency: "direct main"
     description:
@@ -78,6 +79,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0+3"
+
   collection:
     dependency: transitive
     description:
@@ -245,6 +247,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
+
   image:
     dependency: transitive
     description:
@@ -252,6 +255,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.18"
+    
   image_picker:
     dependency: "direct main"
     description:
@@ -309,14 +313,14 @@ packages:
     source: hosted
     version: "0.0.4"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
@@ -357,6 +361,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.0"
+
   petitparser:
     dependency: transitive
     description:
@@ -371,6 +376,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.0"
+
   platform:
     dependency: transitive
     description:
@@ -553,4 +559,6 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.9.0-14.0.dev <3.0.0"
-  flutter: ">=1.20.0 <2.0.0"
+
+  flutter: ">=1.16.0 <2.0.0"
+
