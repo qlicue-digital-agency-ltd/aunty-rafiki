@@ -57,6 +57,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/access/
     - assets/baby/
     - assets/chats/
     - assets/images/gif/

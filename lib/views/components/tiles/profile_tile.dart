@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 
 class ProfileTile extends StatelessWidget {
   final Profile profileItem;
+  final Function onTap;
 
-  const ProfileTile({Key key, @required this.profileItem}) : super(key: key);
+  const ProfileTile({Key key, @required this.profileItem, @required this.onTap})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(profileItem.icon, color: Theme.of(context).primaryColor,),
+      onTap: onTap,
+      leading: Icon(
+        profileItem.icon,
+        color: Theme.of(context).primaryColor,
+      ),
       title: Text(profileItem.title),
-
     );
   }
 }
