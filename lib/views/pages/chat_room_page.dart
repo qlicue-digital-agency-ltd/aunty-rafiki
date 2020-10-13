@@ -6,6 +6,7 @@ import 'package:aunty_rafiki/views/components/sheets/sticker_sheet.dart';
 import 'package:aunty_rafiki/views/components/tiles/text_input_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatRoomPage extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class ChatRoomPage extends StatefulWidget {
 }
 
 class _ChatRoomPageState extends State<ChatRoomPage> {
+  
+  Stream documentStream = FirebaseFirestore.instance.collection('chats').doc('1S5RzZBSmawNWlCjC4gF').snapshots();
   @override
   Widget build(BuildContext context) {
     final _chatProvider = Provider.of<ChatProvider>(context);
