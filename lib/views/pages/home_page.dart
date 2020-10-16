@@ -1,6 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-import 'package:aunty_rafiki/providers/auth_provider.dart';
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
     final _babyBumpProvider = Provider.of<BabyBumpProvider>(context);
-    final _authProvider = Provider.of<AuthProvider>(context);
+   
 
     return DefaultTabController(
       length: _babyBumpProvider.defaultBumps.length,
