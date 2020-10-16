@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +93,9 @@ class MoreScreen extends StatelessWidget {
                   child: MoreMenuCard(
                     image: 'assets/access/appointment.png',
                     title: 'Appointments',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, appointmentPage);
+                    },
                   ),
                 ),
                 const SizedBox(width: 16.0),

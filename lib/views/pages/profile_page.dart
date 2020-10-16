@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/models/profile.dart';
 import 'package:aunty_rafiki/views/components/tiles/profile_tile.dart';
 import 'package:flutter/material.dart';
@@ -12,19 +13,25 @@ class ProfilePage extends StatelessWidget {
           delegate: SliverChildListDelegate([
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/icons/female.png'),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Brend',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                )
-              ]),
+              child: InkWell(
+                onTap: () {
+                 Navigator.pushNamed(context, editProfilePage);
+                },
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage('assets/icons/female.png'),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Brend',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  )
+                ]),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),

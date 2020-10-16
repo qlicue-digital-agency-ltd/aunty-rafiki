@@ -7,3 +7,4 @@ const confirmationPage = "/confirmationPage";
 const selectContactsPage = "/selectContactsPage";
 const createGroupPage = "/createGroupPage";
 const profilePage = "/profilePage";
+const editProfilePage = "/editProfilePage";

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -12,12 +15,13 @@ class AuthProvider with ChangeNotifier {
   bool _isCodeSent = false;
   String _verificationId;
   PhoneNumber _phoneNumber;
+
+  File _pickedImage, file;
   AuthProvider() {
     initializeFlutterFire();
   }
 
   void initializeFlutterFire() async {
-   
     try {
       // Wait for Firebase to initialize and set `_initialized` state to true
       await Firebase.initializeApp();
@@ -54,6 +58,7 @@ class AuthProvider with ChangeNotifier {
   PhoneNumber get phoneNumber => _phoneNumber;
   bool get isLoggedIn => _isLoggedIn;
   bool get isCodeSent => _isCodeSent;
+  File get pickedImage => _pickedImage;
 
   ///sigin user....
   Future<UserCredential> signIn({@required smsCode}) async {
@@ -128,7 +133,6 @@ class AuthProvider with ChangeNotifier {
   }
 
   saveUserToFirestore({@required UserCredential userCredential}) {
-  
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     users.doc(userCredential.user.uid).set({
@@ -139,5 +143,19 @@ class AuthProvider with ChangeNotifier {
       'phoneNumber': userCredential.user.phoneNumber,
       'groups': []
     });
+  }
+
+  //file pickers
+  void chooseAmImage() async {
+    file = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    _pickedImage = file;
+// file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    notifyListeners();
+  }
+
+  void resetImage() {
+    _pickedImage = null;
+    notifyListeners();
   }
 }
