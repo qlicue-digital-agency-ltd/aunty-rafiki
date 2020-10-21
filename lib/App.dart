@@ -1,4 +1,7 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/sample/pages/chat_list_page.dart';
+import 'package:aunty_rafiki/sample/pages/chat_page.dart';
+import 'package:aunty_rafiki/sample/pages/new_group_page.dart';
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
 import 'package:aunty_rafiki/views/pages/appointment_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
@@ -47,7 +50,11 @@ class App extends StatelessWidget {
                   createGroupPage: (_) => CreateGroupPage(),
                   profilePage: (_) => ProfilePage(),
                   editProfilePage: (_) => EditProfilePage(),
+                  //'/': (_) => ChatListPage(),
+                  '/chat': (_) => ChatPage(),
+                  '/new': (_) => NewGroupPage(),
                 },
+                //initialRoute: '/',
               );
               break;
 

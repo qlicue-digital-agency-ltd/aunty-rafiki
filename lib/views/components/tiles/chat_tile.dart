@@ -1,6 +1,5 @@
-import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/sample/model/chat.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ChatTile extends StatelessWidget {
   final Chat chat;
@@ -19,7 +18,9 @@ class ChatTile extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: CircleAvatar(
               radius: 35,
-              backgroundImage: AssetImage(chat.avatar),
+              backgroundImage: chat.avatar == null
+                  ? NetworkImage(chat.avatar)
+                  : AssetImage('assets/icons/female.png'),
             ),
           ),
           Expanded(
@@ -39,7 +40,7 @@ class ChatTile extends StatelessWidget {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            Text(chat.messages.last.text)
+                            Text('chat.messages.last.text')
                           ]),
                     ),
                     Expanded(
@@ -49,22 +50,17 @@ class ChatTile extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              Text(DateFormat('yyyy-MM-dd').format(chat.date),
-                                  style: TextStyle(
-                                      color: chat.unreadMessageCounter > 0
-                                          ? Theme.of(context).primaryColor
-                                          : Colors.black38)),
-                              chat.unreadMessageCounter > 0
-                                  ? CircleAvatar(
-                                      radius: 12,
-                                      backgroundColor:
-                                          Theme.of(context).primaryColor,
-                                      child: Text(
-                                        chat.unreadMessageCounter.toString(),
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
-                                      ))
-                                  : Container()
+                              // chat.unreadMessageCounter > 0
+                              //     ? CircleAvatar(
+                              //         radius: 12,
+                              //         backgroundColor:
+                              //             Theme.of(context).primaryColor,
+                              //         child: Text(
+                              //           chat.unreadMessageCounter.toString(),
+                              //           style: TextStyle(
+                              //               color: Colors.white, fontSize: 12),
+                              //         ))
+                              //     : Container()
                             ]),
                       ),
                     )

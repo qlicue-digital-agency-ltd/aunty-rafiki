@@ -18,15 +18,15 @@ class MoreScreen extends StatelessWidget {
                 Expanded(
                   child: MoreMenuCard(
                     image: 'assets/access/calendar.png',
-                    title: 'Daily',
+                    title: 'Blood Level',
                     onTap: () {},
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: MoreMenuCard(
-                    image: 'assets/access/calendar.png',
-                    title: 'Weekly',
+                    image: 'assets/access/appointment.png',
+                    title: 'Appointments',
                     onTap: () {},
                   ),
                 )
@@ -92,7 +92,7 @@ class MoreScreen extends StatelessWidget {
                 Expanded(
                   child: MoreMenuCard(
                     image: 'assets/access/appointment.png',
-                    title: 'Appointments',
+                    title: 'Food',
                     onTap: () {
                       Navigator.pushNamed(context, appointmentPage);
                     },
