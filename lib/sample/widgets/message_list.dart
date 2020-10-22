@@ -13,7 +13,7 @@ class MessageList extends StatelessWidget {
     return StreamBuilder<List<Message>>(
       stream: FirebaseFirestore.instance
           .collection('groups/${chat.id}/messages')
-          .orderBy('time', descending: true)
+          .orderBy('time', descending: false)
           .snapshots()
           .map(firestoreToMessageList),
       builder: (context, AsyncSnapshot<List<Message>> snapshot) {

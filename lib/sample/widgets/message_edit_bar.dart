@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/sample/model/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,7 @@ class _MessageEditBarState extends State<MessageEditBar> {
         db.collection('groups/${chat.id}/messages').add({
           'text': _controller.text,
           'time': Timestamp.fromDate(DateTime.now()),
-          'user': 'inventado',
+          'user': FirebaseAuth.instance.currentUser.uid,
         });
         _controller.clear();
       }

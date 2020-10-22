@@ -11,7 +11,7 @@ class Message {
   Message.fromFirestoreData(Map<String, dynamic> data)
       : text = data['text'],
         time = data['time'].toDate(),
-        sender = data['sender'],
+        sender = data['user'],
         media = data['media'];
 }
 
