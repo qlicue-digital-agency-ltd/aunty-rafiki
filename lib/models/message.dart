@@ -4,7 +4,7 @@ class Message {
   String text;
   DateTime time;
   String sender;
-  List<String> media;
+  List<dynamic> media;
 
   Message(this.text, this.time);
 

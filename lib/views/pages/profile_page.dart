@@ -1,13 +1,16 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/models/profile.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/profile_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return Scaffold(
       appBar: AppBar(title: Text('Profile')),
@@ -50,8 +53,7 @@ class ProfilePage extends StatelessWidget {
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               )
-                            ])
-                            ;
+                            ]);
                       }
 
                       return Text("loading");
@@ -69,6 +71,7 @@ class ProfilePage extends StatelessWidget {
           return ProfileTile(
             profileItem: menuList[index],
             onTap: () {
+              _authProvider.signOut();
               print(menuList[index].title);
             },
           );

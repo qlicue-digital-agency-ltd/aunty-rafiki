@@ -20,7 +20,7 @@ class ChatRoomPage extends StatelessWidget {
             ChatBackground(),
             Column(
               children: <Widget>[
-                Expanded(child: MessageList()),
+                MessageList(),
                 MessageEditBar()
               ],
             ),

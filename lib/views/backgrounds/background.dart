@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 
 class ChatBackground extends StatelessWidget {
@@ -11,6 +12,7 @@ class ChatBackground extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
+    
     );
   }
 }

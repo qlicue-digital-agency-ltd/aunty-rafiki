@@ -1,5 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-import 'package:aunty_rafiki/sample/pages/chat_list_page.dart';
+
 import 'package:aunty_rafiki/sample/pages/chat_page.dart';
 import 'package:aunty_rafiki/sample/pages/new_group_page.dart';
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
