@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+
 
 class UtilityProvider with ChangeNotifier {
   ///variables
@@ -48,6 +50,4 @@ class UtilityProvider with ChangeNotifier {
         _setTitle = "Tracker";
     }
   }
-
-  
 }

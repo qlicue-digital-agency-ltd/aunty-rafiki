@@ -1,392 +1,290 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_showcase/flutter_showcase.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:timeline_tile/timeline_tile.dart';
+import 'dart:async';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-// class ShowcaseActivityTimeline extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Showcase(
-//       title: 'Activity Timeline',
-//       app: _ActivityTimelineApp(),
-//       description: 'A beautiful timeline that tracks your steps, from one place'
-//           ' to another.',
-//       template: SimpleTemplate(reverse: false),
-//       theme: TemplateThemeData(
-//         frameTheme: FrameThemeData(
-//           statusBarBrightness: Brightness.dark,
-//           frameColor: Colors.black,
-//         ),
-//         flutterLogoColor: FlutterLogoColor.black,
-//         brightness: Brightness.light,
-//         backgroundColor: const Color(0xFFF2F2F2),
-//         titleTextStyle: GoogleFonts.patrickHand(
-//           fontSize: 80,
-//         ),
-//         descriptionTextStyle: GoogleFonts.patrickHand(
-//           fontSize: 24,
-//           height: 1.2,
-//           color: const Color(0xFF1D1E20),
-//         ),
-//         buttonTextStyle: const TextStyle(
-//           color: Color(0xFFF2F2F2),
-//           fontWeight: FontWeight.bold,
-//           letterSpacing: 2,
-//         ),
-//         buttonIconTheme: const IconThemeData(color: Colors.white),
-//         buttonTheme: ButtonThemeData(
-//           buttonColor: const Color(0xFF1D1E20),
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(50),
-//           ),
-//           textTheme: ButtonTextTheme.accent,
-//           padding: const EdgeInsets.all(16),
-//         ),
-//       ),
-//       links: [
-//         LinkData.github('https://github.com/JHBitencourt/timeline_tile'),
-//       ],
-//       logoLink: LinkData(
-//         icon: Image.asset(
-//           'assets/built_by_jhb_black.png',
-//           fit: BoxFit.fitHeight,
-//         ),
-//         url: 'https://github.com/JHBitencourt',
-//       ),
-//     );
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-// class _ActivityTimelineApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Activity TimelineTile',
-//       builder: Frame.builder,
-//       home: _ActivityTimeline(),
-//     );
-//   }
-// }
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-// class _ActivityTimeline extends StatefulWidget {
-//   @override
-//   _ActivityTimelineState createState() => _ActivityTimelineState();
-// }
+enum TtsState { playing, stopped, paused, continued }
 
-// class _ActivityTimelineState extends State<_ActivityTimeline> {
-//   List<Step> _steps;
+class _MyAppState extends State<MyApp> {
+  FlutterTts flutterTts;
+  dynamic languages;
+  String language;
+  double volume = 0.5;
+  double pitch = 1.0;
+  double rate = 0.5;
 
-//   @override
-//   void initState() {
-//     _steps = _generateData();
-//     super.initState();
-//   }
+  String _newVoiceText;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: const Color(0xFF1D1E20),
-//       child: Theme(
-//         data: Theme.of(context).copyWith(
-//           accentColor: Colors.white.withOpacity(0.2),
-//         ),
-//         child: SafeArea(
-//           child: Scaffold(
-//             backgroundColor: Colors.transparent,
-//             body: Center(
-//               child: Column(
-//                 children: <Widget>[
-//                   _Header(),
-//                   Expanded(
-//                     child: _TimelineActivity(steps: _steps),
-//                   ),
-//                   const SizedBox(height: 8),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
+  TtsState ttsState = TtsState.stopped;
 
-//   List<Step> _generateData() {
-//     return <Step>[
-//       Step(
-//         type: Type.checkpoint,
-//         icon: Icons.home,
-//         message: 'Home',
-//         duration: 2,
-//         color: const Color(0xFFF2F2F2),
-//       ),
-//       Step(
-//         type: Type.line,
-//         hour: '8:38',
-//         message: 'Walk',
-//         duration: 9,
-//         color: const Color(0xFF40C752),
-//       ),
-//       Step(
-//         type: Type.line,
-//         hour: '8:47',
-//         message: 'Transport',
-//         duration: 12,
-//         color: const Color(0xFF797979),
-//       ),
-//       Step(
-//         type: Type.line,
-//         hour: '8:59',
-//         message: 'Run',
-//         duration: 3,
-//         color: const Color(0xFFDF54C9),
-//       ),
-//       Step(
-//         type: Type.checkpoint,
-//         icon: Icons.work,
-//         hour: '9:02',
-//         message: 'Work',
-//         duration: 2,
-//         color: const Color(0xFFF2F2F2),
-//       ),
-//       Step(
-//         type: Type.line,
-//         hour: '12:12',
-//         message: 'Walk',
-//         duration: 8,
-//         color: const Color(0xFF40C752),
-//       ),
-//       Step(
-//         type: Type.checkpoint,
-//         icon: Icons.local_drink,
-//         hour: '12:20',
-//         message: 'Coffee shop',
-//         duration: 2,
-//         color: const Color(0xFFF2F2F2),
-//       ),
-//       Step(
-//         type: Type.line,
-//         hour: '01:05',
-//         message: 'Walk',
-//         duration: 8,
-//         color: const Color(0xFF40C752),
-//       ),
-//       Step(
-//         type: Type.checkpoint,
-//         icon: Icons.work,
-//         hour: '01:13',
-//         message: 'Work',
-//         duration: 2,
-//         color: const Color(0xFFF2F2F2),
-//       ),
-//       Step(
-//         type: Type.line,
-//         hour: '05:25',
-//         message: 'Walk',
-//         duration: 3,
-//         color: const Color(0xFF40C752),
-//       ),
-//       Step(
-//         type: Type.line,
-//         hour: '05:28',
-//         message: 'Cycle',
-//         duration: 14,
-//         color: const Color(0xFF01CBFE),
-//       ),
-//       Step(
-//         type: Type.checkpoint,
-//         hour: '05:42',
-//         icon: Icons.home,
-//         message: 'Home',
-//         duration: 2,
-//         color: const Color(0xFFF2F2F2),
-//       ),
-//     ];
-//   }
-// }
+  get isPlaying => ttsState == TtsState.playing;
 
-// class _TimelineActivity extends StatelessWidget {
-//   const _TimelineActivity({Key key, this.steps}) : super(key: key);
+  get isStopped => ttsState == TtsState.stopped;
 
-//   final List<Step> steps;
+  get isPaused => ttsState == TtsState.paused;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       physics: const AlwaysScrollableScrollPhysics(),
-//       itemCount: steps.length,
-//       itemBuilder: (BuildContext context, int index) {
-//         final Step step = steps[index];
+  get isContinued => ttsState == TtsState.continued;
 
-//         final IndicatorStyle indicator = step.isCheckpoint
-//             ? _indicatorStyleCheckpoint(step)
-//             : const IndicatorStyle(width: 0);
+  @override
+  initState() {
+    super.initState();
+    initTts();
+  }
 
-//         final righChild = _RightChildTimeline(step: step);
+  initTts() {
+    flutterTts = FlutterTts();
 
-//         Widget leftChild;
-//         if (step.hasHour) {
-//           leftChild = _LeftChildTimeline(step: step);
-//         }
+    _getLanguages();
 
-//         return TimelineTile(
-//           alignment: TimelineAlign.manual,
-//           isFirst: index == 0,
-//           isLast: index == steps.length - 1,
-//           lineXY: 0.25,
-//           indicatorStyle: indicator,
-//           startChild: leftChild,
-//           endChild: righChild,
-//           hasIndicator: step.isCheckpoint,
-//           beforeLineStyle: LineStyle(
-//             color: step.color,
-//             thickness: 8,
-//           ),
-//         );
-//       },
-//     );
-//   }
+    if (!kIsWeb) {
+      if (Platform.isAndroid) {
+        _getEngines();
+      }
+    }
 
-//   IndicatorStyle _indicatorStyleCheckpoint(Step step) {
-//     return IndicatorStyle(
-//       width: 46,
-//       height: 100,
-//       indicator: Container(
-//         decoration: BoxDecoration(
-//           color: step.color,
-//           borderRadius: const BorderRadius.all(
-//             Radius.circular(20),
-//           ),
-//         ),
-//         child: Center(
-//           child: Icon(
-//             step.icon,
-//             color: const Color(0xFF1D1E20),
-//             size: 30,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("Playing");
+        ttsState = TtsState.playing;
+      });
+    });
 
-// class _RightChildTimeline extends StatelessWidget {
-//   const _RightChildTimeline({Key key, this.step}) : super(key: key);
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
 
-//   final Step step;
+    flutterTts.setCancelHandler(() {
+      setState(() {
+        print("Cancel");
+        ttsState = TtsState.stopped;
+      });
+    });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final double minHeight =
-//         step.isCheckpoint ? 100 : step.duration.toDouble() * 8;
+    if (kIsWeb || Platform.isIOS) {
+      flutterTts.setPauseHandler(() {
+        setState(() {
+          print("Paused");
+          ttsState = TtsState.paused;
+        });
+      });
 
-//     return ConstrainedBox(
-//       constraints: BoxConstraints(minHeight: minHeight),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: <Widget>[
-//           Padding(
-//             padding: EdgeInsets.only(
-//                 left: step.isCheckpoint ? 20 : 39, top: 8, bottom: 8, right: 8),
-//             child: RichText(
-//               text: TextSpan(children: <TextSpan>[
-//                 TextSpan(
-//                   text: step.message,
-//                   style: GoogleFonts.patrickHand(
-//                     fontSize: 22,
-//                     color: step.color,
-//                   ),
-//                 ),
-//                 TextSpan(
-//                   text: '  ${step.duration} min',
-//                   style: GoogleFonts.patrickHand(
-//                     fontSize: 22,
-//                     color: const Color(0xFFF2F2F2),
-//                   ),
-//                 )
-//               ]),
-//             ),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
+      flutterTts.setContinueHandler(() {
+        setState(() {
+          print("Continued");
+          ttsState = TtsState.continued;
+        });
+      });
+    }
 
-// class _LeftChildTimeline extends StatelessWidget {
-//   const _LeftChildTimeline({Key key, this.step}) : super(key: key);
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
 
-//   final Step step;
+  Future _getLanguages() async {
+    languages = await flutterTts.getLanguages;
+    if (languages != null) setState(() => languages);
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.end,
-//       children: <Widget>[
-//         Padding(
-//           padding: EdgeInsets.only(right: step.isCheckpoint ? 10 : 29),
-//           child: Text(
-//             step.hour,
-//             textAlign: TextAlign.center,
-//             style: GoogleFonts.patrickHand(
-//               fontSize: 16,
-//               color: Colors.white.withOpacity(0.6),
-//             ),
-//           ),
-//         )
-//       ],
-//     );
-//   }
-// }
+  Future _getEngines() async {
+    var engines = await flutterTts.getEngines;
+    if (engines != null) {
+      for (dynamic engine in engines) {
+        print(engine);
+      }
+    }
+  }
 
-// class _Header extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(16),
-//       child: Row(
-//         children: <Widget>[
-//           Expanded(
-//             child: Text(
-//               'Activity Tracker',
-//               textAlign: TextAlign.center,
-//               style: GoogleFonts.patrickHand(
-//                 fontSize: 36,
-//                 color: Colors.white,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  Future _speak() async {
+    await flutterTts.setVolume(volume);
+    await flutterTts.setSpeechRate(rate);
+    await flutterTts.setPitch(pitch);
 
-// enum Type {
-//   checkpoint,
-//   line,
-// }
+    if (_newVoiceText != null) {
+      if (_newVoiceText.isNotEmpty) {
+        await flutterTts.awaitSpeakCompletion(true);
+        await flutterTts.speak(_newVoiceText);
+      }
+    }
+  }
 
-// class Step {
-//   Step({
-//     this.type,
-//     this.hour,
-//     this.message,
-//     this.duration,
-//     this.color,
-//     this.icon,
-//   });
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
+  }
 
-//   final Type type;
-//   final String hour;
-//   final String message;
-//   final int duration;
-//   final Color color;
-//   final IconData icon;
+  Future _pause() async {
+    var result = await flutterTts.pause();
+    if (result == 1) setState(() => ttsState = TtsState.paused);
+  }
 
-//   bool get isCheckpoint => type == Type.checkpoint;
+  @override
+  void dispose() {
+    super.dispose();
+    flutterTts.stop();
+  }
 
-//   bool get hasHour => hour != null && hour.isNotEmpty;
-// }
+  List<DropdownMenuItem<String>> getLanguageDropDownMenuItems() {
+    var items = List<DropdownMenuItem<String>>();
+    for (dynamic type in languages) {
+      items.add(
+          DropdownMenuItem(value: type as String, child: Text(type as String)));
+    }
+    return items;
+  }
+
+  void changedLanguageDropDownItem(String selectedType) {
+    setState(() {
+      language = selectedType;
+      flutterTts.setLanguage(language);
+    });
+  }
+
+  void _onChange(String text) {
+    setState(() {
+      _newVoiceText = text;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text('Flutter TTS'),
+            ),
+            body: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(children: [
+                  _inputSection(),
+                  _btnSection(),
+                  languages != null ? _languageDropDownSection() : Text(""),
+                  _buildSliders()
+                ]))));
+  }
+
+  Widget _inputSection() => Container(
+      alignment: Alignment.topCenter,
+      padding: EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
+      child: TextField(
+        onChanged: (String value) {
+          _onChange(value);
+        },
+      ));
+
+  Widget _btnSection() {
+    if (!kIsWeb && Platform.isAndroid) {
+      return Container(
+          padding: EdgeInsets.only(top: 50.0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            _buildButtonColumn(Colors.green, Colors.greenAccent,
+                Icons.play_arrow, 'PLAY', _speak),
+            _buildButtonColumn(
+                Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
+          ]));
+    } else {
+      return Container(
+          padding: EdgeInsets.only(top: 50.0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            _buildButtonColumn(Colors.green, Colors.greenAccent,
+                Icons.play_arrow, 'PLAY', _speak),
+            _buildButtonColumn(
+                Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
+            _buildButtonColumn(
+                Colors.blue, Colors.blueAccent, Icons.pause, 'PAUSE', _pause),
+          ]));
+    }
+  }
+
+  Widget _languageDropDownSection() => Container(
+      padding: EdgeInsets.only(top: 50.0),
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        DropdownButton(
+          value: language,
+          items: getLanguageDropDownMenuItems(),
+          onChanged: changedLanguageDropDownItem,
+        )
+      ]));
+
+  Column _buildButtonColumn(Color color, Color splashColor, IconData icon,
+      String label, Function func) {
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+              icon: Icon(icon),
+              color: color,
+              splashColor: splashColor,
+              onPressed: () => func()),
+          Container(
+              margin: const EdgeInsets.only(top: 8.0),
+              child: Text(label,
+                  style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w400,
+                      color: color)))
+        ]);
+  }
+
+  Widget _buildSliders() {
+    return Column(
+      children: [_volume(), _pitch(), _rate()],
+    );
+  }
+
+  Widget _volume() {
+    return Slider(
+        value: volume,
+        onChanged: (newVolume) {
+          setState(() => volume = newVolume);
+        },
+        min: 0.0,
+        max: 1.0,
+        divisions: 10,
+        label: "Volume: $volume");
+  }
+
+  Widget _pitch() {
+    return Slider(
+      value: pitch,
+      onChanged: (newPitch) {
+        setState(() => pitch = newPitch);
+      },
+      min: 0.5,
+      max: 2.0,
+      divisions: 15,
+      label: "Pitch: $pitch",
+      activeColor: Colors.red,
+    );
+  }
+
+  Widget _rate() {
+    return Slider(
+      value: rate,
+      onChanged: (newRate) {
+        setState(() => rate = newRate);
+      },
+      min: 0.0,
+      max: 1.0,
+      divisions: 10,
+      label: "Rate: $rate",
+      activeColor: Colors.green,
+    );
+  }
+}

@@ -55,15 +55,15 @@ class TrackerCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListTile(
-                      title: Text(tracker.headText),
-                      subtitle: Text(tracker.subheadText),
+                      title: Text(tracker.title),
+                      subtitle: Text(tracker.subtitle),
                     ),
-                    Image.asset(tracker.media),
+                    Image.network(tracker.media),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 18.0, vertical: 14.0),
                       child: Text(
-                        tracker.supportText,
+                        tracker.body,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 16.0),

@@ -15,9 +15,9 @@ class TrackerScreen extends StatelessWidget {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
     return ListView.builder(
       physics: const AlwaysScrollableScrollPhysics(),
-      itemCount: _trackerProvider.trackers.length,
+      itemCount: _trackerProvider.availableTrackers.length,
       itemBuilder: (BuildContext context, int index) {
-        final Tracker tracker = _trackerProvider.trackers[index];
+        final Tracker tracker = _trackerProvider.availableTrackers[index];
 
         final IndicatorStyle indicator = tracker.isCheckpoint
             ? _indicatorStyleCheckpoint(tracker)
@@ -27,16 +27,15 @@ class TrackerScreen extends StatelessWidget {
           alignment: TimelineAlign.manual,
           lineXY: 0.15,
           isFirst: index == 0,
-          isLast: index == _trackerProvider.trackers.length - 1,
+          isLast: index == _trackerProvider.availableTrackers.length - 1,
           startChild: _LeftChildTimeline(
-            tracker: _trackerProvider.trackers[index],
+            tracker: _trackerProvider.availableTrackers[index],
           ),
           endChild: _RightChildTimeline(
-            index: index,
-            tracker: _trackerProvider.trackers[index],
+            tracker: _trackerProvider.availableTrackers[index],
           ),
           indicatorStyle: indicator,
-          hasIndicator: _trackerProvider.trackers[index].isCheckpoint,
+          hasIndicator: _trackerProvider.availableTrackers[index].isCheckpoint,
           beforeLineStyle: LineStyle(
             color: tracker.color,
             thickness: 8,
@@ -130,22 +129,10 @@ class _LeftChildTimeline extends StatelessWidget {
 }
 
 class _RightChildTimeline extends StatelessWidget {
-  final int index;
   final Tracker tracker;
 
-  const _RightChildTimeline(
-      {Key key, @required this.index, @required this.tracker})
+  const _RightChildTimeline({Key key, @required this.tracker})
       : super(key: key);
-  // action to be performed when the card is tapped
-  void _handleCardTap(BuildContext context, int index) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return TrackerPage(index);
-        },
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +148,15 @@ class _RightChildTimeline extends StatelessWidget {
             ? TrackerCard(
                 tracker: tracker,
                 onTap: () {
-                  _handleCardTap(context, index);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return TrackerPage(
+                          tracker: tracker,
+                        );
+                      },
+                    ),
+                  );
                 },
               )
             : Container();

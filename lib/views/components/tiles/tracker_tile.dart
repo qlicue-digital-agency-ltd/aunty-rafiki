@@ -19,7 +19,7 @@ class TrackerTile extends StatelessWidget {
             child: ListTile(
               onTap: onTap,
               title: Text('${tracker.week} WEEKS'),
-              subtitle: Text(tracker.headText, maxLines: 1,),
+              subtitle: Text(tracker.title, maxLines: 1,),
               trailing: Icon( tracker.show ? Icons.arrow_drop_up:  Icons.arrow_drop_down, color: Colors.pink),
             ),
           ),
