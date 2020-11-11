@@ -1,55 +1,99 @@
+import 'package:aunty_rafiki/models/tracker.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:aunty_rafiki/providers/tracker_provider.dart';
 
 class TrackerPage extends StatelessWidget {
-  final int index;
+  final Tracker tracker;
 
-  // tracker page constructor
-  TrackerPage(this.index);
+  const TrackerPage({Key key, @required this.tracker}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
-    final _trackerProvider = Provider.of<TrackerProvider>(context);
-    final _tracker = _trackerProvider.getTracker(index);
+   
     final screenWidth = MediaQuery.of(context).size.width;
-    // final screenHeight = MediaQuery.of(context).size.height -
-    //     kToolbarHeight -
-    //     kBottomNavigationBarHeight -
-    //     MediaQuery.of(context).padding.top;
+
+ 
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${_tracker.subheadText}'),
+        title: Text('${tracker.subtitle}'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset(
-            _tracker.media,
-            width: screenWidth,
-            // height: screenHeight * 0.5,
-            fit: BoxFit.fitWidth,
-          ),
-          ListTile(
-            title: Text('${_tracker.headText}'),
-            subtitle: Text('${_tracker.subheadText}'),
-          ),
-          Container(
-            padding:
-                EdgeInsets.only(top: 8.0, right: 16.0, bottom: 8.0, left: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${_tracker.supportText}',
-                  style: TextStyle(fontSize: 16.0),
-                )
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              tracker.media,
+              width: screenWidth,
+              // height: screenHeight * 0.5,
+              fit: BoxFit.fitWidth,
             ),
-          )
-        ],
+            ListTile(
+              title: Text('${tracker.title}'),
+              subtitle: Text('${tracker.subtitle}'),
+              trailing: Image.asset('assets/icons/nurse.jpeg'),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: 8.0, right: 16.0, bottom: 8.0, left: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${tracker.body}',
+                    style: TextStyle(fontSize: 16.0),
+                  )
+                ],
+              ),
+            ),
+            Divider(
+              indent: 10,
+              endIndent: 10,
+            ),
+            ListTile(
+              title: Text('What is Normal?'),
+              subtitle: Text('${tracker.subtitle}'),
+              trailing: Image.asset('assets/icons/okay.jpeg'),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: 8.0, right: 16.0, bottom: 8.0, left: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${tracker.body}',
+                    style: TextStyle(fontSize: 16.0),
+                  )
+                ],
+              ),
+            ),
+            Divider(
+              indent: 10,
+              endIndent: 10,
+            ),
+            ListTile(
+              title: Text('What is Abnormal?'),
+              subtitle: Text('${tracker.subtitle}'),
+              trailing: Image.asset('assets/icons/not.jpeg'),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  top: 8.0, right: 16.0, bottom: 8.0, left: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${tracker.body}',
+                    style: TextStyle(fontSize: 16.0),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 20)
+          ],
+        ),
       ),
     );
   }

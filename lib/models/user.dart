@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class User {
   final String displayName;
-  final List<String> groups;
+  final List<dynamic> groups;
   final String nameInitials;
   final String phoneNumber;
   final String photoUrl;
@@ -17,12 +18,23 @@ class User {
       @required this.uid});
 
   User.fromMap(Map<String, dynamic> map)
-      : assert(map['uid'] != null),
-        assert(map['phoneNumber'] != null),
-        uid = map['uid'],
+      : uid = map['uid'],
         phoneNumber = map['phoneNumber'],
         displayName = map['displayName'],
         nameInitials = map['nameInitials'],
         photoUrl = map['photoUrl'],
         groups = map['groups'];
+
+  User.fromFirestore(DocumentSnapshot doc)
+      : uid = doc.id,
+        phoneNumber = doc.data()['phoneNumber'],
+        displayName = doc.data()['displayName'],
+        nameInitials = doc.data()['nameInitials'],
+        photoUrl = doc.data()['photoUrl'],
+        groups = doc.data()['groups'];
 }
+
+List<User> firestoreToUserList(QuerySnapshot snapshot) {
+  return snapshot.docs.map((doc) => User.fromFirestore(doc)).toList();
+}
+

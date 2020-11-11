@@ -27,7 +27,7 @@ class NoMedia extends StatelessWidget {
           bottom: 0,
           right: 0,
           child: Text(
-            DateFormat('Hm').format(message.date),
+            DateFormat('Hm').format(message.time),
             style: TextStyle(color: Colors.black38),
             textAlign: TextAlign.end,
           ),

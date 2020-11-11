@@ -1,11 +1,4 @@
 import 'package:aunty_rafiki/models/message.dart';
-import 'package:aunty_rafiki/views/components/cards/media/audio_card.dart';
-
-import 'package:aunty_rafiki/views/components/cards/message/double_media.dart';
-import 'package:aunty_rafiki/views/components/cards/message/no_media.dart';
-import 'package:aunty_rafiki/views/components/cards/message/quardripple_media.dart';
-import 'package:aunty_rafiki/views/components/cards/message/single_media.dart';
-import 'package:aunty_rafiki/views/components/cards/message/tripple_media.dart';
 import 'package:flutter/material.dart';
 
 class OthersMessageTile extends StatelessWidget {
@@ -42,32 +35,33 @@ class OthersMessageTile extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(message.phoneNumber),
+                                Text('message.phoneNumber'),
                                 SizedBox(
                                   width: 50,
                                 ),
-                                Text(message.userName)
+                                Text('message.userName')
                               ],
                             )
                           : Text(message.sender)))
                       : Container(
                           width: 0,
                         ),
-                  message.audio != null
-                      ? AudioCard(audio: message.audio)
-                      : message.media == null
-                          ? NoMedia(message: message)
-                          : message.media.length == 1
-                              ? SingleMedia(
-                                  message: message,
-                                )
-                              : message.media.length == 2
-                                  ? DoubleMedia(message: message)
-                                  : message.media.length == 3
-                                      ? TrippleMedia(message: message)
-                                      : QuardrippleMedia(
-                                          message: message,
-                                        ),
+
+                  // message.audio != null
+                  //     ? AudioCard(audio: message.audio)
+                  //     : message.media == null
+                  //         ? NoMedia(message: message)
+                  //         : message.media.length == 1
+                  //             ? SingleMedia(
+                  //                 message: message,
+                  //               )
+                  //             : message.media.length == 2
+                  //                 ? DoubleMedia(message: message)
+                  //                 : message.media.length == 3
+                  //                     ? TrippleMedia(message: message)
+                  //                     : QuardrippleMedia(
+                  //                         message: message,
+                  //                       ),
                 ])),
       ),
     );
