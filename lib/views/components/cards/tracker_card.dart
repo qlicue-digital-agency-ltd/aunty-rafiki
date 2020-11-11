@@ -43,7 +43,7 @@ class TrackerCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
-              title: Text('${numberOfWeeks(tracker.time)} WEEKS'),
+              title: Text('DAY ${tracker.days}'),
               subtitle: Text('${format.format(tracker.time)}'.toUpperCase()),
             ),
             Card(

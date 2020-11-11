@@ -18,22 +18,21 @@ class TrackerProvider extends ChangeNotifier {
   List<Tracker> get availableTrackers => _availableTrackers;
 
   bool get isFetchingTrackerData => _isFetchingTrackerData;
-  // get a single tracker object
-  // Tracker getTracker(int index) {
-  //   return _trackers[index];
-  // }
 
   Future<bool> fetchTrackers() async {
     bool hasError = true;
     _isFetchingTrackerData = true;
     notifyListeners();
+    final Map<String, dynamic> _data = {"conception_date": conceptioDate};
 
     final List<Tracker> _fetchedTrackers = [];
     try {
-      final http.Response response = await http.get(api + "trackers");
+      final http.Response response = await http.post(api + "trackers",
+          body: json.encode(_data),
+          headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
-      print(data);
+      
       if (response.statusCode == 200) {
         data['trackers'].forEach((trackerData) {
           final tracker = Tracker.fromMap(trackerData);
@@ -44,6 +43,7 @@ class TrackerProvider extends ChangeNotifier {
 
       print(_fetchedTrackers);
     } catch (error) {
+      print('---------------------------');
       print(error);
       hasError = true;
     }
@@ -58,9 +58,6 @@ class TrackerProvider extends ChangeNotifier {
   }
 
   set toogleTracker(int week) {
-    // _trackers.where((tracker) => tracker.id == week).show =
-    //     !_trackers.firstWhere((tracker) => tracker.id == week).show;
-
     _availableTrackers.forEach((tracker) {
       if (tracker.week == week) tracker.show = !tracker.show;
     });
