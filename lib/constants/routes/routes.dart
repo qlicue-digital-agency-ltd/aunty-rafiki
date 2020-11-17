@@ -1,6 +1,7 @@
 const chatRoomPage = "/chatRoomPage";
 const homePage = "/homePage";
 const appointmentPage = "/appointmentPage";
+const bloodLevelPage = "/bloodLevelPage";
 const addAppointmentPage = "/addAppointmentPage";
 const dailyAppointmentsPage = "/dailyAppointmentsPage";
 const confirmationPage = "/confirmationPage";

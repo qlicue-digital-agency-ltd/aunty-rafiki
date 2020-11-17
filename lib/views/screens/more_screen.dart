@@ -19,7 +19,9 @@ class MoreScreen extends StatelessWidget {
                   child: MoreMenuCard(
                     image: 'assets/access/calendar.png',
                     title: 'Blood Level',
-                    onTap: () {},
+                    onTap: () {
+                        Navigator.pushNamed(context, bloodLevelPage);
+                    },
                   ),
                 ),
                 const SizedBox(width: 16.0),
@@ -27,7 +29,9 @@ class MoreScreen extends StatelessWidget {
                   child: MoreMenuCard(
                     image: 'assets/access/appointment.png',
                     title: 'Appointments',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, appointmentPage);
+                    },
                   ),
                 )
               ],

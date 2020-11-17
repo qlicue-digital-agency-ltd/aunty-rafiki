@@ -54,8 +54,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
                             child: Text('Recent'),
                           ),
                           AppointmentTile(
-                              appointment: _appointmentProvider
-                                  .selectedCalendarAppointments.last),
+                            appointment: _appointmentProvider
+                                .selectedCalendarAppointments.last,
+                          ),
                           _appointmentProvider
                                       .selectedCalendarAppointments.length >
                                   1

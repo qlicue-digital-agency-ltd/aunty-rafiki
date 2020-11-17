@@ -4,6 +4,7 @@ import 'package:aunty_rafiki/sample/pages/chat_page.dart';
 import 'package:aunty_rafiki/sample/pages/new_group_page.dart';
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
 import 'package:aunty_rafiki/views/pages/appointment_page.dart';
+import 'package:aunty_rafiki/views/pages/blood_level_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
 import 'package:aunty_rafiki/views/pages/confirm_code_page.dart';
 import 'package:aunty_rafiki/views/pages/daily_appointments.dart';
@@ -50,7 +51,7 @@ class App extends StatelessWidget {
                   createGroupPage: (_) => CreateGroupPage(),
                   profilePage: (_) => ProfilePage(),
                   editProfilePage: (_) => EditProfilePage(),
-                  //'/': (_) => ChatListPage(),
+                  bloodLevelPage: (_) => BloodLevelTimeline(),
                   '/chat': (_) => ChatPage(),
                   '/new': (_) => NewGroupPage(),
                 },
