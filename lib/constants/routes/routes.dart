@@ -11,3 +11,7 @@ const createGroupPage = "/createGroupPage";
 const profilePage = "/profilePage";
 const editProfilePage = "/editProfilePage";
 const toDoListPage = "/toDoListPage";
+const babyNamePage = "/babyNamePage";
+const foodPage = "/foodPage";
+const hospitalBagPage = "/hospitalBagPage";
+const timeLinePage = "/timeLinePage";
