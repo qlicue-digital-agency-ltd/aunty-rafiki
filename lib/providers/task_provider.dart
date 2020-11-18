@@ -55,13 +55,10 @@ class TaskProvider with ChangeNotifier {
     bool hasError = true;
     _isFetchingTaskData = true;
     notifyListeners();
-    final Map<String, dynamic> _data = {"user_id": 1};
-
     final List<Task> _fetchedTasks = [];
     try {
-      final http.Response response = await http.post(api + "tasks",
-          body: json.encode(_data),
-          headers: {'Content-Type': 'application/json'});
+      final http.Response response = await http
+          .get(api + "tasks/1", headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
