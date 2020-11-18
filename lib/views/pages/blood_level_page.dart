@@ -1,9 +1,11 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/models/blood.dart';
+import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/charts/chart_board.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class BloodLevelTimeline extends StatefulWidget {
@@ -12,18 +14,9 @@ class BloodLevelTimeline extends StatefulWidget {
 }
 
 class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
-  List<Blood> _firstHalf;
-  List<Blood> _secondHalf;
-
-  @override
-  void initState() {
-    _firstHalf = _generateFirstHalfData();
-    _secondHalf = _generateSecondHalfData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -48,24 +41,7 @@ class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
             Expanded(
               child: CustomScrollView(
                 slivers: <Widget>[
-                  _BloodLevel(data: _firstHalf),
-                  SliverList(
-                    delegate: SliverChildListDelegate(<Widget>[
-                      const _MessageTimeline(
-                        message: 'End of the first half!',
-                      ),
-                    ]),
-                  ),
-                  _BloodLevel(data: _secondHalf),
-                  SliverList(
-                    delegate: SliverChildListDelegate(<Widget>[
-                      const _MessageTimeline(
-                        message:
-                            'There will be no more action in this match as the referee signals full time.'
-                            ' Arsenal goes home with the victory!',
-                      ),
-                    ]),
-                  ),
+                  _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
                   const SliverPadding(padding: EdgeInsets.only(top: 20)),
                 ],
               ),
@@ -74,84 +50,6 @@ class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
         ),
       ),
     );
-  }
-
-  List<Blood> _generateFirstHalfData() {
-    return <Blood>[
-      const Blood(
-        quantity: "9.0",
-        level: Level.low,
-        action: Status.good,
-        title: 'Low',
-        subtitle: 'David Luiz brings his opponent down.',
-      ),
-      const Blood(
-        quantity: "14",
-        level: Level.normal,
-        action: Status.veryGood,
-        title: 'Normal',
-        subtitle: 'This yellow card was deserved.',
-      ),
-      const Blood(
-        quantity: "17'",
-        level: Level.low,
-        action: Status.weak,
-        title: 'Gooooaaaal!',
-        subtitle:
-            'Goal! Lionel Messi slams the ball into the open net from close range.',
-      ),
-      const Blood(
-        quantity: "30'",
-        level: Level.low,
-        action: Status.weak,
-        title: 'One more!',
-        subtitle: 'Piqué gets a yellow card for arguing with the referee.',
-      ),
-      const Blood(
-        quantity: "14",
-        level: Level.normal,
-        action: Status.excellent,
-        title: 'Ouchh',
-        subtitle:
-            'Blood level.',
-      ),
-    ];
-  }
-
-  List<Blood> _generateSecondHalfData() {
-    return <Blood>[
-      const Blood(
-        quantity: "50'",
-        level: Level.low,
-        action: Status.good,
-        title: 'Offside!',
-        subtitle:
-            'The referee whistle as the Luis Suárez was trying to advance for the goal.',
-      ),
-      const Blood(
-        quantity: "61'",
-        level: Level.low,
-        action: Status.excellent,
-        title: 'Red card!',
-        subtitle:
-            'He’s off! Busquets gets his marching orders from referee Felix Brych after the VAR review.',
-      ),
-      const Blood(
-        quantity: "72'",
-        level: Level.normal,
-        action: Status.good,
-        title: 'Goal!',
-        subtitle: 'Nicolas Pépé puts the ball past the goalkeeper!',
-      ),
-      const Blood(
-        quantity: "84'",
-        level: Level.normal,
-        action: Status.weak,
-        title: 'Coming from behind!!',
-        subtitle:
-            'Wonderful finish from Alexandre Lacazette. He drills a low shot precisely into the bottom left corner. No chance for the goalkeeper!',
-      ),
-    ];
   }
 }
 
@@ -170,7 +68,7 @@ class _BloodLevel extends StatelessWidget {
           final isLeftChild = event.level == Level.low;
 
           final child = _BloodLevelChild(
-            action: event.action,
+            status: event.status,
             title: event.title,
             subtitle: event.subtitle,
             isLeftChild: isLeftChild,
@@ -236,13 +134,13 @@ class _MessageTimeline extends StatelessWidget {
 class _BloodLevelChild extends StatelessWidget {
   const _BloodLevelChild({
     Key key,
-    this.action,
+    this.status,
     this.title,
     this.subtitle,
     this.isLeftChild,
   }) : super(key: key);
 
-  final Status action;
+  final Status status;
   final String title;
   final String subtitle;
   final bool isLeftChild;
@@ -250,7 +148,7 @@ class _BloodLevelChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rowChildren = <Widget>[
-      _buildIconByStatus(action),
+      _buildIconByStatus(status),
       const SizedBox(width: 8),
       Expanded(
         child: Text(
@@ -290,7 +188,7 @@ class _BloodLevelChild extends StatelessWidget {
     );
   }
 
-  Widget _buildIconByStatus(Status action) {
+  Widget _buildIconByStatus(Status status) {
     return Text("🤷‍♀️",
         style: GoogleFonts.dosis(
           fontSize: 20,
@@ -302,7 +200,7 @@ class _BloodLevelChild extends StatelessWidget {
 class _BloodLevelIndicator extends StatelessWidget {
   const _BloodLevelIndicator({Key key, this.quantity}) : super(key: key);
 
-  final String quantity;
+  final double quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -316,7 +214,7 @@ class _BloodLevelIndicator extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          quantity,
+          '$quantity',
           style: GoogleFonts.dosis(
             fontSize: 18,
             color: Colors.pink,
@@ -327,5 +225,3 @@ class _BloodLevelIndicator extends StatelessWidget {
     );
   }
 }
-
-
