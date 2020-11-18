@@ -3,6 +3,7 @@ import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/sample/pages/chat_page.dart';
 import 'package:aunty_rafiki/sample/pages/new_group_page.dart';
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
+import 'package:aunty_rafiki/views/pages/add_blood_level_page.dart';
 import 'package:aunty_rafiki/views/pages/appointment_page.dart';
 import 'package:aunty_rafiki/views/pages/blood_level_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
@@ -14,6 +15,7 @@ import 'package:aunty_rafiki/views/pages/group/select_contact_page.dart';
 import 'package:aunty_rafiki/views/pages/home_page.dart';
 import 'package:aunty_rafiki/views/pages/login_page.dart';
 import 'package:aunty_rafiki/views/pages/profile_page.dart';
+import 'package:aunty_rafiki/views/pages/to_do_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,6 +47,7 @@ class App extends StatelessWidget {
                   chatRoomPage: (_) => ChatRoomPage(),
                   appointmentPage: (_) => AppointmentPage(),
                   addAppointmentPage: (_) => AddAppointmentPage(),
+                  addBloodLevelPage: (_) => AddBloodLevelPage(),
                   dailyAppointmentsPage: (_) => DailyAppointment(),
                   confirmationPage: (_) => ConfirmResetCodePage(),
                   selectContactsPage: (_) => SelectContactPage(),
@@ -52,6 +55,7 @@ class App extends StatelessWidget {
                   profilePage: (_) => ProfilePage(),
                   editProfilePage: (_) => EditProfilePage(),
                   bloodLevelPage: (_) => BloodLevelTimeline(),
+                  toDoListPage: (_) => ToDoListPage(),
                   '/chat': (_) => ChatPage(),
                   '/new': (_) => NewGroupPage(),
                 },

@@ -20,7 +20,7 @@ class MoreScreen extends StatelessWidget {
                     image: 'assets/access/calendar.png',
                     title: 'Blood Level',
                     onTap: () {
-                        Navigator.pushNamed(context, bloodLevelPage);
+                      Navigator.pushNamed(context, bloodLevelPage);
                     },
                   ),
                 ),
@@ -98,7 +98,7 @@ class MoreScreen extends StatelessWidget {
                     image: 'assets/access/appointment.png',
                     title: 'Food',
                     onTap: () {
-                      Navigator.pushNamed(context, appointmentPage);
+                      Navigator.pushNamed(context, toDoListPage);
                     },
                   ),
                 ),
@@ -107,7 +107,9 @@ class MoreScreen extends StatelessWidget {
                   child: MoreMenuCard(
                     image: 'assets/access/to-do-list.png',
                     title: 'To Do',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, toDoListPage);
+                    },
                   ),
                 )
               ],

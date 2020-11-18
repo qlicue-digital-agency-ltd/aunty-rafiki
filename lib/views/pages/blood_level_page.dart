@@ -1,7 +1,9 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/models/blood.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/charts/chart_board.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -19,12 +21,7 @@ class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
     final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Blood Level',
-          style: GoogleFonts.dosis(
-            fontSize: 20,
-          ),
-        ),
+        title: Text('Blood Level'),
       ),
       body: Center(
         child: Column(
@@ -49,6 +46,11 @@ class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, addBloodLevelPage);
+          },
+          child: Icon(Icons.add)),
     );
   }
 }
@@ -68,9 +70,7 @@ class _BloodLevel extends StatelessWidget {
           final isLeftChild = event.level == Level.low;
 
           final child = _BloodLevelChild(
-            status: event.status,
-            title: event.title,
-            subtitle: event.subtitle,
+            bloodLevel: event,
             isLeftChild: isLeftChild,
           );
 
@@ -96,63 +96,31 @@ class _BloodLevel extends StatelessWidget {
   }
 }
 
-class _MessageTimeline extends StatelessWidget {
-  const _MessageTimeline({Key key, this.message}) : super(key: key);
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          color: Colors.pink.withOpacity(0.2),
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Flexible(
-              child: Text(
-                message,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.dosis(
-                  fontSize: 16,
-                  color: Colors.pink,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _BloodLevelChild extends StatelessWidget {
-  const _BloodLevelChild({
+  _BloodLevelChild({
     Key key,
-    this.status,
-    this.title,
-    this.subtitle,
+    this.bloodLevel,
     this.isLeftChild,
   }) : super(key: key);
 
-  final Status status;
-  final String title;
-  final String subtitle;
+  final Blood bloodLevel;
   final bool isLeftChild;
+
+  // date format instance
+  final DateFormat format = DateFormat("EEE, MMMM d, y");
 
   @override
   Widget build(BuildContext context) {
     final rowChildren = <Widget>[
-      _buildIconByStatus(status),
+      Text(bloodLevel.status.toString() == "low" ? "🤷‍♀️" : "🤰",
+          style: GoogleFonts.dosis(
+            fontSize: 20,
+            color: Colors.pink,
+          )),
       const SizedBox(width: 8),
       Expanded(
         child: Text(
-          title,
+          bloodLevel.title,
           textAlign: isLeftChild ? TextAlign.right : TextAlign.left,
           style: GoogleFonts.dosis(
             fontSize: 18,
@@ -175,7 +143,9 @@ class _BloodLevelChild extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              subtitle,
+              '${format.format(bloodLevel.date)}' +
+                  "\n" +
+                  bloodLevel.subtitle,
               textAlign: isLeftChild ? TextAlign.right : TextAlign.left,
               style: GoogleFonts.dosis(
                 fontSize: 16,
@@ -186,14 +156,6 @@ class _BloodLevelChild extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildIconByStatus(Status status) {
-    return Text("🤷‍♀️",
-        style: GoogleFonts.dosis(
-          fontSize: 20,
-          color: Colors.pink,
-        ));
   }
 }
 

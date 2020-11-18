@@ -7,14 +7,7 @@ import 'package:aunty_rafiki/models/blood.dart';
 
 class BloodLevelProvider extends ChangeNotifier {
   BloodLevelProvider() {
-    // fetchBloodLevels();
-
-    sampleTest();
-  }
-
-  sampleTest() {
-    _availableBloodLevels = sampleBloodLevels;
-    notifyListeners();
+    fetchBloodLevels();
   }
 
   //variables...
@@ -35,13 +28,13 @@ class BloodLevelProvider extends ChangeNotifier {
 
     final List<Blood> _fetchedBloodLevels = [];
     try {
-      final http.Response response = await http.get(api + "bloodLevel/1",
+      final http.Response response = await http.get(api + "bloodlevels/1",
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        data['bloodLevels'].forEach((bloodData) {
+        data['bloodlevels'].forEach((bloodData) {
           final blood = Blood.fromMap(bloodData);
           _fetchedBloodLevels.add(blood);
         });
@@ -66,8 +59,10 @@ class BloodLevelProvider extends ChangeNotifier {
 
   //post bloodLevel
   Future<bool> postBloodLevel({
-    @required quantity,
+    @required double quantity,
+    @required date,
   }) async {
+  
     bool hasError = true;
     _isSubmittingData = true;
 
@@ -78,20 +73,21 @@ class BloodLevelProvider extends ChangeNotifier {
       "status": bloodLevelMessage[0].status,
       "title": bloodLevelMessage[0].title,
       "subtitle": bloodLevelMessage[0].subtitle,
-      "user_id": 1
+      "user_id": 1,
+      "date": date
     };
 
     notifyListeners();
 
     try {
-      final http.Response response = await http.post(api + "bloodLevel",
+      final http.Response response = await http.post(api + "bloodlevel",
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
-
+ 
       if (response.statusCode == 201) {
-        final _bloodLevel = Blood.fromMap(data['bloodLevel']);
+        final _bloodLevel = Blood.fromMap(data['bloodlevel']);
         _availableBloodLevels.add(_bloodLevel);
 
         hasError = false;
