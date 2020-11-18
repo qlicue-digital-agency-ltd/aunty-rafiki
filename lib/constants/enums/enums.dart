@@ -2,6 +2,7 @@ enum AudioState { PLAYING, STOPPED }
 enum AvailableProfessions { doctor, midwife }
 enum ChatPopMenu { NewGroup, NewBroadcast, Settings }
 enum Type { checkpoint, line }
+enum TodoTask { COMPLETED, INCOMPLETE, INCOMING }
 
 enum TtsState { playing, stopped, paused, continued }
 enum Level { low, normal }
