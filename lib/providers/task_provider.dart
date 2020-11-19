@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aunty_rafiki/api/api.dart';
+import 'package:aunty_rafiki/models/letter_button.dart';
 import 'package:aunty_rafiki/models/task.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +21,7 @@ class TaskProvider with ChangeNotifier {
 
   Map<DateTime, List> _calendarTasks;
   List<Task> _availableTasks = [];
+  List<LetterButton> _availableLetterButton = letteButtonLists;
   List _selectedCalendarTasks = [];
   Task _selectedTask;
 
@@ -49,6 +51,7 @@ class TaskProvider with ChangeNotifier {
   DateTime get selectedCalendarDay => _selectedCalendarDay;
   bool get isFetchingTaskData => _isFetchingTaskData;
   bool get isSubmittingData => _isSubmittingData;
+  List<LetterButton> get availableLetterButton => _availableLetterButton;
 
   //fetch Tasks...
   Future<bool> fetchTasks() async {
@@ -154,4 +157,18 @@ class TaskProvider with ChangeNotifier {
     _availableTasks.removeAt(index);
     notifyListeners();
   }
+
+  set toogleLetterButton(int id) {
+    _availableLetterButton.forEach((letterButton) {
+      if (letterButton.id == id) {
+        letterButton.isSelected = true;
+      } else {
+        letterButton.isSelected = false;
+      }
+    });
+    notifyListeners();
+  }
+
+  LetterButton get selectedLetterButton =>
+      _availableLetterButton.where((button) => button.isSelected).first;
 }

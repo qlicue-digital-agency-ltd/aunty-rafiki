@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/task_provider.dart';
+import 'package:aunty_rafiki/views/components/buttons/color_letter_button.dart';
 import 'package:aunty_rafiki/views/components/cards/task/completed_task.dart';
 import 'package:aunty_rafiki/views/components/cards/task/incoming_task.dart';
 import 'package:aunty_rafiki/views/components/cards/task/incomplete_task.dart';
@@ -46,22 +47,17 @@ class ToDoListPage extends StatelessWidget {
                     Row(
                       children: [
                         ///Text
-                        Text(
-                          "Clinic",
-                          style: TextStyle(
-                            fontSize: 50,
-                            height: 1.2,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.grey[800],
+                        Expanded(
+                          child: Text(
+                            _taskProvider.selectedLetterButton.tittle,
+                            style: TextStyle(
+                              fontSize: 25,
+                              height: 1.2,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[800],
+                            ),
                           ),
                         ),
-
-                        Spacer(),
-
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {},
-                        )
                       ],
                     ),
 
@@ -146,98 +142,15 @@ class ToDoListPage extends StatelessWidget {
                   Spacer(),
 
                   Column(
-                    children: [
-                      ///Container for cat button
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.orangeAccent),
-                        padding: const EdgeInsets.all(16),
-                        child: Center(
-                          child: Text(
-                            "A",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 24),
-                          ),
-                        ),
-                      ),
-
-                      ///More buttons
-
-                      ///ForSpace
-                      SizedBox(
-                        height: 16,
-                      ),
-
-                      ///Container for cat button
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.grey[800]),
-                        padding: const EdgeInsets.all(16),
-                        child: Center(
-                          child: Text(
-                            "C",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 24),
-                          ),
-                        ),
-                      ),
-
-                      ///More buttons
-
-                      ///ForSpace
-                      SizedBox(
-                        height: 16,
-                      ),
-
-                      ///Container for cat button
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.grey[800]),
-                        padding: const EdgeInsets.all(16),
-                        child: Center(
-                          child: Text(
-                            "S",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 24),
-                          ),
-                        ),
-                      ),
-
-                      ///More buttons
-
-                      ///ForSpace
-                      SizedBox(
-                        height: 16,
-                      ),
-
-                      ///Container for cat button
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.grey[800]),
-                        padding: const EdgeInsets.all(16),
-                        child: Center(
-                          child: Text(
-                            "D",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 24),
-                          ),
-                        ),
-                      ),
-
-                      ///More buttons
-                    ],
+                    children:
+                        _taskProvider.availableLetterButton.map((element) {
+                      return ColorLetterButton(
+                        letterButton: element,
+                        onTap: () {
+                          _taskProvider.toogleLetterButton = element.id;
+                        },
+                      );
+                    }).toList(),
                   ),
 
                   ///ForSpace
