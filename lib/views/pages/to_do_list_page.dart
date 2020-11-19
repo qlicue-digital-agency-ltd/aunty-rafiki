@@ -1,10 +1,17 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/providers/task_provider.dart';
+import 'package:aunty_rafiki/views/components/cards/task/completed_task.dart';
+import 'package:aunty_rafiki/views/components/cards/task/incoming_task.dart';
+import 'package:aunty_rafiki/views/components/cards/task/incomplete_task.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'create_task_page.dart';
 
 class ToDoListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _taskProvider = Provider.of<TaskProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Todos'),
@@ -60,98 +67,37 @@ class ToDoListPage extends StatelessWidget {
 
                     ///List of all the task
                     Expanded(
-                      child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          ///Change appearance of Completed Task
-                          ///Say index 1 is completed
-                          return Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.blueGrey[100]),
-                                color: index == 1
-                                    ? Colors.pink[400]
-                                    : Colors.transparent),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ///Show completed check
-                                ///Task Title
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        "Make video for UI challange and upload it today",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            color: index == 1
-                                                ? Colors.white
-                                                : Colors.grey[800]),
-                                      ),
-                                    ),
-
-                                    ///For Space
-
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-
-                                    index == 1
-                                        ? Icon(
-                                            Icons.check_circle,
-                                            color: Colors.white,
-                                          )
-                                        : Container()
-                                  ],
-                                ),
-
-                                ///For Space
-                                SizedBox(
-                                  height: 8,
-                                ),
-
-                                ///Task Detail
-                                Row(
-                                  children: [
-                                    Text(
-                                      "18 NOV 2019",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12,
-                                          color: index == 1
-                                              ? Colors.white70
-                                              : Colors.grey[500]),
-                                    ),
-                                    Spacer(),
-                                    index == 1
-                                        ? Text(
-                                            "COMPLETED",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 12,
-                                                color: Colors.white),
-                                          )
-                                        : Text(
-                                            "11:00 - 3:00",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12,
-                                                color: index == 1
-                                                    ? Colors.white70
-                                                    : Colors.grey[500]),
-                                          ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          );
+                      child: RefreshIndicator(
+                        onRefresh: () {
+                          return _taskProvider.fetchTasks();
                         },
-                        separatorBuilder: (context, index) => Divider(
-                          height: 16,
-                          color: Colors.transparent,
+                        child: ListView.separated(
+                          itemBuilder: (context, index) {
+                            return _taskProvider.availableTasks[index].stage ==
+                                    TodoTask.COMPLETED
+                                ? CompletedTask(
+                                    task: _taskProvider.availableTasks[index],
+                                    onTap: () {},
+                                  )
+                                : _taskProvider.availableTasks[index].stage ==
+                                        TodoTask.INCOMING
+                                    ? IncomingTask(
+                                        task:
+                                            _taskProvider.availableTasks[index],
+                                        onTap: () {},
+                                      )
+                                    : IncompleteTask(
+                                        task:
+                                            _taskProvider.availableTasks[index],
+                                        onTap: () {},
+                                      );
+                          },
+                          separatorBuilder: (context, index) => Divider(
+                            height: 16,
+                            color: Colors.transparent,
+                          ),
+                          itemCount: _taskProvider.availableTasks.length,
                         ),
-                        itemCount: 6,
                       ),
                     ),
 
@@ -199,96 +145,100 @@ class ToDoListPage extends StatelessWidget {
                   ///For space
                   Spacer(),
 
-                  ///Container for cat button
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.orangeAccent),
-                    padding: const EdgeInsets.all(16),
-                    child: Center(
-                      child: Text(
-                        "C",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 24),
+                  Column(
+                    children: [
+                      ///Container for cat button
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.orangeAccent),
+                        padding: const EdgeInsets.all(16),
+                        child: Center(
+                          child: Text(
+                            "A",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 24),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
 
-                  ///More buttons
+                      ///More buttons
 
-                  ///ForSpace
-                  SizedBox(
-                    height: 16,
-                  ),
-
-                  ///Container for cat button
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.grey[800]),
-                    padding: const EdgeInsets.all(16),
-                    child: Center(
-                      child: Text(
-                        "F",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 24),
+                      ///ForSpace
+                      SizedBox(
+                        height: 16,
                       ),
-                    ),
-                  ),
 
-                  ///More buttons
-
-                  ///ForSpace
-                  SizedBox(
-                    height: 16,
-                  ),
-
-                  ///Container for cat button
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.grey[800]),
-                    padding: const EdgeInsets.all(16),
-                    child: Center(
-                      child: Text(
-                        "S",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 24),
+                      ///Container for cat button
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.grey[800]),
+                        padding: const EdgeInsets.all(16),
+                        child: Center(
+                          child: Text(
+                            "C",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 24),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
 
-                  ///More buttons
+                      ///More buttons
 
-                  ///ForSpace
-                  SizedBox(
-                    height: 16,
-                  ),
-
-                  ///Container for cat button
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.grey[800]),
-                    padding: const EdgeInsets.all(16),
-                    child: Center(
-                      child: Text(
-                        "P",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 24),
+                      ///ForSpace
+                      SizedBox(
+                        height: 16,
                       ),
-                    ),
-                  ),
 
-                  ///More buttons
+                      ///Container for cat button
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.grey[800]),
+                        padding: const EdgeInsets.all(16),
+                        child: Center(
+                          child: Text(
+                            "S",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 24),
+                          ),
+                        ),
+                      ),
+
+                      ///More buttons
+
+                      ///ForSpace
+                      SizedBox(
+                        height: 16,
+                      ),
+
+                      ///Container for cat button
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.grey[800]),
+                        padding: const EdgeInsets.all(16),
+                        child: Center(
+                          child: Text(
+                            "D",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 24),
+                          ),
+                        ),
+                      ),
+
+                      ///More buttons
+                    ],
+                  ),
 
                   ///ForSpace
                   Spacer(),

@@ -41,7 +41,6 @@ class TrackerProvider extends ChangeNotifier {
         hasError = false;
       }
 
-      print(_fetchedTrackers);
     } catch (error) {
       print('---------------------------');
       print(error);
