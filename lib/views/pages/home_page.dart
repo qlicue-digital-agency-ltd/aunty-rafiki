@@ -79,7 +79,8 @@ class HomePage extends StatelessWidget {
                           tooltip: 'Appointments',
                           icon: Icon(Icons.access_time),
                           onPressed: () =>
-                              Navigator.pushNamed(context, appointmentPage))
+                              Navigator.pushNamed(context, appointmentPage)
+                              )
                 ],
           bottom: _utilityProvider.currentIndex == 2
               ? TabBar(

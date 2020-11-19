@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:aunty_rafiki/api/api.dart';
 import 'package:aunty_rafiki/models/appointment.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class AppointmentProvider with ChangeNotifier {
   AppointmentProvider() {
@@ -7,7 +12,11 @@ class AppointmentProvider with ChangeNotifier {
 
     _selectedCalendarAppointments =
         _calendarAppointments[_selectedCalendarDay] ?? [];
+    fetchAppointments();
   }
+
+  //variables
+  bool _isFetchingAppointmentData = false;
   DateTime _selectedCalendarDay = DateTime.now();
 
   Map<DateTime, List> _calendarAppointments;
@@ -39,6 +48,51 @@ class AppointmentProvider with ChangeNotifier {
   List get selectedCalendarAppointments => _selectedCalendarAppointments;
   Map<DateTime, List> get calendarAppointments => _calendarAppointments;
   DateTime get selectedCalendarDay => _selectedCalendarDay;
+  bool get isFetchingAppointmentData => _isFetchingAppointmentData;
+  bool get isSubmittingData => _isSubmittingData;
+
+  //fetch Appointments...
+  Future<bool> fetchAppointments() async {
+    bool hasError = true;
+    _isFetchingAppointmentData = true;
+    notifyListeners();
+    final Map<String, dynamic> _data = {"user_id": 1};
+
+    final List<Appointment> _fetchedAppointments = [];
+    try {
+      final http.Response response = await http.post(api + "appointments",
+          body: json.encode(_data),
+          headers: {'Content-Type': 'application/json'});
+
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        data['appointments'].forEach((appointmentData) {
+          final _appointment = Appointment.fromMap(appointmentData);
+          _fetchedAppointments.add(_appointment);
+        });
+        hasError = false;
+      }
+
+      print(_fetchedAppointments);
+    } catch (error) {
+      print('---------------------------');
+      print(error);
+      hasError = true;
+    }
+
+    _availableAppointments = _fetchedAppointments;
+    _isFetchingAppointmentData = false;
+
+ _availableAppointments.forEach((appointment) {
+   _updateCalenderAppointments(appointment.date);
+  });
+    notifyListeners();
+
+    return hasError;
+  }
+
+  //post appointment
   Future<bool> createAppointment(
       {@required name,
       @required profession,
@@ -46,26 +100,65 @@ class AppointmentProvider with ChangeNotifier {
       @required time,
       @required syncToCalendar,
       @required additionalNotes}) async {
+    bool hasError = true;
     _isSubmittingData = true;
+
     notifyListeners();
-    final _appointment = Appointment(
-        name: name,
-        profession: profession,
-        date: date,
-        time: time,
-        syncToCalendar: syncToCalendar,
-        additionalNotes: additionalNotes);
+    final Map<String, dynamic> _data = {
+      "name": name,
+      "profession": profession,
+      "sync_to_calendar": syncToCalendar,
+      "date": date,
+      "time": time,
+      "user_id": 1,
+      "additional_notes": additionalNotes
+    };
 
-    _availableAppointments.add(_appointment);
-    _selectedCalendarAppointments.add(_appointment);
-    _calendarAppointments[DateTime.parse(date)] = _availableAppointments
-        .where((appointment) =>
-            DateTime.parse(appointment.date) == DateTime.parse(date))
-        .toList();
+    notifyListeners();
 
+    try {
+      final http.Response response = await http.post(api + "appointment",
+          body: json.encode(_data),
+          headers: {'Content-Type': 'application/json'});
+
+      final Map<String, dynamic> data = json.decode(response.body);
+      
+      if (response.statusCode == 201) {
+        final _appointment = Appointment.fromMap(data['appointment']);
+        _availableAppointments.add(_appointment);
+
+        _selectedCalendarAppointments.add(_appointment);
+        _updateCalenderAppointments(date);
+        hasError = false;
+      }
+    } catch (error) {
+      print('-----------+++++----------------');
+      print(error);
+
+      hasError = true;
+    }
+
+    print(_availableAppointments.length);
+    print("-----------------------------------");
+    print(availableAppointments.length);
+    print("-----------------------------------");
     _isSubmittingData = false;
     notifyListeners();
-    return _isSubmittingData;
+    return hasError;
+  }
+
+  //update appointment
+  _updateCalenderAppointments(date) {
+
+    final DateFormat _formatter = DateFormat('yyyy-MM-dd');
+    print('+++++++++++++++-------------+++++++++++++++++++++');
+    print(DateTime.parse(date));
+    print('+++++++++++++++-------------+++++++++++++++++++++');
+    _calendarAppointments[DateTime.parse(date)] = _availableAppointments
+        .where((appointment) =>
+           _formatter.format(DateTime.parse(appointment.date))  == _formatter.format(DateTime.parse(date)) )
+        .toList();
+    notifyListeners();
   }
 
   deletedAppoint(int index) {

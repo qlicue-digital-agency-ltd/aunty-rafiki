@@ -69,29 +69,25 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
               return SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    ListTile(
+                    RadioListTile(
                       title: const Text('Doctor'),
-                      leading: Radio(
-                        value: AvailableProfessions.doctor,
-                        groupValue: _character,
-                        onChanged: (AvailableProfessions value) {
-                          setState(() {
-                            _character = value;
-                          });
-                        },
-                      ),
+                      value: AvailableProfessions.doctor,
+                      groupValue: _character,
+                      onChanged: (AvailableProfessions value) {
+                        setState(() {
+                          _character = value;
+                        });
+                      },
                     ),
-                    ListTile(
+                    RadioListTile(
                       title: const Text('Midwife'),
-                      leading: Radio(
-                        value: AvailableProfessions.midwife,
-                        groupValue: _character,
-                        onChanged: (AvailableProfessions value) {
-                          setState(() {
-                            _character = value;
-                          });
-                        },
-                      ),
+                      value: AvailableProfessions.midwife,
+                      groupValue: _character,
+                      onChanged: (AvailableProfessions value) {
+                        setState(() {
+                          _character = value;
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -284,6 +280,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                                     syncToCalendar: _syncToCalendar)
                                 .then((value) {
                               if (!value) {
+                                print('bosssssssssss');
                                 Navigator.pop(context);
                               } else {
                                 print('Error while submitting data');
