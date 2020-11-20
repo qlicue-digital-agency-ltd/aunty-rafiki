@@ -1,5 +1,8 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
+import 'package:aunty_rafiki/views/components/text-field/icon_date_field.dart';
+import 'package:aunty_rafiki/views/components/text-field/icon_switch_field.dart';
+import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +25,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
   String valueSaved3 = '';
   String valueTime = '';
   String valueToValidate4 = '';
-  String valueSaved4 = '';
+
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController _descriptionEditingController = TextEditingController();
@@ -30,14 +33,14 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
   TextEditingController _notesEditingController = TextEditingController();
   TextEditingController _professionEditingController = TextEditingController();
   TextEditingController _dateEditingController;
-  TextEditingController timeEditingController;
+  TextEditingController _timeEditingController;
   AvailableProfessions _character = AvailableProfessions.doctor;
 
   @override
   void initState() {
     String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
     String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
-    timeEditingController = TextEditingController(text: '$lsHour:$lsMinute');
+    _timeEditingController = TextEditingController(text: '$lsHour:$lsMinute');
     _getValue();
     super.initState();
   }
@@ -47,7 +50,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
     await Future.delayed(const Duration(seconds: 3), () {
       setState(() {
         _dateEditingController.text = '22-11-2020';
-        timeEditingController.text = '17:01';
+        _timeEditingController.text = '17:01';
       });
     });
   }
@@ -137,134 +140,122 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Material(
-                elevation: 2,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextFormField(
-                    validator: (val) {
-                      if (val.isEmpty)
-                        return 'Enter the appointment name';
-                      else
-                        return null;
-                    },
-                    focusNode: _descriptionFocusNode,
-                    controller: _descriptionEditingController,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.assignment), labelText: 'Name'),
-                  ),
-                ),
+              SizedBox(
+                height: 10,
               ),
-              SizedBox(height: 10),
-              Material(
-                elevation: 2,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextFormField(
-                    validator: (val) {
-                      if (val.isEmpty)
-                        return 'Select the profession you are visiting';
-                      else
-                        return null;
-                    },
-                    onTap: () {
-                      print('object');
-                      _showDialog();
-                    },
-
-                    // focusNode: _professionFocusNode,
-                    controller: _professionEditingController,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.assignment_ind),
-                        labelText: 'Profession'),
-                  ),
-                ),
+              IconTextField(
+                icon: Icons.assignment,
+                textEditingController: _descriptionEditingController,
+                title: 'Name',
+                validator: (val) {
+                  if (val.isEmpty)
+                    return 'Enter the appointment name';
+                  else
+                    return null;
+                },
               ),
-              SizedBox(height: 10),
-              Material(
-                elevation: 2,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: DateTimePicker(
-                    type: DateTimePickerType.date,
-                    dateMask: 'dd/MM/yyyy',
-                    controller: _dateEditingController,
-                    //initialValue: _initialValue,
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                    icon: Icon(Icons.event),
-                    dateLabelText: 'Date',
-                    onChanged: (val) => setState(() => valueDate = val),
-                    validator: (val) {
-                      setState(() => valueToValidate3 = val);
-                      return null;
-                    },
-                    onSaved: (val) => setState(() => valueSaved3 = val),
-                  ),
-                ),
+              IconTextField(
+                icon: Icons.assignment_ind,
+                textEditingController: _professionEditingController,
+                title: 'Profession',
+                onTap: () {
+                  print('object');
+                  _showDialog();
+                },
+                validator: (val) {
+                  if (val.isEmpty)
+                    return 'Select the profession you are visiting';
+                  else
+                    return null;
+                },
               ),
-              SizedBox(height: 10),
-              Material(
-                elevation: 2,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: DateTimePicker(
-                    type: DateTimePickerType.time,
-                    controller: timeEditingController,
-                    //initialValue: _initialValue,
-                    icon: Icon(Icons.access_time),
-                    timeLabelText: "Time",
-                    //use24HourFormat: false,
-                    onChanged: (val) => setState(() => valueTime = val),
-                    validator: (val) {
-                      setState(() => valueToValidate4 = val);
-                      return null;
-                    },
-                    onSaved: (val) => setState(() => valueSaved4 = val),
-                  ),
-                ),
+              IconDateField(
+                onChage: (val) {
+                  print("------------------------------------");
+                  print(val);
+                  print("------------------------------------");
+                },
+                onSaved: (val) {
+                  print("------------------+++------------------");
+                  print(val);
+                  print("------------------+++-----------------");
+                },
+                onValidate: (val) {
+                  setState(() => valueToValidate3 = val);
+                  return null;
+                },
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
+                textEditingController: _dateEditingController,
+                icon: Icons.calendar_today,
+                title: 'Date',
+                dateMask: "EEEE, MMMM d, y",
+                type: DateTimePickerType.date,
               ),
-              SizedBox(height: 10),
-              Material(
-                  elevation: 2,
-                  color: Colors.white,
-                  child: ListTile(
-                    title: Text('Sync to Calendar'),
-                    trailing: Switch(
-                        value: _syncToCalendar,
-                        onChanged: (val) {
-                          print(val);
-                          setState(() {
-                            _syncToCalendar = val;
-                          });
-                        }),
-                  )),
-              SizedBox(height: 10),
-              Material(
-                elevation: 2,
-                color: Colors.white,
+              IconDateField(
+                onChage: (val) {
+                  print(val);
+                  print("0000");
+                },
+                onSaved: (val) {
+                  print(val);
+                },
+                onValidate: (val) {
+                  setState(() => valueToValidate4 = val);
+                  return null;
+                },
+                textEditingController: _timeEditingController,
+                icon: Icons.access_time,
+                title: 'Time',
+                dateMask: 'dd/MM/yyyy',
+                type: DateTimePickerType.time,
+              ),
+              IconSwitchField(
+                icon: Icons.sync,
+                onChanged: (val) {
+                  setState(() {
+                    _syncToCalendar = val;
+                  });
+                },
+                syncToCalendar: _syncToCalendar,
+              ),
+              Row(
+                children: [
+                  Text('Add Notes'),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueGrey[100]),
+                    color: Colors.transparent),
                 child: TextFormField(
                   maxLines: 4,
                   focusNode: _notesFocusNode,
                   controller: _notesEditingController,
                   decoration: InputDecoration(
-                      labelText: 'Add notes for your appointment'),
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
               SizedBox(height: 30),
               Row(
                 children: [
                   Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: RaisedButton(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        child: Text('Save'.toUpperCase()),
+                    child: Container(
+                      width: double.infinity,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        color: Colors.pink[400],
+                        child: Text(
+                          'Save'.toUpperCase(),
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900),
+                        ),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             print('save the data');
@@ -274,7 +265,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                                     profession:
                                         _professionEditingController.text,
                                     date: _dateEditingController.text,
-                                    time: timeEditingController.text,
+                                    time: _timeEditingController.text,
                                     additionalNotes:
                                         _notesEditingController.text,
                                     syncToCalendar: _syncToCalendar)
@@ -287,10 +278,12 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                               }
                             });
                           } else {}
-                        }),
-                  )),
+                        },
+                      ),
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

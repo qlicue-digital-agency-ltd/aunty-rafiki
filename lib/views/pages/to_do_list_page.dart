@@ -30,7 +30,7 @@ class ToDoListPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "TASKS LIST",
+                      "TODO LIST",
                       style: TextStyle(
                           fontSize: 18,
                           height: 1.2,
@@ -69,22 +69,22 @@ class ToDoListPage extends StatelessWidget {
                         },
                         child: ListView.separated(
                           itemBuilder: (context, index) {
-                            return _taskProvider.availableTasks[index].stage ==
+                            return _taskProvider.filteredTasks[index].stage ==
                                     TodoTask.COMPLETED
                                 ? CompletedTask(
-                                    task: _taskProvider.availableTasks[index],
+                                    task: _taskProvider.filteredTasks[index],
                                     onTap: () {},
                                   )
-                                : _taskProvider.availableTasks[index].stage ==
+                                : _taskProvider.filteredTasks[index].stage ==
                                         TodoTask.INCOMING
                                     ? IncomingTask(
                                         task:
-                                            _taskProvider.availableTasks[index],
+                                            _taskProvider.filteredTasks[index],
                                         onTap: () {},
                                       )
                                     : IncompleteTask(
                                         task:
-                                            _taskProvider.availableTasks[index],
+                                            _taskProvider.filteredTasks[index],
                                         onTap: () {},
                                       );
                           },
@@ -92,7 +92,7 @@ class ToDoListPage extends StatelessWidget {
                             height: 16,
                             color: Colors.transparent,
                           ),
-                          itemCount: _taskProvider.availableTasks.length,
+                          itemCount: _taskProvider.filteredTasks.length,
                         ),
                       ),
                     ),
@@ -125,6 +125,8 @@ class ToDoListPage extends StatelessWidget {
                         },
                       ),
                     )
+                 
+                 
                   ],
                 ),
               ),

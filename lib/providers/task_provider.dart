@@ -21,6 +21,7 @@ class TaskProvider with ChangeNotifier {
 
   Map<DateTime, List> _calendarTasks;
   List<Task> _availableTasks = [];
+  List<Task> _filteredTasks = [];
   List<LetterButton> _availableLetterButton = letteButtonLists;
   List _selectedCalendarTasks = [];
   Task _selectedTask;
@@ -45,6 +46,7 @@ class TaskProvider with ChangeNotifier {
   //getters
   Task get seletectedTask => _selectedTask;
   List<Task> get availableTasks => _availableTasks;
+  List<Task> get filteredTasks => _filteredTasks;
 
   List get selectedCalendarTasks => _selectedCalendarTasks;
   Map<DateTime, List> get calendarTasks => _calendarTasks;
@@ -86,6 +88,9 @@ class TaskProvider with ChangeNotifier {
     _availableTasks.forEach((task) {
       _updateCalenderTasks(task.date);
     });
+
+    //filter all...
+    filterTasks(_availableTasks, selectedLetterButton.tittle.toLowerCase());
     notifyListeners();
 
     return hasError;
@@ -167,8 +172,24 @@ class TaskProvider with ChangeNotifier {
       }
     });
     notifyListeners();
+
+    //filter tasks....
+
+    filterTasks(_availableTasks, selectedLetterButton.tittle.toLowerCase());
   }
 
   LetterButton get selectedLetterButton =>
       _availableLetterButton.where((button) => button.isSelected).first;
+
+  filterTasks(List<Task> tasks, String category) {
+    if (category == 'all') {
+      _filteredTasks = _availableTasks;
+    } else {
+      _filteredTasks =
+          tasks.where((task) => task.category == category).toList();
+    }
+
+    print(_filteredTasks.length);
+    notifyListeners();
+  }
 }
