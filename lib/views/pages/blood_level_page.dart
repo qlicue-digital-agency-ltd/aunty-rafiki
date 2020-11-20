@@ -3,6 +3,7 @@ import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/models/blood.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/charts/chart_board.dart';
+import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -36,22 +37,9 @@ class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
             ),
             Chartboard(),
             Expanded(
-              child: CustomScrollView(
-                slivers: <Widget>[
-                  _bloodLevelProvider.isFetchingBloodLevelData
-                      ? SliverList(
-                          delegate: SliverChildListDelegate([
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height / 3,
-                            ),
-                            Center(child: CircularProgressIndicator())
-                          ]),
-                        )
-                      : _BloodLevel(
-                          data: _bloodLevelProvider.availableBloodLevels),
-                  const SliverPadding(padding: EdgeInsets.only(top: 20)),
-                ],
-              ),
+              child: _bloodLevelProvider.isFetchingBloodLevelData
+                  ? Center(child: CircularProgressIndicator())
+                  : _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
             )
           ],
         ),
@@ -66,15 +54,23 @@ class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
 }
 
 class _BloodLevel extends StatelessWidget {
-  const _BloodLevel({Key key, this.data}) : super(key: key);
+  _BloodLevel({Key key, this.data}) : super(key: key);
 
   final List<Blood> data;
+  //bool _isPullToRefresh = false;
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
+    final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
+    return RefreshIndicator(
+      onRefresh: () {
+        // setState(() {
+        //   _isPullToRefresh = true;
+        // });
+        return _bloodLevelProvider.fetchBloodLevels();
+      },
+      child: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
           final Blood event = data[index];
 
           final isLeftChild = event.level == Level.low;
@@ -84,23 +80,37 @@ class _BloodLevel extends StatelessWidget {
             isLeftChild: isLeftChild,
           );
 
-          return TimelineTile(
-            alignment: TimelineAlign.center,
-            endChild: isLeftChild ? null : child,
-            startChild: isLeftChild ? child : null,
-            indicatorStyle: IndicatorStyle(
-              width: 40,
-              height: 40,
-              indicator: _BloodLevelIndicator(quantity: event.quantity),
-              drawGap: true,
-            ),
-            beforeLineStyle: LineStyle(
-              color: Colors.pink.withOpacity(0.2),
-              thickness: 3,
-            ),
-          );
+          return data.isEmpty
+              ? Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 3,
+                      ),
+                      NoItemTile(
+                        icon: 'assets/access/to-do-list.png',
+                        title: 'No Blood Levels',
+                      ),
+                    ],
+                  ),
+                )
+              : TimelineTile(
+                  alignment: TimelineAlign.center,
+                  endChild: isLeftChild ? null : child,
+                  startChild: isLeftChild ? child : null,
+                  indicatorStyle: IndicatorStyle(
+                    width: 40,
+                    height: 40,
+                    indicator: _BloodLevelIndicator(quantity: event.quantity),
+                    drawGap: true,
+                  ),
+                  beforeLineStyle: LineStyle(
+                    color: Colors.pink.withOpacity(0.2),
+                    thickness: 3,
+                  ),
+                );
         },
-        childCount: data.length,
+        itemCount: data.isEmpty ? 1 : data.length,
       ),
     );
   }

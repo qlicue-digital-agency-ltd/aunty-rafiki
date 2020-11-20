@@ -103,23 +103,41 @@ class _ToDoListPageState extends State<ToDoListPage> {
                                       : (_taskProvider
                                                   .filteredTasks[index].stage ==
                                               TodoTask.COMPLETED
-                                          ? CompletedTask(
-                                              task: _taskProvider
-                                                  .filteredTasks[index],
-                                              onTap: () {},
+                                          ? Dismissible(
+                                              onDismissed: (direction) {
+                                                print(direction);
+                                              },
+                                              key: Key(index.toString()),
+                                              child: CompletedTask(
+                                                task: _taskProvider
+                                                    .filteredTasks[index],
+                                                onTap: () {},
+                                              ),
                                             )
                                           : _taskProvider.filteredTasks[index]
                                                       .stage ==
                                                   TodoTask.INCOMING
-                                              ? IncomingTask(
-                                                  task: _taskProvider
-                                                      .filteredTasks[index],
-                                                  onTap: () {},
+                                              ? Dismissible(
+                                                  onDismissed: (direction) {
+                                                    print(direction);
+                                                  },
+                                                  key: Key(index.toString()),
+                                                  child: IncomingTask(
+                                                    task: _taskProvider
+                                                        .filteredTasks[index],
+                                                    onTap: () {},
+                                                  ),
                                                 )
-                                              : IncompleteTask(
-                                                  task: _taskProvider
-                                                      .filteredTasks[index],
-                                                  onTap: () {},
+                                              : Dismissible(
+                                                  onDismissed: (direction) {
+                                                    print(direction);
+                                                  },
+                                                  key: Key(index.toString()),
+                                                  child: IncompleteTask(
+                                                    task: _taskProvider
+                                                        .filteredTasks[index],
+                                                    onTap: () {},
+                                                  ),
                                                 ));
                                 },
                                 separatorBuilder: (context, index) => Divider(
