@@ -14,41 +14,41 @@ class IconSwitchField extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          child: Row(
-            children: [
-              ///Container for Icon
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Color.fromRGBO(255, 240, 240, 1)),
-                padding: const EdgeInsets.all(16),
-                child: Icon(
-                  icon,
-                  color: Colors.redAccent,
-                ),
-              ),
-
-              ///For spacing
-              SizedBox(
-                width: 24,
-              ),
-
-              ///For Text
-              Expanded(
-                  child: ListTile(
-                title: Text('Sync to Calendar'),
-                trailing: Switch(value: syncToCalendar, onChanged: onChanged),
-              )),
-            ],
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.blueGrey[100],
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          ///Container for Icon
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Color.fromRGBO(255, 240, 240, 1)),
+            padding: const EdgeInsets.all(16),
+            child: Icon(
+              icon,
+              color: Colors.redAccent,
+            ),
           ),
-        ),
-        Divider(
-          indent: 50,
-        ),
-      ],
+
+          ///For spacing
+          SizedBox(
+            width: 24,
+          ),
+
+          ///For Text
+          Expanded(
+              child: ListTile(
+            title: Text('Sync to Calendar'),
+            trailing: Switch(value: syncToCalendar, onChanged: onChanged),
+          )),
+        ],
+      ),
     );
   }
 }

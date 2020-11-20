@@ -1,16 +1,121 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/views/components/text-field/icon_selector_field.dart';
+import 'package:aunty_rafiki/views/components/text-field/icon_switch_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CreateTaskScreen extends StatefulWidget {
+class CreateTaskPage extends StatefulWidget {
   @override
-  _CreateTaskScreenState createState() => _CreateTaskScreenState();
+  _CreateTaskPageState createState() => _CreateTaskPageState();
 }
 
-class _CreateTaskScreenState extends State<CreateTaskScreen> {
+class _CreateTaskPageState extends State<CreateTaskPage> {
   bool remindMe = true;
-
+  TodoTaskCategory _category = TodoTaskCategory.Clinic;
+  String _selectedCategory = "Clinic";
   @override
   Widget build(BuildContext context) {
+    Future<void> _showDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Meeting  Personnel'),
+            content: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    RadioListTile(
+                      title: const Text('Clinic'),
+                      value: TodoTaskCategory.Clinic,
+                      groupValue: _category,
+                      onChanged: (TodoTaskCategory value) {
+                        setState(() {
+                          _category = value;
+                        });
+                      },
+                    ),
+                    RadioListTile(
+                      title: const Text('Suppliments'),
+                      value: TodoTaskCategory.Suppliments,
+                      groupValue: _category,
+                      onChanged: (TodoTaskCategory value) {
+                        setState(() {
+                          _category = value;
+                        });
+                      },
+                    ),
+                    RadioListTile(
+                      title: const Text('Diet'),
+                      value: TodoTaskCategory.Diet,
+                      groupValue: _category,
+                      onChanged: (TodoTaskCategory value) {
+                        setState(() {
+                          _category = value;
+                        });
+                      },
+                    ),
+                    RadioListTile(
+                      title: const Text('Others'),
+                      value: TodoTaskCategory.Others,
+                      groupValue: _category,
+                      onChanged: (TodoTaskCategory value) {
+                        setState(() {
+                          _category = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              );
+            }),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  switch (_category) {
+                    case TodoTaskCategory.Clinic:
+                      setState(() {
+                        _selectedCategory = "Clinic";
+                      });
+                      break;
+                    case TodoTaskCategory.Suppliments:
+                      setState(() {
+                        _selectedCategory = "Suppliments";
+                      });
+                      break;
+                    case TodoTaskCategory.Diet:
+                      setState(() {
+                        _selectedCategory = "Diet";
+                      });
+                      break;
+                    case TodoTaskCategory.Others:
+                      setState(() {
+                        _selectedCategory = "Others";
+                      });
+                      break;
+                    default:
+                      setState(() {
+                        _selectedCategory = "";
+                      });
+                  }
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("New Task"),
@@ -23,7 +128,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
             Text(
               "Create New Task",
               style: TextStyle(
-                  fontSize: 50,
+                  fontSize: 25,
                   height: 1.2,
                   fontWeight: FontWeight.w700,
                   color: Colors.grey[800]),
@@ -134,107 +239,26 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
             Spacer(),
 
             ///Container for Task Category
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blueGrey[100],
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  ///Container for Icon
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color.fromRGBO(255, 250, 240, 1)),
-                    padding: const EdgeInsets.all(16),
-                    child: Icon(
-                      Icons.web_asset,
-                      color: Colors.orangeAccent,
-                    ),
-                  ),
-
-                  ///For spacing
-                  SizedBox(
-                    width: 24,
-                  ),
-
-                  ///For Text
-                  Text(
-                    "Work",
-                    style: TextStyle(
-                        fontSize: 18,
-                        height: 1.2,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.grey[700]),
-                  ),
-
-                  Spacer(),
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward_ios),
-                    onPressed: () {},
-                  )
-                ],
-              ),
+            IconSelectorField(
+              onTap: () {
+                _showDialog();
+              },
+              title: _selectedCategory,
+              icon: Icons.web_asset,
             ),
 
             ///For Spacing
             SizedBox(
               height: 16,
             ),
-
-            ///Container for remind
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.blueGrey[100],
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  ///Container for Icon
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color.fromRGBO(240, 235, 255, 1)),
-                    padding: const EdgeInsets.all(16),
-                    child: Icon(
-                      Icons.alarm_on,
-                      color: Colors.purpleAccent[100],
-                    ),
-                  ),
-
-                  ///For spacing
-                  SizedBox(
-                    width: 24,
-                  ),
-
-                  ///For Text
-                  Text(
-                    "Remind me",
-                    style: TextStyle(
-                        fontSize: 18,
-                        height: 1.2,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.grey[700]),
-                  ),
-
-                  Spacer(),
-                  Switch(
-                    onChanged: (value) {
-                      setState(() {
-                        remindMe = value;
-                      });
-                    },
-                    value: remindMe,
-                    activeColor: Colors.pink[400],
-                  )
-                ],
-              ),
+            IconSwitchField(
+              icon: Icons.alarm_on,
+              onChanged: (val) {
+                setState(() {
+                  remindMe = val;
+                });
+              },
+              syncToCalendar: remindMe,
             ),
 
             Spacer(),

@@ -1,5 +1,7 @@
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
+import 'package:aunty_rafiki/views/components/text-field/icon_date_field.dart';
+import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +12,7 @@ class AddBloodLevelPage extends StatefulWidget {
 }
 
 class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
-  FocusNode _valueFocusNode = FocusNode();
+
 
   String date = 'Date';
 
@@ -54,71 +56,66 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Material(
-                elevation: 2,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextFormField(
-                    validator: (val) {
-                      if (val.isEmpty)
-                        return 'Enter the blood level';
-                      else
-                        return null;
-                    },
-                    focusNode: _valueFocusNode,
-                    controller: _valueEditingController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.local_hospital),
-                        labelText: 'Blood Level',
-                        suffix: Text('Hm/mml')
-                        
-                        ),
-                        
-                  ),
-                ),
+              IconTextField(
+                icon: Icons.local_hospital,
+                textEditingController: _valueEditingController,
+                title: 'Blood Level',
+                suffix: 'g/dl',
+                validator: (val) {
+                  if (val.isEmpty)
+                    return 'Enter the blood level';
+                  else
+                    return null;
+                },
               ),
-              SizedBox(height: 10),
-              Material(
-                elevation: 2,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: DateTimePicker(
-                    type: DateTimePickerType.date,
-                    dateMask: 'dd/MM/yyyy',
-                    controller: _dateEditingController,
-                    //initialValue: _initialValue,
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                    icon: Icon(Icons.event),
-                    dateLabelText: 'Date',
-                    onChanged: (val) => setState(() => valueDate = val),
-                    validator: (val) {
-                      setState(() => valueToValidate3 = val);
-                      return null;
-                    },
-                    onSaved: (val) => setState(() => valueSaved3 = val),
-                  ),
-                ),
+              IconDateField(
+                onChage: (val) {
+                  print("------------------------------------");
+                  print(val);
+                  print("------------------------------------");
+                },
+                onSaved: (val) {
+                  print("------------------+++------------------");
+                  print(val);
+                  print("------------------+++-----------------");
+                },
+                onValidate: (val) {
+                  setState(() => valueToValidate3 = val);
+                  return null;
+                },
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
+                textEditingController: _dateEditingController,
+                icon: Icons.calendar_today,
+                title: 'Date',
+                dateMask: "EEEE, MMMM d, y",
+                type: DateTimePickerType.date,
               ),
               SizedBox(height: 30),
               Row(
                 children: [
                   Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: RaisedButton(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        child: Text('Save'.toUpperCase()),
+                    child: Container(
+                      width: double.infinity,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        color: Colors.pink[400],
+                        child: Text(
+                          'Save'.toUpperCase(),
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900),
+                        ),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             print('save the data');
                             _bloodLevelProvider
                                 .postBloodLevel(
-                              quantity: double.parse(_valueEditingController.text),
+                              quantity:
+                                  double.parse(_valueEditingController.text),
                               date: _dateEditingController.text,
                             )
                                 .then((value) {
@@ -130,10 +127,12 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                               }
                             });
                           } else {}
-                        }),
-                  )),
+                        },
+                      ),
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

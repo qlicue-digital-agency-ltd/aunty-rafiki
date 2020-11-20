@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/task_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/color_letter_button.dart';
 import 'package:aunty_rafiki/views/components/cards/task/completed_task.dart';
@@ -7,7 +8,6 @@ import 'package:aunty_rafiki/views/components/cards/task/incomplete_task.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'create_task_page.dart';
 
 class ToDoListPage extends StatelessWidget {
   @override
@@ -118,15 +118,10 @@ class ToDoListPage extends StatelessWidget {
                               fontWeight: FontWeight.w900),
                         ),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreateTaskScreen()));
+                          Navigator.pushNamed(context, createTaskPage);
                         },
                       ),
                     )
-                 
-                 
                   ],
                 ),
               ),

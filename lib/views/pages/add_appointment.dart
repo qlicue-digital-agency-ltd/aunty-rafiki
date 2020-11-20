@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_date_field.dart';
+import 'package:aunty_rafiki/views/components/text-field/icon_selector_field.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_switch_field.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -13,8 +14,6 @@ class AddAppointmentPage extends StatefulWidget {
 }
 
 class _AddAppointmentPageState extends State<AddAppointmentPage> {
-  FocusNode _descriptionFocusNode = FocusNode();
-
   FocusNode _notesFocusNode = FocusNode();
 
   String date = 'Date';
@@ -25,13 +24,14 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
   String valueSaved3 = '';
   String valueTime = '';
   String valueToValidate4 = '';
+  String _selectedProfession = "Doctor";
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController _descriptionEditingController = TextEditingController();
 
   TextEditingController _notesEditingController = TextEditingController();
-  TextEditingController _professionEditingController = TextEditingController();
+
   TextEditingController _dateEditingController;
   TextEditingController _timeEditingController;
   AvailableProfessions _character = AvailableProfessions.doctor;
@@ -109,17 +109,17 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   switch (_character) {
                     case AvailableProfessions.doctor:
                       setState(() {
-                        _professionEditingController.text = "Doctor";
+                        _selectedProfession = "Doctor";
                       });
                       break;
                     case AvailableProfessions.midwife:
                       setState(() {
-                        _professionEditingController.text = "Midwife";
+                        _selectedProfession = "Midwife";
                       });
                       break;
                     default:
                       setState(() {
-                        _professionEditingController.text = "";
+                        _selectedProfession = "";
                       });
                   }
                   Navigator.of(context).pop();
@@ -146,25 +146,10 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
               IconTextField(
                 icon: Icons.assignment,
                 textEditingController: _descriptionEditingController,
-                title: 'Name',
+                title: 'Appointment Name',
                 validator: (val) {
                   if (val.isEmpty)
                     return 'Enter the appointment name';
-                  else
-                    return null;
-                },
-              ),
-              IconTextField(
-                icon: Icons.assignment_ind,
-                textEditingController: _professionEditingController,
-                title: 'Profession',
-                onTap: () {
-                  print('object');
-                  _showDialog();
-                },
-                validator: (val) {
-                  if (val.isEmpty)
-                    return 'Select the profession you are visiting';
                   else
                     return null;
                 },
@@ -210,14 +195,27 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 dateMask: 'dd/MM/yyyy',
                 type: DateTimePickerType.time,
               ),
+              IconSelectorField(
+                onTap: () {
+                  _showDialog();
+                },
+                title: _selectedProfession,
+                icon: Icons.assignment_ind,
+              ),
+              SizedBox(
+                height: 10,
+              ),
               IconSwitchField(
-                icon: Icons.sync,
+                icon: Icons.alarm_on,
                 onChanged: (val) {
                   setState(() {
                     _syncToCalendar = val;
                   });
                 },
                 syncToCalendar: _syncToCalendar,
+              ),
+              SizedBox(
+                height: 10,
               ),
               Row(
                 children: [
@@ -262,8 +260,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                             _appointmentProvider
                                 .createAppointment(
                                     name: _descriptionEditingController.text,
-                                    profession:
-                                        _professionEditingController.text,
+                                    profession: _selectedProfession,
                                     date: _dateEditingController.text,
                                     time: _timeEditingController.text,
                                     additionalNotes:

@@ -11,6 +11,7 @@ class IconTextField extends StatelessWidget {
   final IconTextFieldFunction validator;
   final FocusNode focusNode;
   final TextInputType textInputType;
+  final String suffix;
   const IconTextField(
       {Key key,
       @required this.icon,
@@ -19,7 +20,8 @@ class IconTextField extends StatelessWidget {
       this.validator,
       @required this.title,
       this.focusNode,
-      this.textInputType = TextInputType.text})
+      this.textInputType = TextInputType.text,
+      this.suffix = ''})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,9 @@ class IconTextField extends StatelessWidget {
                   onTap: onTap,
                   controller: textEditingController,
                   decoration: InputDecoration(
-                      labelText: title, border: InputBorder.none),
+                      labelText: title,
+                      border: InputBorder.none,
+                      suffix: Text(suffix)),
                 ),
               ),
 
