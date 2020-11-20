@@ -42,7 +42,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     ? NoItemTile(
                         icon: 'assets/icons/calendar.png',
                         title: 'No appointments to display',
-                        subtitle: '',
                       )
                     : Column(
                         // mainAxisAlignment: MainAxisAlignment.,
@@ -76,7 +75,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   child: NoItemTile(
                     icon: 'assets/icons/calendar.png',
                     title: 'No appointments to display',
-                    subtitle: '',
                   ),
                 )
               : ListView.builder(

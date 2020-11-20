@@ -38,7 +38,17 @@ class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
             Expanded(
               child: CustomScrollView(
                 slivers: <Widget>[
-                  _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
+                  _bloodLevelProvider.isFetchingBloodLevelData
+                      ? SliverList(
+                          delegate: SliverChildListDelegate([
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 3,
+                            ),
+                            Center(child: CircularProgressIndicator())
+                          ]),
+                        )
+                      : _BloodLevel(
+                          data: _bloodLevelProvider.availableBloodLevels),
                   const SliverPadding(padding: EdgeInsets.only(top: 20)),
                 ],
               ),
@@ -143,9 +153,7 @@ class _BloodLevelChild extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              '${format.format(bloodLevel.date)}' +
-                  "\n" +
-                  bloodLevel.subtitle,
+              '${format.format(bloodLevel.date)}' + "\n" + bloodLevel.subtitle,
               textAlign: isLeftChild ? TextAlign.right : TextAlign.left,
               style: GoogleFonts.dosis(
                 fontSize: 16,

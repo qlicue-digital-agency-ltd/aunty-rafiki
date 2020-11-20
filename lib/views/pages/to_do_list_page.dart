@@ -5,11 +5,18 @@ import 'package:aunty_rafiki/views/components/buttons/color_letter_button.dart';
 import 'package:aunty_rafiki/views/components/cards/task/completed_task.dart';
 import 'package:aunty_rafiki/views/components/cards/task/incoming_task.dart';
 import 'package:aunty_rafiki/views/components/cards/task/incomplete_task.dart';
+import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+class ToDoListPage extends StatefulWidget {
+  @override
+  _ToDoListPageState createState() => _ToDoListPageState();
+}
 
-class ToDoListPage extends StatelessWidget {
+class _ToDoListPageState extends State<ToDoListPage> {
+  bool _isPullToRefresh = false;
+
   @override
   Widget build(BuildContext context) {
     final _taskProvider = Provider.of<TaskProvider>(context);
@@ -65,35 +72,64 @@ class ToDoListPage extends StatelessWidget {
                     Expanded(
                       child: RefreshIndicator(
                         onRefresh: () {
+                          setState(() {
+                            _isPullToRefresh = true;
+                          });
                           return _taskProvider.fetchTasks();
                         },
-                        child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            return _taskProvider.filteredTasks[index].stage ==
-                                    TodoTask.COMPLETED
-                                ? CompletedTask(
-                                    task: _taskProvider.filteredTasks[index],
-                                    onTap: () {},
-                                  )
-                                : _taskProvider.filteredTasks[index].stage ==
-                                        TodoTask.INCOMING
-                                    ? IncomingTask(
-                                        task:
-                                            _taskProvider.filteredTasks[index],
-                                        onTap: () {},
-                                      )
-                                    : IncompleteTask(
-                                        task:
-                                            _taskProvider.filteredTasks[index],
-                                        onTap: () {},
-                                      );
-                          },
-                          separatorBuilder: (context, index) => Divider(
-                            height: 16,
-                            color: Colors.transparent,
-                          ),
-                          itemCount: _taskProvider.filteredTasks.length,
-                        ),
+                        child: _taskProvider.isFetchingTaskData &&
+                                !_isPullToRefresh
+                            ? Center(child: CircularProgressIndicator())
+                            : ListView.separated(
+                                itemBuilder: (context, index) {
+                                  return _taskProvider.filteredTasks.isEmpty
+                                      ? Center(
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    3,
+                                              ),
+                                              NoItemTile(
+                                                icon:
+                                                    'assets/access/to-do-list.png',
+                                                title: 'No Tasks',
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : (_taskProvider
+                                                  .filteredTasks[index].stage ==
+                                              TodoTask.COMPLETED
+                                          ? CompletedTask(
+                                              task: _taskProvider
+                                                  .filteredTasks[index],
+                                              onTap: () {},
+                                            )
+                                          : _taskProvider.filteredTasks[index]
+                                                      .stage ==
+                                                  TodoTask.INCOMING
+                                              ? IncomingTask(
+                                                  task: _taskProvider
+                                                      .filteredTasks[index],
+                                                  onTap: () {},
+                                                )
+                                              : IncompleteTask(
+                                                  task: _taskProvider
+                                                      .filteredTasks[index],
+                                                  onTap: () {},
+                                                ));
+                                },
+                                separatorBuilder: (context, index) => Divider(
+                                  height: 16,
+                                  color: Colors.transparent,
+                                ),
+                                itemCount: _taskProvider.filteredTasks.isEmpty
+                                    ? 1
+                                    : _taskProvider.filteredTasks.length,
+                              ),
                       ),
                     ),
 
