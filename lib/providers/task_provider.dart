@@ -132,7 +132,7 @@ class TaskProvider with ChangeNotifier {
         _availableTasks.add(_task);
 
         _selectedCalendarTasks.add(_task);
-        _updateCalenderTasks(date);
+        // _updateCalenderTasks(date);
         hasError = false;
       }
     } catch (error) {
@@ -185,8 +185,10 @@ class TaskProvider with ChangeNotifier {
     if (category == 'all') {
       _filteredTasks = _availableTasks;
     } else {
-      _filteredTasks =
-          tasks.where((task) => task.category == category).toList();
+      _filteredTasks = tasks
+          .where(
+              (task) => task.category.toLowerCase() == category.toLowerCase())
+          .toList();
     }
 
     print(_filteredTasks.length);
