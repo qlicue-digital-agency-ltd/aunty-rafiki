@@ -6,14 +6,9 @@ class TrackerPage extends StatelessWidget {
 
   const TrackerPage({Key key, @required this.tracker}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
-   
     final screenWidth = MediaQuery.of(context).size.width;
-
- 
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +27,10 @@ class TrackerPage extends StatelessWidget {
             ListTile(
               title: Text('${tracker.title}'),
               subtitle: Text('${tracker.subtitle}'),
-              trailing: Image.asset('assets/icons/nurse.jpeg'),
+              trailing: Text(
+                "👩‍⚕️",
+                style: TextStyle(fontSize: 50),
+              ),
             ),
             Container(
               padding: EdgeInsets.only(
@@ -54,7 +52,10 @@ class TrackerPage extends StatelessWidget {
             ListTile(
               title: Text('What is Normal?'),
               subtitle: Text('${tracker.subtitle}'),
-              trailing: Image.asset('assets/icons/okay.jpeg'),
+              trailing: Text(
+                "🤰",
+                style: TextStyle(fontSize: 50),
+              ),
             ),
             Container(
               padding: EdgeInsets.only(
@@ -76,7 +77,10 @@ class TrackerPage extends StatelessWidget {
             ListTile(
               title: Text('What is Abnormal?'),
               subtitle: Text('${tracker.subtitle}'),
-              trailing: Image.asset('assets/icons/not.jpeg'),
+              trailing: Text(
+                "🤷‍♀️",
+                style: TextStyle(fontSize: 50),
+              ),
             ),
             Container(
               padding: EdgeInsets.only(
