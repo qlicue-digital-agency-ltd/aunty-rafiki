@@ -82,10 +82,52 @@ class _Timeline extends StatelessWidget {
                         )
                       : null,
                   indicatorStyle: IndicatorStyle(
-                    width: 40,
-                    height: 40,
-                    indicator: _TimelineIndicator(time: data[index].time),
-                    drawGap: true,
+                    width: 46,
+                    height: 100,
+                    indicator: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.pink,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Stack(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                  color: Colors.white,
+                                  size: 35,
+                                ),
+                                Positioned(
+                                  left: 12,
+                                  top: 6,
+                                  child: Text(
+                                    "${data[index].time}",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.patrickHand(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              'Month',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.patrickHand(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   beforeLineStyle: LineStyle(
                     color: Colors.pink.withOpacity(0.2),
@@ -115,49 +157,25 @@ class _TimelineChild extends StatelessWidget {
       padding: isLeftChild
           ? const EdgeInsets.only(left: 16, top: 10, bottom: 10, right: 10)
           : const EdgeInsets.only(right: 16, top: 10, bottom: 10, left: 10),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Column(
-            children: [
-              Image.network(
-                timeline.image,
-                width: MediaQuery.of(context).size.width / 2,
-              ),
-              Row(
-                children: [Expanded(child: Text(timeline.body))],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TimelineIndicator extends StatelessWidget {
-  const _TimelineIndicator({Key key, this.time}) : super(key: key);
-
-  final int time;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.pink.withOpacity(0.2),
-          width: 3,
-        ),
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Text(
-          "$time",
-          style: GoogleFonts.dosis(
-            fontSize: 18,
-            color: Colors.pink,
-            fontWeight: FontWeight.bold,
-          ),
+      child: InkWell(
+        onTap: () {
+          print("object");
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Column(
+              children: [
+                Image.network(
+                  timeline.image,
+                  width: MediaQuery.of(context).size.width / 2,
+                ),
+                Row(
+                  children: [Expanded(child: Text(timeline.body))],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
