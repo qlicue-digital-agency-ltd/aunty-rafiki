@@ -67,6 +67,7 @@ class App extends StatelessWidget {
                   hospitalBagPage: (_) => HospitalBagPage(),
                   foodPage: (_) => FoodPage(),
                   createTaskPage: (_) => CreateTaskPage(),
+                 
                   '/chat': (_) => ChatPage(),
                   '/new': (_) => NewGroupPage(),
                 },

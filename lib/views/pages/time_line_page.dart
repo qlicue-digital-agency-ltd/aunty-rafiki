@@ -1,7 +1,7 @@
-import 'package:aunty_rafiki/models/media.dart';
 import 'package:aunty_rafiki/models/time_line.dart';
 import 'package:aunty_rafiki/providers/timeline_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
+import 'package:aunty_rafiki/views/pages/time_line_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -159,7 +159,12 @@ class _TimelineChild extends StatelessWidget {
           : const EdgeInsets.only(right: 16, top: 10, bottom: 10, left: 10),
       child: InkWell(
         onTap: () {
-          print("object");
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => TimelineDetailPage(
+                        timeline: timeline,
+                      )));
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
