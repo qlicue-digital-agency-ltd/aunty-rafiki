@@ -42,7 +42,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     ? NoItemTile(
                         icon: 'assets/icons/calendar.png',
                         title: 'No appointments to display',
-                        subtitle: '',
                       )
                     : Column(
                         // mainAxisAlignment: MainAxisAlignment.,
@@ -76,7 +75,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   child: NoItemTile(
                     icon: 'assets/icons/calendar.png',
                     title: 'No appointments to display',
-                    subtitle: '',
                   ),
                 )
               : ListView.builder(
@@ -99,16 +97,28 @@ class _AppointmentPageState extends State<AppointmentPage> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
+                  ///Button for add new task
                   Expanded(
-                    child: RaisedButton(
-                      textColor: Colors.white,
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        Navigator.pushNamed(context, addAppointmentPage);
-                      },
-                      child: Text('ADD'),
+                    child: Container(
+                      width: double.infinity,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        color: Colors.pink[400],
+                        child: Text(
+                          "ADD APPOINTMENT",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900),
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, addAppointmentPage);
+                        },
+                      ),
                     ),
-                  ),
+                  )
                 ],
               ),
             )

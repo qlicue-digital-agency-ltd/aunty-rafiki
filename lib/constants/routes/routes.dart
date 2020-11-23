@@ -15,3 +15,4 @@ const babyNamePage = "/babyNamePage";
 const foodPage = "/foodPage";
 const hospitalBagPage = "/hospitalBagPage";
 const timeLinePage = "/timeLinePage";
+const createTaskPage = "/createTaskPage";

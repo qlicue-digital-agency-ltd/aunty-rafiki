@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aunty_rafiki/api/api.dart';
+import 'package:aunty_rafiki/models/letter_button.dart';
 import 'package:aunty_rafiki/models/task.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +21,8 @@ class TaskProvider with ChangeNotifier {
 
   Map<DateTime, List> _calendarTasks;
   List<Task> _availableTasks = [];
+  List<Task> _filteredTasks = [];
+  List<LetterButton> _availableLetterButton = letteButtonLists;
   List _selectedCalendarTasks = [];
   Task _selectedTask;
 
@@ -43,12 +46,14 @@ class TaskProvider with ChangeNotifier {
   //getters
   Task get seletectedTask => _selectedTask;
   List<Task> get availableTasks => _availableTasks;
+  List<Task> get filteredTasks => _filteredTasks;
 
   List get selectedCalendarTasks => _selectedCalendarTasks;
   Map<DateTime, List> get calendarTasks => _calendarTasks;
   DateTime get selectedCalendarDay => _selectedCalendarDay;
   bool get isFetchingTaskData => _isFetchingTaskData;
   bool get isSubmittingData => _isSubmittingData;
+  List<LetterButton> get availableLetterButton => _availableLetterButton;
 
   //fetch Tasks...
   Future<bool> fetchTasks() async {
@@ -83,6 +88,9 @@ class TaskProvider with ChangeNotifier {
     _availableTasks.forEach((task) {
       _updateCalenderTasks(task.date);
     });
+
+    //filter all...
+    filterTasks(_availableTasks, selectedLetterButton.tittle.toLowerCase());
     notifyListeners();
 
     return hasError;
@@ -124,7 +132,7 @@ class TaskProvider with ChangeNotifier {
         _availableTasks.add(_task);
 
         _selectedCalendarTasks.add(_task);
-        _updateCalenderTasks(date);
+        // _updateCalenderTasks(date);
         hasError = false;
       }
     } catch (error) {
@@ -152,6 +160,38 @@ class TaskProvider with ChangeNotifier {
 
   deletedAppoint(int index) {
     _availableTasks.removeAt(index);
+    notifyListeners();
+  }
+
+  set toogleLetterButton(int id) {
+    _availableLetterButton.forEach((letterButton) {
+      if (letterButton.id == id) {
+        letterButton.isSelected = true;
+      } else {
+        letterButton.isSelected = false;
+      }
+    });
+    notifyListeners();
+
+    //filter tasks....
+
+    filterTasks(_availableTasks, selectedLetterButton.tittle.toLowerCase());
+  }
+
+  LetterButton get selectedLetterButton =>
+      _availableLetterButton.where((button) => button.isSelected).first;
+
+  filterTasks(List<Task> tasks, String category) {
+    if (category == 'all') {
+      _filteredTasks = _availableTasks;
+    } else {
+      _filteredTasks = tasks
+          .where(
+              (task) => task.category.toLowerCase() == category.toLowerCase())
+          .toList();
+    }
+
+    print(_filteredTasks.length);
     notifyListeners();
   }
 }
