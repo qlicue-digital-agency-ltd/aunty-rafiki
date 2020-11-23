@@ -18,9 +18,9 @@ class MoreScreen extends StatelessWidget {
                 Expanded(
                   child: MoreMenuCard(
                     image: 'assets/access/calendar.png',
-                    title: 'Blood Level',
+                    title: 'Baby Bump',
                     onTap: () {
-                      Navigator.pushNamed(context, bloodLevelPage);
+                      Navigator.pushNamed(context, babyBumpPage);
                     },
                   ),
                 ),

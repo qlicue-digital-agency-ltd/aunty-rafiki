@@ -5,6 +5,7 @@ import 'package:aunty_rafiki/sample/pages/new_group_page.dart';
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
 import 'package:aunty_rafiki/views/pages/add_blood_level_page.dart';
 import 'package:aunty_rafiki/views/pages/appointment_page.dart';
+import 'package:aunty_rafiki/views/pages/baby_bump_page.dart';
 import 'package:aunty_rafiki/views/pages/baby_name_page.dart';
 import 'package:aunty_rafiki/views/pages/blood_level_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
@@ -67,6 +68,7 @@ class App extends StatelessWidget {
                   hospitalBagPage: (_) => HospitalBagPage(),
                   foodPage: (_) => FoodPage(),
                   createTaskPage: (_) => CreateTaskPage(),
+                  babyBumpPage: (_) => BabyBumpPage(),
                  
                   '/chat': (_) => ChatPage(),
                   '/new': (_) => NewGroupPage(),
