@@ -16,7 +16,7 @@ class FoodPage extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: MoreMenuCard(
-                  image: 'assets/access/calendar.png',
+                  image: 'assets/food/diet.png',
                   title: 'Diet',
                   onTap: () {
                     //  Navigator.pushNamed(context, bloodLevelPage);
@@ -26,7 +26,7 @@ class FoodPage extends StatelessWidget {
               const SizedBox(width: 16.0),
               Expanded(
                 child: MoreMenuCard(
-                  image: 'assets/access/appointment.png',
+                  image: 'assets/food/appointment.png',
                   title: 'Greens',
                   onTap: () {
                     //   Navigator.pushNamed(context, appointmentPage);

@@ -69,11 +69,7 @@ class HomePage extends StatelessWidget {
                             ),
                           ],
                         )
-                      : IconButton(
-                          tooltip: 'Appointments',
-                          icon: Icon(Icons.access_time),
-                          onPressed: () =>
-                              Navigator.pushNamed(context, appointmentPage))
+                      : Container()
                 ],
         ),
         body: _screens[_utilityProvider.currentIndex],
@@ -99,6 +95,13 @@ class HomePage extends StatelessWidget {
             ),
           ],
           onTap: _utilityProvider.selectTab,
-        ));
+        ),
+        floatingActionButton: _utilityProvider.currentIndex == 2
+            ? FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, addBloodLevelPage);
+                },
+                child: Icon(Icons.add))
+            : Container());
   }
 }
