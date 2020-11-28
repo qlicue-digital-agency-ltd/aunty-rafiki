@@ -17,36 +17,63 @@ class TrackerScreen extends StatelessWidget {
       onRefresh: () {
         return _trackerProvider.fetchTrackers();
       },
-      child: ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: _trackerProvider.availableTrackers.length,
-        itemBuilder: (BuildContext context, int index) {
-          final Tracker tracker = _trackerProvider.availableTrackers[index];
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "Tracker",
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                 ],
+                ),
+              ),
+            ),
+         
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: _trackerProvider.availableTrackers.length,
+              itemBuilder: (BuildContext context, int index) {
+                final Tracker tracker =
+                    _trackerProvider.availableTrackers[index];
 
-          final IndicatorStyle indicator = tracker.isCheckpoint
-              ? _indicatorStyleCheckpoint(tracker)
-              : const IndicatorStyle(width: 0);
+                final IndicatorStyle indicator = tracker.isCheckpoint
+                    ? _indicatorStyleCheckpoint(tracker)
+                    : const IndicatorStyle(width: 0);
 
-          return TimelineTile(
-            alignment: TimelineAlign.manual,
-            lineXY: 0.15,
-            isFirst: index == 0,
-            isLast: index == _trackerProvider.availableTrackers.length - 1,
-            startChild: _LeftChildTimeline(
-              tracker: _trackerProvider.availableTrackers[index],
+                return TimelineTile(
+                  alignment: TimelineAlign.manual,
+                  lineXY: 0.15,
+                  isFirst: index == 0,
+                  isLast:
+                      index == _trackerProvider.availableTrackers.length - 1,
+                  startChild: _LeftChildTimeline(
+                    tracker: _trackerProvider.availableTrackers[index],
+                  ),
+                  endChild: _RightChildTimeline(
+                    tracker: _trackerProvider.availableTrackers[index],
+                  ),
+                  indicatorStyle: indicator,
+                  hasIndicator:
+                      _trackerProvider.availableTrackers[index].isCheckpoint,
+                  beforeLineStyle: LineStyle(
+                    color: tracker.color,
+                    thickness: 8,
+                  ),
+                );
+              },
             ),
-            endChild: _RightChildTimeline(
-              tracker: _trackerProvider.availableTrackers[index],
-            ),
-            indicatorStyle: indicator,
-            hasIndicator:
-                _trackerProvider.availableTrackers[index].isCheckpoint,
-            beforeLineStyle: LineStyle(
-              color: tracker.color,
-              thickness: 8,
-            ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
@@ -99,7 +126,6 @@ class TrackerScreen extends StatelessWidget {
           ),
         ),
       ),
-    
     );
   }
 }

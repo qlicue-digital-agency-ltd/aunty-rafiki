@@ -17,7 +17,7 @@ class MoreScreen extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: MoreMenuCard(
-                    image: 'assets/access/calendar.png',
+                    image: 'assets/access/mother.png',
                     title: 'Baby Bump',
                     onTap: () {
                       Navigator.pushNamed(context, babyBumpPage);

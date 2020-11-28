@@ -11,56 +11,122 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final db = FirebaseFirestore.instance;
 
-    return StreamBuilder<List<Chat>>(
-      stream: db
-          .collection('groups')
-          .orderBy('name')
-          .snapshots()
-          .map(firestoreToChatList),
-      builder: (context, AsyncSnapshot<List<Chat>> snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text('error: ${snapshot.error.toString()}'));
-        }
-        if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
-        List<Chat> chatList = snapshot.data;
-        return ListView.builder(
-          itemCount: chatList.length,
-          itemBuilder: (context, index) {
-            return ChatTile(
-                chat: chatList[index],
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    chatRoomPage,
-                    arguments: chatList[index],
-                  );
-                  //  Navigator.of(context).pushNamed(
-                  //     '/chat',
-                  //     arguments: chatList[index],
-                  //   );
-                });
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Chats",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    padding:
+                        EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.pink[50],
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.add,
+                          color: Colors.pink,
+                          size: 20,
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "New",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Search...",
+                hintStyle: TextStyle(color: Colors.grey.shade400),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.grey.shade400,
+                  size: 20,
+                ),
+                filled: true,
+                fillColor: Colors.grey.shade100,
+                contentPadding: EdgeInsets.all(8),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(color: Colors.grey.shade100)),
+              ),
+            ),
+          ),
+          StreamBuilder<List<Chat>>(
+            stream: db
+                .collection('groups')
+                .orderBy('name')
+                .snapshots()
+                .map(firestoreToChatList),
+            builder: (context, AsyncSnapshot<List<Chat>> snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                    child: Text('error: ${snapshot.error.toString()}'));
+              }
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+              List<Chat> chatList = snapshot.data;
+              return ListView.builder(
+                itemCount: chatList.length,
+                itemBuilder: (context, index) {
+                  return ChatTile(
+                      chat: chatList[index],
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          chatRoomPage,
+                          arguments: chatList[index],
+                        );
+                        //  Navigator.of(context).pushNamed(
+                        //     '/chat',
+                        //     arguments: chatList[index],
+                        //   );
+                      });
 
-            // ListTile(
-            //   title: Text(
-            //     chatList[index].name,
-            //     style: TextStyle(fontWeight: FontWeight.bold),
-            //   ),
-            //   subtitle: Text(chatList[index].id),
-            //   onTap: () {
-            //     Navigator.of(context).pushNamed(
-            //       '/chat',
-            //       arguments: chatList[index],
-            //     );
-            //   },
-            // );
-          },
-        );
-     
-     
-     
-      },
+                  // ListTile(
+                  //   title: Text(
+                  //     chatList[index].name,
+                  //     style: TextStyle(fontWeight: FontWeight.bold),
+                  //   ),
+                  //   subtitle: Text(chatList[index].id),
+                  //   onTap: () {
+                  //     Navigator.of(context).pushNamed(
+                  //       '/chat',
+                  //       arguments: chatList[index],
+                  //     );
+                  //   },
+                  // );
+                },
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

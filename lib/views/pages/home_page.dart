@@ -28,53 +28,57 @@ class HomePage extends StatelessWidget {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(_utilityProvider.title),
-          actions: _utilityProvider.currentIndex == 3
-              ? [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, profilePage);
-                      },
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundImage: AssetImage('assets/icons/female.png'),
-                      ),
-                    ),
-                  )
-                ]
-              : [
-                  _utilityProvider.currentIndex == 1
-                      ? PopupMenuButton<ChatPopMenu>(
-                          icon: Icon(Icons.more_vert),
-                          onSelected: (ChatPopMenu result) {
-                            if (result == ChatPopMenu.NewGroup)
-                              Navigator.pushNamed(context, selectContactsPage);
-                          },
-                          itemBuilder: (BuildContext context) =>
-                              <PopupMenuEntry<ChatPopMenu>>[
-                            const PopupMenuItem<ChatPopMenu>(
-                              value: ChatPopMenu.NewGroup,
-                              child: Text('New Group'),
-                            ),
-                            const PopupMenuItem<ChatPopMenu>(
-                              value: ChatPopMenu.NewBroadcast,
-                              child: Text('New Broadcast'),
-                            ),
-                            const PopupMenuItem<ChatPopMenu>(
-                              value: ChatPopMenu.Settings,
-                              child: Text('Settings'),
-                            ),
-                          ],
-                        )
-                      : Container()
-                ],
-        ),
-        body: _screens[_utilityProvider.currentIndex],
+        // appBar: AppBar(
+        //   title: Text(_utilityProvider.title),
+        //   actions: _utilityProvider.currentIndex == 3
+        //       ? [
+        //           Padding(
+        //             padding: const EdgeInsets.all(8.0),
+        //             child: InkWell(
+        //               onTap: () {
+        //                 Navigator.pushNamed(context, profilePage);
+        //               },
+        //               child: CircleAvatar(
+        //                 radius: 20,
+        //                 backgroundImage: AssetImage('assets/icons/female.png'),
+        //               ),
+        //             ),
+        //           )
+        //         ]
+        //       : [
+        //           _utilityProvider.currentIndex == 1
+        //               ? PopupMenuButton<ChatPopMenu>(
+        //                   icon: Icon(Icons.more_vert),
+        //                   onSelected: (ChatPopMenu result) {
+        //                     if (result == ChatPopMenu.NewGroup)
+        //                       Navigator.pushNamed(context, selectContactsPage);
+        //                   },
+        //                   itemBuilder: (BuildContext context) =>
+        //                       <PopupMenuEntry<ChatPopMenu>>[
+        //                     const PopupMenuItem<ChatPopMenu>(
+        //                       value: ChatPopMenu.NewGroup,
+        //                       child: Text('New Group'),
+        //                     ),
+        //                     const PopupMenuItem<ChatPopMenu>(
+        //                       value: ChatPopMenu.NewBroadcast,
+        //                       child: Text('New Broadcast'),
+        //                     ),
+        //                     const PopupMenuItem<ChatPopMenu>(
+        //                       value: ChatPopMenu.Settings,
+        //                       child: Text('Settings'),
+        //                     ),
+        //                   ],
+        //                 )
+        //               : Container()
+        //         ],
+        // ),
+        body: SafeArea(child: _screens[_utilityProvider.currentIndex]),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _utilityProvider.currentIndex,
+          selectedItemColor: Colors.pink,
+          unselectedItemColor: Colors.grey.shade400,
+          selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
