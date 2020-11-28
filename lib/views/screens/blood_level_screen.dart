@@ -13,19 +13,27 @@ class BloodLevelScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
-    return Center(
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const SizedBox(height: 16),
-          Text(
-            'Blood Level Chart',
-            style: GoogleFonts.dosis(
-              fontSize: 20,
-              color: Colors.pink.withOpacity(0.7),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Blood Level",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+               ],
+              ),
             ),
           ),
           Chartboard(),
-          Expanded(
+          Container(
             child: _bloodLevelProvider.isFetchingBloodLevelData
                 ? Center(child: CircularProgressIndicator())
                 : _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
@@ -53,6 +61,8 @@ class _BloodLevel extends StatelessWidget {
         return _bloodLevelProvider.fetchBloodLevels();
       },
       child: ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           final Blood event = data[index];
 
