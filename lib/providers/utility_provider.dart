@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 class UtilityProvider with ChangeNotifier {
   ///variables
@@ -41,7 +39,7 @@ class UtilityProvider with ChangeNotifier {
         _setTitle = "Chats";
         break;
       case 2:
-        _setTitle = "Baby Bump";
+        _setTitle = "Blood Level";
         break;
       case 3:
         _setTitle = "More";

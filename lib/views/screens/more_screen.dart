@@ -6,10 +6,41 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "More",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, profilePage);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(color: Colors.pink, shape: BoxShape.circle),
+                      child: Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage: AssetImage('assets/icons/female.png'),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -17,10 +48,10 @@ class MoreScreen extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: MoreMenuCard(
-                    image: 'assets/access/calendar.png',
-                    title: 'Blood Level',
+                    image: 'assets/access/mother.png',
+                    title: 'Baby Bump',
                     onTap: () {
-                      Navigator.pushNamed(context, bloodLevelPage);
+                      Navigator.pushNamed(context, babyBumpPage);
                     },
                   ),
                 ),

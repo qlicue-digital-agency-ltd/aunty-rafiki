@@ -1,56 +1,45 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
-import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/models/blood.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/charts/chart_board.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class BloodLevelTimeline extends StatefulWidget {
-  @override
-  _BloodLevelTimelineState createState() => _BloodLevelTimelineState();
-}
-
-class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
+class BloodLevelScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Blood Level'),
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 16),
-            Text(
-              'Blood Level Chart',
-              style: GoogleFonts.dosis(
-                fontSize: 20,
-                color: Colors.pink.withOpacity(0.7),
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Blood Level",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+               ],
               ),
             ),
-            Chartboard(),
-            Expanded(
-              child: _bloodLevelProvider.isFetchingBloodLevelData
-                  ? Center(child: CircularProgressIndicator())
-                  : _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
-            )
-          ],
-        ),
+          ),
+          Chartboard(),
+          Container(
+            child: _bloodLevelProvider.isFetchingBloodLevelData
+                ? Center(child: CircularProgressIndicator())
+                : _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
+          )
+        ],
       ),
-     
-     
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context, addBloodLevelPage);
-          },
-          child: Icon(Icons.add)),
     );
   }
 }
@@ -72,6 +61,8 @@ class _BloodLevel extends StatelessWidget {
         return _bloodLevelProvider.fetchBloodLevels();
       },
       child: ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           final Blood event = data[index];
 
