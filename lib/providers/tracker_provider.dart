@@ -23,6 +23,7 @@ class TrackerProvider extends ChangeNotifier {
     bool hasError = true;
     _isFetchingTrackerData = true;
     notifyListeners();
+    
     final Map<String, dynamic> _data = {"conception_date": conceptioDate};
 
     final List<Tracker> _fetchedTrackers = [];

@@ -18,13 +18,17 @@ class MessageList extends StatelessWidget {
           .map(firestoreToMessageList),
       builder: (context, AsyncSnapshot<List<Message>> snapshot) {
         if (snapshot.hasError) {
-          return Center(
-            child: Text('ERROR: ${snapshot.error.toString()}'),
+          return Flexible(
+            child: Center(
+              child: Text('ERROR: ${snapshot.error.toString()}'),
+            ),
           );
         }
         if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
+          return Flexible(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
         List<Message> docs = snapshot.data;

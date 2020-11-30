@@ -7,7 +7,9 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 
 class MessageEditBar extends StatefulWidget {
-  MessageEditBar();
+  final Function onPressed;
+
+  const MessageEditBar({Key key, @required this.onPressed}) : super(key: key);
 
   @override
   _MessageEditBarState createState() => _MessageEditBarState();
@@ -35,46 +37,12 @@ class _MessageEditBarState extends State<MessageEditBar> {
           'text': _controller.text,
           'time': Timestamp.fromDate(DateTime.now()),
           'user': FirebaseAuth.instance.currentUser.uid,
-          'media': [
-  
-          ]
+          'media': []
         });
         _controller.clear();
       }
     }
 
-    Future<void> loadAssets() async {
-      List<Asset> resultList = List<Asset>();
-      String error = 'No Error Dectected';
-
-      try {
-        resultList = await MultiImagePicker.pickImages(
-          maxImages: 10,
-          enableCamera: true,
-          selectedAssets: images,
-          cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-          materialOptions: MaterialOptions(
-            actionBarColor: "#abcdef",
-            actionBarTitle: "Example App",
-            allViewTitle: "All Photos",
-            useDetailsView: true,
-            selectCircleStrokeColor: "#000000",
-          ),
-        );
-      } on Exception catch (e) {
-        error = e.toString();
-      }
-
-      // If the widget was removed from the tree while the asynchronous platform
-      // message was in flight, we want to discard the reply rather than calling
-      // setState to update our non-existent appearance.
-      if (!mounted) return;
-
-      setState(() {
-        images = resultList;
-        _error = error;
-      });
-    }
 
     return Row(
       children: <Widget>[
@@ -88,10 +56,8 @@ class _MessageEditBarState extends State<MessageEditBar> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: new Icon(Icons.face),
-                    onPressed: () {
-                      // _chatProvider.getSticker();
-                    },
+                    icon: new Icon(Icons.add),
+                    onPressed: widget.onPressed,
                     color: Colors.black26,
                   ),
                   Flexible(
@@ -106,11 +72,6 @@ class _MessageEditBarState extends State<MessageEditBar> {
                         ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    icon: new Icon(Icons.collections),
-                    onPressed: loadAssets,
-                    color: Colors.black26,
                   ),
                 ],
               ),

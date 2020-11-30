@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class UtilityProvider with ChangeNotifier {
   ///variables
@@ -47,5 +48,30 @@ class UtilityProvider with ChangeNotifier {
       default:
         _setTitle = "Tracker";
     }
+  }
+
+  String formatDate(DateTime time) {
+    DateFormat template;
+
+    if (DateTime.now().difference(time).inSeconds < 60) {
+      return "now";
+    }
+    if (DateTime.now().difference(time).inSeconds > 60 &&
+        DateTime.now().difference(time).inMinutes < 60) {
+      return DateTime.now().difference(time).inMinutes.toString() +
+          " minutes ago";
+    }
+    if (DateTime.now().difference(time).inMinutes > 60 &&
+        DateTime.now().difference(time).inHours < 24) {
+      return DateTime.now().difference(time).inHours.toString() + " hours ago";
+    }
+    if (DateTime.now().difference(time).inDays == 1) {
+      return "Yesterday";
+    }
+    print("++++++++++++++++++++++----------+++++++++++++++++++++");
+    print(DateTime.now().difference(time).inDays);
+    print("++++++++++++++++++++++----------+++++++++++++++++++++");
+    template = DateFormat('EEE, MMM d, ' 'yy');
+    return template.format(time);
   }
 }

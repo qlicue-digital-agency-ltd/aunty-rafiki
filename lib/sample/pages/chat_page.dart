@@ -21,7 +21,9 @@ class ChatPage extends StatelessWidget {
             Column(
               children: <Widget>[
                 Expanded(child: MessageList()),
-                MessageEditBar()
+                MessageEditBar(onPressed: (){
+                 // showModal();
+                },)
               ],
             ),
           ],

@@ -3,7 +3,7 @@ import 'package:aunty_rafiki/constants/routes/routes.dart';
 
 import 'package:aunty_rafiki/sample/model/chat.dart';
 
-import 'package:aunty_rafiki/views/components/tiles/chat_tile.dart';
+import 'package:aunty_rafiki/views/components/tiles/chat_user_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +39,6 @@ class ChatScreen extends StatelessWidget {
                         value: ChatPopMenu.NewGroup,
                         child: Text('New Group'),
                       ),
-
                       const PopupMenuItem<ChatPopMenu>(
                         value: ChatPopMenu.NewBroadcast,
                         child: Text('New Chat'),
@@ -90,9 +89,11 @@ class ChatScreen extends StatelessWidget {
               }
               List<Chat> chatList = snapshot.data;
               return ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: chatList.length,
                 itemBuilder: (context, index) {
-                  return ChatTile(
+                  return ChatUserTile(
                       chat: chatList[index],
                       onTap: () {
                         Navigator.pushNamed(
