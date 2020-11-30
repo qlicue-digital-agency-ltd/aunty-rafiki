@@ -1,10 +1,12 @@
-
+import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/image/profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CreateGroupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -59,7 +61,7 @@ class CreateGroupPage extends StatelessWidget {
                               ),
                               IconButton(
                                   icon: Icon(
-                                    Icons.child_care,
+                                    Icons.face,
                                     color: Theme.of(context).primaryColor,
                                   ),
                                   onPressed: () {})
@@ -93,8 +95,11 @@ class CreateGroupPage extends StatelessWidget {
       ),
       body: CustomScrollView(slivers: [
         SliverList(
-          delegate: SliverChildListDelegate(
-              [Center(child: Text('3 / 250 participants'))]),
+          delegate: SliverChildListDelegate([
+            Center(
+                child: Text(
+                    '${_userProvider.selectedUser.length} / ${_userProvider.originalAvailableUsers.length} participants'))
+          ]),
         ),
         SliverGrid(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -104,9 +109,16 @@ class CreateGroupPage extends StatelessWidget {
           ),
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              return ProfileAvatar();
+              return ProfileAvatar(
+                user: _userProvider.selectedUser[index],
+                onTap: () {
+                  _userProvider.removeUser(
+                      indexSelectedUser: index,
+                      user: _userProvider.selectedUser[index]);
+                },
+              );
             },
-            childCount: 20,
+            childCount: _userProvider.selectedUser.length,
           ),
         )
       ]),
