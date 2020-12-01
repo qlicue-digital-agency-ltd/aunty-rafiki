@@ -43,7 +43,6 @@ class _MessageEditBarState extends State<MessageEditBar> {
       }
     }
 
-
     return Row(
       children: <Widget>[
         Expanded(

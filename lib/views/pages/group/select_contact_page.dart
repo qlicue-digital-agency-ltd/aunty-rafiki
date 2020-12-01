@@ -88,7 +88,7 @@ class _SelectContactPageState extends State<SelectContactPage> {
           ),
           Container(
             height: 120,
-            color: Colors.white,
+            color: Colors.black12,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _userProvider.selectedUser.length,

@@ -3,6 +3,7 @@ import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
+import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/providers/task_provider.dart';
 import 'package:aunty_rafiki/providers/text_to_speech_provider.dart';
 import 'package:aunty_rafiki/providers/timeline_provider.dart';
@@ -27,5 +28,6 @@ void main() {
     ChangeNotifierProvider(create: (_) => BabyBumpProvider()),
     ChangeNotifierProvider(create: (_) => TrackerProvider()),
     ChangeNotifierProvider(create: (_) => UserProvider()),
+    ChangeNotifierProvider(create: (_) => GroupProvider()),
   ], child: App()));
 }

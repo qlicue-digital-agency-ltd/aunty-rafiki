@@ -1,12 +1,29 @@
+import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/image/profile_avatar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CreateGroupPage extends StatelessWidget {
+class CreateGroupPage extends StatefulWidget {
+  @override
+  _CreateGroupPageState createState() => _CreateGroupPageState();
+}
+
+class _CreateGroupPageState extends State<CreateGroupPage> {
+  FirebaseFirestore db;
+
+  TextEditingController _controller;
+
+  FocusNode _focusNode = FocusNode();
+
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final _userProvider = Provider.of<UserProvider>(context);
+    final _groupProvider = Provider.of<GroupProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -37,39 +54,50 @@ class CreateGroupPage extends StatelessWidget {
                       )),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () {},
-                                child: CircleAvatar(
-                                  radius: 30,
-                                  child: Icon(Icons.camera_alt),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                        hintText: 'Type group subject here..'),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: CircleAvatar(
+                                    radius: 30,
+                                    child: Icon(Icons.camera_alt),
                                   ),
                                 ),
-                              ),
-                              IconButton(
-                                  icon: Icon(
-                                    Icons.face,
-                                    color: Theme.of(context).primaryColor,
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: TextFormField(
+                                      controller: _controller,
+                                      focusNode: _focusNode,
+                                      validator: (val) {
+                                        if (val.isEmpty)
+                                          return "Group name required";
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText:
+                                              'Type group subject here..'),
+                                    ),
                                   ),
-                                  onPressed: () {})
-                            ],
-                          ),
-                          Text(
-                              'Provide a group subject and optional group icon')
-                        ]),
+                                ),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.face,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    onPressed: () {})
+                              ],
+                            ),
+                            Text(
+                                'Provide a group subject and optional group icon')
+                          ]),
+                    ),
                   ),
                   Positioned(
                     right: 0,
@@ -78,8 +106,21 @@ class CreateGroupPage extends StatelessWidget {
                         shape: CircleBorder(),
                         color: Theme.of(context).primaryColor,
                         onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          List<String> _members = [];
+                          _userProvider.availableUsers.forEach((user) {
+                            _members.add(user.uid);
+                          });
+                          if (_formKey.currentState.validate()) {
+                            _groupProvider
+                                .createUserGroup(
+                                    name: _controller.text,
+                                    time: Timestamp.fromDate(DateTime.now()),
+                                    members: _members)
+                                .then((value) {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            });
+                          }
                         },
                         child: Container(
                           height: 50,
