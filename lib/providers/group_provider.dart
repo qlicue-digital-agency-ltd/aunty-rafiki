@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -11,8 +10,13 @@ class GroupProvider with ChangeNotifier {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
-  File get pickedImage => _pickedImage;
   File _pickedImage, file;
+  bool _isCreatingGroup = false;
+
+  //getters....
+  File get pickedImage => _pickedImage;
+  bool get isCreatingGroup => _isCreatingGroup;
+
   //file pickers
   void chooseAmImage() async {
     file = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -58,6 +62,8 @@ class GroupProvider with ChangeNotifier {
           avatar: photoURL,
         );
         print('Upload complete.' + photoURL);
+        _isCreatingGroup = false;
+        notifyListeners();
       } on firebase_core.FirebaseException catch (e) {
         // The final snapshot is also available on the task via `.snapshot`,
         // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
@@ -68,12 +74,17 @@ class GroupProvider with ChangeNotifier {
         }
         // ...
       }
+    } else {
+      _isCreatingGroup = false;
+      notifyListeners();
     }
   }
 
 //upload file url......
   Future<void> createUserGroup(
       {@required name, @required time, @required members}) async {
+    _isCreatingGroup = true;
+    notifyListeners();
     await db.collection('groups').add({
       'name': name,
       'time': time,

@@ -13,7 +13,7 @@ class CreateGroupPage extends StatefulWidget {
 class _CreateGroupPageState extends State<CreateGroupPage> {
   FirebaseFirestore db;
 
-  TextEditingController _controller;
+  TextEditingController _controller = TextEditingController();
 
   FocusNode _focusNode = FocusNode();
 
@@ -62,10 +62,19 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                             Row(
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    _groupProvider.chooseAmImage();
+                                  },
                                   child: CircleAvatar(
+                                    backgroundImage: _groupProvider
+                                                .pickedImage !=
+                                            null
+                                        ? FileImage(_groupProvider.pickedImage)
+                                        : null,
                                     radius: 30,
-                                    child: Icon(Icons.camera_alt),
+                                    child: _groupProvider.pickedImage == null
+                                        ? Icon(Icons.camera_alt)
+                                        : Container(),
                                   ),
                                 ),
                                 Expanded(
@@ -105,23 +114,27 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                     child: FlatButton(
                         shape: CircleBorder(),
                         color: Theme.of(context).primaryColor,
-                        onPressed: () {
-                          List<String> _members = [];
-                          _userProvider.availableUsers.forEach((user) {
-                            _members.add(user.uid);
-                          });
-                          if (_formKey.currentState.validate()) {
-                            _groupProvider
-                                .createUserGroup(
-                                    name: _controller.text,
-                                    time: Timestamp.fromDate(DateTime.now()),
-                                    members: _members)
-                                .then((value) {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            });
-                          }
-                        },
+                        onPressed: _groupProvider.isCreatingGroup
+                            ? null
+                            : () {
+                                List<String> _members = [];
+                                _userProvider.availableUsers.forEach((user) {
+                                  _members.add(user.uid);
+                                });
+                                if (_formKey.currentState.validate()) {
+                                  _groupProvider
+                                      .createUserGroup(
+                                          name: _controller.text,
+                                          time: Timestamp.fromDate(
+                                              DateTime.now()),
+                                          members: _members)
+                                      .then((value) {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    _userProvider.clearAllSelectedUsers();
+                                  });
+                                }
+                              },
                         child: Container(
                           height: 50,
                           child: Icon(
@@ -161,7 +174,14 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
             },
             childCount: _userProvider.selectedUser.length,
           ),
-        )
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            _groupProvider.isCreatingGroup
+                ? Center(child: CircularProgressIndicator())
+                : Container()
+          ]),
+        ),
       ]),
     );
   }

@@ -57,4 +57,12 @@ class UserProvider extends ChangeNotifier {
     _availableUsers.add(user);
     notifyListeners();
   }
+
+  clearAllSelectedUsers() {
+    _selectedUser.forEach((user) {
+      _availableUsers.add(user);
+    });
+    _selectedUser.clear();
+    notifyListeners();
+  }
 }
