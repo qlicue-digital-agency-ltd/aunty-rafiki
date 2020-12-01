@@ -1,8 +1,12 @@
+import 'package:aunty_rafiki/models/chat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChatDetailPageAppBar extends StatelessWidget
     implements PreferredSizeWidget {
+  final Chat chat;
+
+  const ChatDetailPageAppBar({Key key, @required this.chat}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -26,7 +30,9 @@ class ChatDetailPageAppBar extends StatelessWidget
                 width: 2,
               ),
               CircleAvatar(
-                backgroundImage: AssetImage('assets/icons/female.png'),
+                backgroundImage: chat.avatar.isNotEmpty
+                    ? NetworkImage(chat.avatar)
+                    : AssetImage('assets/icons/female.png'),
                 maxRadius: 20,
               ),
               SizedBox(
@@ -38,8 +44,9 @@ class ChatDetailPageAppBar extends StatelessWidget
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Jane Russel",
-                      style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+                      chat.name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, color: Colors.white),
                     ),
                     SizedBox(
                       height: 6,

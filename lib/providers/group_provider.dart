@@ -60,6 +60,7 @@ class GroupProvider with ChangeNotifier {
         //update profile...
         _updateUserGroupIcon(
           avatar: photoURL,
+          groupUUID: groupUUID,
         );
         print('Upload complete.' + photoURL);
         _isCreatingGroup = false;
@@ -95,7 +96,7 @@ class GroupProvider with ChangeNotifier {
   }
 
   //upload file url......
-  _updateUserGroupIcon({String groupUUID, String avatar}) {
+  _updateUserGroupIcon({@required String groupUUID, @required String avatar}) {
     db.collection('groups').doc(groupUUID).update({'avatar': avatar});
   }
 }

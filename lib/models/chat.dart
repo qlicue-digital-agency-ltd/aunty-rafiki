@@ -1,22 +1,26 @@
-import 'package:aunty_rafiki/models/message.dart';
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class Chat {
-  final String uuid;
-  final String name;
-
-  final int unreadMessageCounter;
-  final DateTime date;
-  final String chatType;
-  final String avatar;
-  List<Message> messages;
-
+  String id, name, avatar, time, lastMessage;
+  bool isMessageRead;
   Chat(
-      {@required this.uuid,
-      @required this.name,
-      @required this.date,
-      @required this.chatType,
-      @required this.avatar,
-      this.messages,
-      @required this.unreadMessageCounter});
+      {this.id,
+      this.name,
+      this.avatar,
+      this.isMessageRead = false,
+      this.time,
+      this.lastMessage});
+
+  Chat.fromFirestore(DocumentSnapshot doc)
+      : id = doc.id,
+        name = doc.data()['name'],
+        avatar = doc.data()['avatar'],
+        isMessageRead = false,
+        lastMessage = "Asome mama kijacho",
+        time = (doc.data()['time'] as Timestamp).toDate().toString();
+}
+
+List<Chat> firestoreToChatList(QuerySnapshot snapshot) {
+  return snapshot.docs.map((doc) => Chat.fromFirestore(doc)).toList();
 }

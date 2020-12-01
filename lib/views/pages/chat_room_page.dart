@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/models/send_menu_items.dart';
-import 'package:aunty_rafiki/sample/model/chat.dart';
+
+import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/views/backgrounds/background.dart';
 import 'package:aunty_rafiki/sample/widgets/message_edit_bar.dart';
 import 'package:aunty_rafiki/sample/widgets/message_list.dart';
@@ -9,8 +10,6 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ChatRoomPage extends StatelessWidget {
-  ChatRoomPage();
-
   @override
   Widget build(BuildContext context) {
     Chat chat = ModalRoute.of(context).settings.arguments;
@@ -110,7 +109,9 @@ class ChatRoomPage extends StatelessWidget {
     return Provider<Chat>.value(
       value: chat,
       child: Scaffold(
-        appBar: ChatDetailPageAppBar(),
+        appBar: ChatDetailPageAppBar(
+          chat: chat,
+        ),
         body: Stack(
           children: <Widget>[
             ChatBackground(),
@@ -130,4 +131,3 @@ class ChatRoomPage extends StatelessWidget {
     );
   }
 }
-

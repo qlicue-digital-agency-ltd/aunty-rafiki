@@ -1,7 +1,8 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 
-import 'package:aunty_rafiki/sample/model/chat.dart';
+
+import 'package:aunty_rafiki/models/chat.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/chat_user_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -101,25 +102,7 @@ class ChatScreen extends StatelessWidget {
                           chatRoomPage,
                           arguments: chatList[index],
                         );
-                        //  Navigator.of(context).pushNamed(
-                        //     '/chat',
-                        //     arguments: chatList[index],
-                        //   );
                       });
-
-                  // ListTile(
-                  //   title: Text(
-                  //     chatList[index].name,
-                  //     style: TextStyle(fontWeight: FontWeight.bold),
-                  //   ),
-                  //   subtitle: Text(chatList[index].id),
-                  //   onTap: () {
-                  //     Navigator.of(context).pushNamed(
-                  //       '/chat',
-                  //       arguments: chatList[index],
-                  //     );
-                  //   },
-                  // );
                 },
               );
             },

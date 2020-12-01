@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/models/message.dart';
-import 'package:aunty_rafiki/sample/model/chat.dart';
+
+import 'package:aunty_rafiki/models/chat.dart';
 
 import 'package:aunty_rafiki/sample/widgets/message.dart';
 import 'package:flutter/material.dart';
