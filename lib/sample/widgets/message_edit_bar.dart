@@ -1,5 +1,5 @@
-
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -32,7 +32,9 @@ class _MessageEditBarState extends State<MessageEditBar> {
   Widget build(BuildContext context) {
     Chat chat = Provider.of<Chat>(context);
 
-    _sendMessage() {
+    final _chatProvider = Provider.of<ChatProvider>(context);
+
+    sendMessage() {
       if (_controller.text.isNotEmpty) {
         db.collection('groups/${chat.id}/messages').add({
           'text': _controller.text,
@@ -66,7 +68,13 @@ class _MessageEditBarState extends State<MessageEditBar> {
                           EdgeInsets.symmetric(vertical: 4, horizontal: 20),
                       child: TextField(
                         controller: _controller,
-                        onSubmitted: (text) => _sendMessage(),
+                        onSubmitted: (text) {
+                          _chatProvider.sendMessage(
+                              text: _controller.text,
+                              time: Timestamp.fromDate(DateTime.now()),
+                              user: FirebaseAuth.instance.currentUser.uid,
+                              chat: chat);
+                        },
                         decoration: InputDecoration(
                           border: InputBorder.none,
                         ),
@@ -85,7 +93,13 @@ class _MessageEditBarState extends State<MessageEditBar> {
           color: Theme.of(context).primaryColor,
           child: IconButton(
             icon: Icon(Icons.send),
-            onPressed: _sendMessage,
+            onPressed: () {
+              _chatProvider.sendMessage(
+                  text: _controller.text,
+                  time: Timestamp.fromDate(DateTime.now()),
+                  user: FirebaseAuth.instance.currentUser.uid,
+                  chat: chat);
+            },
             color: Colors.white,
           ),
         ),
