@@ -84,6 +84,12 @@ class GroupProvider with ChangeNotifier {
 //upload file url......
   Future<void> createUserGroup(
       {@required name, @required time, @required members}) async {
+    List<String> _searchKeywords = [];
+    name.runes.forEach((int rune) {
+      var character = new String.fromCharCode(rune);
+      _searchKeywords.add(character);
+      print(character);
+    });
     _isCreatingGroup = true;
     notifyListeners();
     await db.collection('groups').add({
@@ -91,6 +97,7 @@ class GroupProvider with ChangeNotifier {
       'time': time,
       'members': members,
       'messages': [],
+      'searchKeywords': _searchKeywords,
       'avatar': ""
     }).then((group) => uploadGroupIcon(groupUUID: group.id));
   }

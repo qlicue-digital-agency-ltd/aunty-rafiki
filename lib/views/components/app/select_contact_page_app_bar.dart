@@ -55,10 +55,6 @@ class SelectContactPageAppBar extends StatelessWidget
                   ],
                 ),
               ),
-              Icon(
-                Icons.more_vert,
-                color: Colors.white,
-              ),
             ],
           ),
         ),

@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:aunty_rafiki/models/message.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class MediaContent extends StatelessWidget {
   final Message message;
@@ -12,7 +16,6 @@ class MediaContent extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     final formatter = new DateFormat('HH:mm');
     return Stack(
       children: [
@@ -20,23 +23,46 @@ class MediaContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             message.media.length < 4
-                ? Column(
-                    children: message.media
-                        .map((media) => Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Image.network(
-                                media.toString(),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.2,
-                                fit: BoxFit.cover,
-                              ),
-                            ))
-                        .toList(),
+                ? Container(
+                    width: width * 0.58,
+                    child: Column(
+                      children: message.media
+                          .map((media) => Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Platform.isIOS
+                                          ? CupertinoActivityIndicator()
+                                          : CircularProgressIndicator(),
+                                    ),
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2,
+                                      child: FadeInImage.memoryNetwork(
+                                        placeholder: kTransparentImage,
+                                        image: media.toString(),
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.2,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                    ),
                   )
-                : Column(
-                    children: widgetlist.map((element) {
-                    return element;
-                  }).toList()),
+                : Container(
+                    width: width * 0.62,
+                    child: Column(
+                        children: widgetlist.map((element) {
+                      return element;
+                    }).toList()),
+                  ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
@@ -85,8 +111,9 @@ class MediaContent extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(2.0),
-            child: Image.network(
-              message.media[i],
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: message.media[i],
               height: width * 0.3,
               width: width * 0.3,
               fit: BoxFit.cover,
@@ -96,8 +123,9 @@ class MediaContent extends StatelessWidget {
             padding: const EdgeInsets.all(2.0),
             child: Stack(
               children: [
-                Image.network(
-                  message.media[i + 1],
+                FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: message.media[i + 1],
                   height: width * 0.3,
                   width: width * 0.3,
                   fit: BoxFit.cover,
