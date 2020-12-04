@@ -1,59 +1,34 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-import 'package:aunty_rafiki/models/user.dart';
+import 'package:aunty_rafiki/providers/user_provider.dart';
+import 'package:aunty_rafiki/views/components/app/select_contact_page_app_bar.dart';
 import 'package:aunty_rafiki/views/components/image/profile_avatar.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SelectContactPage extends StatelessWidget {
+class SelectContactPage extends StatefulWidget {
+  @override
+  _SelectContactPageState createState() => _SelectContactPageState();
+}
+
+class _SelectContactPageState extends State<SelectContactPage> {
   @override
   Widget build(BuildContext context) {
-    final db = FirebaseFirestore.instance;
-
+    final _userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          children: [
-            Text('New group'),
-            Text('Add participants', style: TextStyle(fontSize: 14)),
-            SizedBox(height: 10)
-          ],
-        ),
-        bottom: PreferredSize(
-            preferredSize: Size(double.infinity, 100),
-            child: Container(
-              height: 120,
-              color: Colors.white,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 4,
-                  itemBuilder: (_, index) {
-                    return ProfileAvatar();
-                  }),
-            )),
-      ),
-      body: StreamBuilder<List<User>>(
-        stream: db
-            .collection('users')
-            .orderBy('displayName')
-            .snapshots()
-            .map(firestoreToUserList),
-        builder: (context, AsyncSnapshot<List<User>> snapshot) {
-          print(' peep popeo ppol');
-          if (snapshot.hasError) {
-            return Center(child: Text('error: ${snapshot.error.toString()}'));
-          }
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          }
-          List<User> userList = snapshot.data;
-          return ListView.builder(
-            itemCount: userList.length,
+      appBar: SelectContactPageAppBar(),
+      body: Stack(
+        children: [
+          ListView.builder(
+            padding: EdgeInsets.only(top: 120),
+            itemCount: _userProvider.availableUsers.length,
             itemBuilder: (context, index) {
-              
               return InkWell(
                 onTap: () {
-                  print(userList[index].displayName);
+                  print(_userProvider.availableUsers[index].displayName);
+                  _userProvider.selectUser(
+                      indexAvailableUser: index,
+                      user: _userProvider.availableUsers[index]);
                 },
                 child: Container(
                   height: 100,
@@ -62,9 +37,6 @@ class SelectContactPage extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: CircleAvatar(
                           radius: 35,
-                          // backgroundImage: userList[index].photoUrl != 'null'
-                          //     ? NetworkImage(userList[index].photoUrl)
-                          //     : AssetImage('assets/icons/female.png'),
                           backgroundImage:
                               AssetImage('assets/icons/female.png')),
                     ),
@@ -82,7 +54,9 @@ class SelectContactPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        userList[index].displayName.toString(),
+                                        _userProvider
+                                            .availableUsers[index].displayName
+                                            .toString(),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
@@ -110,14 +84,26 @@ class SelectContactPage extends StatelessWidget {
                   ]),
                 ),
               );
-
-              // ContactTile(
-              //   onTap: () {},
-              //   user: userList[index],
-              // );
             },
-          );
-        },
+          ),
+          Container(
+            height: 120,
+            color: Colors.black12,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _userProvider.selectedUser.length,
+                itemBuilder: (_, index) {
+                  return ProfileAvatar(
+                    user: _userProvider.selectedUser[index],
+                    onTap: () {
+                      _userProvider.removeUser(
+                          indexSelectedUser: index,
+                          user: _userProvider.selectedUser[index]);
+                    },
+                  );
+                }),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

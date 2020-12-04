@@ -1,4 +1,5 @@
-import 'package:aunty_rafiki/sample/model/chat.dart';
+
+import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/views/backgrounds/background.dart';
 import 'package:aunty_rafiki/sample/widgets/message_edit_bar.dart';
 import 'package:aunty_rafiki/sample/widgets/message_list.dart';
@@ -21,7 +22,9 @@ class ChatPage extends StatelessWidget {
             Column(
               children: <Widget>[
                 Expanded(child: MessageList()),
-                MessageEditBar()
+                MessageEditBar(onPressed: (){
+                 // showModal();
+                },)
               ],
             ),
           ],

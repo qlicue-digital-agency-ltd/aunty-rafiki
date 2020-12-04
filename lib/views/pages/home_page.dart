@@ -27,85 +27,85 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
 
-    return Scaffold(
-        // appBar: AppBar(
-        //   title: Text(_utilityProvider.title),
-        //   actions: _utilityProvider.currentIndex == 3
-        //       ? [
-        //           Padding(
-        //             padding: const EdgeInsets.all(8.0),
-        //             child: InkWell(
-        //               onTap: () {
-        //                 Navigator.pushNamed(context, profilePage);
-        //               },
-        //               child: CircleAvatar(
-        //                 radius: 20,
-        //                 backgroundImage: AssetImage('assets/icons/female.png'),
-        //               ),
-        //             ),
-        //           )
-        //         ]
-        //       : [
-        //           _utilityProvider.currentIndex == 1
-        //               ? PopupMenuButton<ChatPopMenu>(
-        //                   icon: Icon(Icons.more_vert),
-        //                   onSelected: (ChatPopMenu result) {
-        //                     if (result == ChatPopMenu.NewGroup)
-        //                       Navigator.pushNamed(context, selectContactsPage);
-        //                   },
-        //                   itemBuilder: (BuildContext context) =>
-        //                       <PopupMenuEntry<ChatPopMenu>>[
-        //                     const PopupMenuItem<ChatPopMenu>(
-        //                       value: ChatPopMenu.NewGroup,
-        //                       child: Text('New Group'),
-        //                     ),
-        //                     const PopupMenuItem<ChatPopMenu>(
-        //                       value: ChatPopMenu.NewBroadcast,
-        //                       child: Text('New Broadcast'),
-        //                     ),
-        //                     const PopupMenuItem<ChatPopMenu>(
-        //                       value: ChatPopMenu.Settings,
-        //                       child: Text('Settings'),
-        //                     ),
-        //                   ],
-        //                 )
-        //               : Container()
-        //         ],
-        // ),
-        body: SafeArea(child: _screens[_utilityProvider.currentIndex]),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _utilityProvider.currentIndex,
-          selectedItemColor: Colors.pink,
-          unselectedItemColor: Colors.grey.shade400,
-          selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.track_changes),
-              title: Text('Tracker'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              title: Text('Chat'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.chartLine),
-              title: Text('Blood Level'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.more_horiz),
-              title: Text('More'),
-            ),
-          ],
-          onTap: _utilityProvider.selectTab,
-        ),
-        floatingActionButton: _utilityProvider.currentIndex == 2
-            ? FloatingActionButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, addBloodLevelPage);
-                },
-                child: Icon(Icons.add))
-            : Container());
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+          appBar: _utilityProvider.currentIndex == 1
+              ? AppBar(
+                  title: Text(
+                    "Chats",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                  actions: [
+                    PopupMenuButton<ChatPopMenu>(
+                      icon: Icon(Icons.more_vert),
+                      onSelected: (ChatPopMenu result) {
+                        if (result == ChatPopMenu.NewGroup)
+                          Navigator.pushNamed(context, selectContactsPage);
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<ChatPopMenu>>[
+                        const PopupMenuItem<ChatPopMenu>(
+                          value: ChatPopMenu.NewGroup,
+                          child: Text('New Group'),
+                        ),
+                        const PopupMenuItem<ChatPopMenu>(
+                          value: ChatPopMenu.NewBroadcast,
+                          child: Text('New Chat'),
+                        ),
+                        const PopupMenuItem<ChatPopMenu>(
+                          value: ChatPopMenu.Settings,
+                          child: Text('Settings'),
+                        ),
+                      ],
+                    )
+                  ],
+                  bottom: TabBar(
+                    onTap: (index) {
+                      // Tab index when user select it, it start from zero
+                    },
+                    tabs: [
+                      Tab(text: 'Group'),
+                      Tab(text: 'Chats'),
+                    ],
+                  ),
+                )
+              : null,
+          body: SafeArea(child: _screens[_utilityProvider.currentIndex]),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _utilityProvider.currentIndex,
+            selectedItemColor: Colors.pink,
+            unselectedItemColor: Colors.grey.shade400,
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.track_changes),
+                title: Text('Tracker'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.chat),
+                title: Text('Chat'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.chartLine),
+                title: Text('Blood Level'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.more_horiz),
+                title: Text('More'),
+              ),
+            ],
+            onTap: _utilityProvider.selectTab,
+          ),
+          floatingActionButton: _utilityProvider.currentIndex == 2
+              ? FloatingActionButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, addBloodLevelPage);
+                  },
+                  child: Icon(Icons.add))
+              : Container()),
+    );
   }
 }

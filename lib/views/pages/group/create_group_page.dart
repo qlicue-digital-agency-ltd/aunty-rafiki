@@ -1,10 +1,29 @@
-
+import 'package:aunty_rafiki/providers/group_provider.dart';
+import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/image/profile_avatar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class CreateGroupPage extends StatelessWidget {
+class CreateGroupPage extends StatefulWidget {
+  @override
+  _CreateGroupPageState createState() => _CreateGroupPageState();
+}
+
+class _CreateGroupPageState extends State<CreateGroupPage> {
+  FirebaseFirestore db;
+
+  TextEditingController _controller = TextEditingController();
+
+  FocusNode _focusNode = FocusNode();
+
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    final _userProvider = Provider.of<UserProvider>(context);
+    final _groupProvider = Provider.of<GroupProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -35,39 +54,59 @@ class CreateGroupPage extends StatelessWidget {
                       )),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () {},
-                                child: CircleAvatar(
-                                  radius: 30,
-                                  child: Icon(Icons.camera_alt),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                        hintText: 'Type group subject here..'),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    _groupProvider.chooseAmImage();
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundImage: _groupProvider
+                                                .pickedImage !=
+                                            null
+                                        ? FileImage(_groupProvider.pickedImage)
+                                        : null,
+                                    radius: 30,
+                                    child: _groupProvider.pickedImage == null
+                                        ? Icon(Icons.camera_alt)
+                                        : Container(),
                                   ),
                                 ),
-                              ),
-                              IconButton(
-                                  icon: Icon(
-                                    Icons.child_care,
-                                    color: Theme.of(context).primaryColor,
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: TextFormField(
+                                      controller: _controller,
+                                      focusNode: _focusNode,
+                                      validator: (val) {
+                                        if (val.isEmpty)
+                                          return "Group name required";
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText:
+                                              'Type group subject here..'),
+                                    ),
                                   ),
-                                  onPressed: () {})
-                            ],
-                          ),
-                          Text(
-                              'Provide a group subject and optional group icon')
-                        ]),
+                                ),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.face,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    onPressed: () {})
+                              ],
+                            ),
+                            Text(
+                                'Provide a group subject and optional group icon')
+                          ]),
+                    ),
                   ),
                   Positioned(
                     right: 0,
@@ -75,10 +114,27 @@ class CreateGroupPage extends StatelessWidget {
                     child: FlatButton(
                         shape: CircleBorder(),
                         color: Theme.of(context).primaryColor,
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
+                        onPressed: _groupProvider.isCreatingGroup
+                            ? null
+                            : () {
+                                List<String> _members = [];
+                                _userProvider.availableUsers.forEach((user) {
+                                  _members.add(user.uid);
+                                });
+                                if (_formKey.currentState.validate()) {
+                                  _groupProvider
+                                      .createUserGroup(
+                                          name: _controller.text,
+                                          time: Timestamp.fromDate(
+                                              DateTime.now()),
+                                          members: _members)
+                                      .then((value) {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    _userProvider.clearAllSelectedUsers();
+                                  });
+                                }
+                              },
                         child: Container(
                           height: 50,
                           child: Icon(
@@ -93,8 +149,11 @@ class CreateGroupPage extends StatelessWidget {
       ),
       body: CustomScrollView(slivers: [
         SliverList(
-          delegate: SliverChildListDelegate(
-              [Center(child: Text('3 / 250 participants'))]),
+          delegate: SliverChildListDelegate([
+            Center(
+                child: Text(
+                    '${_userProvider.selectedUser.length} / ${_userProvider.originalAvailableUsers.length} participants'))
+          ]),
         ),
         SliverGrid(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -104,11 +163,25 @@ class CreateGroupPage extends StatelessWidget {
           ),
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              return ProfileAvatar();
+              return ProfileAvatar(
+                user: _userProvider.selectedUser[index],
+                onTap: () {
+                  _userProvider.removeUser(
+                      indexSelectedUser: index,
+                      user: _userProvider.selectedUser[index]);
+                },
+              );
             },
-            childCount: 20,
+            childCount: _userProvider.selectedUser.length,
           ),
-        )
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            _groupProvider.isCreatingGroup
+                ? Center(child: CircularProgressIndicator())
+                : Container()
+          ]),
+        ),
       ]),
     );
   }

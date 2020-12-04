@@ -25,12 +25,14 @@ class MoreScreen extends StatelessWidget {
                       Navigator.pushNamed(context, profilePage);
                     },
                     child: Container(
-                      decoration: BoxDecoration(color: Colors.pink, shape: BoxShape.circle),
+                      decoration: BoxDecoration(
+                          color: Colors.pink, shape: BoxShape.circle),
                       child: Padding(
                         padding: const EdgeInsets.all(1.0),
                         child: CircleAvatar(
                           radius: 20,
-                          backgroundImage: AssetImage('assets/icons/female.png'),
+                          backgroundImage:
+                              AssetImage('assets/icons/female.png'),
                         ),
                       ),
                     ),
@@ -75,15 +77,23 @@ class MoreScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: <Widget>[
+                // Expanded(
+                //   child: MoreMenuCard(
+                //     image: 'assets/access/baby-stroller.png',
+                //     title: 'Baby Name',
+                //     onTap: () {
+                //       Navigator.pushNamed(context, babyNamePage);
+                //     },
+                //   ),
+                // ),
                 Expanded(
-                  child: MoreMenuCard(
-                    image: 'assets/access/baby-stroller.png',
-                    title: 'Baby Name',
-                    onTap: () {
-                      Navigator.pushNamed(context, babyNamePage);
-                    },
-                  ),
-                ),
+                    child: MoreMenuCard(
+                  image: 'assets/access/baby-bag.png',
+                  title: 'Hospital Bag',
+                  onTap: () {
+                    Navigator.pushNamed(context, hospitalBagPage);
+                  },
+                )),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: MoreMenuCard(
@@ -100,32 +110,32 @@ class MoreScreen extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                    child: MoreMenuCard(
-                  image: 'assets/access/baby-bag.png',
-                  title: 'Hospital Bag',
-                  onTap: () {
-                    Navigator.pushNamed(context, hospitalBagPage);
-                  },
-                )),
-                const SizedBox(width: 16.0),
-                Expanded(
-                  child: MoreMenuCard(
-                    image: 'assets/access/faq.png',
-                    title: 'FAQs',
-                    onTap: () {},
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          //   child: Row(
+          //     children: <Widget>[
+          //       Expanded(
+          //           child: MoreMenuCard(
+          //         image: 'assets/access/baby-bag.png',
+          //         title: 'Hospital Bag',
+          //         onTap: () {
+          //           Navigator.pushNamed(context, hospitalBagPage);
+          //         },
+          //       )),
+          //       const SizedBox(width: 16.0),
+          //       Expanded(
+          //         child: MoreMenuCard(
+          //           image: 'assets/access/faq.png',
+          //           title: 'FAQs',
+          //           onTap: () {},
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(

@@ -17,6 +17,7 @@ class AuthProvider with ChangeNotifier {
   bool _isCodeSent = false;
   String _verificationId;
   PhoneNumber _phoneNumber;
+ 
 
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
@@ -65,6 +66,7 @@ class AuthProvider with ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   bool get isCodeSent => _isCodeSent;
   File get pickedImage => _pickedImage;
+ 
 
   ///sigin user....
   Future<UserCredential> signIn({@required smsCode}) async {
@@ -223,4 +225,6 @@ class AuthProvider with ChangeNotifier {
       'nameInitials': nameInitials,
     });
   }
+
+
 }

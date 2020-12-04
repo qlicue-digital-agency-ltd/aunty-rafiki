@@ -1,6 +1,11 @@
+import 'package:aunty_rafiki/models/user.dart';
 import 'package:flutter/material.dart';
 
 class ProfileAvatar extends StatelessWidget {
+  final Function onTap;
+  final User user;
+
+  const ProfileAvatar({Key key, this.onTap, this.user}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,14 +19,12 @@ class ProfileAvatar extends StatelessWidget {
             children: [
               CircleAvatar(
                   radius: 40,
-                  backgroundImage: AssetImage('assets/images/b.jpg')),
+                  backgroundImage: AssetImage('assets/icons/female.png')),
               Positioned(
                 bottom: 0,
                 right: 0,
                 child: InkWell(
-                  onTap: () {
-                    print('object');
-                  },
+                  onTap: onTap,
                   child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -37,7 +40,7 @@ class ProfileAvatar extends StatelessWidget {
               )
             ],
           ),
-          Text('Robin')
+          Text(user.displayName)
         ],
       ),
     );
