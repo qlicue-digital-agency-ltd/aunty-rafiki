@@ -34,18 +34,6 @@ class _MessageEditBarState extends State<MessageEditBar> {
 
     final _chatProvider = Provider.of<ChatProvider>(context);
 
-    sendMessage() {
-      if (_controller.text.isNotEmpty) {
-        db.collection('groups/${chat.id}/messages').add({
-          'text': _controller.text,
-          'time': Timestamp.fromDate(DateTime.now()),
-          'user': FirebaseAuth.instance.currentUser.uid,
-          'media': []
-        });
-        _controller.clear();
-      }
-    }
-
     return Row(
       children: <Widget>[
         Expanded(
@@ -69,11 +57,15 @@ class _MessageEditBarState extends State<MessageEditBar> {
                       child: TextField(
                         controller: _controller,
                         onSubmitted: (text) {
-                          _chatProvider.sendMessage(
-                              text: _controller.text,
-                              time: Timestamp.fromDate(DateTime.now()),
-                              user: FirebaseAuth.instance.currentUser.uid,
-                              chat: chat);
+                          _chatProvider
+                              .sendMessage(
+                                  text: _controller.text,
+                                  time: Timestamp.fromDate(DateTime.now()),
+                                  user: FirebaseAuth.instance.currentUser.uid,
+                                  chat: chat)
+                              .then((value) {
+                            _controller.clear();
+                          });
                         },
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -94,11 +86,15 @@ class _MessageEditBarState extends State<MessageEditBar> {
           child: IconButton(
             icon: Icon(Icons.send),
             onPressed: () {
-              _chatProvider.sendMessage(
-                  text: _controller.text,
-                  time: Timestamp.fromDate(DateTime.now()),
-                  user: FirebaseAuth.instance.currentUser.uid,
-                  chat: chat);
+              _chatProvider
+                  .sendMessage(
+                      text: _controller.text,
+                      time: Timestamp.fromDate(DateTime.now()),
+                      user: FirebaseAuth.instance.currentUser.uid,
+                      chat: chat)
+                  .then((value) {
+                _controller.clear();
+              });
             },
             color: Colors.white,
           ),

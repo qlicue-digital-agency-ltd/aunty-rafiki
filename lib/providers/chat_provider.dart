@@ -12,17 +12,17 @@ class ChatProvider with ChangeNotifier {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   File _pickedImage, file;
-  bool _isCreatingGroup = false;
+  bool _isSendingMessage = false;
   //getters....
   File get pickedImage => _pickedImage;
-  bool get isCreatingGroup => _isCreatingGroup;
+  bool get isCreatingGroup => _isSendingMessage;
 
   //file pickers
-  void chooseAmImage() async {
+  Future<void> chooseAnImage() async {
     file = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     _pickedImage = file;
-// file = await ImagePicker.pickImage(source: ImageSource.gallery);
+
     notifyListeners();
   }
 
@@ -41,7 +41,7 @@ class ChatProvider with ChangeNotifier {
       _searchKeywords.add(character);
       print(character);
     });
-    _isCreatingGroup = true;
+    _isSendingMessage = true;
     notifyListeners();
     await db.collection('groups/${chat.id}/messages').add({
       'text': text,
@@ -49,15 +49,18 @@ class ChatProvider with ChangeNotifier {
       'user': user,
       'media': [],
       'searchKeywords': _searchKeywords,
-    }).then((group) => _uploadImage(groupUUID: group.id));
+    }).then((message) => _uploadImage(messageUUID: message.id));
   }
 
   //upload image to server...
-  Future<void> _uploadImage({@required groupUUID}) async {
+  Future<void> _uploadImage({@required messageUUID}) async {
     if (_pickedImage != null) {
       firebase_storage.UploadTask task = firebase_storage
           .FirebaseStorage.instance
-          .ref('uploads/group/' + groupUUID + '.png')
+          .ref('uploads/media/' +
+              messageUUID +
+              DateTime.now().toIso8601String() +
+              '.png')
           .putFile(_pickedImage);
 
       task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
@@ -80,11 +83,11 @@ class ChatProvider with ChangeNotifier {
         String photoURL = await url.ref.getDownloadURL();
         //upload image...
         _updateMessageMedia(
-          avatar: photoURL,
-          groupUUID: groupUUID,
+          url: photoURL,
+          messageUUID: messageUUID,
         );
         print('Upload complete.' + photoURL);
-        _isCreatingGroup = false;
+        _isSendingMessage = false;
         notifyListeners();
       } on firebase_core.FirebaseException catch (e) {
         // The final snapshot is also available on the task via `.snapshot`,
@@ -97,13 +100,15 @@ class ChatProvider with ChangeNotifier {
         // ...
       }
     } else {
-      _isCreatingGroup = false;
+      _isSendingMessage = false;
       notifyListeners();
     }
   }
 
   //update message media url......
-  _updateMessageMedia({@required String groupUUID, @required String avatar}) {
-    db.collection('groups').doc(groupUUID).update({'avatar': avatar});
+  _updateMessageMedia({@required String messageUUID, @required String url}) {
+    db.collection('groups').doc(messageUUID).update({
+      'media': [url]
+    });
   }
 }

@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/models/send_menu_items.dart';
 
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:aunty_rafiki/views/backgrounds/background.dart';
 import 'package:aunty_rafiki/sample/widgets/message_edit_bar.dart';
 import 'package:aunty_rafiki/sample/widgets/message_list.dart';
@@ -13,7 +14,7 @@ class ChatRoomPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Chat chat = ModalRoute.of(context).settings.arguments;
-
+    final _chatProvider = Provider.of<ChatProvider>(context);
     Future<void> loadAssets() async {
       List<Asset> resultList = List<Asset>();
       List<Asset> images = List<Asset>();
@@ -79,7 +80,9 @@ class ChatRoomPage extends StatelessWidget {
                           child: ListTile(
                             onTap: () {
                               if (menuItems[index].text == "Photos & Videos")
-                                loadAssets();
+                                _chatProvider.chooseAnImage().then((val){
+
+                                });
                             },
                             leading: Container(
                               decoration: BoxDecoration(
