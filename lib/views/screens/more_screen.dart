@@ -50,10 +50,10 @@ class MoreScreen extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: MoreMenuCard(
-                    image: 'assets/access/mother.png',
-                    title: 'Baby Bump',
+                    image: 'assets/access/diet.png',
+                    title: 'Food',
                     onTap: () {
-                      Navigator.pushNamed(context, babyBumpPage);
+                      Navigator.pushNamed(context, foodPage);
                     },
                   ),
                 ),
@@ -142,10 +142,10 @@ class MoreScreen extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: MoreMenuCard(
-                    image: 'assets/access/diet.png',
-                    title: 'Food',
+                    image: 'assets/access/mother.png',
+                    title: 'Baby Bump',
                     onTap: () {
-                      Navigator.pushNamed(context, foodPage);
+                      Navigator.pushNamed(context, babyBumpPage);
                     },
                   ),
                 ),

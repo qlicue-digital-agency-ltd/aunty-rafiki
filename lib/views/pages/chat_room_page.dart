@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/models/send_menu_items.dart';
 
 import 'package:aunty_rafiki/models/chat.dart';
@@ -80,8 +81,8 @@ class ChatRoomPage extends StatelessWidget {
                           child: ListTile(
                             onTap: () {
                               if (menuItems[index].text == "Photos & Videos")
-                                _chatProvider.chooseAnImage().then((val){
-
+                                _chatProvider.chooseAnImage().then((val) {
+                                  Navigator.pushNamed(context, uploadImagePage);
                                 });
                             },
                             leading: Container(

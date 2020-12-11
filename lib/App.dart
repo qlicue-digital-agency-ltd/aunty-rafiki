@@ -22,6 +22,7 @@ import 'package:aunty_rafiki/views/pages/login_page.dart';
 import 'package:aunty_rafiki/views/pages/profile_page.dart';
 import 'package:aunty_rafiki/views/pages/time_line_page.dart';
 import 'package:aunty_rafiki/views/pages/to_do_list_page.dart';
+import 'package:aunty_rafiki/views/pages/upload_image_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,6 +71,7 @@ class App extends StatelessWidget {
                   foodPage: (_) => FoodPage(),
                   createTaskPage: (_) => CreateTaskPage(),
                   babyBumpPage: (_) => BabyBumpPage(),
+                  uploadImagePage: (_) => UploadImagePage(),
                   '/chat': (_) => ChatPage(),
                   '/new': (_) => NewGroupPage(),
                 },

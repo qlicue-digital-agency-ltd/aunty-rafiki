@@ -9,8 +9,10 @@ import 'package:provider/provider.dart';
 
 class MessageEditBar extends StatefulWidget {
   final Function onPressed;
+  final bool uploadImage;
 
-  const MessageEditBar({Key key, @required this.onPressed}) : super(key: key);
+  const MessageEditBar({Key key, this.onPressed, this.uploadImage = true})
+      : super(key: key);
 
   @override
   _MessageEditBarState createState() => _MessageEditBarState();
@@ -45,11 +47,11 @@ class _MessageEditBarState extends State<MessageEditBar> {
               shape: StadiumBorder(),
               child: Row(
                 children: [
-                  IconButton(
+                widget.uploadImage ?  IconButton(
                     icon: new Icon(Icons.add),
                     onPressed: widget.onPressed,
                     color: Colors.black26,
-                  ),
+                  ):Container(),
                   Flexible(
                     child: Container(
                       padding:
