@@ -19,6 +19,7 @@ import 'package:aunty_rafiki/views/pages/group/select_contact_page.dart';
 import 'package:aunty_rafiki/views/pages/home_page.dart';
 import 'package:aunty_rafiki/views/pages/hospital_bag_page.dart';
 import 'package:aunty_rafiki/views/pages/login_page.dart';
+import 'package:aunty_rafiki/views/pages/onboarding_page.dart';
 import 'package:aunty_rafiki/views/pages/profile_page.dart';
 import 'package:aunty_rafiki/views/pages/time_line_page.dart';
 import 'package:aunty_rafiki/views/pages/to_do_list_page.dart';
@@ -50,8 +51,9 @@ class App extends StatelessWidget {
                     textTheme: GoogleFonts.poppinsTextTheme()),
                 home: FirebaseAuth.instance.currentUser == null
                     ? LoginPage()
-                    : HomePage(),
+                    : OnboardingPage(),
                 routes: {
+                  onboardingPage: (_) => OnboardingPage(),
                   homePage: (_) => HomePage(),
                   chatRoomPage: (_) => ChatRoomPage(),
                   appointmentPage: (_) => AppointmentPage(),
