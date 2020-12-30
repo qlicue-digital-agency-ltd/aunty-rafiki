@@ -1,8 +1,12 @@
+import 'package:aunty_rafiki/service/shared/shared_preference.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
 class UtilityProvider with ChangeNotifier {
+  /// Shared preference DB
+  SharedPref _sharedPref = SharedPref();
+
   ///variables
   int _currentIndex = 0;
 
@@ -74,5 +78,21 @@ class UtilityProvider with ChangeNotifier {
     print("++++++++++++++++++++++----------+++++++++++++++++++++");
     template = DateFormat('EEE, MMM d, ' 'yy');
     return template.format(time);
+  }
+
+  bool _isNewToApp = true;
+
+  Future<bool> get isNewToApp async {
+    await _sharedPref.readBoolean('isNewToApp').then((status) {
+      _isNewToApp = status;
+    });
+
+    return _isNewToApp;
+  }
+
+  set setIsNewToAppStatus(bool status) {
+    _isNewToApp = status;
+    _sharedPref.saveBoolean('isNewToApp', status);
+    notifyListeners();
   }
 }

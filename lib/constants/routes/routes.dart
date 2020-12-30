@@ -19,3 +19,4 @@ const createTaskPage = "/createTaskPage";
 const babyBumpPage = "/babyBumpPage";
 const uploadImagePage = "/ploadImagePage";
 const onboardingPage = "/onboardingPage";
+const landingPage = "/landingPage";

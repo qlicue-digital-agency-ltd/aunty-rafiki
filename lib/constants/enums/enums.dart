@@ -8,3 +8,5 @@ enum TodoTaskCategory { Clinic, Suppliments, Diet, Others }
 enum TtsState { playing, stopped, paused, continued }
 enum Level { low, normal }
 enum Status { veryWeak, weak, good, veryGood, excellent }
+
+enum Configuration { Onboarding, SignUp, Profile, Non, Done }
