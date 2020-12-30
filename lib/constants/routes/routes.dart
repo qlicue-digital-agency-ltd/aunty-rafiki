@@ -9,6 +9,7 @@ const confirmationPage = "/confirmationPage";
 const selectContactsPage = "/selectContactsPage";
 const createGroupPage = "/createGroupPage";
 const profilePage = "/profilePage";
+const createProfilePage = "/createProfilePage";
 const editProfilePage = "/editProfilePage";
 const toDoListPage = "/toDoListPage";
 const babyNamePage = "/babyNamePage";

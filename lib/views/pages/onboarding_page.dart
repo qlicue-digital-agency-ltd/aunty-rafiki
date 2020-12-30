@@ -32,28 +32,28 @@ class _OnboardingPageState extends State<OnboardingPage> {
           physics: BouncingScrollPhysics(),
           children: <Widget>[
             Walkthrougth(
-                icon: "assets/icons/aunty_rafiki.png",
+                icon: "assets/icons/fast-time.png",
                 title: "Fast",
                 textContent:
                     "Aunty Rafiki delivers information faster than any other application"),
             Walkthrougth(
-              icon: "assets/icons/aunty_rafiki.png",
+              icon: "assets/icons/free.png",
               title: 'Free',
               textContent:
                   "Aunty Rafiki is forever free, No ads NO subscription fee",
             ),
             Walkthrougth(
-                icon: "assets/icons/aunty_rafiki.png",
+                icon: "assets/icons/thunderbolt.png",
                 title: 'Powerful',
                 textContent:
                     "Aunty Rafiki has no limit to the size of your media chat"),
             Walkthrougth(
-                icon: "assets/icons/aunty_rafiki.png",
+                icon: "assets/icons/shield.png",
                 title: 'Secure',
                 textContent:
                     "Aunty Rafiki keeps your messages safe from hacker attacks"),
             Walkthrougth(
-                icon: "assets/icons/aunty_rafiki.png",
+                icon: "assets/icons/cloud-network.png",
                 title: 'Cloud-Based',
                 textContent:
                     "Aunty Rafiki lets you access your messages from multiple devices"),
@@ -96,7 +96,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         fontWeight: FontWeight.w900),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, homePage);
+                    Navigator.pushNamed(context, landingPage);
                   },
                 ),
               ),

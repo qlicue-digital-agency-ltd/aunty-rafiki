@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
 import 'package:flutter/gestures.dart';
@@ -235,11 +237,11 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                     if (credential.user != null) {
                                       print("Auth User Phone: " +
                                           credential.user.phoneNumber);
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomePage()));
+                                      Navigator.pushReplacementNamed(
+                                          context, createProfilePage);
+
+                                      _authProvider.setConfigurationStep =
+                                          Configuration.Profile;
                                     }
                                   });
                                   setState(() {

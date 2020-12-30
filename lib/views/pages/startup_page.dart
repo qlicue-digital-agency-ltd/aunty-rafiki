@@ -48,7 +48,7 @@ class StartupPageState extends State<StartupPage>
         //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)
         //     : Navigator.of(context).pushReplacementNamed(landingPageRoute);
       } else {
-        Navigator.pushReplacementNamed(context, profilePage);
+        Navigator.pushReplacementNamed(context, createProfilePage);
         // _authProvider.usersList.isEmpty
         //     ? Navigator.pushReplacementNamed(context, signupPageRoute)
         //     : _storeProvider.storesList.isEmpty
@@ -94,7 +94,7 @@ class StartupPageState extends State<StartupPage>
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('UZZAR FROM QLICUE'),
+              Text('AUNT RAFIKI FROM QLICUE'),
               Padding(
                   padding: EdgeInsets.only(bottom: 30.0),
                   child: new Image.asset(
