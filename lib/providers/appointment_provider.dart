@@ -151,9 +151,7 @@ class AppointmentProvider with ChangeNotifier {
   _updateCalenderAppointments(date) {
 
     final DateFormat _formatter = DateFormat('yyyy-MM-dd');
-    print('+++++++++++++++-------------+++++++++++++++++++++');
-    print(DateTime.parse(date));
-    print('+++++++++++++++-------------+++++++++++++++++++++');
+
     _calendarAppointments[DateTime.parse(date)] = _availableAppointments
         .where((appointment) =>
            _formatter.format(DateTime.parse(appointment.date))  == _formatter.format(DateTime.parse(date)) )

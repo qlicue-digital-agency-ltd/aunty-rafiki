@@ -1,3 +1,5 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/models/term.dart';
 import 'package:aunty_rafiki/service/shared/shared_preference.dart';
 import 'package:flutter/material.dart';
 
@@ -93,6 +95,47 @@ class UtilityProvider with ChangeNotifier {
   set setIsNewToAppStatus(bool status) {
     _isNewToApp = status;
     _sharedPref.saveBoolean('isNewToApp', status);
+    notifyListeners();
+  }
+
+  List<TermModel> _checkBoxList = TermModel.getUsers();
+  List<TermModel> get checkBoxList => _checkBoxList;
+
+  set setItemChange(int index) {
+    _checkBoxList[index].isCheck = !_checkBoxList[index].isCheck;
+    //check for terms state..
+    checkForAllTerms();
+
+    notifyListeners();
+  }
+
+  checkForAllTerms() {
+    if (_checkBoxList.where((element) => element.isCheck).length ==
+        _checkBoxList.length) {
+      _configTerms = ConfigTerms.ALL;
+    } else if (_checkBoxList.where((element) => element.isCheck).length > 0) {
+      _configTerms = ConfigTerms.PARTIAL;
+    } else {
+      _configTerms = ConfigTerms.NON;
+    }
+    notifyListeners();
+  }
+
+  //TERMS configuration...
+  ConfigTerms _configTerms = ConfigTerms.NON;
+
+//getters...
+  ConfigTerms get configTerms => _configTerms;
+
+//select all terms..
+  selectAllTerms() {
+    _checkBoxList.forEach((element) {
+      element.isCheck = true;
+    });
+
+    //check for terms state..
+    checkForAllTerms();
+
     notifyListeners();
   }
 }

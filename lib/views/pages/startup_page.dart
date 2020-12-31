@@ -47,6 +47,12 @@ class StartupPageState extends State<StartupPage>
         // _tokenProvider.checkTokenValidity()
         //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)
         //     : Navigator.of(context).pushReplacementNamed(landingPageRoute);
+      }
+      if (_config == Configuration.Terms) {
+        Navigator.of(context).pushReplacementNamed(choicePage);
+        // _tokenProvider.checkTokenValidity()
+        //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)
+        //     : Navigator.of(context).pushReplacementNamed(landingPageRoute);
       } else {
         Navigator.pushReplacementNamed(context, createProfilePage);
         // _authProvider.usersList.isEmpty
@@ -67,7 +73,6 @@ class StartupPageState extends State<StartupPage>
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _utilityProvider = Provider.of<UtilityProvider>(context, listen: false);
       _authProvider = Provider.of<AuthProvider>(context, listen: false);
-     
     });
 
     animationController = new AnimationController(
@@ -98,7 +103,7 @@ class StartupPageState extends State<StartupPage>
               Padding(
                   padding: EdgeInsets.only(bottom: 30.0),
                   child: new Image.asset(
-                    'assets/icons/aunty-rafiki.png',
+                    'assets/icons/aunty_rafiki.png',
                     height: 25.0,
                     fit: BoxFit.scaleDown,
                   ))

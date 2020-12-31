@@ -31,6 +31,7 @@ dependencies:
   table_calendar: ^2.2.3
   date_time_picker: ^1.0.2
   image_picker: ^0.6.7+11
+  url_launcher: any
 
   pin_code_fields: ^5.0.1
   flutter_launcher_icons: ^0.8.1

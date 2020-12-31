@@ -96,7 +96,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         fontWeight: FontWeight.w900),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, landingPage);
+                    Navigator.pushNamed(context, termsConditionPage);
                   },
                 ),
               ),
