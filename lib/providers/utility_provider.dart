@@ -9,11 +9,17 @@ class UtilityProvider with ChangeNotifier {
   /// Shared preference DB
   SharedPref _sharedPref = SharedPref();
 
+  ///
+
   ///variables
   int _currentIndex = 0;
+  int _stepKnownPregnancy = 1;
   bool _knownPregnancy = true;
 
   String _title = 'Tracker';
+
+  Color _colorKnownPregnancy1 = Colors.transparent;
+  Color _colorKnownPregnancy2 = Colors.transparent;
 
   ///setters
   set _setCurrentIndex(int index) {
@@ -29,6 +35,21 @@ class UtilityProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set setColorKnownPregnancy1(Color color) {
+    _colorKnownPregnancy1 = color;
+    notifyListeners();
+  }
+
+  set setColorKnownPregnancy2(Color color) {
+    _colorKnownPregnancy2 = color;
+    notifyListeners();
+  }
+
+  set setStepKnownPregnancy(int val) {
+    _stepKnownPregnancy = val;
+    notifyListeners();
+  }
+
   set _setTitle(String title) {
     _title = title;
 
@@ -39,6 +60,9 @@ class UtilityProvider with ChangeNotifier {
   int get currentIndex => _currentIndex;
   String get title => _title;
   bool get knownPregnancy => _knownPregnancy;
+  int get stepKnownPregnancy => _stepKnownPregnancy;
+  Color get colorKnownPregnancy1 => _colorKnownPregnancy1;
+  Color get colorKnownPregnancy2 => _colorKnownPregnancy2;
 
   ///
   ///extra function...
