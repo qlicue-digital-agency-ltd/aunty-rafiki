@@ -11,6 +11,7 @@ class UtilityProvider with ChangeNotifier {
 
   ///variables
   int _currentIndex = 0;
+  bool _knownPregnancy = true;
 
   String _title = 'Tracker';
 
@@ -22,6 +23,12 @@ class UtilityProvider with ChangeNotifier {
     ///notifies the provider on change of the value
   }
 
+//setter
+  set setKnownPregnancy(bool val) {
+    _knownPregnancy = val;
+    notifyListeners();
+  }
+
   set _setTitle(String title) {
     _title = title;
 
@@ -31,6 +38,7 @@ class UtilityProvider with ChangeNotifier {
   ///getters
   int get currentIndex => _currentIndex;
   String get title => _title;
+  bool get knownPregnancy => _knownPregnancy;
 
   ///
   ///extra function...

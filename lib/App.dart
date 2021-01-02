@@ -11,6 +11,7 @@ import 'package:aunty_rafiki/views/pages/blood_level_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
 import 'package:aunty_rafiki/views/pages/config/choice_page.dart';
 import 'package:aunty_rafiki/views/pages/config/create_profile_page.dart';
+import 'package:aunty_rafiki/views/pages/config/steps_page.dart';
 import 'package:aunty_rafiki/views/pages/config/terms_conditions.dart';
 import 'package:aunty_rafiki/views/pages/confirm_code_page.dart';
 import 'package:aunty_rafiki/views/pages/create_task_page.dart';
@@ -83,6 +84,7 @@ class App extends StatelessWidget {
                   createProfilePage: (_) => CreateProfilePage(),
                   termsConditionPage: (_) => TermsConditionPage(),
                   choicePage: (_) => ChoicePage(),
+                  stepsPage: (_) => StepsPage(),
                   '/chat': (_) => ChatPage(),
                   '/new': (_) => NewGroupPage(),
                 },

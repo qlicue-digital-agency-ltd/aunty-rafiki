@@ -268,7 +268,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                                     syncToCalendar: _syncToCalendar)
                                 .then((value) {
                               if (!value) {
-                                print('bosssssssssss');
+                                
                                 Navigator.pop(context);
                               } else {
                                 print('Error while submitting data');

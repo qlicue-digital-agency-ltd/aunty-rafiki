@@ -1,11 +1,10 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-import 'package:aunty_rafiki/models/term.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 class TermsConditionPage extends StatefulWidget {
   @override
@@ -16,6 +15,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
   @override
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
+    final _authProvider = Provider.of<AuthProvider>(context);
 
     void itemChange(bool val, int index) {
       _utilityProvider.setItemChange = index;
@@ -97,6 +97,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                 onPressed: () {
                   if (_utilityProvider.configTerms == ConfigTerms.ALL) {
                     Navigator.of(context).pushReplacementNamed(choicePage);
+                    _authProvider.setConfigurationStep = Configuration.Terms;
                   } else {
                     _utilityProvider.selectAllTerms();
                   }
@@ -111,6 +112,8 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                         : () {
                             Navigator.of(context)
                                 .pushReplacementNamed(choicePage);
+                            _authProvider.setConfigurationStep =
+                                Configuration.Terms;
                           },
                     child: Text('NEXT'))
           ]),
@@ -119,11 +122,5 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
     );
   }
 
-  _launchURL(url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+
 }

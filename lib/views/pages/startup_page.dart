@@ -30,40 +30,31 @@ class StartupPageState extends State<StartupPage>
   void navigationPage() async {
     Navigator.of(context).pushReplacementNamed(landingPage);
 
-    bool _status = await _utilityProvider.isNewToApp;
-
-    if (_status) {
-      _authProvider.appConfigurationStep.then((config) {
-        if (config == Configuration.Non) {
-          print(config);
-          Navigator.of(context).pushReplacementNamed(onboardingPage);
-        }
-      });
+    final _config = await _authProvider.appConfigurationStep;
+    if (_config == Configuration.Non) {
+      Navigator.of(context).pushReplacementNamed(onboardingPage);
+    }
+    if (_config == Configuration.Done) {
+      Navigator.of(context).pushReplacementNamed(homePage);
+      // _tokenProvider.checkTokenValidity()
+      //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)
+      //     : Navigator.of(context).pushReplacementNamed(landingPageRoute);
+    }
+    if (_config == Configuration.Terms) {
+      Navigator.of(context).pushReplacementNamed(choicePage);
+      // _tokenProvider.checkTokenValidity()
+      //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)
+      //     : Navigator.of(context).pushReplacementNamed(landingPageRoute);
     } else {
-      final _config = await _authProvider.appConfigurationStep;
-
-      if (_config == Configuration.Done) {
-        Navigator.of(context).pushReplacementNamed(homePage);
-        // _tokenProvider.checkTokenValidity()
-        //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)
-        //     : Navigator.of(context).pushReplacementNamed(landingPageRoute);
-      }
-      if (_config == Configuration.Terms) {
-        Navigator.of(context).pushReplacementNamed(choicePage);
-        // _tokenProvider.checkTokenValidity()
-        //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)
-        //     : Navigator.of(context).pushReplacementNamed(landingPageRoute);
-      } else {
-        Navigator.pushReplacementNamed(context, createProfilePage);
-        // _authProvider.usersList.isEmpty
-        //     ? Navigator.pushReplacementNamed(context, signupPageRoute)
-        //     : _storeProvider.storesList.isEmpty
-        //         ? Navigator.pushReplacementNamed(context, storeConfigPageRoute)
-        //         : _tokenProvider.checkTokenValidity()
-        //             ? Navigator.pushReplacementNamed(context, tokenPageRoute)
-        //             : Navigator.pushReplacementNamed(
-        //                 context, shopListPageRoute);
-      }
+      Navigator.pushReplacementNamed(context, createProfilePage);
+      // _authProvider.usersList.isEmpty
+      //     ? Navigator.pushReplacementNamed(context, signupPageRoute)
+      //     : _storeProvider.storesList.isEmpty
+      //         ? Navigator.pushReplacementNamed(context, storeConfigPageRoute)
+      //         : _tokenProvider.checkTokenValidity()
+      //             ? Navigator.pushReplacementNamed(context, tokenPageRoute)
+      //             : Navigator.pushReplacementNamed(
+      //                 context, shopListPageRoute);
     }
   }
 
