@@ -38,6 +38,22 @@ class _StepsPageState extends State<StepsPage> {
                   } else {
                     Navigator.pop(context);
                   }
+                } else {
+                  if (_utilityProvider.stepUnknownPregnancy == 2) {
+                    _utilityProvider.setStepUnknownPregnancy = 1;
+                    _utilityProvider.setColorUnknownPregnancy2 =
+                        Colors.transparent;
+                  } else if (_utilityProvider.stepUnknownPregnancy == 3) {
+                    _utilityProvider.setStepUnknownPregnancy = 2;
+                    _utilityProvider.setColorUnknownPregnancy3 =
+                        Colors.transparent;
+                  } else if (_utilityProvider.stepUnknownPregnancy == 4) {
+                    _utilityProvider.setStepUnknownPregnancy = 3;
+                    _utilityProvider.setColorUnknownPregnancy4 =
+                        Colors.transparent;
+                  } else {
+                    Navigator.pop(context);
+                  }
                 }
               }),
           title: Text('Steps')),
@@ -50,7 +66,8 @@ class _StepsPageState extends State<StepsPage> {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             children: [
-              if (_utilityProvider.stepKnownPregnancy == 1)
+              if (_utilityProvider.stepKnownPregnancy == 1 &&
+                  _utilityProvider.stepUnknownPregnancy == 1)
                 ListTile(
                     onTap: () {
                       itemChange(!_isSelected);
@@ -64,7 +81,7 @@ class _StepsPageState extends State<StepsPage> {
                           _utilityProvider.setKnownPregnancy =
                               !_utilityProvider.knownPregnancy;
                         }),
-                    title: Text("i don't remember")),
+                    title: Text("I don't remember")),
               FlatButton(
                   color: Colors.pink,
                   textColor: Colors.white,
@@ -73,7 +90,27 @@ class _StepsPageState extends State<StepsPage> {
                       if (_utilityProvider.stepKnownPregnancy == 1) {
                         _utilityProvider.setStepKnownPregnancy = 2;
                         _utilityProvider.setColorKnownPregnancy2 = Colors.pink;
-                      } else {}
+                      } else {
+                        ///TODO:
+                        //save data from here..
+                      }
+                    } else if (!_utilityProvider.knownPregnancy) {
+                      if (_utilityProvider.stepUnknownPregnancy == 1) {
+                        _utilityProvider.setStepUnknownPregnancy = 2;
+                        _utilityProvider.setColorUnknownPregnancy2 =
+                            Colors.pink;
+                      } else if (_utilityProvider.stepUnknownPregnancy == 2) {
+                        _utilityProvider.setStepUnknownPregnancy = 3;
+                        _utilityProvider.setColorUnknownPregnancy3 =
+                            Colors.pink;
+                      } else if (_utilityProvider.stepUnknownPregnancy == 3) {
+                        _utilityProvider.setStepUnknownPregnancy = 4;
+                        _utilityProvider.setColorUnknownPregnancy4 =
+                            Colors.pink;
+                      } else {
+                        ///TODO:
+                        //save data from here..
+                      }
                     }
                   },
                   child: Text('Next')),

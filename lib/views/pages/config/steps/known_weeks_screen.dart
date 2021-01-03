@@ -10,7 +10,7 @@ class KnownWeeksScreen extends StatefulWidget {
 
 class _KnownWeeksScreenState extends State<KnownWeeksScreen> {
   int _currentPickerWeekValue = 4;
-   int _currentPickerYearValue = 1988;
+  int _currentPickerYearValue = 1988;
 
   UtilityProvider utilityProvider;
   @override
@@ -109,8 +109,8 @@ class _KnownWeeksScreenState extends State<KnownWeeksScreen> {
                             initialValue: _currentPickerWeekValue,
                             minValue: 4,
                             maxValue: 43,
-                            onChanged: (newValue) =>
-                                setState(() => _currentPickerWeekValue = newValue)),
+                            onChanged: (newValue) => setState(
+                                () => _currentPickerWeekValue = newValue)),
                       ),
                     ),
                   ],
@@ -123,7 +123,9 @@ class _KnownWeeksScreenState extends State<KnownWeeksScreen> {
                     ),
                     Text(
                       'Telling us your age will help us give us precise information',
-                      style: TextStyle(color: Colors.black,),
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
                     SizedBox(
                       height: 160,
@@ -153,10 +155,10 @@ class _KnownWeeksScreenState extends State<KnownWeeksScreen> {
                                     fontSize: 40,
                                     fontWeight: FontWeight.bold),
                             initialValue: _currentPickerYearValue,
-                            minValue: 1950,
-                            maxValue: 2021,
-                            onChanged: (newValue) =>
-                                setState(() => _currentPickerYearValue = newValue)),
+                            minValue: 1931,
+                            maxValue: 2008,
+                            onChanged: (newValue) => setState(
+                                () => _currentPickerYearValue = newValue)),
                       ),
                     ),
                   ],

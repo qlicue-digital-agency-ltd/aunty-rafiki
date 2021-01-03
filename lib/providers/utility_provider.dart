@@ -14,12 +14,16 @@ class UtilityProvider with ChangeNotifier {
   ///variables
   int _currentIndex = 0;
   int _stepKnownPregnancy = 1;
+  int _stepUnknownPregnancy = 1;
   bool _knownPregnancy = true;
 
   String _title = 'Tracker';
-
   Color _colorKnownPregnancy1 = Colors.transparent;
   Color _colorKnownPregnancy2 = Colors.transparent;
+  Color _colorUnknownPregnancy1 = Colors.transparent;
+  Color _colorUnknownPregnancy2 = Colors.transparent;
+  Color _colorUnknownPregnancy3 = Colors.transparent;
+  Color _colorUnknownPregnancy4 = Colors.transparent;
 
   ///setters
   set _setCurrentIndex(int index) {
@@ -50,6 +54,32 @@ class UtilityProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  //unkonwn setters..
+  set setColorUnknownPregnancy1(Color color) {
+    _colorUnknownPregnancy1 = color;
+    notifyListeners();
+  }
+
+  set setColorUnknownPregnancy2(Color color) {
+    _colorUnknownPregnancy2 = color;
+    notifyListeners();
+  }
+
+  set setColorUnknownPregnancy3(Color color) {
+    _colorUnknownPregnancy3 = color;
+    notifyListeners();
+  }
+
+  set setColorUnknownPregnancy4(Color color) {
+    _colorUnknownPregnancy4 = color;
+    notifyListeners();
+  }
+
+  set setStepUnknownPregnancy(int val) {
+    _stepUnknownPregnancy = val;
+    notifyListeners();
+  }
+
   set _setTitle(String title) {
     _title = title;
 
@@ -63,6 +93,12 @@ class UtilityProvider with ChangeNotifier {
   int get stepKnownPregnancy => _stepKnownPregnancy;
   Color get colorKnownPregnancy1 => _colorKnownPregnancy1;
   Color get colorKnownPregnancy2 => _colorKnownPregnancy2;
+
+  int get stepUnknownPregnancy => _stepUnknownPregnancy;
+  Color get colorUnknownPregnancy1 => _colorUnknownPregnancy1;
+  Color get colorUnknownPregnancy2 => _colorUnknownPregnancy2;
+  Color get colorUnknownPregnancy3 => _colorUnknownPregnancy3;
+  Color get colorUnknownPregnancy4 => _colorUnknownPregnancy4;
 
   ///
   ///extra function...
