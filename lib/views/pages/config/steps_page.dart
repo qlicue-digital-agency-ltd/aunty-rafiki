@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/pages/config/steps/known_weeks_screen.dart';
 import 'package:aunty_rafiki/views/pages/config/steps/unknown_weeks_screen.dart';
@@ -93,6 +94,7 @@ class _StepsPageState extends State<StepsPage> {
                       } else {
                         ///TODO:
                         //save data from here..
+                        Navigator.of(context).pushReplacementNamed(landingPage);
                       }
                     } else if (!_utilityProvider.knownPregnancy) {
                       if (_utilityProvider.stepUnknownPregnancy == 1) {
@@ -110,6 +112,7 @@ class _StepsPageState extends State<StepsPage> {
                       } else {
                         ///TODO:
                         //save data from here..
+                        Navigator.of(context).pushReplacementNamed(landingPage);
                       }
                     }
                   },
