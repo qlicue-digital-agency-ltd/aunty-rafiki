@@ -8,7 +8,8 @@ class CreateProfilePage extends StatefulWidget {
   _CreateProfilePageState createState() => _CreateProfilePageState();
 }
 
-class _CreateProfilePageState extends State<CreateProfilePage> {
+class _CreateProfilePageState extends State<CreateProfilePage>
+    with TickerProviderStateMixin {
   int _weeksOfPregnancy = 4;
   int _yearOfBirth = 1988;
   final _steps = 4;
@@ -31,6 +32,26 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   GlobalKey<FormState> _nameFormKey = GlobalKey<FormState>();
 
   TextEditingController _nameEditingController = TextEditingController();
+
+  AnimationController _controller;
+  Animation<Offset> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    )..forward();
+    _animation = Tween<Offset>(
+      begin: const Offset(-0.5, 0.0),
+      end: const Offset(0.5, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInCubic,
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +101,17 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                           SizedBox(
                             height: 10,
                           ),
+                          Text(
+                            'What is your name?',
+                            style: TextStyle(color: Colors.black, fontSize: 18),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           IconTextField(
                             icon: Icons.person,
                             textEditingController: _nameEditingController,
-                            title: 'Your Full Name',
+                            title: 'Full Name',
                             validator: (val) {
                               if (val.isEmpty)
                                 return 'Enter the your name';
@@ -91,37 +119,45 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                                 return null;
                             },
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  width: double.infinity,
-                                  child: FlatButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16),
-                                    color: Colors.pink[400],
-                                    child: Text(
-                                      'Save'.toUpperCase(),
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w900),
+                          Spacer(),
+                          SlideTransition(
+                            position: _animation,
+                            transformHitTests: true,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: FlatButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16),
+                                      color: Colors.pink[400],
+                                      child: Text(
+                                        'Save'.toUpperCase(),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w900),
+                                      ),
+                                      onPressed: () {
+                                        if (_nameFormKey.currentState
+                                            .validate()) {
+                                          print('save the data');
+                                        } else {
+                                          print('Issue the data');
+                                        }
+                                      },
                                     ),
-                                    onPressed: () {
-                                      if (_nameFormKey.currentState
-                                          .validate()) {
-                                        print('save the data');
-                                      } else {
-                                        print('Issue the data');
-                                      }
-                                    },
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
                           ),
                         ],
                       ),
