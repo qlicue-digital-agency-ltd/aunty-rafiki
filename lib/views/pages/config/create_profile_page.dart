@@ -13,7 +13,6 @@ class CreateProfilePage extends StatefulWidget {
 class _CreateProfilePageState extends State<CreateProfilePage> {
   final _steps = 4;
 
-
   final _stepCircleRadius = 10.0;
 
   final _stepProgressViewHeight = 150.0;
@@ -21,6 +20,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   Color _activeColor = Colors.pink;
 
   Color _inactiveColor = Colors.grey;
+  String _title = "Mother's Name";
 
   TextStyle _headerStyle =
       TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold);
@@ -66,6 +66,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                     left: 24.0,
                     right: 24.0,
                   ),
+                  title: _title,
                 ),
               ),
               Expanded(
@@ -91,8 +92,6 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                       changePage: _changePage,
                     ),
 
-                    
-
                     // Container(
                     //   color: Colors.pink,
                     // ),
@@ -109,6 +108,18 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
     _pageController.jumpToPage(index);
     setState(() {
       _currentPage = index + 1;
+      if (index == 0) {
+        _title = "Mother's Name";
+      }
+      if (index == 1) {
+        _title = "Weeks of Pregnancy";
+      }
+      if (index == 2) {
+        _title = "Motherhood Information";
+      }
+      if (index == 3) {
+        _title = "More Information";
+      }
     });
   }
 }

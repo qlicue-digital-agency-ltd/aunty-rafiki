@@ -23,6 +23,10 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
   int _gravida = 1;
   String _miscarriage = "NO";
   int _miscarriageAge = 1;
+  int _births = 0;
+  int _operationBirths = 0;
+  int _normalBirths = 0;
+
   Animation<Offset> _animation;
   @override
   void initState() {
@@ -48,7 +52,6 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
         SizedBox(
           height: 10,
         ),
-        Text('Motherhood Info'),
         NumberCounter(
           counter: _gravida,
           onTap: (val) {
@@ -75,19 +78,70 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
         SizedBox(
           height: 10,
         ),
+        _miscarriage == "YES"
+            ? NumberCounter(
+                counter: _miscarriageAge,
+                onTap: (val) {
+                  setState(() {
+                    _miscarriageAge = val;
+                  });
+                },
+                title: 'How many weeks was the pregnancy upon miscarriage?',
+                context: context,
+              )
+            : Container(),
+        _miscarriage == "YES"
+            ? SizedBox(
+                height: 10,
+              )
+            : Container(),
         NumberCounter(
-          counter: _miscarriageAge,
+          counter: _births,
           onTap: (val) {
             setState(() {
-              _miscarriageAge = val;
+              _births = val;
             });
           },
-          title: 'How many weeks was the pregnancy upon miscarriage?',
+          title: 'How many times have you given birth?',
           context: context,
         ),
         SizedBox(
           height: 10,
         ),
+        _births > 0
+            ? NumberCounter(
+                counter: _operationBirths,
+                onTap: (val) {
+                  setState(() {
+                    _operationBirths = val;
+                  });
+                },
+                title: 'How many times did you give birth by operation?',
+                context: context,
+              )
+            : Container(),
+        _births > 0
+            ? SizedBox(
+                height: 10,
+              )
+            : Container(),
+        _births > 0
+            ? NumberCounter(
+                counter: _normalBirths,
+                onTap: (val) {
+                  setState(() {
+                    _normalBirths = val;
+                  });
+                },
+                title: 'How many times did you give birth normally?',
+                context: context,
+              )
+            : Container(),
+        _births > 0
+            ? SizedBox(
+                height: 10,
+              )
+            : Container(),
         Spacer(),
         SlideTransition(
             position: _animation,

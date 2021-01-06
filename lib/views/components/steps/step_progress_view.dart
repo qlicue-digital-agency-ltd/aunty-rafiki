@@ -23,7 +23,7 @@ class StepProgressView extends StatelessWidget {
   final double lineHeight;
 //header textstyle
   final TextStyle _headerStyle;
-
+  final String _title;
 
   const StepProgressView({
     Key key,
@@ -36,6 +36,7 @@ class StepProgressView extends StatelessWidget {
     @required Color inactiveColor,
     @required TextStyle headerStyle,
     @required TextStyle stepsStyle,
+    @required String title,
     this.decoration,
     this.padding,
     this.lineHeight = 2.0,
@@ -47,7 +48,7 @@ class StepProgressView extends StatelessWidget {
         _activeColor = activeColor,
         _inactiveColor = inactiveColor,
         _headerStyle = headerStyle,
-       
+        _title = title,
         assert(curStep > 0 == true && curStep <= steps),
         assert(width > 0),
         assert(height >= 2 * dotRadius),
@@ -110,6 +111,13 @@ class StepProgressView extends StatelessWidget {
             ])))),
             Row(
               children: _buildDots(),
+            ),
+             SizedBox(
+              height: 10,
+            ),
+            Text(
+              _title,
+              style: TextStyle(fontSize: 18),
             ),
             SizedBox(
               height: 10,

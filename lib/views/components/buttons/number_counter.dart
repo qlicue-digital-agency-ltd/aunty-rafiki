@@ -86,7 +86,7 @@ class NumberCounter extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return new NumberPickerDialog.integer(
-            minValue: 1,
+            minValue: 0,
             maxValue: 1000,
             title: new Text(title),
             initialIntegerValue: counter,
