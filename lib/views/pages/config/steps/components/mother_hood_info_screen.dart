@@ -22,6 +22,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
   AnimationController _controller;
   int _gravida = 1;
   String _miscarriage = "NO";
+  int _miscarriageAge = 1;
   Animation<Offset> _animation;
   @override
   void initState() {
@@ -70,6 +71,22 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
               _miscarriage = value;
             });
           },
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        NumberCounter(
+          counter: _miscarriageAge,
+          onTap: (val) {
+            setState(() {
+              _miscarriageAge = val;
+            });
+          },
+          title: 'How many weeks was the pregnancy upon miscarriage?',
+          context: context,
+        ),
+        SizedBox(
+          height: 10,
         ),
         Spacer(),
         SlideTransition(

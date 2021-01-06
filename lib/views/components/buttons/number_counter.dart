@@ -37,12 +37,17 @@ class NumberCounter extends StatelessWidget {
             Expanded(
               flex: 2,
               child: RichText(
-                text: TextSpan(children: [
-                  TextSpan(text: title),
-                  TextSpan(
-                      text: isRequired ? '*' : '',
-                      style: TextStyle(color: Colors.red))
-                ], style: TextStyle(color: Colors.black45)),
+                text: TextSpan(
+                    children: [
+                      TextSpan(text: title),
+                      TextSpan(
+                          text: isRequired ? '*' : '',
+                          style: TextStyle(color: Colors.red))
+                    ],
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    )),
               ),
             ),
             Expanded(

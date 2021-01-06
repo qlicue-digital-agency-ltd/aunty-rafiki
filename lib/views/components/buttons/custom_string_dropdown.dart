@@ -41,7 +41,7 @@ class CustomStringDropdown extends StatelessWidget {
                   TextSpan(
                       text: isRequired ? ' *' : '',
                       style: TextStyle(fontSize: 18, color: Colors.red))
-                ], style: TextStyle(fontSize: 18, color: Colors.black45)),
+                ], style: TextStyle(fontSize: 18, color: Colors.black)),
               ),
             ),
             Expanded(
