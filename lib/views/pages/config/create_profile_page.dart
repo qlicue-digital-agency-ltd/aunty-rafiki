@@ -1,6 +1,8 @@
-import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
 import 'package:aunty_rafiki/views/components/steps/step_progress_view.dart';
-import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
+import 'package:aunty_rafiki/views/pages/config/steps/components/mother_hood_info_screen.dart';
+import 'package:aunty_rafiki/views/pages/config/steps/components/name_screen.dart';
+import 'package:aunty_rafiki/views/pages/config/steps/components/weeks_pregnancy_screen.dart';
+
 import 'package:flutter/material.dart';
 
 class CreateProfilePage extends StatefulWidget {
@@ -8,10 +10,7 @@ class CreateProfilePage extends StatefulWidget {
   _CreateProfilePageState createState() => _CreateProfilePageState();
 }
 
-class _CreateProfilePageState extends State<CreateProfilePage>
-    with TickerProviderStateMixin {
-  int _weeksOfPregnancy = 4;
-  int _yearOfBirth = 1988;
+class _CreateProfilePageState extends State<CreateProfilePage> {
   final _steps = 4;
 
   final _stepCircleRadius = 10.0;
@@ -27,35 +26,18 @@ class _CreateProfilePageState extends State<CreateProfilePage>
 
   TextStyle _stepStyle = TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold);
 
-  int _curPage = 1;
+  int _currentPage = 1;
+  PageController _pageController = PageController(
+    initialPage: 0,
+    keepPage: true,
+  );
 
-  GlobalKey<FormState> _nameFormKey = GlobalKey<FormState>();
-
-  TextEditingController _nameEditingController = TextEditingController();
-
-  AnimationController _controller;
-  Animation<Offset> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    )..forward();
-    _animation = Tween<Offset>(
-      begin: const Offset(-0.5, 0.0),
-      end: const Offset(0.5, 0.0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInCubic,
-    ));
-  }
+  GlobalKey<ScaffoldState> _scafoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scafoldKey,
       appBar: AppBar(
         title: Text('Profile'),
       ),
@@ -69,7 +51,7 @@ class _CreateProfilePageState extends State<CreateProfilePage>
                 height: 150.0,
                 child: StepProgressView(
                   steps: _steps,
-                  curStep: _curPage,
+                  curStep: _currentPage,
                   height: _stepProgressViewHeight,
                   width: MediaQuery.of(context).size.width,
                   dotRadius: _stepCircleRadius,
@@ -87,117 +69,43 @@ class _CreateProfilePageState extends State<CreateProfilePage>
               ),
               Expanded(
                 child: PageView(
-                  onPageChanged: (i) {
-                    setState(() {
-                      _curPage = i + 1;
-                    });
-                    print(_curPage);
-                  },
+                  controller: _pageController,
+                  physics: NeverScrollableScrollPhysics(),
                   children: <Widget>[
-                    Form(
-                      key: _nameFormKey,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'What is your name?',
-                            style: TextStyle(color: Colors.black, fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          IconTextField(
-                            icon: Icons.person,
-                            textEditingController: _nameEditingController,
-                            title: 'Full Name',
-                            validator: (val) {
-                              if (val.isEmpty)
-                                return 'Enter the your name';
-                              else
-                                return null;
-                            },
-                          ),
-                          Spacer(),
-                          SlideTransition(
-                            position: _animation,
-                            transformHitTests: true,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    width: double.infinity,
-                                    child: FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 16),
-                                      color: Colors.pink[400],
-                                      child: Text(
-                                        'Save'.toUpperCase(),
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      onPressed: () {
-                                        if (_nameFormKey.currentState
-                                            .validate()) {
-                                          print('save the data');
-                                        } else {
-                                          print('Issue the data');
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
+                    NameScreen(
+                      currentPage: 0,
+                      changePage: _changePage,
                     ),
-                    Container(
-                      child: CustomNumberPicker(
-                        title: 'How many weeks pregnant are you?',
-                        currentValue: _weeksOfPregnancy,
-                        onChanged: (value) {
-                          setState(() {
-                            _weeksOfPregnancy = value;
-                          });
-                        },
-                        miniValue: 4,
-                        maxValue: 43,
-                      ),
+
+                    WeeksPregnancyScreen(
+                      currentPage: 1,
+                      changePage: _changePage,
                     ),
-                    Container(
-                      child: CustomNumberPicker(
-                        title: 'What year were you born?',
-                        subtitle:
-                            'Telling us your age will help us give us precise information',
-                        currentValue: _yearOfBirth,
-                        onChanged: (value) {
-                          setState(() {
-                            _yearOfBirth = value;
-                          });
-                        },
-                        miniValue: 1931,
-                        maxValue: 2008,
-                      ),
+                    MotherhoodInfoScreen(
+                      currentPage: 2,
+                      changePage: _changePage,
                     ),
-                    Container(
-                      color: Colors.pink,
+                    NameScreen(
+                      currentPage: 2,
+                      changePage: _changePage,
                     ),
+
+                    // Container(
+                    //   color: Colors.pink,
+                    // ),
                   ],
                 ),
               )
             ],
           )),
     );
+  }
+
+  void _changePage(int index) {
+    // or this to jump to it without animating
+    _pageController.jumpToPage(index);
+    setState(() {
+      _currentPage = index + 1;
+    });
   }
 }
