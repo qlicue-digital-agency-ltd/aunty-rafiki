@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/views/components/buttons/custom_date_picker_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_string_dropdown.dart';
 import 'package:aunty_rafiki/views/components/buttons/number_counter.dart';
@@ -8,10 +9,16 @@ class MoreInfoScreen extends StatefulWidget {
   final int _currentPage;
   final Function(int) _changePage;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
   const MoreInfoScreen(
-      {Key key, @required int currentPage, @required Function changePage})
+      {Key key,
+      @required int currentPage,
+      @required Function changePage,
+      @required GlobalKey<ScaffoldState> scaffoldKey})
       : _currentPage = currentPage,
         _changePage = changePage,
+        _scaffoldKey = scaffoldKey,
         super(key: key);
   @override
   _MoreInfoScreenState createState() => _MoreInfoScreenState();
@@ -60,6 +67,13 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
           },
           title: 'Haemoglobin Level',
           context: context,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        CustomDatePickerButton(
+          title: 'Last Time you checked Haemoglobin Level',
+          scaffoldKey: widget._scaffoldKey,
         ),
         SizedBox(
           height: 10,

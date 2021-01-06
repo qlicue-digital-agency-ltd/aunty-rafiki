@@ -90,6 +90,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                     MoreInfoScreen(
                       currentPage: 3,
                       changePage: _changePage,
+                      scaffoldKey: _scafoldKey,
                     ),
                   ],
                 ),
