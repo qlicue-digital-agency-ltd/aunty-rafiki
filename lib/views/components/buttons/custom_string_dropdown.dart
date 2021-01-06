@@ -45,7 +45,7 @@ class CustomStringDropdown extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 1,
               child: DropdownButton(
                 isExpanded: true,
                 hint: Text(

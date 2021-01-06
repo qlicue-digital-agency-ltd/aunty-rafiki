@@ -13,6 +13,7 @@ class CreateProfilePage extends StatefulWidget {
 class _CreateProfilePageState extends State<CreateProfilePage> {
   final _steps = 4;
 
+
   final _stepCircleRadius = 10.0;
 
   final _stepProgressViewHeight = 150.0;
@@ -89,6 +90,8 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                       currentPage: 2,
                       changePage: _changePage,
                     ),
+
+                    
 
                     // Container(
                     //   color: Colors.pink,

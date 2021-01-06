@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
+import 'package:aunty_rafiki/views/components/buttons/custom_string_dropdown.dart';
 import 'package:aunty_rafiki/views/components/buttons/number_counter.dart';
 
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
     with TickerProviderStateMixin {
   AnimationController _controller;
   int _gravida = 1;
+  String _miscarriage = "NO";
   Animation<Offset> _animation;
   @override
   void initState() {
@@ -55,6 +57,19 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
           },
           title: 'Gravida',
           context: context,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        CustomStringDropdown(
+          title: 'Ever had a miscarriage?',
+          value: _miscarriage,
+          items: ["NO", "YES"],
+          onChange: (value) {
+            setState(() {
+              _miscarriage = value;
+            });
+          },
         ),
         Spacer(),
         SlideTransition(
