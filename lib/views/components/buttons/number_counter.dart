@@ -21,9 +21,12 @@ class NumberCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 2.0,
-      borderRadius: BorderRadius.all(Radius.circular(30)),
+      borderRadius: BorderRadius.all(Radius.circular(5)),
       child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(255, 240, 240, 1),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+        ),
         padding: EdgeInsets.only(left: 5),
         height: 60,
         child: Row(

@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
+import 'package:aunty_rafiki/views/components/buttons/number_counter.dart';
 
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class MotherhoodInfoScreen extends StatefulWidget {
 class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
     with TickerProviderStateMixin {
   AnimationController _controller;
-
+  int _gravida = 1;
   Animation<Offset> _animation;
   @override
   void initState() {
@@ -45,6 +46,16 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
           height: 10,
         ),
         Text('Motherhood Info'),
+        NumberCounter(
+          counter: _gravida,
+          onTap: (val) {
+            setState(() {
+              _gravida = val;
+            });
+          },
+          title: 'Gravida',
+          context: context,
+        ),
         Spacer(),
         SlideTransition(
             position: _animation,
