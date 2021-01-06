@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/views/components/steps/step_progress_view.dart';
+import 'package:aunty_rafiki/views/pages/config/steps/components/more_info_screen.dart';
 import 'package:aunty_rafiki/views/pages/config/steps/components/mother_hood_info_screen.dart';
 import 'package:aunty_rafiki/views/pages/config/steps/components/name_screen.dart';
 import 'package:aunty_rafiki/views/pages/config/steps/components/weeks_pregnancy_screen.dart';
@@ -78,7 +79,6 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                       currentPage: 0,
                       changePage: _changePage,
                     ),
-
                     WeeksPregnancyScreen(
                       currentPage: 1,
                       changePage: _changePage,
@@ -87,14 +87,10 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                       currentPage: 2,
                       changePage: _changePage,
                     ),
-                    NameScreen(
-                      currentPage: 2,
+                    MoreInfoScreen(
+                      currentPage: 3,
                       changePage: _changePage,
                     ),
-
-                    // Container(
-                    //   color: Colors.pink,
-                    // ),
                   ],
                 ),
               )
