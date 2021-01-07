@@ -46,29 +46,27 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
       body: Padding(
           padding: EdgeInsets.only(left: 20, right: 20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                height: 150.0,
-                child: StepProgressView(
-                  steps: _steps,
-                  curStep: _currentPage,
-                  height: _stepProgressViewHeight,
-                  width: MediaQuery.of(context).size.width,
-                  dotRadius: _stepCircleRadius,
-                  activeColor: _activeColor,
-                  inactiveColor: _inactiveColor,
-                  headerStyle: _headerStyle,
-                  stepsStyle: _stepStyle,
-                  decoration: BoxDecoration(color: Colors.white),
-                  padding: EdgeInsets.only(
-                    top: 48.0,
-                    left: 24.0,
-                    right: 24.0,
-                  ),
-                  title: _title,
+              StepProgressView(
+                steps: _steps,
+                curStep: _currentPage,
+                height: _stepProgressViewHeight,
+                width: MediaQuery.of(context).size.width,
+                dotRadius: _stepCircleRadius,
+                activeColor: _activeColor,
+                inactiveColor: _inactiveColor,
+                headerStyle: _headerStyle,
+                stepsStyle: _stepStyle,
+                decoration: BoxDecoration(color: Colors.white),
+                padding: EdgeInsets.only(
+                  top: 48.0,
+                  left: 24.0,
+                  right: 24.0,
                 ),
+                title: _title,
               ),
               Expanded(
                 child: PageView(

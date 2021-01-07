@@ -1,22 +1,34 @@
-import 'package:aunty_rafiki/providers/utility_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class CustomDatePickerButton extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  final bool isRequired;
-  final String title;
+  final bool _isRequired;
+  final String _title;
+  final Function(DateTime) _onChange;
+  final DateTime _selectedDate;
+  final int _minimumYear;
+  final int _maximumYear;
 
   const CustomDatePickerButton(
       {Key key,
-      this.isRequired = false,
-      this.title = 'Expiry Date ',
-      @required this.scaffoldKey})
-      : super(key: key);
+      @required bool isRequired,
+      @required String title,
+      @required this.scaffoldKey,
+      @required DateTime selectedDate,
+      @required int minimumYear,
+      @required int maximumYear,
+      @required Function(DateTime) onChange})
+      : _selectedDate = selectedDate,
+        _title = title,
+        _isRequired = isRequired,
+        _minimumYear = minimumYear,
+        _maximumYear = maximumYear,
+        _onChange = onChange,
+        super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _utilityProvider = Provider.of<UtilityProvider>(context);
     return Material(
       borderRadius: BorderRadius.all(Radius.circular(5)),
       child: Container(
@@ -35,19 +47,18 @@ class CustomDatePickerButton extends StatelessWidget {
               flex: 2,
               child: RichText(
                 text: TextSpan(children: [
-                  TextSpan(text: title),
+                  TextSpan(text: _title),
                   TextSpan(
-                      text: isRequired ? '*' : '',
+                      text: _isRequired ? '*' : '',
                       style: TextStyle(color: Colors.red))
                 ], style: TextStyle(color: Colors.black45)),
               ),
             ),
             Expanded(
               flex: 3,
-              child: Text(_utilityProvider.selectedDate == null
+              child: Text(_selectedDate == null
                   ? '---Select Date---'
-                  : DateFormat('dd-MM-yyyy')
-                      .format(_utilityProvider.selectedDate)),
+                  : DateFormat('dd-MM-yyyy').format(_selectedDate)),
             ),
             IconButton(
               tooltip: 'Select a Date',
@@ -55,8 +66,7 @@ class CustomDatePickerButton extends StatelessWidget {
                 Icons.calendar_today,
                 color: Theme.of(context).primaryColor,
               ),
-              onPressed: () =>
-                  _utilityProvider.selectDateIOS(scaffoldKey.currentContext),
+              onPressed: () => selectDateIOS(scaffoldKey.currentContext),
             ),
             SizedBox(
               width: 10,
@@ -65,5 +75,85 @@ class CustomDatePickerButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> selectDateIOS(
+    BuildContext context,
+  ) async {
+    DateTime picked;
+
+    /// GlobalKey<ScaffoldState> scaffoldKey
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext builder) {
+          return Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              height: MediaQuery.of(context).copyWith().size.height / 3,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        FlatButton(
+                          child: Text(
+                            'CANCEL',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.red),
+                          ),
+                          textColor: Theme.of(context).buttonColor,
+                          onPressed: () {
+                            _onChange(null);
+                            Navigator.pop(context);
+                          },
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 10,
+                          ),
+                        ),
+                        FlatButton(
+                          child: Text(
+                            'DONE',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.pink),
+                          ),
+                          textColor: Theme.of(context).buttonColor,
+                          onPressed: () {
+                            if (picked != null && picked != _selectedDate) {
+                              _onChange(picked);
+                            } else {}
+
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height:
+                          MediaQuery.of(context).copyWith().size.height / 3.5,
+                      child: CupertinoDatePicker(
+                        initialDateTime: DateTime.now(),
+                        onDateTimeChanged: (DateTime newdate) {
+                          picked = newdate;
+                        },
+                        minimumYear: _minimumYear,
+                        maximumYear: _maximumYear,
+                        mode: CupertinoDatePickerMode.date,
+                      ),
+                    ),
+                  ),
+                ],
+              ));
+        });
   }
 }

@@ -47,7 +47,8 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      shrinkWrap: true,
       children: [
         SizedBox(
           height: 10,
@@ -142,7 +143,9 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
                 height: 10,
               )
             : Container(),
-        Spacer(),
+        SizedBox(
+          height: 20,
+        ),
         SlideTransition(
             position: _animation,
             transformHitTests: true,

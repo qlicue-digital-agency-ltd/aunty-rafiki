@@ -32,6 +32,9 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
   String _medication = "NO";
   String _tetanasiVaccination = "NO";
   int _tetanasiVaccineNumber = 1;
+  DateTime _nextTetanusDate;
+  DateTime _lastTetanusDate;
+  DateTime _haemoglobinLevelDate;
 
   Animation<Offset> _animation;
   @override
@@ -53,7 +56,8 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      shrinkWrap: true,
       children: [
         SizedBox(
           height: 10,
@@ -69,11 +73,21 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
           context: context,
         ),
         SizedBox(
-          height: 10,
+          height: 15,
         ),
+        Text('Last Time you checked Haemoglobin Level'),
         CustomDatePickerButton(
-          title: 'Last Time you checked Haemoglobin Level',
+          title: 'Date',
           scaffoldKey: widget._scaffoldKey,
+          isRequired: true,
+          maximumYear: 2022,
+          minimumYear: 1902,
+          selectedDate: _haemoglobinLevelDate,
+          onChange: (dateTime) {
+            setState(() {
+              _haemoglobinLevelDate = dateTime;
+            });
+          },
         ),
         SizedBox(
           height: 10,
@@ -129,7 +143,57 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
                 context: context,
               )
             : Container(),
-        Spacer(),
+        SizedBox(
+          height: 15,
+        ),
+        _tetanasiVaccination == "YES"
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Last Time you had the Tetanasi vaccincation'),
+                  CustomDatePickerButton(
+                    title: 'Date',
+                    scaffoldKey: widget._scaffoldKey,
+                    isRequired: true,
+                    maximumYear: 2022,
+                    minimumYear: 1902,
+                    selectedDate: _lastTetanusDate,
+                    onChange: (dateTime) {
+                      setState(() {
+                        _lastTetanusDate = dateTime;
+                      });
+                    },
+                  ),
+                ],
+              )
+            : Container(),
+        SizedBox(
+          height: 15,
+        ),
+        _tetanasiVaccination == "YES"
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('When is your next Tetanasi vaccincation'),
+                  CustomDatePickerButton(
+                    title: 'Date',
+                    scaffoldKey: widget._scaffoldKey,
+                    isRequired: true,
+                    maximumYear: 2022,
+                    minimumYear: 1902,
+                    selectedDate: _nextTetanusDate,
+                    onChange: (dateTime) {
+                      setState(() {
+                        _nextTetanusDate = dateTime;
+                      });
+                    },
+                  ),
+                ],
+              )
+            : Container(),
+        SizedBox(
+          height: 20,
+        ),
         SlideTransition(
             position: _animation,
             transformHitTests: true,
