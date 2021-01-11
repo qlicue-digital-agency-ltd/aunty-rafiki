@@ -47,7 +47,7 @@ class ProfilePage extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                data['photoURL'] != null
+                                data['displayName'] != null
                                     ? '${data['displayName']}'
                                     : "No Name",
                                 style: TextStyle(

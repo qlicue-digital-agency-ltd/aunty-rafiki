@@ -51,15 +51,19 @@ class _GroupChatsState extends State<GroupChats> {
           ),
           StreamBuilder<List<Chat>>(
             stream: (_searchText != "" && _searchText != null)
-                ? db
+                ? (db
                     .collection('groups')
-                    .where("searchKeywords", arrayContains: _searchText)
+                    .where("members", arrayContainsAny: [
+                      '${FirebaseAuth.instance.currentUser.uid}'
+                    ])
                     .snapshots()
-                    .map(firestoreToChatList)
+                    .map((snapshot) =>
+                        firestoreToChatListFiltered(snapshot, _searchText)))
                 : db
                     .collection('groups')
-                    .where("members",
-                        arrayContainsAny: ['${FirebaseAuth.instance.currentUser.uid}'])
+                    .where("members", arrayContainsAny: [
+                      '${FirebaseAuth.instance.currentUser.uid}'
+                    ])
                     .snapshots()
                     .map(firestoreToChatList),
             builder: (context, AsyncSnapshot<List<Chat>> snapshot) {
