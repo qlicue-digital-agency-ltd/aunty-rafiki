@@ -1,9 +1,14 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
+import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_date_picker_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_string_dropdown.dart';
 import 'package:aunty_rafiki/views/components/buttons/number_counter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MoreInfoScreen extends StatefulWidget {
   final int _currentPage;
@@ -56,6 +61,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
 
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     return ListView(
       shrinkWrap: true,
       children: [
@@ -200,7 +206,9 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
             child: CustomRaisedButton(
                 title: 'Next',
                 onPressed: () {
-                  widget._changePage(widget._currentPage + 1);
+                  //.....
+                  _authProvider.setConfigurationStep = Configuration.Done;
+                  Navigator.pushNamed(context, landingPage);
                 })),
         SizedBox(
           height: 10,

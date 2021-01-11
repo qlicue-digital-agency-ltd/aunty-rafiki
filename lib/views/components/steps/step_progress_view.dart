@@ -112,7 +112,7 @@ class StepProgressView extends StatelessWidget {
             Row(
               children: _buildDots(),
             ),
-             SizedBox(
+            SizedBox(
               height: 10,
             ),
             Text(

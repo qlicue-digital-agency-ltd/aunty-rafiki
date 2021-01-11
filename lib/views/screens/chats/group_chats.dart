@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:aunty_rafiki/constants/routes/routes.dart';
@@ -52,13 +53,13 @@ class _GroupChatsState extends State<GroupChats> {
             stream: (_searchText != "" && _searchText != null)
                 ? db
                     .collection('groups')
-                    .orderBy('name')
                     .where("searchKeywords", arrayContains: _searchText)
                     .snapshots()
                     .map(firestoreToChatList)
                 : db
                     .collection('groups')
-                    .orderBy('name')
+                    .where("members",
+                        arrayContainsAny: ['${FirebaseAuth.instance.currentUser.uid}'])
                     .snapshots()
                     .map(firestoreToChatList),
             builder: (context, AsyncSnapshot<List<Chat>> snapshot) {

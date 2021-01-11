@@ -10,7 +10,6 @@ import 'package:aunty_rafiki/views/pages/baby_name_page.dart';
 import 'package:aunty_rafiki/views/pages/blood_level_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
 import 'package:aunty_rafiki/views/pages/config/choice_page.dart';
-import 'package:aunty_rafiki/views/pages/config/create_profile_page.dart';
 import 'package:aunty_rafiki/views/pages/config/steps_page.dart';
 import 'package:aunty_rafiki/views/pages/config/terms_conditions.dart';
 import 'package:aunty_rafiki/views/pages/confirm_code_page.dart';
@@ -54,12 +53,15 @@ class App extends StatelessWidget {
                     primarySwatch: Colors.pink,
                     visualDensity: VisualDensity.adaptivePlatformDensity,
                     textTheme: GoogleFonts.poppinsTextTheme()),
-                home: StartupPage(),
+                home: FirebaseAuth.instance.currentUser == null
+                    ? LoginPage()
+                    : HomePage(),
+                // home: StartupPage(),
                 routes: {
                   landingPage: (context) =>
                       FirebaseAuth.instance.currentUser == null
                           ? LoginPage()
-                          : CreateProfilePage(),
+                          : HomePage(),
                   onboardingPage: (_) => OnboardingPage(),
                   homePage: (_) => HomePage(),
                   chatRoomPage: (_) => ChatRoomPage(),
@@ -81,7 +83,7 @@ class App extends StatelessWidget {
                   createTaskPage: (_) => CreateTaskPage(),
                   babyBumpPage: (_) => BabyBumpPage(),
                   uploadImagePage: (_) => UploadImagePage(),
-                  createProfilePage: (_) => CreateProfilePage(),
+                  createProfilePage: (_) => StepsPage(),
                   termsConditionPage: (_) => TermsConditionPage(),
                   choicePage: (_) => ChoicePage(),
                   stepsPage: (_) => StepsPage(),

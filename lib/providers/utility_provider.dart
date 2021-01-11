@@ -19,6 +19,8 @@ class UtilityProvider with ChangeNotifier {
   bool _knownPregnancy = true;
 
   String _title = 'Tracker';
+  String _titleCalender = 'When did your last period start?';
+  
   Color _colorKnownPregnancy1 = Colors.transparent;
   Color _colorKnownPregnancy2 = Colors.transparent;
   Color _colorUnknownPregnancy1 = Colors.transparent;
@@ -87,9 +89,16 @@ class UtilityProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set setTitleCalender(String title) {
+    _titleCalender = title;
+
+    notifyListeners();
+  }
+
   ///getters
   int get currentIndex => _currentIndex;
   String get title => _title;
+  String get titleCalender => _titleCalender;
   bool get knownPregnancy => _knownPregnancy;
   int get stepKnownPregnancy => _stepKnownPregnancy;
   Color get colorKnownPregnancy1 => _colorKnownPregnancy1;
@@ -211,5 +220,4 @@ class UtilityProvider with ChangeNotifier {
   String dateFormatter(DateTime dateTime) {
     return DateFormat('dd-MM-yyyy').format(dateTime);
   }
-
 }
