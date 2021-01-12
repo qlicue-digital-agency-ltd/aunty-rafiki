@@ -124,6 +124,7 @@ class ChatRoomPage extends StatelessWidget {
                 MessageList(),
                 MessageEditBar(
                   onPressed: () {
+                    print('object');
                     showModal();
                   },
                 )
