@@ -1,6 +1,8 @@
 enum AudioState { PLAYING, STOPPED }
 enum AvailableProfessions { doctor, midwife }
 enum ChatPopMenu { NewGroup, NewBroadcast, Settings }
+enum ChatGroupPopMenu { GroupInfo, MuteNotification, ExitGroup, ClearChat }
+
 enum Type { checkpoint, line }
 enum TodoTask { COMPLETED, INCOMPLETE, INCOMING }
 enum TodoTaskCategory { Clinic, Suppliments, Diet, Others }

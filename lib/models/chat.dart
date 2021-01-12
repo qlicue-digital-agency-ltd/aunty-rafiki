@@ -24,6 +24,7 @@ class Chat {
 }
 
 List<Chat> firestoreToChatList(QuerySnapshot snapshot) {
+
   return snapshot.docs.map((doc) => Chat.fromFirestore(doc)).toList();
 }
 

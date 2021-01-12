@@ -1,14 +1,19 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/models/chat.dart';
+
+import 'package:aunty_rafiki/providers/group_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChatDetailPageAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   final Chat chat;
-
   const ChatDetailPageAppBar({Key key, @required this.chat}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _groupProvider = Provider.of<GroupProvider>(context);
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -58,10 +63,39 @@ class ChatDetailPageAppBar extends StatelessWidget
                   ],
                 ),
               ),
-              Icon(
-                Icons.more_vert,
-                color: Colors.white,
-              ),
+              PopupMenuButton<ChatGroupPopMenu>(
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                ),
+                onSelected: (ChatGroupPopMenu result) {
+                  if (result == ChatGroupPopMenu.ExitGroup) {
+                    _groupProvider.leaveGroup(
+                        groupUID: chat.id,
+                        memberUID: FirebaseAuth.instance.currentUser.uid);
+                    Navigator.pop(context);
+                  }
+                },
+                itemBuilder: (BuildContext context) =>
+                    <PopupMenuEntry<ChatGroupPopMenu>>[
+                  const PopupMenuItem<ChatGroupPopMenu>(
+                    value: ChatGroupPopMenu.GroupInfo,
+                    child: Text('Group Info'),
+                  ),
+                  const PopupMenuItem<ChatGroupPopMenu>(
+                    value: ChatGroupPopMenu.MuteNotification,
+                    child: Text('Mute Notifications'),
+                  ),
+                  const PopupMenuItem<ChatGroupPopMenu>(
+                    value: ChatGroupPopMenu.ClearChat,
+                    child: Text('Clear Chat'),
+                  ),
+                  const PopupMenuItem<ChatGroupPopMenu>(
+                    value: ChatGroupPopMenu.ExitGroup,
+                    child: Text('Exit Group'),
+                  ),
+                ],
+              )
             ],
           ),
         ),
