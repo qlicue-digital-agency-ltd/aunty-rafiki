@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/models/bag_item.dart';
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +35,14 @@ class HospitalBagDetailPage extends StatelessWidget {
                 text: 'Suggestion',
               ),
               Tab(
-                icon: Icon(Icons.card_travel),
+                icon: Badge(
+                    showBadge: _packedBagItmes.isNotEmpty ? true : false,
+                    badgeColor: Colors.white,
+                    badgeContent: Text(
+                      '${_packedBagItmes.length}',
+                      style: TextStyle(color: Colors.pink),
+                    ),
+                    child: Icon(Icons.card_travel)),
                 text: 'My Items',
               ),
             ],
@@ -47,9 +55,7 @@ class HospitalBagDetailPage extends StatelessWidget {
                 return Column(
                   children: [
                     ListTile(
-                      onTap: (){
-                        
-                      },
+                      onTap: () {},
                       leading: IconButton(
                           tooltip: 'add',
                           icon: Icon(

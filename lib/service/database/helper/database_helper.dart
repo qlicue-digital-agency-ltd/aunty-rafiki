@@ -6,7 +6,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  static final _databaseName = "uzzar_pro.db";
+  static final _databaseName = "aunty_rafiki_pro.db";
   static final _databaseVersion = 1;
 
   ///migrations

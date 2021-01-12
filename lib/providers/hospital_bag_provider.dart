@@ -1,10 +1,17 @@
 import 'package:aunty_rafiki/models/bag_item.dart';
+import 'package:aunty_rafiki/service/database/query-builder/items_query_builder.dart';
 import 'package:flutter/material.dart';
 
 class HostipalBagProvider with ChangeNotifier {
+  //constructor..
   HostipalBagProvider() {
-    loadItems();
+    
+    fetchBagItems();
   }
+
+  ///product query builder
+  BagItemQueryBuilder _bagItemQueryBuilder = BagItemQueryBuilder();
+
   //available bag list
   List<BagItem> _availableBabyBagList = <BagItem>[];
   List<BagItem> _availableMotherBagList = <BagItem>[];
@@ -26,69 +33,30 @@ class HostipalBagProvider with ChangeNotifier {
 
 //laod Item bags
   loadItems() {
-    _availableMotherBagList = <BagItem>[
-      BagItem(id: 1, name: 'Birth plan', isPacked: false, owner: "mother"),
-      BagItem(id: 2, name: 'Book magazine', isPacked: false, owner: "mother"),
-      BagItem(id: 3, name: 'Breast pads', isPacked: false, owner: "mother"),
-      BagItem(
-          id: 4,
-          name: 'Camera and batteries',
-          isPacked: false,
-          owner: "mother"),
-      BagItem(id: 5, name: 'Dressing gown', isPacked: false, owner: "mother"),
-      BagItem(
-          id: 6, name: 'Facecloth of fan', isPacked: false, owner: "mother"),
-      BagItem(
-          id: 7,
-          name: 'Gift for your older children',
-          isPacked: false,
-          owner: "mother"),
-      BagItem(id: 8, name: 'Glucose tablets', isPacked: false, owner: "mother"),
-      BagItem(
-          id: 9, name: 'Going home outfit', isPacked: false, owner: "mother"),
-    ];
+    motherBagList.forEach((element) {
+      _bagItemQueryBuilder.insert(element);
+    });
 
-    _availablePartnerBagList = <BagItem>[
-      BagItem(id: 1, name: 'Birth plan', isPacked: false, owner: "partner"),
-      BagItem(id: 2, name: 'Book magazine', isPacked: false, owner: "partner"),
-      BagItem(id: 3, name: 'Breast pads', isPacked: false, owner: "partner"),
-      BagItem(
-          id: 4,
-          name: 'Camera and batteries',
-          isPacked: false,
-          owner: "partner"),
-      BagItem(id: 5, name: 'Dressing gown', isPacked: false, owner: "partner"),
-      BagItem(
-          id: 6, name: 'Facecloth of fan', isPacked: false, owner: "partner"),
-      BagItem(
-          id: 7,
-          name: 'Gift for your older children',
-          isPacked: false,
-          owner: "partner"),
-      BagItem(
-          id: 8, name: 'Glucose tablets', isPacked: false, owner: "partner"),
-      BagItem(
-          id: 9, name: 'Going home outfit', isPacked: false, owner: "partner"),
-    ];
+    babyBagList.forEach((element) {
+      _bagItemQueryBuilder.insert(element);
+    });
 
-    _availableBabyBagList = <BagItem>[
-      BagItem(id: 1, name: 'Birth plan', isPacked: false, owner: "baby"),
-      BagItem(id: 2, name: 'Book magazine', isPacked: false, owner: "baby"),
-      BagItem(id: 3, name: 'Breast pads', isPacked: false, owner: "baby"),
-      BagItem(
-          id: 4, name: 'Camera and batteries', isPacked: false, owner: "baby"),
-      BagItem(id: 5, name: 'Dressing gown', isPacked: false, owner: "baby"),
-      BagItem(id: 6, name: 'Facecloth of fan', isPacked: false, owner: "baby"),
-      BagItem(
-          id: 7,
-          name: 'Gift for your older children',
-          isPacked: false,
-          owner: "baby"),
-      BagItem(id: 8, name: 'Glucose tablets', isPacked: false, owner: "baby"),
-      BagItem(id: 9, name: 'Going home outfit', isPacked: false, owner: "baby"),
-    ];
+    partnerBagList.forEach((element) {
+      _bagItemQueryBuilder.insert(element);
+    });
 
     notifyListeners();
+  }
+
+  fetchBagItems() async {
+    await _bagItemQueryBuilder.getAllBagItems().then((bagIltemList) {
+      bagIltemList.forEach((element) {
+        if (element.owner == 'mother') _availableMotherBagList.add(element);
+        if (element.owner == 'baby') _availableBabyBagList.add(element);
+        if (element.owner == 'partner') _availablePartnerBagList.add(element);
+      });
+      notifyListeners();
+    });
   }
 
   //pack items...

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
-import 'package:aunty_rafiki/providers/utility_provider.dart';
+import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ class StartupPageState extends State<StartupPage>
   AnimationController animationController;
   Animation<double> animation;
 
-  UtilityProvider _utilityProvider;
+  HostipalBagProvider _hospitalBagProvider;
   AuthProvider _authProvider;
 
   startTime() async {
@@ -36,6 +36,7 @@ class StartupPageState extends State<StartupPage>
     }
     if (_config == Configuration.Done) {
       Navigator.of(context).pushReplacementNamed(homePage);
+      _hospitalBagProvider.loadItems();
       // _tokenProvider.checkTokenValidity()
       //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)
       //     : Navigator.of(context).pushReplacementNamed(landingPageRoute);
@@ -62,7 +63,8 @@ class StartupPageState extends State<StartupPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _utilityProvider = Provider.of<UtilityProvider>(context, listen: false);
+      _hospitalBagProvider =
+          Provider.of<HostipalBagProvider>(context, listen: false);
       _authProvider = Provider.of<AuthProvider>(context, listen: false);
     });
 

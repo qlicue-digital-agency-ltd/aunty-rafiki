@@ -26,12 +26,10 @@ class HospitalBagPage extends StatelessWidget {
                                 _hospitalBagProvider.availableMotherBagList,
                             packedBagItmes:
                                 _hospitalBagProvider.packedMotherBagList,
-                          )
-                          )
-                          );
+                          )));
             },
             subtitle:
-                "${_hospitalBagProvider.availableMotherBagList.length}  items packed",
+                "${_hospitalBagProvider.packedMotherBagList.length}  items packed",
             title: "Mother's Bag",
           ),
           HospitalBagTile(
@@ -48,7 +46,7 @@ class HospitalBagPage extends StatelessWidget {
                               _hospitalBagProvider.packedPartnerBagList)));
             },
             subtitle:
-                "${_hospitalBagProvider.availablePartnerBagList.length}  items packed",
+                "${_hospitalBagProvider.packedPartnerBagList.length}  items packed",
             title: "Birth partner's Bag",
           ),
           HospitalBagTile(
@@ -66,7 +64,7 @@ class HospitalBagPage extends StatelessWidget {
                           )));
             },
             subtitle:
-                "${_hospitalBagProvider.availableBabyBagList.length}  items packed",
+                "${_hospitalBagProvider.packedBabyBagList.length}  items packed",
             title: "Baby's Bag",
           ),
         ]),
