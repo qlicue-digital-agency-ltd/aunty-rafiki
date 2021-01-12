@@ -2,6 +2,7 @@ import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/models/chat.dart';
 
 import 'package:aunty_rafiki/providers/group_provider.dart';
+import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -70,10 +71,28 @@ class ChatDetailPageAppBar extends StatelessWidget
                 ),
                 onSelected: (ChatGroupPopMenu result) {
                   if (result == ChatGroupPopMenu.ExitGroup) {
-                    _groupProvider.leaveGroup(
-                        groupUID: chat.id,
-                        memberUID: FirebaseAuth.instance.currentUser.uid);
-                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomDialogBox(
+                            title: "Leave Group?",
+                            descriptions:
+                                "By leaving this group you will not be able to access this group chats",
+                            text: "EXIT",
+                            textClose: "CLOSE",
+                            onPressed: () {
+                              _groupProvider.leaveGroup(
+                                  groupUID: chat.id,
+                                  memberUID:
+                                      FirebaseAuth.instance.currentUser.uid);
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            onClose: () {
+                              Navigator.pop(context);
+                            },
+                          );
+                        });
                   }
                 },
                 itemBuilder: (BuildContext context) =>
