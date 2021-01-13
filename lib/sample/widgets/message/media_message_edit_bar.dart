@@ -9,8 +9,9 @@ import 'package:provider/provider.dart';
 
 class MediaMessageEditBar extends StatefulWidget {
   final Function onPressed;
-
-  const MediaMessageEditBar({Key key, this.onPressed}) : super(key: key);
+  final Chat chat;
+  const MediaMessageEditBar({Key key, this.onPressed, @required this.chat})
+      : super(key: key);
 
   @override
   _MediaMessageEditBarState createState() => _MediaMessageEditBarState();
@@ -44,7 +45,7 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: new Icon(Icons.add),
+                    icon: new Icon(Icons.image),
                     onPressed: widget.onPressed,
                     color: Colors.black26,
                   ),
@@ -59,22 +60,21 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                           EdgeInsets.symmetric(vertical: 4, horizontal: 20),
                       child: TextField(
                         controller: _controller,
-
                         onSubmitted: (text) {
-                          // _chatProvider
-                          //     .sendMessage(
-                          //         text: _controller.text,
-                          //         time: Timestamp.fromDate(DateTime.now()),
-                          //         user: FirebaseAuth.instance.currentUser.uid,
-                          //         chat: chat)
-                          //     .then((value) {
-                          //   _controller.clear();
-                          // });
+                          _chatProvider
+                              .sendMessage(
+                                  text: _controller.text,
+                                  time: Timestamp.fromDate(DateTime.now()),
+                                  user: FirebaseAuth.instance.currentUser.uid,
+                                  chat: widget.chat)
+                              .then((value) {
+                            _controller.clear();
+                            Navigator.pop(context);
+                          });
                         },
                         decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Add a caption...'
-                        ),
+                            border: InputBorder.none,
+                            hintText: 'Add a caption...'),
                       ),
                     ),
                   ),
@@ -91,15 +91,16 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
           child: IconButton(
             icon: Icon(Icons.send),
             onPressed: () {
-              // _chatProvider
-              //     .sendMessage(
-              //         text: _controller.text,
-              //         time: Timestamp.fromDate(DateTime.now()),
-              //         user: FirebaseAuth.instance.currentUser.uid,
-              //         chat: chat)
-              //     .then((value) {
-              //   _controller.clear();
-              // });
+              _chatProvider
+                  .sendMessage(
+                      text: _controller.text,
+                      time: Timestamp.fromDate(DateTime.now()),
+                      user: FirebaseAuth.instance.currentUser.uid,
+                      chat: widget.chat)
+                  .then((value) {
+                _controller.clear();
+                Navigator.pop(context);
+              });
             },
             color: Colors.white,
           ),

@@ -1,14 +1,12 @@
-import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/models/send_menu_items.dart';
-
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:aunty_rafiki/views/backgrounds/background.dart';
 import 'package:aunty_rafiki/sample/widgets/message_edit_bar.dart';
 import 'package:aunty_rafiki/sample/widgets/message_list.dart';
 import 'package:aunty_rafiki/views/components/app/chat_detail_page_app_bar.dart';
+import 'package:aunty_rafiki/views/pages/upload_image_page.dart';
 import 'package:flutter/material.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ChatRoomPage extends StatelessWidget {
@@ -16,33 +14,8 @@ class ChatRoomPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Chat chat = ModalRoute.of(context).settings.arguments;
     final _chatProvider = Provider.of<ChatProvider>(context);
-    Future<void> loadAssets() async {
-      List<Asset> resultList = List<Asset>();
-      List<Asset> images = List<Asset>();
-      String error = 'No Error Dectected';
 
-      try {
-        resultList = await MultiImagePicker.pickImages(
-          maxImages: 10,
-          enableCamera: true,
-          selectedAssets: images,
-          cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-          materialOptions: MaterialOptions(
-            actionBarColor: "#abcdef",
-            actionBarTitle: "Example App",
-            allViewTitle: "All Photos",
-            useDetailsView: true,
-            selectCircleStrokeColor: "#000000",
-          ),
-        );
-      } on Exception catch (e) {
-        error = e.toString();
-      }
-      print(resultList);
-      print(error);
-    }
-
-    void showModal() {
+    void showModal(Chat chat) {
       showModalBottomSheet(
           context: context,
           builder: (context) {
@@ -82,7 +55,13 @@ class ChatRoomPage extends StatelessWidget {
                             onTap: () {
                               if (menuItems[index].text == "Photos & Videos")
                                 _chatProvider.chooseAnImage().then((val) {
-                                  Navigator.pushNamed(context, uploadImagePage);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => UploadImagePage(
+                                                chat: chat,
+                                              )));
                                 });
                             },
                             leading: Container(
@@ -124,8 +103,7 @@ class ChatRoomPage extends StatelessWidget {
                 MessageList(),
                 MessageEditBar(
                   onPressed: () {
-                    print('object');
-                    showModal();
+                    showModal(chat);
                   },
                 )
               ],

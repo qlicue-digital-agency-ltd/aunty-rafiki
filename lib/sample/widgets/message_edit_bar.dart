@@ -9,10 +9,8 @@ import 'package:provider/provider.dart';
 
 class MessageEditBar extends StatefulWidget {
   final Function onPressed;
-  final bool uploadImage;
 
-  const MessageEditBar({Key key, this.onPressed, this.uploadImage = true})
-      : super(key: key);
+  const MessageEditBar({Key key, this.onPressed}) : super(key: key);
 
   @override
   _MessageEditBarState createState() => _MessageEditBarState();
@@ -47,11 +45,16 @@ class _MessageEditBarState extends State<MessageEditBar> {
               shape: StadiumBorder(),
               child: Row(
                 children: [
-                widget.uploadImage ?  IconButton(
+                  IconButton(
                     icon: new Icon(Icons.add),
                     onPressed: widget.onPressed,
                     color: Colors.black26,
-                  ):Container(),
+                  ),
+                  Container(
+                    color: Colors.black26,
+                    width: 2,
+                    height: 35,
+                  ),
                   Flexible(
                     child: Container(
                       padding:
@@ -70,8 +73,8 @@ class _MessageEditBarState extends State<MessageEditBar> {
                           });
                         },
                         decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
+                            border: InputBorder.none,
+                            hintText: 'Type here...'),
                       ),
                     ),
                   ),

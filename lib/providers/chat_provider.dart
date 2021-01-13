@@ -49,16 +49,21 @@ class ChatProvider with ChangeNotifier {
       'user': user,
       'media': [],
       'searchKeywords': _searchKeywords,
-    }).then((message) => _uploadImage(messageUUID: message.id));
+    }).then((message) {
+      print('------------------------');
+      print(message);
+      print('++++++++++++++++++++++++');
+      return _uploadImage(messageUID: message.id, chat: chat);
+    });
   }
 
   //upload image to server...
-  Future<void> _uploadImage({@required messageUUID}) async {
+  Future<void> _uploadImage({@required messageUID, @required chat}) async {
     if (_pickedImage != null) {
       firebase_storage.UploadTask task = firebase_storage
           .FirebaseStorage.instance
           .ref('uploads/media/' +
-              messageUUID +
+              messageUID +
               DateTime.now().toIso8601String() +
               '.png')
           .putFile(_pickedImage);
@@ -82,11 +87,14 @@ class ChatProvider with ChangeNotifier {
 
         String photoURL = await url.ref.getDownloadURL();
         //upload image...
+
         _updateMessageMedia(
           url: photoURL,
-          messageUUID: messageUUID,
+          messageUID: messageUID,
+          chat: chat,
         );
         print('Upload complete.' + photoURL);
+        _pickedImage = null;
         _isSendingMessage = false;
         notifyListeners();
       } on firebase_core.FirebaseException catch (e) {
@@ -106,11 +114,10 @@ class ChatProvider with ChangeNotifier {
   }
 
   //update message media url......
-  _updateMessageMedia({@required String messageUUID, @required String url}) {
-    db.collection('groups').doc(messageUUID).update({
+  _updateMessageMedia(
+      {@required String messageUID, @required String url, @required chat}) {
+    db.collection('groups/${chat.id}/messages').doc(messageUID).update({
       'media': [url]
     });
   }
-
- 
 }

@@ -18,7 +18,6 @@ const hospitalBagPage = "/hospitalBagPage";
 const timeLinePage = "/timeLinePage";
 const createTaskPage = "/createTaskPage";
 const babyBumpPage = "/babyBumpPage";
-const uploadImagePage = "/ploadImagePage";
 const onboardingPage = "/onboardingPage";
 const landingPage = "/landingPage";
 const termsConditionPage = "/termsConditionPage";
