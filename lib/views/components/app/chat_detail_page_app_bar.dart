@@ -57,9 +57,22 @@ class ChatDetailPageAppBar extends StatelessWidget
                     SizedBox(
                       height: 6,
                     ),
-                    Text(
-                      "Online",
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Online",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -78,7 +91,7 @@ class ChatDetailPageAppBar extends StatelessWidget
                             title: "Leave Group?",
                             descriptions:
                                 "By leaving this group you will not be able to access this group chats",
-                            text: "EXIT",
+                            text: "LEAVE",
                             textClose: "CLOSE",
                             onPressed: () {
                               _groupProvider.leaveGroup(
