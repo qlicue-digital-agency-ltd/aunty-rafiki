@@ -31,11 +31,14 @@ class MediaContent extends StatelessWidget {
                                 padding: const EdgeInsets.all(2.0),
                                 child: Stack(
                                   children: [
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: Platform.isIOS
-                                          ? CupertinoActivityIndicator()
-                                          : CircularProgressIndicator(),
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2,
+                                      child: Center(
+                                          child: Platform.isIOS
+                                              ? CupertinoActivityIndicator()
+                                              : CircularProgressIndicator()),
                                     ),
                                     Container(
                                       height:
