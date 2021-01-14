@@ -7,8 +7,13 @@ import 'package:provider/provider.dart';
 class ChatUserTile extends StatelessWidget {
   final Chat chat;
   final Function onTap;
+  final bool isGroup;
 
-  const ChatUserTile({Key key, @required this.chat, @required this.onTap})
+  const ChatUserTile(
+      {Key key,
+      @required this.chat,
+      @required this.onTap,
+      @required this.isGroup})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -23,9 +28,12 @@ class ChatUserTile extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
+                    backgroundColor: Colors.white,
                     backgroundImage: chat.avatar.isNotEmpty
                         ? NetworkImage(chat.avatar)
-                        : AssetImage('assets/icons/female.png'),
+                        : isGroup
+                            ? AssetImage('assets/icons/aunty_rafiki.png')
+                            : AssetImage('assets/icons/female.png'),
                     maxRadius: 30,
                   ),
                   SizedBox(

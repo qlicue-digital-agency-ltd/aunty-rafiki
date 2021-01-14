@@ -81,14 +81,16 @@ class _GroupChatsState extends State<GroupChats> {
                 itemCount: chatList.length,
                 itemBuilder: (context, index) {
                   return ChatUserTile(
-                      chat: chatList[index],
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          chatRoomPage,
-                          arguments: chatList[index],
-                        );
-                      });
+                    chat: chatList[index],
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        chatRoomPage,
+                        arguments: chatList[index],
+                      );
+                    },
+                    isGroup: true,
+                  );
                 },
               );
             },
