@@ -25,8 +25,6 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
-	<key>NSMicrophoneUsageDescription</key>
-    <string>Record audio for playback</string>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
