@@ -49,6 +49,7 @@ dependencies:
   badges: ^1.1.1
   file: ^5.2.1
   path_provider: ^1.6.27
+  # flutter_sound: ^7.5.1+2
   # easy_localization: ^2.3.3+1
   
 dev_dependencies:

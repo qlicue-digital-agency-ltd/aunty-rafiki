@@ -82,7 +82,7 @@ class App extends StatelessWidget {
                   termsConditionPage: (_) => TermsConditionPage(),
                   choicePage: (_) => ChoicePage(),
                   stepsPage: (_) => StepsPage(),
-                  '/new': (_) => NewGroupPage(),
+              
                 },
                 //initialRoute: '/',
               );
