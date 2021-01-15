@@ -24,7 +24,7 @@ dependencies:
   intl_phone_field: ^1.4.2
   provider: ^4.3.2+2
   timeline_tile: ^1.0.0
-  intl: ^0.16.1
+  intl: any
   time_formatter: ^1.0.0
   video_player: ^0.11.0
   audioplayers: ^0.16.1
@@ -32,7 +32,6 @@ dependencies:
   date_time_picker: ^1.0.2
   image_picker: ^0.6.7+11
   url_launcher: any
-
   pin_code_fields: ^5.0.1
   flutter_launcher_icons: ^0.8.1
   font_awesome_flutter: ^8.8.1
@@ -49,8 +48,10 @@ dependencies:
   badges: ^1.1.1
   file: ^5.2.1
   path_provider: ^1.6.27
-  # flutter_sound: ^7.5.1+2
-  # easy_localization: ^2.3.3+1
+  file_picker: ^2.1.5+1
+  splashscreen: ^1.3.5
+  flutter_sound: ^7.5.1+2
+  easy_localization: any
   
 dev_dependencies:
   flutter_test:

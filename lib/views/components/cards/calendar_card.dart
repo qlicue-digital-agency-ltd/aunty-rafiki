@@ -48,7 +48,7 @@ class _CalendarCardState extends State<CalendarCard>
   Widget build(BuildContext context) {
     final _appointmentProvider = Provider.of<AppointmentProvider>(context);
 
-    void _onDaySelected(DateTime day, List events) {
+    void _onDaySelected(DateTime day, List events, List holidays) {
       print('CALLBACK: _onDaySelected');
       _appointmentProvider.setCalendarDate = day;
       _appointmentProvider.selectCalendarAppointments = events;
