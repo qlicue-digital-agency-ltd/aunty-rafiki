@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/sample/pages/file_picker_demo.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,9 @@ class MoreScreen extends StatelessWidget {
                     image: 'assets/access/appointment.png',
                     title: 'Appointments',
                     onTap: () {
-                      Navigator.pushNamed(context, appointmentPage);
+                      // Navigator.pushNamed(context, appointmentPage);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => FilePickerDemo()));
                     },
                   ),
                 )

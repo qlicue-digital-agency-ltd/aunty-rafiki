@@ -1,4 +1,4 @@
-import 'package:audioplayers/audioplayers.dart';
+
 import 'package:aunty_rafiki/models/audio.dart';
 
 import 'package:flutter/material.dart';
@@ -13,15 +13,15 @@ class AudioCard extends StatefulWidget {
 }
 
 class _AudioCardState extends State<AudioCard> {
-  AudioPlayer audioPlayer = AudioPlayer();
+
   bool _isPlaying = false;
   Duration duration;
   @override
   void initState() {
-    audioPlayer.onDurationChanged.listen((Duration d) =>{
-      print('Max duration: $d')
-     // setState(() => duration = d);
-    });
+    // audioPlayer.onDurationChanged.listen((Duration d) =>{
+    //   print('Max duration: $d')
+    //  // setState(() => duration = d);
+    // });
 
   //    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState s)  {
   //   print('Current player state: $s');
@@ -44,12 +44,12 @@ class _AudioCardState extends State<AudioCard> {
                 setState(() {
                   _isPlaying = !_isPlaying;
                 });
-                await audioPlayer.play(widget.audio.url);
+               // await audioPlayer.play(widget.audio.url);
               } else {
                 setState(() {
                   _isPlaying = !_isPlaying;
                 });
-                audioPlayer.stop();
+             //   audioPlayer.stop();
               }
             }),
         trailing: Text(widget.audio.duration),

@@ -1,12 +1,20 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 class ChatProvider with ChangeNotifier {
+  //////
+  bool _loadingPath = false;
+  bool _multiPick = false;
+  String _directoryPath;
+  List<File> _paths;
+  /////
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -121,5 +129,32 @@ class ChatProvider with ChangeNotifier {
     });
   }
 
-  
+  // //pick files..
+  // void _openFileExplorer() async {
+  //   _loadingPath = true;
+  //   notifyListeners();
+  //   try {
+  //     _directoryPath = null;
+  //     _paths = (await FilePicker.platform.pickFiles(
+  //       type: _pickingType,
+  //       allowMultiple: _multiPick,
+  //       allowedExtensions: (_extension?.isNotEmpty ?? false)
+  //           ? _extension?.replaceAll(' ', '')?.split(',')
+  //           : null,
+  //     ))
+  //         ?.files;
+  //   } on PlatformException catch (e) {
+  //     print("Unsupported operation" + e.toString());
+  //   } catch (ex) {
+  //     print(ex);
+  //   }
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _loadingPath = false;
+  //     _fileName = _paths != null ? _paths.map((e) => e.name).toString() : '...';
+  //   });
+  // }
+
+
+
 }
