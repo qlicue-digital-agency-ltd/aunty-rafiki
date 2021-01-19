@@ -1,41 +1,35 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:file_picker/file_picker.dart';
+
+import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 class ChatProvider with ChangeNotifier {
-  //////
-  bool _loadingPath = false;
-  bool _multiPick = false;
-  String _directoryPath;
-  List<File> _paths;
-  /////
+  ///firestore
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  File _pickedImage, file;
+  ///message...
   bool _isSendingMessage = false;
-  //getters....
-  File get pickedImage => _pickedImage;
   bool get isCreatingGroup => _isSendingMessage;
 
-  //file pickers
-  Future<void> chooseAnImage() async {
-    file = await ImagePicker.pickImage(source: ImageSource.gallery);
+//
 
-    _pickedImage = file;
+  List<PlatformFile> _paths;
+  bool _loadingPath = false;
+  bool _multiPick = false;
 
-    notifyListeners();
-  }
+  List<File> get files => _paths.map((path) => File(path.path)).toList();
+  bool get loadingPath => _loadingPath;
+  bool get multiPick => _multiPick;
 
   void resetImage() {
-    _pickedImage = null;
+    _paths = null;
     notifyListeners();
   }
 
@@ -67,14 +61,15 @@ class ChatProvider with ChangeNotifier {
 
   //upload image to server...
   Future<void> _uploadImage({@required messageUID, @required chat}) async {
-    if (_pickedImage != null) {
+    if (files.isNotEmpty) {
+      //edit files...
       firebase_storage.UploadTask task = firebase_storage
           .FirebaseStorage.instance
           .ref('uploads/media/' +
               messageUID +
               DateTime.now().toIso8601String() +
               '.png')
-          .putFile(_pickedImage);
+          .putFile(files[0]);
 
       task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
         print('Task state: ${snapshot.state}');
@@ -102,7 +97,7 @@ class ChatProvider with ChangeNotifier {
           chat: chat,
         );
         print('Upload complete.' + photoURL);
-        _pickedImage = null;
+        _paths = null;
         _isSendingMessage = false;
         notifyListeners();
       } on firebase_core.FirebaseException catch (e) {
@@ -129,32 +124,24 @@ class ChatProvider with ChangeNotifier {
     });
   }
 
-  // //pick files..
-  // void _openFileExplorer() async {
-  //   _loadingPath = true;
-  //   notifyListeners();
-  //   try {
-  //     _directoryPath = null;
-  //     _paths = (await FilePicker.platform.pickFiles(
-  //       type: _pickingType,
-  //       allowMultiple: _multiPick,
-  //       allowedExtensions: (_extension?.isNotEmpty ?? false)
-  //           ? _extension?.replaceAll(' ', '')?.split(',')
-  //           : null,
-  //     ))
-  //         ?.files;
-  //   } on PlatformException catch (e) {
-  //     print("Unsupported operation" + e.toString());
-  //   } catch (ex) {
-  //     print(ex);
-  //   }
-  //   if (!mounted) return;
-  //   setState(() {
-  //     _loadingPath = false;
-  //     _fileName = _paths != null ? _paths.map((e) => e.name).toString() : '...';
-  //   });
-  // }
+  Future<void> openFileExplorer(
+      {@required FileType pickingType,
+      @required List<String> allowedExtensions}) async {
+    _loadingPath = true;
+    notifyListeners();
 
-
-
+    try {
+      _paths = (await FilePicker.platform.pickFiles(
+        type: pickingType,
+        allowMultiple: _multiPick,
+        allowedExtensions: allowedExtensions,
+      ))
+          ?.files;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
+    notifyListeners();
+  }
 }

@@ -4,10 +4,11 @@ import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/service/shared/shared_preference.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
@@ -20,11 +21,11 @@ class AuthProvider with ChangeNotifier {
   bool _isCodeSent = false;
   String _verificationId;
   PhoneNumber _phoneNumber;
- 
-   /// Shared preference DB
+
+  /// Shared preference DB
   SharedPref _sharedPref = SharedPref();
 
-    //app configuration...
+  //app configuration...
   Configuration _appConfigurationStep = Configuration.Non;
 
   ///setter for configuration
@@ -42,7 +43,12 @@ class AuthProvider with ChangeNotifier {
       firebase_storage.FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  File _pickedImage, file;
+  List<PlatformFile> _paths;
+  bool _loadingPath = false;
+
+  List<File> get files => _paths.map((path) => File(path.path)).toList();
+  bool get loadingPath => _loadingPath;
+
   AuthProvider() {
     initializeFlutterFire();
   }
@@ -84,8 +90,6 @@ class AuthProvider with ChangeNotifier {
   PhoneNumber get phoneNumber => _phoneNumber;
   bool get isLoggedIn => _isLoggedIn;
   bool get isCodeSent => _isCodeSent;
-  File get pickedImage => _pickedImage;
- 
 
   ///sigin user....
   Future<UserCredential> signIn({@required smsCode}) async {
@@ -172,30 +176,21 @@ class AuthProvider with ChangeNotifier {
     });
   }
 
-  //file pickers
-  void chooseAmImage() async {
-    file = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    _pickedImage = file;
-// file = await ImagePicker.pickImage(source: ImageSource.gallery);
-    notifyListeners();
-  }
-
   void resetImage() {
-    _pickedImage = null;
+    _paths = null;
     notifyListeners();
   }
 
   //upload profile photo...
   Future<void> updateProfileTask(
       {String displayName, String nameInitials}) async {
-    if (_pickedImage != null) {
+    if (files.isNotEmpty) {
       firebase_storage.UploadTask task = firebase_storage
           .FirebaseStorage.instance
           .ref('uploads/profile/' +
               FirebaseAuth.instance.currentUser.uid +
               '.png')
-          .putFile(_pickedImage);
+          .putFile(files[0]);
 
       task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
         print('Task state: ${snapshot.state}');
@@ -245,8 +240,6 @@ class AuthProvider with ChangeNotifier {
     });
   }
 
-
-
   ///getter for configuration ...
   Future<Configuration> get appConfigurationStep async {
     final _config = await _sharedPref.readStringleString('configurationStep');
@@ -258,7 +251,23 @@ class AuthProvider with ChangeNotifier {
     return _appConfigurationStep;
   }
 
+  Future<void> openFileExplorer() async {
+    _loadingPath = true;
+    notifyListeners();
 
-  
+    try {
+      _paths = (await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+        allowedExtensions: null,
+      ))
+          ?.files;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
+    notifyListeners();
+  }
 
 }

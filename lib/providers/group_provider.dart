@@ -1,43 +1,60 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:flutter/services.dart';
 
 class GroupProvider with ChangeNotifier {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
-  File _pickedImage, file;
   bool _isCreatingGroup = false;
 
+  List<PlatformFile> _paths;
+  bool _loadingPath = false;
+
+  List<File> get files => _paths.map((path) => File(path.path)).toList();
+  bool get loadingPath => _loadingPath;
+
   //getters....
-  File get pickedImage => _pickedImage;
+
   bool get isCreatingGroup => _isCreatingGroup;
 
-  //file pickers
-  void chooseAmImage() async {
-    file = await ImagePicker.pickImage(source: ImageSource.gallery);
+  Future<void> openFileExplorer() async {
+    _loadingPath = true;
+    notifyListeners();
 
-    _pickedImage = file;
-// file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    try {
+      _paths = (await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+        allowedExtensions: null,
+      ))
+          ?.files;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
     notifyListeners();
   }
 
   void resetImage() {
-    _pickedImage = null;
+    _paths = null;
     notifyListeners();
   }
 
   //create user group...
   Future<void> uploadGroupIcon({@required groupUUID}) async {
-    if (_pickedImage != null) {
+    if (files.isNotEmpty) {
       firebase_storage.UploadTask task = firebase_storage
           .FirebaseStorage.instance
           .ref('uploads/group/' + groupUUID + '.png')
-          .putFile(_pickedImage);
+          .putFile(files[0]);
 
       task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
         print('Task state: ${snapshot.state}');

@@ -53,16 +53,20 @@ class ChatRoomPage extends StatelessWidget {
                           padding: EdgeInsets.only(top: 10, bottom: 10),
                           child: ListTile(
                             onTap: () {
-                              if (menuItems[index].text == "Photos & Videos")
-                                _chatProvider.chooseAnImage().then((val) {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => UploadImagePage(
-                                                chat: chat,
-                                              )));
-                                });
+                              _chatProvider
+                                  .openFileExplorer(
+                                      pickingType: menuItems[index].fileType, allowedExtensions: menuItems[index].allowedExtensions)
+                                  .then((val) {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => UploadImagePage(
+                                              chat: chat,
+                                            )));
+                              });
+
+                              ///
                             },
                             leading: Container(
                               decoration: BoxDecoration(

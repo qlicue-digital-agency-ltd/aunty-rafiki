@@ -39,7 +39,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Center(
                 child: InkWell(
               onTap: () {
-                _authProvider.chooseAmImage();
+                _authProvider.openFileExplorer();
               },
               child: Container(
                 height: 180,
@@ -50,7 +50,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       SizedBox(
                         height: 15,
                       ),
-                      _authProvider.pickedImage == null
+                      _authProvider.files.isEmpty
                           ? CircleAvatar(
                               radius: 60,
                               child: Center(
@@ -67,8 +67,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                      image:
-                                          FileImage(_authProvider.pickedImage),
+                                      image: FileImage(_authProvider.files[0]),
                                       fit: BoxFit.cover)),
                             ),
                       SizedBox(
@@ -125,7 +124,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     padding: EdgeInsets.all(16.0),
                     color: Theme.of(context).primaryColor,
                     textColor: Colors.white,
-                    onPressed: _authProvider.pickedImage != null
+                    onPressed: _authProvider.files.isNotEmpty
                         ? () {
                             if (_formKey.currentState.validate()) {
                               _authProvider.updateProfileTask(

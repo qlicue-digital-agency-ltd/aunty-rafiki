@@ -13,12 +13,23 @@ class UploadImagePage extends StatelessWidget {
     final _chatProvider = Provider.of<ChatProvider>(context);
     return Scaffold(
       backgroundColor: Colors.black12,
+      appBar: AppBar(
+        leading: Container(),
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.pop(context);
+              })
+        ],
+      ),
       body: Center(
           child: ListView(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children: [
-          Image.file(_chatProvider.pickedImage),
+          Image.file(_chatProvider.files[0]),
           MediaMessageEditBar(
             chat: chat,
           )

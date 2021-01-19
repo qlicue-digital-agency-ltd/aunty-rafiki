@@ -63,16 +63,15 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    _groupProvider.chooseAmImage();
+                                    _groupProvider.openFileExplorer();
                                   },
                                   child: CircleAvatar(
-                                    backgroundImage: _groupProvider
-                                                .pickedImage !=
-                                            null
-                                        ? FileImage(_groupProvider.pickedImage)
-                                        : null,
+                                    backgroundImage:
+                                        _groupProvider.files.isNotEmpty
+                                            ? FileImage(_groupProvider.files[0])
+                                            : null,
                                     radius: 30,
-                                    child: _groupProvider.pickedImage == null
+                                    child: _groupProvider.files.isEmpty
                                         ? Icon(Icons.camera_alt)
                                         : Container(),
                                   ),

@@ -48,8 +48,10 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: new Icon(Icons.image),
-                    onPressed: widget.onPressed,
+                    icon: new Icon(Icons.add_a_photo),
+                    onPressed: (){
+                      
+                    },
                     color: Colors.black26,
                   ),
                   Container(
