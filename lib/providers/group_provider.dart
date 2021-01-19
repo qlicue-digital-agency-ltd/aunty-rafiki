@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:aunty_rafiki/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +15,22 @@ class GroupProvider with ChangeNotifier {
   FirebaseFirestore db = FirebaseFirestore.instance;
   bool _isCreatingGroup = false;
 
-  List<PlatformFile> _paths;
+  List<PlatformFile> _paths = [];
   bool _loadingPath = false;
 
-  List<File> get files => _paths.map((path) => File(path.path)).toList();
-  bool get loadingPath => _loadingPath;
+  // List<String> _members = [];
+
+  // //setters
+  // set addMember(String memberUID) {
+  //   _members.add(memberUID);
+  //   notifyListeners();
+  // }
 
   //getters....
-
+  // List<String> get members => _members;
   bool get isCreatingGroup => _isCreatingGroup;
+  List<File> get files => _paths.map((path) => File(path.path)).toList();
+  bool get loadingPath => _loadingPath;
 
   Future<void> openFileExplorer() async {
     _loadingPath = true;
@@ -44,7 +52,7 @@ class GroupProvider with ChangeNotifier {
   }
 
   void resetImage() {
-    _paths = null;
+    _paths = [];
     notifyListeners();
   }
 
@@ -100,23 +108,35 @@ class GroupProvider with ChangeNotifier {
 
 //upload file url......
   Future<void> createUserGroup(
-      {@required name, @required time, @required members}) async {
+      {@required name,
+      @required time,
+      @required List<User> groupMembers}) async {
     List<String> _searchKeywords = [];
+    List<String> _members = [];
+
+    groupMembers.forEach((member) {
+      _members.add(member.uid);
+    });
+    var character = "";
     name.runes.forEach((int rune) {
-      var character = new String.fromCharCode(rune);
+      character += String.fromCharCode(rune);
       _searchKeywords.add(character);
       print(character);
     });
+
     _isCreatingGroup = true;
     notifyListeners();
     await db.collection('groups').add({
       'name': name,
       'time': time,
-      'members': members,
+      'members': _members,
       'messages': [],
       'searchKeywords': _searchKeywords,
       'avatar': ""
-    }).then((group) => uploadGroupIcon(groupUUID: group.id));
+    }).then((group) {
+      uploadGroupIcon(groupUUID: group.id);
+      notifyListeners();
+    });
   }
 
   //upload file url......
