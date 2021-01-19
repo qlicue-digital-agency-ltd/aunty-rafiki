@@ -59,55 +59,59 @@ class ChatProvider with ChangeNotifier {
 
   //upload image to server...
   Future<void> _uploadImage({@required messageUID, @required chat}) async {
-    if (files.isNotEmpty) {
-      //edit files...
-      firebase_storage.UploadTask task = firebase_storage
-          .FirebaseStorage.instance
-          .ref('uploads/media/' +
-              messageUID +
-              DateTime.now().toIso8601String() +
-              '.png')
-          .putFile(files[0]);
+    List<String> _mediaUrl = [];
 
-      task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
-        print('Task state: ${snapshot.state}');
-        print(
-            'Progress: ${(snapshot.totalBytes / snapshot.bytesTransferred) * 100} %');
-      }, onError: (e) {
-        // The final snapshot is also available on the task via `.snapshot`,
-        // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
-        //print(task.snapshot);
-        print('User does not have ');
-        if (e.code == 'permission-denied') {
-          print('User does not have permission to upload to this reference.');
+    if (files.isNotEmpty) {
+      files.forEach((file) async {
+        //edit files...
+        firebase_storage.UploadTask task = firebase_storage
+            .FirebaseStorage.instance
+            .ref('uploads/media/' +
+                messageUID +
+                DateTime.now().toIso8601String() +
+                '.png')
+            .putFile(file);
+
+        task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
+          print('Task state: ${snapshot.state}');
+          print(
+              'Progress: ${(snapshot.totalBytes / snapshot.bytesTransferred) * 100} %');
+        }, onError: (e) {
+          // The final snapshot is also available on the task via `.snapshot`,
+          // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
+          //print(task.snapshot);
+          print('User does not have ');
+          if (e.code == 'permission-denied') {
+            print('User does not have permission to upload to this reference.');
+          }
+        });
+        try {
+          // Storage tasks function as a Delegating Future so we can await them.
+          final url = await task;
+
+          String photoURL = await url.ref.getDownloadURL();
+          //upload image...
+
+          _mediaUrl.add(photoURL);
+
+          _updateMessageMedia(
+            url: _mediaUrl,
+            messageUID: messageUID,
+            chat: chat,
+          );
+
+          print('Upload complete.' + photoURL);
+        } on firebase_core.FirebaseException catch (e) {
+          // The final snapshot is also available on the task via `.snapshot`,
+          // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
+          print(task.snapshot);
+
+          if (e.code == 'permission-denied') {
+            print('User does not have permission to upload to this reference.');
+          }
+          // ...
         }
       });
-      try {
-        // Storage tasks function as a Delegating Future so we can await them.
-        final url = await task;
-
-        String photoURL = await url.ref.getDownloadURL();
-        //upload image...
-
-        _updateMessageMedia(
-          url: photoURL,
-          messageUID: messageUID,
-          chat: chat,
-        );
-        print('Upload complete.' + photoURL);
-        _paths = null;
-        _isSendingMessage = false;
-        notifyListeners();
-      } on firebase_core.FirebaseException catch (e) {
-        // The final snapshot is also available on the task via `.snapshot`,
-        // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
-        print(task.snapshot);
-
-        if (e.code == 'permission-denied') {
-          print('User does not have permission to upload to this reference.');
-        }
-        // ...
-      }
     } else {
       _isSendingMessage = false;
       notifyListeners();
@@ -116,10 +120,19 @@ class ChatProvider with ChangeNotifier {
 
   //update message media url......
   _updateMessageMedia(
-      {@required String messageUID, @required String url, @required chat}) {
-    db.collection('groups/${chat.id}/messages').doc(messageUID).update({
-      'media': [url]
-    });
+      {@required String messageUID,
+      @required List<String> url,
+      @required chat}) {
+    if (url.length == files.length) {
+      db
+          .collection('groups/${chat.id}/messages')
+          .doc(messageUID)
+          .update({'media': url});
+
+      _paths = null;
+      _isSendingMessage = false;
+      notifyListeners();
+    }
   }
 
   Future<void> openFileExplorer(
