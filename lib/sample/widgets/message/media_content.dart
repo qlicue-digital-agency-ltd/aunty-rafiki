@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:aunty_rafiki/models/message.dart';
+import 'package:aunty_rafiki/views/pages/media_preview_list_page.dart';
+import 'package:aunty_rafiki/views/pages/media_preview_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -23,47 +25,89 @@ class MediaContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             message.media.length < 4
-                ? Container(
-                    width: width * 0.58,
-                    child: Column(
-                      children: message.media
-                          .map((media) => Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
+                ? InkWell(
+                    onTap: () {
+                      if (message.media.length == 1) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => MediaPreviewPage(
+                                      media: message.media[0],
+                                    )));
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => MediaPreviewListPage(
+                                      media: message.media,
+                                    )));
+                      }
+                    },
+                    child: Container(
+                      width: width * 0.58,
+                      child: Column(
+                        children: message.media
+                            .map((media) => InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                MediaPreviewListPage(
+                                                  media: message.media,
+                                                )));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
                                               0.2,
-                                      child: Center(
-                                          child: Platform.isIOS
-                                              ? CupertinoActivityIndicator()
-                                              : CircularProgressIndicator()),
-                                    ),
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
+                                          child: Center(
+                                              child: Platform.isIOS
+                                                  ? CupertinoActivityIndicator()
+                                                  : CircularProgressIndicator()),
+                                        ),
+                                        Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
                                               0.2,
-                                      child: FadeInImage.memoryNetwork(
-                                        placeholder: kTransparentImage,
-                                        image: media.toString(),
-                                        height:
-                                            MediaQuery.of(context).size.height *
+                                          child: FadeInImage.memoryNetwork(
+                                            placeholder: kTransparentImage,
+                                            image: media.toString(),
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
                                                 0.2,
-                                        fit: BoxFit.cover,
-                                      ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ))
-                          .toList(),
+                                  ),
+                                ))
+                            .toList(),
+                      ),
                     ),
                   )
                 : Container(
                     width: width * 0.62,
                     child: Column(
                         children: widgetlist.map((element) {
-                      return element;
+                      return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => MediaPreviewListPage(
+                                          media: message.media,
+                                        )));
+                          },
+                          child: element);
                     }).toList()),
                   ),
             Row(

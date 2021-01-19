@@ -16,18 +16,19 @@ class ChatProvider with ChangeNotifier {
 
   ///message...
   bool _isSendingMessage = false;
+  String _mediaType = "NON";
   bool get isCreatingGroup => _isSendingMessage;
 
 //
 
-  List<PlatformFile> _paths;
+  List<PlatformFile> _paths =[];
   bool _loadingPath = false;
 
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   bool get loadingPath => _loadingPath;
 
   void resetImage() {
-    _paths = null;
+    _paths = [];
     notifyListeners();
   }
 
@@ -48,12 +49,16 @@ class ChatProvider with ChangeNotifier {
       'time': time,
       'user': user,
       'media': [],
+      'mediaType': _mediaType,
       'searchKeywords': _searchKeywords,
     }).then((message) {
-      print('------------------------');
-      print(message);
-      print('++++++++++++++++++++++++');
-      return _uploadImage(messageUID: message.id, chat: chat);
+      if (files.isNotEmpty) {
+        _uploadImage(messageUID: message.id, chat: chat);
+      } else {
+        _isSendingMessage = false;
+        _mediaType = "NON";
+        notifyListeners();
+      }
     });
   }
 
@@ -129,8 +134,9 @@ class ChatProvider with ChangeNotifier {
           .doc(messageUID)
           .update({'media': url});
 
-      _paths = null;
+      _paths = [];
       _isSendingMessage = false;
+      _mediaType = "NON";
       notifyListeners();
     }
   }
@@ -139,6 +145,7 @@ class ChatProvider with ChangeNotifier {
       {@required FileType pickingType,
       @required List<String> allowedExtensions,
       bool multiPick = false}) async {
+    _mediaType = pickingType.toString();
     _loadingPath = true;
     notifyListeners();
 
