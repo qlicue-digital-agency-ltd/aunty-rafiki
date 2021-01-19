@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:aunty_rafiki/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -18,16 +19,9 @@ class GroupProvider with ChangeNotifier {
   List<PlatformFile> _paths = [];
   bool _loadingPath = false;
 
-  // List<String> _members = [];
+ 
 
-  // //setters
-  // set addMember(String memberUID) {
-  //   _members.add(memberUID);
-  //   notifyListeners();
-  // }
-
-  //getters....
-  // List<String> get members => _members;
+  
   bool get isCreatingGroup => _isCreatingGroup;
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   bool get loadingPath => _loadingPath;
@@ -112,7 +106,7 @@ class GroupProvider with ChangeNotifier {
       @required time,
       @required List<User> groupMembers}) async {
     List<String> _searchKeywords = [];
-    List<String> _members = [];
+    List<String> _members = [auth.FirebaseAuth.instance.currentUser.uid];
 
     groupMembers.forEach((member) {
       _members.add(member.uid);
