@@ -31,7 +31,7 @@ List<Chat> firestoreToChatList(QuerySnapshot snapshot) {
 List<Chat> firestoreToChatListFiltered(
     QuerySnapshot snapshot, String textString) {
   return snapshot.docs
-      .where((doc) => doc['searchKeywords'].contains(textString))
+      .where((doc) => doc['searchKeywords'].contains(textString.toLowerCase()))
       .map((doc) => Chat.fromFirestore(doc))
       .toList();
 }

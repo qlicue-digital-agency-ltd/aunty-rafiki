@@ -39,7 +39,7 @@ class ChatProvider with ChangeNotifier {
     var character = "";
     text.runes.forEach((int rune) {
       character += String.fromCharCode(rune);
-      _searchKeywords.add(character);
+      _searchKeywords.add(character.toLowerCase());
       print(character);
     });
     _isSendingMessage = true;

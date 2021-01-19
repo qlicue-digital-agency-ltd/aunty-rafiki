@@ -114,7 +114,7 @@ class GroupProvider with ChangeNotifier {
     var character = "";
     name.runes.forEach((int rune) {
       character += String.fromCharCode(rune);
-      _searchKeywords.add(character);
+      _searchKeywords.add(character.toLowerCase());
       print(character);
     });
 
