@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -49,8 +50,13 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                 children: [
                   IconButton(
                     icon: new Icon(Icons.add_a_photo),
-                    onPressed: (){
-                      
+                    onPressed: () {
+                      _chatProvider
+                          .openFileExplorer(
+                              pickingType: FileType.image,
+                              allowedExtensions: null,
+                              multiPick: true)
+                          .then((val) {});
                     },
                     color: Colors.black26,
                   ),

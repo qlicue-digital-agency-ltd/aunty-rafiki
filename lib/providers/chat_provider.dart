@@ -22,11 +22,9 @@ class ChatProvider with ChangeNotifier {
 
   List<PlatformFile> _paths;
   bool _loadingPath = false;
-  bool _multiPick = false;
 
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   bool get loadingPath => _loadingPath;
-  bool get multiPick => _multiPick;
 
   void resetImage() {
     _paths = null;
@@ -126,14 +124,15 @@ class ChatProvider with ChangeNotifier {
 
   Future<void> openFileExplorer(
       {@required FileType pickingType,
-      @required List<String> allowedExtensions}) async {
+      @required List<String> allowedExtensions,
+      bool multiPick = false}) async {
     _loadingPath = true;
     notifyListeners();
 
     try {
       _paths = (await FilePicker.platform.pickFiles(
         type: pickingType,
-        allowMultiple: _multiPick,
+        allowMultiple: multiPick,
         allowedExtensions: allowedExtensions,
       ))
           ?.files;
