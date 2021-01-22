@@ -1,6 +1,6 @@
 import 'package:aunty_rafiki/models/message.dart';
 import 'package:aunty_rafiki/views/components/tiles/messages/sms/media_content.dart';
-import 'package:aunty_rafiki/views/components/tiles/messages/sms/other_media_content.dart';
+import 'package:aunty_rafiki/views/components/tiles/messages/sms/video_media_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +29,7 @@ class ChatMessage extends StatelessWidget {
                           message: message,
                           width: MediaQuery.of(context).size.width,
                         )
-                      : OtherMediaContent(
+                      : VideoMediaContent(
                           message: message,
                           width: MediaQuery.of(context).size.width,
                         )),
