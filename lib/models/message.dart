@@ -5,6 +5,7 @@ class Message {
   DateTime time;
   String sender;
   List<dynamic> media;
+  String mediaType;
 
   Message(this.text, this.time);
 
@@ -12,6 +13,7 @@ class Message {
       : text = data['text'],
         time = data['time'].toDate(),
         sender = data['user'],
+        mediaType = data['mediaType'],
         media = data['media'];
 }
 

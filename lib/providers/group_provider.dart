@@ -19,9 +19,6 @@ class GroupProvider with ChangeNotifier {
   List<PlatformFile> _paths = [];
   bool _loadingPath = false;
 
- 
-
-  
   bool get isCreatingGroup => _isCreatingGroup;
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   bool get loadingPath => _loadingPath;
@@ -124,7 +121,6 @@ class GroupProvider with ChangeNotifier {
       'name': name,
       'time': time,
       'members': _members,
-      'messages': [],
       'searchKeywords': _searchKeywords,
       'avatar': ""
     }).then((group) {

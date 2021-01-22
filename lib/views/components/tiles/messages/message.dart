@@ -1,9 +1,10 @@
 import 'package:aunty_rafiki/models/message.dart';
-import 'package:aunty_rafiki/sample/widgets/message/media_content.dart';
+import 'package:aunty_rafiki/views/components/tiles/messages/sms/media_content.dart';
+import 'package:aunty_rafiki/views/components/tiles/messages/sms/other_media_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'message/no_media_content.dart';
+import 'sms/no_media_content.dart';
 
 class ChatMessage extends StatelessWidget {
   final Message message;
@@ -23,10 +24,15 @@ class ChatMessage extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(3)),
               child: message.media.isEmpty
                   ? NoMediaContent(message: message)
-                  : MediaContent(
-                      message: message,
-                      width: MediaQuery.of(context).size.width,
-                    )),
+                  : message.mediaType == "image"
+                      ? MediaContent(
+                          message: message,
+                          width: MediaQuery.of(context).size.width,
+                        )
+                      : OtherMediaContent(
+                          message: message,
+                          width: MediaQuery.of(context).size.width,
+                        )),
         ),
       ],
     );

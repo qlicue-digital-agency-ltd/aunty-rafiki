@@ -21,7 +21,7 @@ class ChatProvider with ChangeNotifier {
 
 //
 
-  List<PlatformFile> _paths =[];
+  List<PlatformFile> _paths = [];
   bool _loadingPath = false;
 
   List<File> get files => _paths.map((path) => File(path.path)).toList();
@@ -49,7 +49,7 @@ class ChatProvider with ChangeNotifier {
       'time': time,
       'user': user,
       'media': [],
-      'mediaType': _mediaType,
+      'mediaType': _mediaType.replaceAll('FileType.', ''),
       'searchKeywords': _searchKeywords,
     }).then((message) {
       if (files.isNotEmpty) {

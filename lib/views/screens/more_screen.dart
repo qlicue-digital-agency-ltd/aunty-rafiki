@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
+import 'package:aunty_rafiki/views/pages/test_page.dart';
 import 'package:flutter/material.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -53,7 +54,9 @@ class MoreScreen extends StatelessWidget {
                     image: 'assets/access/diet.png',
                     title: 'Food',
                     onTap: () {
-                      Navigator.pushNamed(context, foodPage);
+                      //  Navigator.pushNamed(context, foodPage);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => VideoApp()));
                     },
                   ),
                 ),

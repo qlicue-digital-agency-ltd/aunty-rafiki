@@ -2,7 +2,7 @@ import 'package:aunty_rafiki/models/message.dart';
 
 import 'package:aunty_rafiki/models/chat.dart';
 
-import 'package:aunty_rafiki/sample/widgets/message.dart';
+import 'package:aunty_rafiki/views/components/tiles/messages/message.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
