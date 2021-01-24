@@ -32,7 +32,7 @@ class BloodLevelScreen extends StatelessWidget {
               ),
             ),
           ),
-          Chartboard(),
+         // Chartboard(),
           Container(
             child: _bloodLevelProvider.isFetchingBloodLevelData
                 ? Center(child: CircularProgressIndicator())
@@ -55,9 +55,7 @@ class _BloodLevel extends StatelessWidget {
     final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
     return RefreshIndicator(
       onRefresh: () {
-        // setState(() {
-        //   _isPullToRefresh = true;
-        // });
+      
         return _bloodLevelProvider.fetchBloodLevels();
       },
       child: ListView.builder(
