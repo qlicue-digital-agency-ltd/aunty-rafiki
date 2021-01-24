@@ -28,11 +28,11 @@ class BloodLevelScreen extends StatelessWidget {
                     "Blood Level",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
-               ],
+                ],
               ),
             ),
           ),
-         // Chartboard(),
+          // Chartboard(),
           Container(
             child: _bloodLevelProvider.isFetchingBloodLevelData
                 ? Center(child: CircularProgressIndicator())
@@ -55,37 +55,41 @@ class _BloodLevel extends StatelessWidget {
     final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
     return RefreshIndicator(
       onRefresh: () {
-      
         return _bloodLevelProvider.fetchBloodLevels();
       },
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          final Blood event = data[index];
-
-          final isLeftChild = event.level == Level.low;
-
-          final child = _BloodLevelChild(
-            bloodLevel: event,
-            isLeftChild: isLeftChild,
-          );
-
-          return data.isEmpty
-              ? Center(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 3,
-                      ),
-                      NoItemTile(
-                        icon: 'assets/access/to-do-list.png',
-                        title: 'No Blood Levels',
-                      ),
-                    ],
+      child: data.isEmpty
+          ? Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 3,
                   ),
-                )
-              : TimelineTile(
+                  InkWell(
+                    onTap: () {
+                      _bloodLevelProvider.fetchBloodLevels();
+                    },
+                    child: NoItemTile(
+                      icon: 'assets/access/to-do-list.png',
+                      title: 'No Blood Levels',
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                final Blood event = data[index];
+
+                final isLeftChild = event.level == Level.low;
+
+                final child = _BloodLevelChild(
+                  bloodLevel: event,
+                  isLeftChild: isLeftChild,
+                );
+
+                return TimelineTile(
                   alignment: TimelineAlign.center,
                   endChild: isLeftChild ? null : child,
                   startChild: isLeftChild ? child : null,
@@ -100,9 +104,9 @@ class _BloodLevel extends StatelessWidget {
                     thickness: 3,
                   ),
                 );
-        },
-        itemCount: data.isEmpty ? 1 : data.length,
-      ),
+              },
+              itemCount: data.length,
+            ),
     );
   }
 }
