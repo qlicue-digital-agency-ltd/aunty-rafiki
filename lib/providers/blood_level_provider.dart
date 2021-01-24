@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aunty_rafiki/api/api.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:aunty_rafiki/models/blood.dart';
@@ -17,7 +18,8 @@ class BloodLevelProvider extends ChangeNotifier {
 
   // getters
 
-  List<Blood> get availableBloodLevels => _availableBloodLevels;
+  List<Blood> get availableBloodLevels =>
+      _availableBloodLevels.reversed.toList();
 
   bool get isFetchingBloodLevelData => _isFetchingBloodLevelData;
   bool get isSubmittingData => _isSubmittingData;
@@ -62,18 +64,33 @@ class BloodLevelProvider extends ChangeNotifier {
     @required double quantity,
     @required date,
   }) async {
-  
     bool hasError = true;
     _isSubmittingData = true;
 
     notifyListeners();
+
+    // static final bloodLevelMessage = <BloodLevelMessage>[
+    //   BloodLevelMessage(
+    //       quantity: 9,
+    //       status: "veryLow",
+    //       subtitle: "Your blood level is very low you have to take suppliments",
+    //       title: "Very Low"),
+    // ];
+
     final Map<String, dynamic> _data = {
       "quantity": quantity,
-      "level": quantity > 12 ? 'normal' : 'low',
-      "status": bloodLevelMessage[0].status,
-      "title": bloodLevelMessage[0].title,
-      "subtitle": bloodLevelMessage[0].subtitle,
+      "level": quantity >= 12 ? 'normal' : 'low',
+      "status": quantity >= 12
+          ? bloodLevelMessage[1].status
+          : bloodLevelMessage[0].status,
+      "title": quantity >= 12
+          ? bloodLevelMessage[1].title
+          : bloodLevelMessage[0].title,
+      "subtitle": quantity >= 12
+          ? bloodLevelMessage[1].subtitle
+          : bloodLevelMessage[0].subtitle,
       "user_id": 1,
+      "uid": FirebaseAuth.instance.currentUser.uid,
       "date": date
     };
 
@@ -85,7 +102,7 @@ class BloodLevelProvider extends ChangeNotifier {
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
- 
+
       if (response.statusCode == 201) {
         final _bloodLevel = Blood.fromMap(data['bloodlevel']);
         _availableBloodLevels.add(_bloodLevel);
@@ -108,13 +125,17 @@ class BloodLevelProvider extends ChangeNotifier {
     return hasError;
   }
 
-  //color List
   static final bloodLevelMessage = <BloodLevelMessage>[
     BloodLevelMessage(
-        quantity: 9,
+        quantity: 0,
         status: "veryLow",
-        subtitle: "Your blood level is very low you have to take suppliments",
+        subtitle: "Your blood level is low you have to take suppliments",
         title: "Very Low"),
+    BloodLevelMessage(
+        quantity: 0,
+        status: "normal",
+        subtitle: "Your blood level is normal, continue taking suppliments",
+        title: "Normal"),
   ];
 }
 
