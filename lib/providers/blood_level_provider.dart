@@ -30,7 +30,8 @@ class BloodLevelProvider extends ChangeNotifier {
 
     final List<Blood> _fetchedBloodLevels = [];
     try {
-      final http.Response response = await http.get(api + "bloodlevels/1",
+      final http.Response response = await http.get(
+          api + "bloodlevels/" + FirebaseAuth.instance.currentUser.uid,
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
@@ -89,7 +90,6 @@ class BloodLevelProvider extends ChangeNotifier {
       "subtitle": quantity >= 12
           ? bloodLevelMessage[1].subtitle
           : bloodLevelMessage[0].subtitle,
-      "user_id": 1,
       "uid": FirebaseAuth.instance.currentUser.uid,
       "date": date
     };
