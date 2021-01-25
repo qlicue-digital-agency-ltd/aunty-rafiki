@@ -108,7 +108,6 @@ class AuthProvider with ChangeNotifier {
         saveUserToFirestore(userCredential: credential);
       }
     } catch (e) {
-      
       authProblems errorType;
       if (Platform.isAndroid) {
         switch (e.message) {
@@ -211,7 +210,8 @@ class AuthProvider with ChangeNotifier {
       'photoURL': userCredential.user.photoURL,
       'nameInitials': '~Xcode',
       'phoneNumber': userCredential.user.phoneNumber,
-      'groups': []
+      'groups': [],
+      'pregnancyWeeks': 0
     });
   }
 
@@ -307,5 +307,32 @@ class AuthProvider with ChangeNotifier {
       print(ex);
     }
     notifyListeners();
+  }
+
+  //update user name..
+  Future<bool> updateUsername({@required String displayName}) async {
+    bool _error = false;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    try {
+      await users.doc(FirebaseAuth.instance.currentUser.uid).update({
+        'displayName': displayName,
+      });
+    } catch (e) {
+      _error = true;
+    }
+    return _error;
+  }
+
+  Future<bool> updatePregnancyWeeks({@required int pregnancyWeeks}) async {
+    bool _error = false;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    try {
+      await users.doc(FirebaseAuth.instance.currentUser.uid).update({
+        'pregnancyWeeks': pregnancyWeeks,
+      });
+    } catch (e) {
+      _error = true;
+    }
+    return _error;
   }
 }

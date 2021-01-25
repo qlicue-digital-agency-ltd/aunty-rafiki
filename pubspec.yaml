@@ -51,6 +51,7 @@ dependencies:
   audioplayers: ^0.17.2
   # flutter_sound: ^7.5.1+2
   easy_localization: any
+  flutter_image_compress: ^0.7.0
   
 dev_dependencies:
   flutter_test:

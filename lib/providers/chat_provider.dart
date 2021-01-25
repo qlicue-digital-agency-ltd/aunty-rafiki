@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class ChatProvider with ChangeNotifier {
   ///firestore
@@ -53,6 +54,10 @@ class ChatProvider with ChangeNotifier {
       'searchKeywords': _searchKeywords,
     }).then((message) {
       if (files.isNotEmpty) {
+        ///compress image...
+        ///
+        ///
+        
         _uploadImage(messageUID: message.id, chat: chat);
       } else {
         _isSendingMessage = false;
@@ -162,5 +167,19 @@ class ChatProvider with ChangeNotifier {
       print(ex);
     }
     notifyListeners();
+  }
+
+  Future<File> testCompressAndGetFile(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 88,
+      rotate: 180,
+    );
+
+    print(file.lengthSync());
+    print(result.lengthSync());
+
+    return result;
   }
 }

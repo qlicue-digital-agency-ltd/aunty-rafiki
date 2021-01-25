@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
@@ -51,7 +52,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen>
   @override
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
-
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Column(
       children: [
         SizedBox(
@@ -114,9 +115,19 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen>
                 CustomRaisedButton(
                     title: 'Next',
                     onPressed: () {
-                      widget._changePage(widget._currentPage + 1);
                       if (_isSelected) {
                         _utilityProvider.setKnownPregnancy = false;
+
+                        widget._changePage(widget._currentPage + 1);
+                      } else {
+                        _authProvider
+                            .updatePregnancyWeeks(
+                                pregnancyWeeks: _weeksOfPregnancy)
+                            .then((value) {
+                          if (!value) {
+                            widget._changePage(widget._currentPage + 1);
+                          }
+                        });
                       }
                     }),
               ],

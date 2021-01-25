@@ -1,6 +1,8 @@
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NameScreen extends StatefulWidget {
   final int _currentPage;
@@ -15,8 +17,7 @@ class NameScreen extends StatefulWidget {
   _NameScreenState createState() => _NameScreenState();
 }
 
-class _NameScreenState extends State<NameScreen>
-    with TickerProviderStateMixin {
+class _NameScreenState extends State<NameScreen> with TickerProviderStateMixin {
   TextEditingController _nameEditingController = TextEditingController();
 
   GlobalKey<FormState> _nameFormKey = GlobalKey<FormState>();
@@ -43,6 +44,7 @@ class _NameScreenState extends State<NameScreen>
 
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Form(
         key: _nameFormKey,
         child: Column(
@@ -77,7 +79,14 @@ class _NameScreenState extends State<NameScreen>
                     onPressed: () {
                       if (_nameFormKey.currentState.validate()) {
                         print('save the data');
-                        widget._changePage(widget._currentPage + 1);
+                        _authProvider
+                            .updateUsername(
+                                displayName: _nameEditingController.text)
+                            .then((value) {
+                          if (!value) {
+                            widget._changePage(widget._currentPage + 1);
+                          }
+                        });
                       } else {
                         print('Issue the data');
                       }
