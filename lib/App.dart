@@ -21,6 +21,7 @@ import 'package:aunty_rafiki/views/pages/hospital_bag_page.dart';
 import 'package:aunty_rafiki/views/pages/login_page.dart';
 import 'package:aunty_rafiki/views/pages/onboarding_page.dart';
 import 'package:aunty_rafiki/views/pages/profile_page.dart';
+import 'package:aunty_rafiki/views/pages/startup_page.dart';
 import 'package:aunty_rafiki/views/pages/time_line_page.dart';
 import 'package:aunty_rafiki/views/pages/to_do_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,10 +49,10 @@ class App extends StatelessWidget {
                     primarySwatch: Colors.pink,
                     visualDensity: VisualDensity.adaptivePlatformDensity,
                     textTheme: GoogleFonts.poppinsTextTheme()),
-                home: FirebaseAuth.instance.currentUser == null
-                    ? LoginPage()
-                    : HomePage(),
-                // home: StartupPage(),
+                // home: FirebaseAuth.instance.currentUser == null
+                //     ? LoginPage()
+                //     : HomePage(),
+                home: StartupPage(),
                 routes: {
                   landingPage: (context) =>
                       FirebaseAuth.instance.currentUser == null
@@ -82,7 +83,6 @@ class App extends StatelessWidget {
                   choicePage: (_) => ChoicePage(),
                   stepsPage: (_) => StepsPage(),
                 },
-                //initialRoute: '/',
               );
               break;
 

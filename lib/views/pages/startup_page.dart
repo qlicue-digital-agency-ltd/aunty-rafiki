@@ -28,20 +28,18 @@ class StartupPageState extends State<StartupPage>
   }
 
   void navigationPage() async {
-    Navigator.of(context).pushReplacementNamed(landingPage);
+    //Navigator.of(context).pushReplacementNamed(landingPage);
 
     final _config = await _authProvider.appConfigurationStep;
     if (_config == Configuration.Non) {
       Navigator.of(context).pushReplacementNamed(onboardingPage);
-    }
-    if (_config == Configuration.Done) {
+    } else if (_config == Configuration.Done) {
       Navigator.of(context).pushReplacementNamed(homePage);
       _hospitalBagProvider.loadItems();
       // _tokenProvider.checkTokenValidity()
       //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)
       //     : Navigator.of(context).pushReplacementNamed(landingPageRoute);
-    }
-    if (_config == Configuration.Terms) {
+    } else if (_config == Configuration.Terms) {
       Navigator.of(context).pushReplacementNamed(choicePage);
       // _tokenProvider.checkTokenValidity()
       //     ? Navigator.pushReplacementNamed(context, tokenPageRoute)

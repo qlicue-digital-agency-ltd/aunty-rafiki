@@ -1,6 +1,10 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/onboarding/walk_through.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -23,6 +27,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -33,25 +38,25 @@ class _OnboardingPageState extends State<OnboardingPage> {
           children: <Widget>[
             Walkthrougth(
                 icon: "assets/icons/fast-time.png",
-                title: "Fast",
+                title: "Tracker",
                 textContent:
-                    "Aunty Rafiki delivers information faster than any other application"),
+                    "Aunty Rafiki tracks your daily pregancy growth and changes."),
             Walkthrougth(
-              icon: "assets/icons/free.png",
-              title: 'Free',
+              icon: "assets/icons/chat.png",
+              title: 'Chat',
               textContent:
-                  "Aunty Rafiki is forever free, No ads NO subscription fee",
+                  "Aunty Rafiki is connects you to your favorite midwife, 24/7",
             ),
             Walkthrougth(
-                icon: "assets/icons/thunderbolt.png",
-                title: 'Powerful',
+                icon: "assets/icons/baby.png",
+                title: 'Health',
                 textContent:
-                    "Aunty Rafiki has no limit to the size of your media chat"),
+                    "Aunty Rafiki carters for the health condition for you and your baby"),
             Walkthrougth(
                 icon: "assets/icons/shield.png",
                 title: 'Secure',
                 textContent:
-                    "Aunty Rafiki keeps your messages safe from hacker attacks"),
+                    "Aunty Rafiki keeps your information and messages safe from hacker attacks"),
             Walkthrougth(
                 icon: "assets/icons/cloud-network.png",
                 title: 'Cloud-Based',
@@ -89,14 +94,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   color: Colors.pink[400],
                   child: Text(
-                    "Get Start",
+                    currentIndexPage == 4 ? "Get Start" : "Next",
                     style: TextStyle(
                         fontSize: 15,
                         color: Colors.white,
                         fontWeight: FontWeight.w900),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, termsConditionPage);
+                    if (currentIndexPage == 4) {
+                      _authProvider.setConfigurationStep = Configuration.Terms;
+                      Navigator.pushNamed(context, termsConditionPage);
+                    } else {
+                      controller.nextPage(
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.linear);
+                    }
                   },
                 ),
               ),
