@@ -119,6 +119,11 @@ class ProfilePage extends StatelessWidget {
             profileItem: accountList[index],
             onTap: () {
               print(accountList[index].title);
+              if (accountList[index].title == 'Logout') {
+                _authProvider.signOut().then((value) => {
+                  Navigator.pushNamed(context, landingPage)
+                });
+              }
             },
           );
         }, childCount: accountList.length)),

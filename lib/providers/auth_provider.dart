@@ -43,7 +43,7 @@ class AuthProvider with ChangeNotifier {
       firebase_storage.FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  List<PlatformFile> _paths;
+  List<PlatformFile> _paths =[];
   bool _loadingPath = false;
 
   List<File> get files => _paths.map((path) => File(path.path)).toList();
