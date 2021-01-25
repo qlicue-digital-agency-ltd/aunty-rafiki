@@ -5,7 +5,6 @@ import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 class TermsConditionPage extends StatefulWidget {
   @override
   _TermsConditionPageState createState() => _TermsConditionPageState();
@@ -71,7 +70,8 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: Text(
-                '*You can withdraw your consent anytime by contacting by contacting us at support@auntyrafiki.health',
+                '*You can withdraw your consent anytime by contacting by contacting us at support@auntyrafiki.co.tz',
+                textAlign: TextAlign.center,
               ),
             ),
             SizedBox(
@@ -110,10 +110,14 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                     onPressed: _utilityProvider.configTerms == ConfigTerms.NON
                         ? null
                         : () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(choicePage);
-                            _authProvider.setConfigurationStep =
-                                Configuration.Terms;
+                            _utilityProvider
+                                .storeTerms(_utilityProvider.checkBoxList)
+                                .then((value) {
+                              Navigator.of(context)
+                                  .pushReplacementNamed(loginPage);
+                              _authProvider.setConfigurationStep =
+                                  Configuration.SignUp;
+                            });
                           },
                     child: Text('NEXT'))
           ]),
@@ -121,6 +125,4 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
       ]),
     );
   }
-
-
 }

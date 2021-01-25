@@ -23,3 +23,4 @@ const landingPage = "/landingPage";
 const termsConditionPage = "/termsConditionPage";
 const choicePage = "/choicePage";
 const stepsPage = "/stepsPage";
+const loginPage = "/loginPage";

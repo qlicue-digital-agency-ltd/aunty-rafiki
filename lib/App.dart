@@ -49,9 +49,6 @@ class App extends StatelessWidget {
                     primarySwatch: Colors.pink,
                     visualDensity: VisualDensity.adaptivePlatformDensity,
                     textTheme: GoogleFonts.poppinsTextTheme()),
-                // home: FirebaseAuth.instance.currentUser == null
-                //     ? LoginPage()
-                //     : HomePage(),
                 home: StartupPage(),
                 routes: {
                   landingPage: (context) =>
@@ -59,6 +56,7 @@ class App extends StatelessWidget {
                           ? LoginPage()
                           : HomePage(),
                   onboardingPage: (_) => OnboardingPage(),
+                  loginPage: (_) => LoginPage(),
                   homePage: (_) => HomePage(),
                   chatRoomPage: (_) => ChatRoomPage(),
                   appointmentPage: (_) => AppointmentPage(),

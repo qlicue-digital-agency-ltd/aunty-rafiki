@@ -20,7 +20,7 @@ class UtilityProvider with ChangeNotifier {
 
   String _title = 'Tracker';
   String _titleCalender = 'When did your last period start?';
-  
+
   Color _colorKnownPregnancy1 = Colors.transparent;
   Color _colorKnownPregnancy2 = Colors.transparent;
   Color _colorUnknownPregnancy1 = Colors.transparent;
@@ -153,9 +153,7 @@ class UtilityProvider with ChangeNotifier {
     if (DateTime.now().difference(time).inDays == 1) {
       return "Yesterday";
     }
-    print("++++++++++++++++++++++----------+++++++++++++++++++++");
-    print(DateTime.now().difference(time).inDays);
-    print("++++++++++++++++++++++----------+++++++++++++++++++++");
+
     template = DateFormat('EEE, MMM d, ' 'yy');
     return template.format(time);
   }
@@ -178,6 +176,25 @@ class UtilityProvider with ChangeNotifier {
 
   List<TermModel> _checkBoxList = TermModel.getUsers();
   List<TermModel> get checkBoxList => _checkBoxList;
+
+  Future<void> storeTerms(List<TermModel> terms) async {
+    List<int> data = [];
+    terms.forEach((term) {
+      ///
+      ///terms and condition..
+      ///
+      if (term.isCheck) {
+        data.add(term.id);
+      }
+    });
+
+    print('--------------------------');
+    print(data.length);
+    print('--------------------------');
+
+    ///TODO: send the data to the database
+    ///-----------------------------------
+  }
 
   set setItemChange(int index) {
     _checkBoxList[index].isCheck = !_checkBoxList[index].isCheck;
