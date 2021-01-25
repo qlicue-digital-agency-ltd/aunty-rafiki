@@ -96,8 +96,12 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                 ),
                 onPressed: () {
                   if (_utilityProvider.configTerms == ConfigTerms.ALL) {
-                    Navigator.of(context).pushReplacementNamed(choicePage);
-                    _authProvider.setConfigurationStep = Configuration.Terms;
+                    _utilityProvider
+                        .storeTerms(_utilityProvider.checkBoxList)
+                        .then((value) {
+                      Navigator.of(context).pushReplacementNamed(loginPage);
+                      _authProvider.setConfigurationStep = Configuration.SignUp;
+                    });
                   } else {
                     _utilityProvider.selectAllTerms();
                   }

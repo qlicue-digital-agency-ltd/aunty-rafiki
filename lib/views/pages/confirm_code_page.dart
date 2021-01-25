@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
-
-
 class ConfirmResetCodePage extends StatefulWidget {
   @override
   _ConfirmResetCodePageState createState() => _ConfirmResetCodePageState();
@@ -242,27 +240,25 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
 
                                       _authProvider.setConfigurationStep =
                                           Configuration.Profile;
+                                    } else {
+                                      _scaffoldKey.currentState
+                                          .showSnackBar(SnackBar(
+                                        content: ListTile(
+                                            leading: Icon(Icons.error,
+                                                color: Colors.red),
+                                            title: Text(
+                                                "Incorrect verification code!!")),
+                                        duration: Duration(seconds: 2),
+                                      ));
                                     }
                                   });
                                   setState(() {
                                     hasError = false;
-                                    _scaffoldKey.currentState
-                                        .showSnackBar(SnackBar(
-                                      content: Text("Aye!!"),
-                                      duration: Duration(seconds: 2),
-                                    ));
-
-                                    // _authProvider
-                                    //     .createNewPassword(
-                                    //         mobile: widget.phoneNumber,
-                                    //         password:
-                                    //             _passwordTextEditingController
-                                    //                 .text,
-                                    //         code: currentText)
-                                    //     .then((status) {
-                                    //   Navigator.pushReplacementNamed(
-                                    //       context, landingPageRoute);
-                                    // });
+                                    // _scaffoldKey.currentState
+                                    //     .showSnackBar(SnackBar(
+                                    //   content: Text("Aye!!"),
+                                    //   duration: Duration(seconds: 2),
+                                    // ));
                                   });
                                 }
                               }
@@ -282,54 +278,3 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
     );
   }
 }
-
-// Widget _enterCode() {
-//   return Column(
-//     children: [
-//       // Image.asset('assets/decorative_friends.png'),
-//       SizedBox(
-//         height: 20,
-//       ),
-//       Container(
-//         height: 50,
-//         width: 300,
-//         decoration: BoxDecoration(
-//           border: Border.all(color: Colors.pink, width: 2),
-//           borderRadius: BorderRadius.circular(50.0),
-//         ),
-//         child: TextField(
-//           controller: _codeTextEditingController,
-//           decoration: InputDecoration(
-//               border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(20))),
-//         ),
-//       ),
-//       SizedBox(height: 20),
-//       Container(
-//         width: 300,
-//         height: 50,
-//         child: RaisedButton(
-//           shape:
-//               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-//           color: Colors.pink,
-//           onPressed: () {
-//             setState(() {
-//               _sendingCode = true;
-//             });
-//             //signIn();
-//             // Navigator.push(
-//             //     context,
-//             //     MaterialPageRoute(
-//             //         builder: (BuildContext context) => HomePage()));
-//           },
-//           child: _sendingCode
-//               ? CircularProgressIndicator()
-//               : Text(
-//                   'VERIFY',
-//                   style: TextStyle(color: Colors.white),
-//                 ),
-//         ),
-//       )
-//     ],
-//   );
-// }

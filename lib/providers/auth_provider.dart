@@ -43,7 +43,7 @@ class AuthProvider with ChangeNotifier {
       firebase_storage.FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  List<PlatformFile> _paths =[];
+  List<PlatformFile> _paths = [];
   bool _loadingPath = false;
 
   List<File> get files => _paths.map((path) => File(path.path)).toList();
@@ -94,15 +94,54 @@ class AuthProvider with ChangeNotifier {
   ///sigin user....
   Future<UserCredential> signIn({@required smsCode}) async {
     //   _sendingCode = true;
-    UserCredential credential = await FirebaseAuth.instance
-        .signInWithCredential(PhoneAuthProvider.credential(
-      verificationId: _verificationId,
-      smsCode: smsCode,
-    ));
+    UserCredential credential;
 
-    if (credential.user != null) {
-      print("Auth User Phone: " + credential.user.phoneNumber);
-      saveUserToFirestore(userCredential: credential);
+    try {
+      credential = await FirebaseAuth.instance
+          .signInWithCredential(PhoneAuthProvider.credential(
+        verificationId: _verificationId,
+        smsCode: smsCode,
+      ));
+
+      if (credential.user != null) {
+        print("Auth User Phone: " + credential.user.phoneNumber);
+        saveUserToFirestore(userCredential: credential);
+      }
+    } catch (e) {
+      
+      authProblems errorType;
+      if (Platform.isAndroid) {
+        switch (e.message) {
+          case 'There is no user record corresponding to this identifier. The user may have been deleted.':
+            errorType = authProblems.UserNotFound;
+            break;
+          case 'The password is invalid or the user does not have a password.':
+            errorType = authProblems.PasswordNotValid;
+            break;
+          case 'A network error (such as timeout, interrupted connection or unreachable host) has occurred.':
+            errorType = authProblems.NetworkError;
+            break;
+          // ...
+          default:
+            print('Case ${e.message} is not yet implemented');
+        }
+      } else if (Platform.isIOS) {
+        switch (e.code) {
+          case 'Error 17011':
+            errorType = authProblems.UserNotFound;
+            break;
+          case 'Error 17009':
+            errorType = authProblems.PasswordNotValid;
+            break;
+          case 'Error 17020':
+            errorType = authProblems.NetworkError;
+            break;
+          // ...
+          default:
+            print('Case ${e.message} is not yet implemented');
+        }
+      }
+      print('The error is $errorType');
     }
     return credential;
   }
@@ -269,5 +308,4 @@ class AuthProvider with ChangeNotifier {
     }
     notifyListeners();
   }
-
 }

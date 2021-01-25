@@ -37,6 +37,9 @@ class StartupPageState extends State<StartupPage>
       Navigator.of(context).pushReplacementNamed(termsConditionPage);
     } else if (_config == Configuration.SignUp) {
       Navigator.of(context).pushReplacementNamed(loginPage);
+    } else if (_config == Configuration.Profile) {
+      Navigator.of(context).pushReplacementNamed(createProfilePage);
+      _hospitalBagProvider.loadItems();
     } else if (_config == Configuration.Done) {
       Navigator.of(context).pushReplacementNamed(homePage);
       _hospitalBagProvider.loadItems();

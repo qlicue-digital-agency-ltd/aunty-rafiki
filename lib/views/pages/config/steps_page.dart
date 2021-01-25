@@ -200,10 +200,6 @@ class _StepsPageState extends State<StepsPage> {
   }
 
   void _changeUnknownPregnancyPage(int index) {
-    // or this to jump to it without animating
-    print('--------------------');
-    print(index);
-    print('--------------------');
     _pageUnknownController.jumpToPage(index);
     setState(() {
       _currentUnknownPregPage = index + 1;

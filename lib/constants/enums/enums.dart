@@ -14,3 +14,5 @@ enum Status { veryWeak, weak, good, veryGood, excellent }
 enum Configuration { Onboarding, SignUp, Profile, Non, Done, Terms }
 
 enum ConfigTerms { NON, ALL, PARTIAL }
+
+enum authProblems { UserNotFound, PasswordNotValid, NetworkError }
