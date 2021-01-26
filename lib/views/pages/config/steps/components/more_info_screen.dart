@@ -206,9 +206,21 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
             child: CustomRaisedButton(
                 title: 'Next',
                 onPressed: () {
-                  //.....
-                  _authProvider.setConfigurationStep = Configuration.Done;
-                  Navigator.pushNamed(context, landingPage);
+                  _authProvider
+                      .updateAdditionalInfo(
+                          haemoLevel: _haemoglobinLevel,
+                          haemoLevelDate: _haemoglobinLevelDate,
+                          lastDateTetanusVaccine: _lastTetanusDate,
+                          nextDateTetanusVaccine: _nextTetanusDate,
+                          onMedication: _medication,
+                          startedClinic: _clinic,
+                          takenTetanusVaccine: _tetanasiVaccination)
+                      .then((value) {
+                    if (!value) {
+                      _authProvider.setConfigurationStep = Configuration.Done;
+                      Navigator.pushNamed(context, landingPage);
+                    }
+                  });
                 })),
         SizedBox(
           height: 10,

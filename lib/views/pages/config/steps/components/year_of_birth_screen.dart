@@ -1,6 +1,8 @@
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class YearOfBirthScreen extends StatefulWidget {
   final int _currentPage;
@@ -21,7 +23,7 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen>
   AnimationController _controller;
 
   Animation<Offset> _animation;
-  
+
   int _yearOfBirth = 1988;
 
   @override
@@ -43,6 +45,7 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen>
 
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Column(
       children: [
         SizedBox(
@@ -68,7 +71,13 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen>
             child: CustomRaisedButton(
                 title: 'Next',
                 onPressed: () {
-                  widget._changePage(widget._currentPage + 1);
+                  _authProvider
+                      .updateYearOfBirth(yearOfBirth: _yearOfBirth)
+                      .then((value) {
+                    if (!value) {
+                      widget._changePage(widget._currentPage + 1);
+                    }
+                  });
                 })),
         SizedBox(
           height: 10,

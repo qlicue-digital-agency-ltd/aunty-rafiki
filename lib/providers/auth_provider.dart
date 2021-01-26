@@ -335,4 +335,68 @@ class AuthProvider with ChangeNotifier {
     }
     return _error;
   }
+
+  Future<bool> updateYearOfBirth({@required int yearOfBirth}) async {
+    bool _error = false;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    try {
+      await users.doc(FirebaseAuth.instance.currentUser.uid).update({
+        'yearOfBirth': yearOfBirth,
+      });
+    } catch (e) {
+      _error = true;
+    }
+    return _error;
+  }
+
+  Future<bool> updateMotherhoodInfo(
+      {@required int gravida,
+      @required String miscarriage,
+      @required int miscarriageWeeks,
+      @required int numberOfDeliveries,
+      @required int numberOfOperationDeliveries,
+      @required int numberOfNormalDeliveries}) async {
+    bool _error = false;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    try {
+      await users.doc(FirebaseAuth.instance.currentUser.uid).update({
+        'gravida': gravida,
+        'miscarriage': miscarriage,
+        'miscarriageWeeks': miscarriageWeeks,
+        'numberOfDeliveries': numberOfDeliveries,
+        'numberOfOperationDeliveries': numberOfOperationDeliveries,
+        'numberOfNormalDeliveries': numberOfNormalDeliveries,
+      });
+    } catch (e) {
+      _error = true;
+    }
+    return _error;
+  }
+
+  ////more func
+  Future<bool> updateAdditionalInfo(
+      {@required int haemoLevel,
+      @required DateTime haemoLevelDate,
+      @required String startedClinic,
+      @required String onMedication,
+      @required String takenTetanusVaccine,
+      @required DateTime lastDateTetanusVaccine,
+      @required DateTime nextDateTetanusVaccine}) async {
+    bool _error = false;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    try {
+      await users.doc(FirebaseAuth.instance.currentUser.uid).update({
+        'haemoLevel': haemoLevel,
+        'haemoLevelDate': haemoLevelDate,
+        'startedClinic': startedClinic,
+        'onMedication': onMedication,
+        'takenTetanusVaccine': takenTetanusVaccine,
+        'lastDateTetanusVaccine': lastDateTetanusVaccine,
+        'nextDateTetanusVaccine': nextDateTetanusVaccine,
+      });
+    } catch (e) {
+      _error = true;
+    }
+    return _error;
+  }
 }

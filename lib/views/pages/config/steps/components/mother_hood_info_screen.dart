@@ -1,8 +1,10 @@
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_string_dropdown.dart';
 import 'package:aunty_rafiki/views/components/buttons/number_counter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MotherhoodInfoScreen extends StatefulWidget {
   final int _currentPage;
@@ -25,7 +27,6 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
   int _miscarriageAge = 1;
   int _births = 0;
   int _operationBirths = 0;
-  int _normalBirths = 0;
 
   Animation<Offset> _animation;
   @override
@@ -47,6 +48,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
 
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     return ListView(
       shrinkWrap: true,
       children: [
@@ -73,6 +75,9 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
           onChange: (value) {
             setState(() {
               _miscarriage = value;
+              if (_miscarriage == "NO") {
+                _miscarriageAge = 0;
+              }
             });
           },
         ),
@@ -126,23 +131,6 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
                 height: 10,
               )
             : Container(),
-        _births > 0
-            ? NumberCounter(
-                counter: _normalBirths,
-                onTap: (val) {
-                  setState(() {
-                    _normalBirths = val;
-                  });
-                },
-                title: 'How many times did you give birth normally?',
-                context: context,
-              )
-            : Container(),
-        _births > 0
-            ? SizedBox(
-                height: 10,
-              )
-            : Container(),
         SizedBox(
           height: 20,
         ),
@@ -152,7 +140,20 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
             child: CustomRaisedButton(
                 title: 'Next',
                 onPressed: () {
-                  widget._changePage(widget._currentPage + 1);
+                  _authProvider
+                      .updateMotherhoodInfo(
+                          gravida: _gravida,
+                          miscarriage: _miscarriage,
+                          miscarriageWeeks: _miscarriageAge,
+                          numberOfDeliveries: _births,
+                          numberOfNormalDeliveries: _operationBirths,
+                          numberOfOperationDeliveries:
+                              _births - _operationBirths)
+                      .then((value) {
+                    if (!value) {
+                      widget._changePage(widget._currentPage + 1);
+                    }
+                  });
                 })),
         SizedBox(
           height: 10,
