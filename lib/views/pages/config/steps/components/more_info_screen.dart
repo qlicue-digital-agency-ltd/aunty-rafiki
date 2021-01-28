@@ -1,7 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
-// import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_date_picker_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_string_dropdown.dart';
@@ -11,9 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MoreInfoScreen extends StatefulWidget {
-  final int _currentPage;
-  final Function(int) _changePage;
-
   final GlobalKey<ScaffoldState> _scaffoldKey;
 
   const MoreInfoScreen(
@@ -21,9 +17,7 @@ class MoreInfoScreen extends StatefulWidget {
       @required int currentPage,
       @required Function changePage,
       @required GlobalKey<ScaffoldState> scaffoldKey})
-      : _currentPage = currentPage,
-        _changePage = changePage,
-        _scaffoldKey = scaffoldKey,
+      : _scaffoldKey = scaffoldKey,
         super(key: key);
   @override
   _MoreInfoScreenState createState() => _MoreInfoScreenState();

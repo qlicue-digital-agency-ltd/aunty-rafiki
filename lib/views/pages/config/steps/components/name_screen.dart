@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
@@ -85,6 +86,7 @@ class _NameScreenState extends State<NameScreen> with TickerProviderStateMixin {
                             .then((value) {
                           if (!value) {
                             widget._changePage(widget._currentPage + 1);
+                            _authProvider.setConfigurationStep = Configuration.NameScreenStepDone;
                           }
                         });
                       } else {

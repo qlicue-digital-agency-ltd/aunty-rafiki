@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/components/steps/step_progress_view.dart';
 import 'package:aunty_rafiki/views/pages/config/steps/components/more_info_screen.dart';
@@ -27,6 +29,7 @@ class _StepsPageState extends State<StepsPage> {
 
   Color _inactiveColor = Colors.grey;
   String _title = "Mother's Name";
+  AuthProvider _authProvider;
 
   TextStyle _headerStyle =
       TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold);
@@ -46,6 +49,25 @@ class _StepsPageState extends State<StepsPage> {
   );
 
   GlobalKey<ScaffoldState> _scafoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      _authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final _config = await _authProvider.appConfigurationStep;
+
+      if (_config == Configuration.NameScreenStepDone) {
+        _changePage(1);
+      } else if (_config == Configuration.WeeksPregnancyScreenStepDone) {
+        _changePage(2);
+      } else if (_config == Configuration.YearOfBirthScreenStepDone) {
+        _changePage(3);
+      } else if (_config == Configuration.MotherhoodInfoScreenStepDone) {
+        _changePage(4);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

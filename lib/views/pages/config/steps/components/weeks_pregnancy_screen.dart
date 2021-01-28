@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
@@ -126,6 +127,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen>
                             .then((value) {
                           if (!value) {
                             widget._changePage(widget._currentPage + 1);
+                                 _authProvider.setConfigurationStep = Configuration.WeeksPregnancyScreenStepDone;
                           }
                         });
                       }

@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_string_dropdown.dart';
@@ -152,6 +153,8 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
                       .then((value) {
                     if (!value) {
                       widget._changePage(widget._currentPage + 1);
+                      _authProvider.setConfigurationStep =
+                          Configuration.MotherhoodInfoScreenStepDone;
                     }
                   });
                 })),

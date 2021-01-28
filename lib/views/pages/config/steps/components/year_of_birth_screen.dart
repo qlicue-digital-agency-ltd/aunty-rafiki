@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
@@ -76,6 +77,8 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen>
                       .then((value) {
                     if (!value) {
                       widget._changePage(widget._currentPage + 1);
+                      _authProvider.setConfigurationStep =
+                          Configuration.YearOfBirthScreenStepDone;
                     }
                   });
                 })),
