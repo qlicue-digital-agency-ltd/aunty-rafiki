@@ -211,6 +211,8 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
                           takenTetanusVaccine: _tetanasiVaccination)
                       .then((value) {
                     if (!value) {
+                      //send data to af server...
+                      
                       _authProvider.setConfigurationStep = Configuration.Done;
                       Navigator.pushNamed(context, landingPage);
                     }
