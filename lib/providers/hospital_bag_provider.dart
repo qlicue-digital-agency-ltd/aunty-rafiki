@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:aunty_rafiki/api/api.dart';
 import 'package:aunty_rafiki/models/bag_item.dart';
-import 'package:aunty_rafiki/service/database/query-builder/items_query_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,21 +16,18 @@ class HostipalBagProvider with ChangeNotifier {
   bool _isFetchingBagItemsData = false;
   bool _isSubmittingData = false;
 
-  ///product query builder
-  BagItemQueryBuilder _bagItemQueryBuilder = BagItemQueryBuilder();
-
   //available bag list
   List<BagItem> _availableBagItemsList = <BagItem>[];
   List<BagItem> _availableBabyBagList = <BagItem>[];
   List<BagItem> _availableMotherBagList = <BagItem>[];
   List<BagItem> _availablePartnerBagList = <BagItem>[];
 
-  //available bag list
+  ///available bag list
   List<BagItem> _packedBabyBagList = <BagItem>[];
   List<BagItem> _packedMotherBagList = <BagItem>[];
   List<BagItem> _packedPartnerBagList = <BagItem>[];
 
-  //getters
+  ///getters
   List<BagItem> get availableBabyBagList => _availableBabyBagList;
   List<BagItem> get availableMotherBagList => _availableMotherBagList;
   List<BagItem> get availablePartnerBagList => _availablePartnerBagList;
@@ -42,8 +38,8 @@ class HostipalBagProvider with ChangeNotifier {
 
   bool get isFetchingBagItemsData => _isFetchingBagItemsData;
   bool get isSubmittingData => _isSubmittingData;
-//post bag item...
-  //post bloodLevel
+
+  ///post bag item...
   Future<bool> postBagItem({
     @required String name,
     @required String owner,
@@ -59,7 +55,7 @@ class HostipalBagProvider with ChangeNotifier {
       "name": name,
       "owner": owner,
       "type": type,
-      "isPacked": isPacked,
+      "is_packed": isPacked,
       "uid": FirebaseAuth.instance.currentUser.uid,
     };
 
@@ -131,14 +127,14 @@ class HostipalBagProvider with ChangeNotifier {
   }
 
   testfetchBagItems() async {
-    await _bagItemQueryBuilder.getAllBagItems().then((bagIltemList) {
-      bagIltemList.forEach((element) {
-        if (element.owner == 'mother') _availableMotherBagList.add(element);
-        if (element.owner == 'baby') _availableBabyBagList.add(element);
-        if (element.owner == 'partner') _availablePartnerBagList.add(element);
-      });
-      notifyListeners();
-    });
+    // await _bagItemQueryBuilder.getAllBagItems().then((bagIltemList) {
+    //   bagIltemList.forEach((element) {
+    //     if (element.owner == 'mother') _availableMotherBagList.add(element);
+    //     if (element.owner == 'baby') _availableBabyBagList.add(element);
+    //     if (element.owner == 'partner') _availablePartnerBagList.add(element);
+    //   });
+    //   notifyListeners();
+    // });
   }
 
   //pack items...

@@ -20,7 +20,7 @@ class BagItem {
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'name': name,
-      'isPacked': isPacked,
+      'is_packed': isPacked,
       'owner': owner,
       'type': type,
       'uid': uid
@@ -39,7 +39,7 @@ class BagItem {
         name = map['name'],
         type = map['type'],
         uid = map['uid'],
-        isPacked = map['isPacked'] == 1 ? true : false;
+        isPacked = map['is_packed'] == 1 ? true : false;
 }
 
 // List<BagItem> motherBagList = <BagItem>[
