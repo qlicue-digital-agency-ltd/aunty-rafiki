@@ -1,7 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/models/blood.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
-import 'package:aunty_rafiki/views/components/charts/chart_board.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

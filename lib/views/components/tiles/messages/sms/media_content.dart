@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+// ignore: must_be_immutable
 class MediaContent extends StatelessWidget {
   final Message message;
   final double width;

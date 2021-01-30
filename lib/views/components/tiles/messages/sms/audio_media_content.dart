@@ -37,7 +37,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   Duration _position;
 
   PlayerState _playerState = PlayerState.stopped;
-  PlayingRouteState _playingRouteState = PlayingRouteState.speakers;
+  PlayingRouteState playingRouteState = PlayingRouteState.speakers;
   StreamSubscription _durationSubscription;
   StreamSubscription _positionSubscription;
   StreamSubscription _playerCompleteSubscription;
@@ -259,7 +259,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
       setState(() => audioPlayerState = state);
     });
 
-    _playingRouteState = PlayingRouteState.speakers;
+    playingRouteState = PlayingRouteState.speakers;
   }
 
   Future<int> _play() async {

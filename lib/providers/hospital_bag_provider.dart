@@ -40,7 +40,59 @@ class HostipalBagProvider with ChangeNotifier {
   List<BagItem> get packedMotherBagList => _packedMotherBagList;
   List<BagItem> get packedPartnerBagList => _packedPartnerBagList;
 
-    bool get isFetchingBagItemsData => _isFetchingBagItemsData;
+  bool get isFetchingBagItemsData => _isFetchingBagItemsData;
+  bool get isSubmittingData => _isSubmittingData;
+//post bag item...
+  //post bloodLevel
+  Future<bool> postBagItem({
+    @required String name,
+    @required String owner,
+    @required String type,
+    @required String isPacked,
+  }) async {
+    bool hasError = true;
+    _isSubmittingData = true;
+
+    notifyListeners();
+
+    final Map<String, dynamic> _data = {
+      "name": name,
+      "owner": owner,
+      "type": type,
+      "isPacked": isPacked,
+      "uid": FirebaseAuth.instance.currentUser.uid,
+    };
+
+    notifyListeners();
+
+    try {
+      final http.Response response = await http.post(api + "bagItem",
+          body: json.encode(_data),
+          headers: {'Content-Type': 'application/json'});
+
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      if (response.statusCode == 201) {
+        final _bagItem = BagItem.fromMap(data['bagItem']);
+        _availableBabyBagList.add(_bagItem);
+
+        hasError = false;
+      }
+    } catch (error) {
+      print('-----------+++++----------------');
+      print(error);
+
+      hasError = true;
+    }
+
+    print(_availableBabyBagList.length);
+    print("-----------------------------------");
+    print(availableBabyBagList.length);
+    print("-----------------------------------");
+    _isSubmittingData = false;
+    notifyListeners();
+    return hasError;
+  }
 
 //laod Item bags
   Future<bool> fetchBagItems() async {
