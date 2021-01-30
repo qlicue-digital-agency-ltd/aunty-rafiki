@@ -70,13 +70,6 @@ class BloodLevelProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    // static final bloodLevelMessage = <BloodLevelMessage>[
-    //   BloodLevelMessage(
-    //       quantity: 9,
-    //       status: "veryLow",
-    //       subtitle: "Your blood level is very low you have to take suppliments",
-    //       title: "Very Low"),
-    // ];
 
     final Map<String, dynamic> _data = {
       "quantity": quantity,

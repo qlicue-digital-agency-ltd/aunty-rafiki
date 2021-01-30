@@ -1,18 +1,27 @@
+import 'dart:convert';
+
+import 'package:aunty_rafiki/api/api.dart';
 import 'package:aunty_rafiki/models/bag_item.dart';
 import 'package:aunty_rafiki/service/database/query-builder/items_query_builder.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class HostipalBagProvider with ChangeNotifier {
   //constructor..
   HostipalBagProvider() {
-    
     fetchBagItems();
   }
+
+  //variables...
+  bool _isFetchingBagItemsData = false;
+  bool _isSubmittingData = false;
 
   ///product query builder
   BagItemQueryBuilder _bagItemQueryBuilder = BagItemQueryBuilder();
 
   //available bag list
+  List<BagItem> _availableBagItemsList = <BagItem>[];
   List<BagItem> _availableBabyBagList = <BagItem>[];
   List<BagItem> _availableMotherBagList = <BagItem>[];
   List<BagItem> _availablePartnerBagList = <BagItem>[];
@@ -31,24 +40,45 @@ class HostipalBagProvider with ChangeNotifier {
   List<BagItem> get packedMotherBagList => _packedMotherBagList;
   List<BagItem> get packedPartnerBagList => _packedPartnerBagList;
 
+    bool get isFetchingBagItemsData => _isFetchingBagItemsData;
+
 //laod Item bags
-  loadItems() {
-    motherBagList.forEach((element) {
-      _bagItemQueryBuilder.insert(element);
-    });
-
-    babyBagList.forEach((element) {
-      _bagItemQueryBuilder.insert(element);
-    });
-
-    partnerBagList.forEach((element) {
-      _bagItemQueryBuilder.insert(element);
-    });
-
+  Future<bool> fetchBagItems() async {
+    bool hasError = true;
+    _isFetchingBagItemsData = true;
     notifyListeners();
+
+    final List<BagItem> _fetchedBagItems = [];
+    try {
+      final http.Response response = await http.get(
+          api + "bagItems/" + FirebaseAuth.instance.currentUser.uid,
+          headers: {'Content-Type': 'application/json'});
+
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        data['bagItems'].forEach((bagItemData) {
+          final bagItem = BagItem.fromMap(bagItemData);
+          _fetchedBagItems.add(bagItem);
+        });
+        hasError = false;
+      }
+    } catch (error) {
+      print('---------------------------');
+      print(error);
+      hasError = true;
+    }
+
+    _availableBagItemsList = _fetchedBagItems;
+    _isFetchingBagItemsData = false;
+
+    print(_availableBagItemsList.length);
+    notifyListeners();
+
+    return hasError;
   }
 
-  fetchBagItems() async {
+  testfetchBagItems() async {
     await _bagItemQueryBuilder.getAllBagItems().then((bagIltemList) {
       bagIltemList.forEach((element) {
         if (element.owner == 'mother') _availableMotherBagList.add(element);
