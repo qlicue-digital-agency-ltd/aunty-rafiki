@@ -1,22 +1,16 @@
-import 'package:aunty_rafiki/models/bag_item.dart';
+
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HospitalBagDetailPage extends StatelessWidget {
+class PartnerHospitalBagDetailPage extends StatelessWidget {
   final String title;
-  final List<BagItem> _availableBagItmes;
-  final List<BagItem> _packedBagItmes;
 
-  const HospitalBagDetailPage({
+  const PartnerHospitalBagDetailPage({
     Key key,
     @required this.title,
-    @required List<BagItem> availableBagItmes,
-    @required List<BagItem> packedBagItmes,
-  })  : _availableBagItmes = availableBagItmes,
-        _packedBagItmes = packedBagItmes,
-        super(key: key);
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _hospitalBagProvider = Provider.of<HostipalBagProvider>(context);
@@ -36,10 +30,12 @@ class HospitalBagDetailPage extends StatelessWidget {
               ),
               Tab(
                 icon: Badge(
-                    showBadge: _packedBagItmes.isNotEmpty ? true : false,
+                    showBadge: _hospitalBagProvider.packedPartnerBagList.isNotEmpty
+                        ? true
+                        : false,
                     badgeColor: Colors.white,
                     badgeContent: Text(
-                      '${_packedBagItmes.length}',
+                      '${_hospitalBagProvider.packedPartnerBagList.length}',
                       style: TextStyle(color: Colors.pink),
                     ),
                     child: Icon(Icons.card_travel)),
@@ -64,17 +60,19 @@ class HospitalBagDetailPage extends StatelessWidget {
                           ),
                           onPressed: () {
                             _hospitalBagProvider.packItem(
-                              item: _availableBagItmes[index],
+                              item: _hospitalBagProvider
+                                  .availablePartnerBagList[index],
                               status: true,
                             );
                           }),
-                      title: Text(_availableBagItmes[index].name),
+                      title: Text(_hospitalBagProvider
+                          .availablePartnerBagList[index].name),
                     ),
                     Divider(indent: 70)
                   ],
                 );
               },
-              itemCount: _availableBagItmes.length,
+              itemCount: _hospitalBagProvider.availablePartnerBagList.length,
             ),
             ListView.builder(
               itemBuilder: (_, index) {
@@ -89,17 +87,19 @@ class HospitalBagDetailPage extends StatelessWidget {
                           ),
                           onPressed: () {
                             _hospitalBagProvider.packItem(
-                              item: _availableBagItmes[index],
+                              item:
+                                  _hospitalBagProvider.packedPartnerBagList[index],
                               status: false,
                             );
                           }),
-                      title: Text(_packedBagItmes[index].name),
+                      title: Text(
+                          _hospitalBagProvider.packedPartnerBagList[index].name),
                     ),
                     Divider(indent: 70)
                   ],
                 );
               },
-              itemCount: _packedBagItmes.length,
+              itemCount: _hospitalBagProvider.packedPartnerBagList.length,
             ),
           ],
         ),

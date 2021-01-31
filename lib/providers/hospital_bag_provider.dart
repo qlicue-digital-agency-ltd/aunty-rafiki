@@ -30,6 +30,7 @@ class HostipalBagProvider with ChangeNotifier {
       .where((element) => element.owner == "partner" && !element.isPacked)
       .toList();
 
+//
   List<BagItem> get packedBabyBagList => _availableBagItemsList
       .where((element) => element.owner == "baby" && element.isPacked)
       .toList();
@@ -152,8 +153,12 @@ class HostipalBagProvider with ChangeNotifier {
 
   //pack items...
   packItem({@required BagItem item, @required bool status}) {
-    _availableBagItemsList.where((element) => element == item).first.isPacked =
+    _availableBagItemsList.where((element) => element.id == item.id).first.isPacked =
         status;
+    print("----------------------------------");
+    print(_availableBagItemsList.where((element) => element.isPacked).length);
+    print(item.id);
+    print("----------------------------------");
     notifyListeners();
   }
 }
