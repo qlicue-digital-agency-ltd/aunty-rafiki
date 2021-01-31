@@ -63,16 +63,10 @@ class HospitalBagDetailPage extends StatelessWidget {
                             color: Colors.pink,
                           ),
                           onPressed: () {
-                            if (title == "Mother's Bag") {
-                              _hospitalBagProvider
-                                  .packMotherItem(_availableBagItmes[index]);
-                            } else if (title == "Baby's Bag") {
-                              _hospitalBagProvider
-                                  .packBabyItem(_availableBagItmes[index]);
-                            } else if (title == "Birth partner's Bag") {
-                              _hospitalBagProvider
-                                  .packPartnerItem(_availableBagItmes[index]);
-                            }
+                            _hospitalBagProvider.packItem(
+                              item: _availableBagItmes[index],
+                              status: true,
+                            );
                           }),
                       title: Text(_availableBagItmes[index].name),
                     ),
@@ -94,16 +88,10 @@ class HospitalBagDetailPage extends StatelessWidget {
                             color: Colors.pink,
                           ),
                           onPressed: () {
-                            if (title == "Mother's Bag") {
-                              _hospitalBagProvider
-                                  .unpackMotherItem(_packedBagItmes[index]);
-                            } else if (title == "Baby's Bag") {
-                              _hospitalBagProvider
-                                  .unpackBabyItem(_packedBagItmes[index]);
-                            } else if (title == "Birth partner's Bag") {
-                              _hospitalBagProvider
-                                  .unpackPartnerItem(_packedBagItmes[index]);
-                            }
+                            _hospitalBagProvider.packItem(
+                              item: _availableBagItmes[index],
+                              status: false,
+                            );
                           }),
                       title: Text(_packedBagItmes[index].name),
                     ),

@@ -18,23 +18,27 @@ class HostipalBagProvider with ChangeNotifier {
 
   //available bag list
   List<BagItem> _availableBagItemsList = <BagItem>[];
-  List<BagItem> _availableBabyBagList = <BagItem>[];
-  List<BagItem> _availableMotherBagList = <BagItem>[];
-  List<BagItem> _availablePartnerBagList = <BagItem>[];
-
-  ///available bag list
-  List<BagItem> _packedBabyBagList = <BagItem>[];
-  List<BagItem> _packedMotherBagList = <BagItem>[];
-  List<BagItem> _packedPartnerBagList = <BagItem>[];
 
   ///getters
-  List<BagItem> get availableBabyBagList => _availableBabyBagList;
-  List<BagItem> get availableMotherBagList => _availableMotherBagList;
-  List<BagItem> get availablePartnerBagList => _availablePartnerBagList;
+  List<BagItem> get availableBabyBagList => _availableBagItemsList
+      .where((element) => element.owner == "baby" && !element.isPacked)
+      .toList();
+  List<BagItem> get availableMotherBagList => _availableBagItemsList
+      .where((element) => element.owner == "mother" && !element.isPacked)
+      .toList();
+  List<BagItem> get availablePartnerBagList => _availableBagItemsList
+      .where((element) => element.owner == "partner" && !element.isPacked)
+      .toList();
 
-  List<BagItem> get packedBabyBagList => _packedBabyBagList;
-  List<BagItem> get packedMotherBagList => _packedMotherBagList;
-  List<BagItem> get packedPartnerBagList => _packedPartnerBagList;
+  List<BagItem> get packedBabyBagList => _availableBagItemsList
+      .where((element) => element.owner == "baby" && element.isPacked)
+      .toList();
+  List<BagItem> get packedMotherBagList => _availableBagItemsList
+      .where((element) => element.owner == "mother" && element.isPacked)
+      .toList();
+  List<BagItem> get packedPartnerBagList => _availableBagItemsList
+      .where((element) => element.owner == "partner" && element.isPacked)
+      .toList();
 
   bool get isFetchingBagItemsData => _isFetchingBagItemsData;
   bool get isSubmittingData => _isSubmittingData;
@@ -70,7 +74,7 @@ class HostipalBagProvider with ChangeNotifier {
 
       if (response.statusCode == 201) {
         final _bagItem = BagItem.fromMap(data['bagItem']);
-        _availableBabyBagList.add(_bagItem);
+        _availableBagItemsList.add(_bagItem);
 
         hasError = false;
       }
@@ -81,9 +85,9 @@ class HostipalBagProvider with ChangeNotifier {
       hasError = true;
     }
 
-    print(_availableBabyBagList.length);
+    print(_availableBagItemsList.length);
     print("-----------------------------------");
-    print(availableBabyBagList.length);
+    print(_availableBagItemsList.length);
     print("-----------------------------------");
     _isSubmittingData = false;
     notifyListeners();
@@ -126,52 +130,10 @@ class HostipalBagProvider with ChangeNotifier {
     return hasError;
   }
 
-  testfetchBagItems() async {
-    // await _bagItemQueryBuilder.getAllBagItems().then((bagIltemList) {
-    //   bagIltemList.forEach((element) {
-    //     if (element.owner == 'mother') _availableMotherBagList.add(element);
-    //     if (element.owner == 'baby') _availableBabyBagList.add(element);
-    //     if (element.owner == 'partner') _availablePartnerBagList.add(element);
-    //   });
-    //   notifyListeners();
-    // });
-  }
-
   //pack items...
-  packBabyItem(BagItem item) {
-    _availableBabyBagList.remove(item);
-    _packedBabyBagList.add(item);
-    notifyListeners();
-  }
-
-  packMotherItem(BagItem item) {
-    _availableMotherBagList.remove(item);
-    _packedMotherBagList.add(item);
-    notifyListeners();
-  }
-
-  packPartnerItem(BagItem item) {
-    _availablePartnerBagList.remove(item);
-    _packedPartnerBagList.add(item);
-    notifyListeners();
-  }
-
-  //unpack items
-  unpackBabyItem(BagItem item) {
-    _packedBabyBagList.remove(item);
-    _availableBabyBagList.add(item);
-    notifyListeners();
-  }
-
-  unpackMotherItem(BagItem item) {
-    _packedMotherBagList.remove(item);
-    _availableMotherBagList.add(item);
-    notifyListeners();
-  }
-
-  unpackPartnerItem(BagItem item) {
-    _availablePartnerBagList.add(item);
-    _packedPartnerBagList.remove(item);
+  packItem({@required BagItem item, @required bool status}) {
+    _availableBagItemsList.where((element) => element == item).first.isPacked =
+        status;
     notifyListeners();
   }
 }
