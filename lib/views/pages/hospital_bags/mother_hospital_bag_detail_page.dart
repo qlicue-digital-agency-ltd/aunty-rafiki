@@ -1,5 +1,5 @@
-
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
+import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +30,10 @@ class MotherHospitalBagDetailPage extends StatelessWidget {
               ),
               Tab(
                 icon: Badge(
-                    showBadge: _hospitalBagProvider.packedMotherBagList.isNotEmpty
-                        ? true
-                        : false,
+                    showBadge:
+                        _hospitalBagProvider.packedMotherBagList.isNotEmpty
+                            ? true
+                            : false,
                     badgeColor: Colors.white,
                     badgeContent: Text(
                       '${_hospitalBagProvider.packedMotherBagList.length}',
@@ -46,61 +47,74 @@ class MotherHospitalBagDetailPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            ListView.builder(
-              itemBuilder: (_, index) {
-                return Column(
-                  children: [
-                    ListTile(
-                      onTap: () {},
-                      leading: IconButton(
-                          tooltip: 'add',
-                          icon: Icon(
-                            Icons.add,
-                            color: Colors.pink,
+            _hospitalBagProvider.availableMotherBagList.isEmpty
+                ? Center(
+                    child: NoItemTile(
+                        icon: 'assets/icons/aunty_rafiki.png',
+                        title: "Congraturations you have packed all items"),
+                  )
+                : ListView.builder(
+                    itemBuilder: (_, index) {
+                      return Column(
+                        children: [
+                          ListTile(
+                            onTap: () {},
+                            leading: IconButton(
+                                tooltip: 'add',
+                                icon: Icon(
+                                  Icons.add,
+                                  color: Colors.pink,
+                                ),
+                                onPressed: () {
+                                  _hospitalBagProvider.packItem(
+                                    item: _hospitalBagProvider
+                                        .availableMotherBagList[index],
+                                    status: true,
+                                  );
+                                }),
+                            title: Text(_hospitalBagProvider
+                                .availableMotherBagList[index].name),
                           ),
-                          onPressed: () {
-                            _hospitalBagProvider.packItem(
-                              item: _hospitalBagProvider
-                                  .availableMotherBagList[index],
-                              status: true,
-                            );
-                          }),
-                      title: Text(_hospitalBagProvider
-                          .availableMotherBagList[index].name),
-                    ),
-                    Divider(indent: 70)
-                  ],
-                );
-              },
-              itemCount: _hospitalBagProvider.availableMotherBagList.length,
-            ),
-            ListView.builder(
-              itemBuilder: (_, index) {
-                return Column(
-                  children: [
-                    ListTile(
-                      leading: IconButton(
-                          tooltip: 'delete',
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.pink,
+                          Divider(indent: 70)
+                        ],
+                      );
+                    },
+                    itemCount:
+                        _hospitalBagProvider.availableMotherBagList.length,
+                  ),
+            _hospitalBagProvider.packedMotherBagList.isEmpty
+                ? Center(
+                    child: NoItemTile(
+                        icon: 'assets/icons/aunty_rafiki.png',
+                        title: "Mother's Items not packed"),
+                  )
+                : ListView.builder(
+                    itemBuilder: (_, index) {
+                      return Column(
+                        children: [
+                          ListTile(
+                            leading: IconButton(
+                                tooltip: 'delete',
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.pink,
+                                ),
+                                onPressed: () {
+                                  _hospitalBagProvider.packItem(
+                                    item: _hospitalBagProvider
+                                        .packedMotherBagList[index],
+                                    status: false,
+                                  );
+                                }),
+                            title: Text(_hospitalBagProvider
+                                .packedMotherBagList[index].name),
                           ),
-                          onPressed: () {
-                            _hospitalBagProvider.packItem(
-                              item:
-                                  _hospitalBagProvider.packedMotherBagList[index],
-                              status: false,
-                            );
-                          }),
-                      title: Text(
-                          _hospitalBagProvider.packedMotherBagList[index].name),
-                    ),
-                    Divider(indent: 70)
-                  ],
-                );
-              },
-              itemCount: _hospitalBagProvider.packedMotherBagList.length,
-            ),
+                          Divider(indent: 70)
+                        ],
+                      );
+                    },
+                    itemCount: _hospitalBagProvider.packedMotherBagList.length,
+                  ),
           ],
         ),
       ),
