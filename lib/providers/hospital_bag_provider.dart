@@ -95,6 +95,26 @@ class HostipalBagProvider with ChangeNotifier {
   }
 
 //laod Item bags
+  Future<bool> seedBagItems() async {
+    bool hasError = true;
+    _isFetchingBagItemsData = true;
+    notifyListeners();
+    try {
+      final http.Response response = await http.get(
+          api + "createBagItems/" + FirebaseAuth.instance.currentUser.uid,
+          headers: {'Content-Type': 'application/json'});
+
+      if (response.statusCode == 200) {
+        fetchBagItems();
+        hasError = false;
+      }
+    } catch (error) {
+      hasError = true;
+    }
+    return hasError;
+  }
+
+  ///fetch bag items..
   Future<bool> fetchBagItems() async {
     bool hasError = true;
     _isFetchingBagItemsData = true;
