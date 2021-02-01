@@ -204,15 +204,21 @@ class AuthProvider with ChangeNotifier {
   saveUserToFirestore({@required UserCredential userCredential}) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-    users.doc(userCredential.user.uid).set({
-      'uid': userCredential.user.uid,
-      'displayName': userCredential.user.displayName,
-      'photoURL': userCredential.user.photoURL,
-      'nameInitials': '~Xcode',
-      'phoneNumber': userCredential.user.phoneNumber,
-      'groups': [],
-      'pregnancyWeeks': 0
-    });
+    final user = users.where(FieldPath.documentId,
+        isEqualTo: "${FirebaseAuth.instance.currentUser.uid}");
+
+    if (user != null) {
+      users.doc(userCredential.user.uid).set({
+        'uid': userCredential.user.uid,
+        'displayName': userCredential.user.displayName,
+        'photoURL': userCredential.user.photoURL,
+        'nameInitials': '~ ${userCredential.user.displayName}',
+        'phoneNumber': userCredential.user.phoneNumber,
+        'groups': [],
+        'pregnancyWeeks': 0,
+        'hasProfile': false
+      });
+    }
   }
 
   void resetImage() {
@@ -310,13 +316,14 @@ class AuthProvider with ChangeNotifier {
   }
 
   //update user name..
-  Future<bool> updateUsername({@required String displayName}) async {
+  Future<bool> updateUsername(
+      {@required String displayName, @required bool hasProfile}) async {
     bool _error = false;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     try {
-      await users.doc(FirebaseAuth.instance.currentUser.uid).update({
-        'displayName': displayName,
-      });
+      await users
+          .doc(FirebaseAuth.instance.currentUser.uid)
+          .update({'displayName': displayName, 'hasProfile': hasProfile});
     } catch (e) {
       _error = true;
     }
@@ -393,10 +400,30 @@ class AuthProvider with ChangeNotifier {
         'takenTetanusVaccine': takenTetanusVaccine,
         'lastDateTetanusVaccine': lastDateTetanusVaccine,
         'nextDateTetanusVaccine': nextDateTetanusVaccine,
+        'hasProfile': true
       });
     } catch (e) {
       _error = true;
     }
     return _error;
+  }
+
+  Future<bool> checkUserHasProfile() async {
+    bool _hasProfile = false;
+
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final user = users.where(FieldPath.documentId,
+        isEqualTo: "${FirebaseAuth.instance.currentUser.uid}");
+
+    ///
+    ///
+    print('=====================================');
+    await user.get().then((snap) {
+      print(snap.docs.first.data()['hasProfile']);
+      _hasProfile = snap.docs.first.data()['hasProfile'];
+    });
+    print('++++++++++++++++++++++++++++++++++++++');
+
+    return _hasProfile;
   }
 }

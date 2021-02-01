@@ -38,7 +38,7 @@ class StartupPageState extends State<StartupPage>
     } else if (_config == Configuration.Profile) {
       Navigator.of(context).pushReplacementNamed(createProfilePage);
     } else if (_config == Configuration.Done) {
-      Navigator.of(context).pushReplacementNamed(homePage);
+      Navigator.of(context).pushReplacementNamed(landingPage);
     } else {
       Navigator.pushReplacementNamed(context, createProfilePage);
     }

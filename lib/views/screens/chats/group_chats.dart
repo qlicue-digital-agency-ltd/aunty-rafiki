@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -75,24 +76,37 @@ class _GroupChatsState extends State<GroupChats> {
                 return Center(child: CircularProgressIndicator());
               }
               List<Chat> chatList = snapshot.data;
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: chatList.length,
-                itemBuilder: (context, index) {
-                  return ChatUserTile(
-                    chat: chatList[index],
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        chatRoomPage,
-                        arguments: chatList[index],
-                      );
-                    },
-                    isGroup: true,
-                  );
-                },
-              );
+              return chatList.isEmpty
+                  ? Center(
+                      child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 3.5,
+                        ),
+                        NoItemTile(
+                          icon: 'assets/icons/chat.png',
+                          title: 'You are not in any chat group yet',
+                        ),
+                      ],
+                    ))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: chatList.length,
+                      itemBuilder: (context, index) {
+                        return ChatUserTile(
+                          chat: chatList[index],
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              chatRoomPage,
+                              arguments: chatList[index],
+                            );
+                          },
+                          isGroup: true,
+                        );
+                      },
+                    );
             },
           ),
         ],

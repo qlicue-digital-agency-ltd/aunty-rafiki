@@ -173,7 +173,6 @@ class ChatProvider with ChangeNotifier {
   }
 
   ///multiple files compression helper....
-  ///TODO:
   _compressListFiles({@required messageUID, @required chat}) async {
     final dir = await path_provider.getTemporaryDirectory();
     int i = 0;
@@ -195,7 +194,7 @@ class ChatProvider with ChangeNotifier {
       file.absolute.path,
       targetPath,
       quality: 88,
-      rotate: 180,
+      rotate: 0,
     );
     _compressedFiles.add(result);
     print(file.lengthSync());

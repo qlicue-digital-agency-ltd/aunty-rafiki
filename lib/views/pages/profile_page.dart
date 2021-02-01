@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/models/profile.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
@@ -120,8 +121,9 @@ class ProfilePage extends StatelessWidget {
             onTap: () {
               print(accountList[index].title);
               if (accountList[index].title == 'Logout') {
-                _authProvider.signOut().then((value) => {
-                  Navigator.pushNamed(context, landingPage)
+                _authProvider.signOut().then((value) {
+                  Navigator.pushNamed(context, landingPage);
+                 // _authProvider.setConfigurationStep = Configuration.Terms;
                 });
               }
             },

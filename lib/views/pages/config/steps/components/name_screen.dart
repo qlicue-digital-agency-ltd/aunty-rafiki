@@ -72,29 +72,28 @@ class _NameScreenState extends State<NameScreen> with TickerProviderStateMixin {
               },
             ),
             Spacer(),
-            SlideTransition(
-                position: _animation,
-                transformHitTests: true,
-                child: CustomRaisedButton(
-                    title: 'Next',
-                    onPressed: () {
-                      if (_nameFormKey.currentState.validate()) {
-                        print('save the data');
-                        _authProvider
-                            .updateUsername(
-                                displayName: _nameEditingController.text)
-                            .then((value) {
-                          if (!value) {
-                            widget._changePage(widget._currentPage + 1);
-                            _authProvider.setConfigurationStep = Configuration.NameScreenStepDone;
-                          }
-                        });
-                      } else {
-                        print('Issue the data');
+            CustomRaisedButton(
+                title: 'Next',
+                onPressed: () {
+                  if (_nameFormKey.currentState.validate()) {
+                    print('save the data');
+                    _authProvider
+                        .updateUsername(
+                            displayName: _nameEditingController.text,
+                            hasProfile: false)
+                        .then((value) {
+                      if (!value) {
+                        widget._changePage(widget._currentPage + 1);
+                        _authProvider.setConfigurationStep =
+                            Configuration.NameScreenStepDone;
                       }
-                    })),
+                    });
+                  } else {
+                    print('Issue the data');
+                  }
+                }),
             SizedBox(
-              height: 10,
+              height: 40,
             ),
           ],
         ));

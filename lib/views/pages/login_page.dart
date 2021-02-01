@@ -56,9 +56,7 @@ class LoginPage extends StatelessWidget {
                   print(_authProvider.phoneNumber.completeNumber);
 
                   _authProvider.requestVerificationCode().then((value) {
-                 
-                      Navigator.pushNamed(context, confirmationPage);
-                    
+                    Navigator.pushNamed(context, confirmationPage);
                   });
                 },
                 color: Colors.pink,

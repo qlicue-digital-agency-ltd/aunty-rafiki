@@ -233,13 +233,25 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                       .signIn(smsCode: currentText)
                                       .then((credential) {
                                     if (credential.user != null) {
+                                      _authProvider
+                                          .checkUserHasProfile()
+                                          .then((value) {
+                                        if (value) {
+                                          Navigator.pushReplacementNamed(
+                                              context, landingPage);
+
+                                          _authProvider.setConfigurationStep =
+                                              Configuration.Done;
+                                        } else {
+                                          Navigator.pushReplacementNamed(
+                                              context, createProfilePage);
+
+                                          _authProvider.setConfigurationStep =
+                                              Configuration.Profile;
+                                        }
+                                      });
                                       print("Auth User Phone: " +
                                           credential.user.phoneNumber);
-                                      Navigator.pushReplacementNamed(
-                                          context, createProfilePage);
-
-                                      _authProvider.setConfigurationStep =
-                                          Configuration.Profile;
                                     } else {
                                       _scaffoldKey.currentState
                                           .showSnackBar(SnackBar(

@@ -109,30 +109,30 @@ class _StepsPageState extends State<StepsPage> {
     return Scaffold(
       key: _scafoldKey,
       appBar: AppBar(
-        leading: IconButton(
-            icon:
-                Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
-            onPressed: () {
-              if (_utilityProvider.knownPregnancy) {
-                if (_currentPregPage == 2) {
-                  _changePage(0);
-                } else if (_currentPregPage == 3) {
-                  _changePage(1);
-                } else if (_currentPregPage == 4) {
-                  _changePage(2);
-                } else if (_currentPregPage == 5) {
-                  _changePage(3);
-                } else {
-                  Navigator.pop(context);
-                }
-              } else {
-                if (_currentUnknownPregPage == 2) {
-                  _changeUnknownPregnancyPage(0);
-                } else {
-                  Navigator.pop(context);
-                }
-              }
-            }),
+        leading: _currentPregPage == 1
+            ? Container()
+            : IconButton(
+                icon: Icon(
+                    Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+                onPressed: () {
+                  if (_utilityProvider.knownPregnancy) {
+                    if (_currentPregPage == 2) {
+                      _changePage(0);
+                    } else if (_currentPregPage == 3) {
+                      _changePage(1);
+                    } else if (_currentPregPage == 4) {
+                      _changePage(2);
+                    } else if (_currentPregPage == 5) {
+                      _changePage(3);
+                    } else {}
+                  } else {
+                    if (_currentUnknownPregPage == 2) {
+                      _changeUnknownPregnancyPage(0);
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  }
+                }),
         title: Text('Profile'),
       ),
       body: Padding(
