@@ -196,37 +196,34 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
         SizedBox(
           height: 20,
         ),
-        SlideTransition(
-            position: _animation,
-            transformHitTests: true,
-            child: CustomRaisedButton(
-                title: 'Next',
-                onPressed: () {
-                  _authProvider
-                      .updateAdditionalInfo(
-                          haemoLevel: _haemoglobinLevel,
-                          haemoLevelDate: _haemoglobinLevelDate,
-                          lastDateTetanusVaccine: _lastTetanusDate,
-                          nextDateTetanusVaccine: _nextTetanusDate,
-                          onMedication: _medication,
-                          startedClinic: _clinic,
-                          takenTetanusVaccine: _tetanasiVaccination)
-                      .then((value) {
-                    if (!value) {
-                      //send data to af server...
+        CustomRaisedButton(
+            title: 'Next',
+            onPressed: () {
+              _authProvider
+                  .updateAdditionalInfo(
+                      haemoLevel: _haemoglobinLevel,
+                      haemoLevelDate: _haemoglobinLevelDate,
+                      lastDateTetanusVaccine: _lastTetanusDate,
+                      nextDateTetanusVaccine: _nextTetanusDate,
+                      onMedication: _medication,
+                      startedClinic: _clinic,
+                      takenTetanusVaccine: _tetanasiVaccination)
+                  .then((value) {
+                if (!value) {
+                  //send data to af server...
 
-                      _bloodLevelProvider.postBloodLevel(
-                        quantity: _haemoglobinLevel.toDouble(),
-                        date: _haemoglobinLevelDate,
-                      );
+                  _bloodLevelProvider.postBloodLevel(
+                    quantity: _haemoglobinLevel.toDouble(),
+                    date: _haemoglobinLevelDate,
+                  );
 
-                      _authProvider.setConfigurationStep = Configuration.Done;
-                      Navigator.pushNamed(context, landingPage);
-                    }
-                  });
-                })),
+                  _authProvider.setConfigurationStep = Configuration.Done;
+                  Navigator.pushNamed(context, landingPage);
+                }
+              });
+            }),
         SizedBox(
-          height: 10,
+          height: 40,
         ),
       ],
     );

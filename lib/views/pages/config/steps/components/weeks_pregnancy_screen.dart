@@ -89,51 +89,60 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen>
                 ),
               ),
         Spacer(),
-        SlideTransition(
-            position: _animation,
-            transformHitTests: true,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(255, 240, 240, 1),
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                  ),
-                  child: ListTile(
-                      onTap: () {
-                        itemChange(!_isSelected);
-                      },
-                      leading: Checkbox(
-                          value: _isSelected,
-                          onChanged: (bool val) {
-                            itemChange(val);
-                          }),
-                      title: Text("I don't remember")),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                CustomRaisedButton(
-                    title: 'Next',
-                    onPressed: () {
-                      if (_isSelected) {
-                        _utilityProvider.setKnownPregnancy = false;
+        Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(255, 240, 240, 1),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
+              child: ListTile(
+                  onTap: () {
+                    itemChange(!_isSelected);
+                  },
+                  leading: Checkbox(
+                      value: _isSelected,
+                      onChanged: (bool val) {
+                        itemChange(val);
+                      }),
+                  title: Text("I don't remember")),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            CustomRaisedButton(
+                title: 'Next',
+                onPressed: () {
+                  _authProvider
+                      .updatePregnancyWeeks(
+                          pregnancyWeeks: _isSelected ? 0 : _weeksOfPregnancy)
+                      .then((value) {
+                    if (!value) {
+                      widget._changePage(widget._currentPage + 1);
+                      _authProvider.setConfigurationStep =
+                          Configuration.WeeksPregnancyScreenStepDone;
+                    }
+                  });
 
-                        widget._changePage(widget._currentPage + 1);
-                      } else {
-                        _authProvider
-                            .updatePregnancyWeeks(
-                                pregnancyWeeks: _weeksOfPregnancy)
-                            .then((value) {
-                          if (!value) {
-                            widget._changePage(widget._currentPage + 1);
-                                 _authProvider.setConfigurationStep = Configuration.WeeksPregnancyScreenStepDone;
-                          }
-                        });
-                      }
-                    }),
-              ],
-            )),
+                  // if (_isSelected) {
+                  //   _utilityProvider.setKnownPregnancy = false;
+
+                  //   widget._changePage(widget._currentPage + 1);
+                  // } else {
+                  //   _authProvider
+                  //       .updatePregnancyWeeks(pregnancyWeeks: _weeksOfPregnancy)
+                  //       .then((value) {
+                  //     if (!value) {
+                  //       widget._changePage(widget._currentPage + 1);
+                  //       _authProvider.setConfigurationStep =
+                  //           Configuration.WeeksPregnancyScreenStepDone;
+                  //     }
+                  //   });
+
+                  // }
+                }),
+          ],
+        ),
         SizedBox(
           height: 10,
         ),

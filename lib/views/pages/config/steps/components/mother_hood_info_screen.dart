@@ -135,31 +135,27 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
         SizedBox(
           height: 20,
         ),
-        SlideTransition(
-            position: _animation,
-            transformHitTests: true,
-            child: CustomRaisedButton(
-                title: 'Next',
-                onPressed: () {
-                  _authProvider
-                      .updateMotherhoodInfo(
-                          gravida: _gravida,
-                          miscarriage: _miscarriage,
-                          miscarriageWeeks: _miscarriageAge,
-                          numberOfDeliveries: _births,
-                          numberOfNormalDeliveries: _operationBirths,
-                          numberOfOperationDeliveries:
-                              _births - _operationBirths)
-                      .then((value) {
-                    if (!value) {
-                      widget._changePage(widget._currentPage + 1);
-                      _authProvider.setConfigurationStep =
-                          Configuration.MotherhoodInfoScreenStepDone;
-                    }
-                  });
-                })),
+        CustomRaisedButton(
+            title: 'Next',
+            onPressed: () {
+              _authProvider
+                  .updateMotherhoodInfo(
+                      gravida: _gravida,
+                      miscarriage: _miscarriage,
+                      miscarriageWeeks: _miscarriageAge,
+                      numberOfDeliveries: _births,
+                      numberOfNormalDeliveries: _operationBirths,
+                      numberOfOperationDeliveries: _births - _operationBirths)
+                  .then((value) {
+                if (!value) {
+                  widget._changePage(widget._currentPage + 1);
+                  _authProvider.setConfigurationStep =
+                      Configuration.MotherhoodInfoScreenStepDone;
+                }
+              });
+            }),
         SizedBox(
-          height: 10,
+          height: 40,
         ),
       ],
     );

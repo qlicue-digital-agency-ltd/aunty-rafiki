@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
+import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -66,24 +67,38 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen>
           maxValue: 2008,
         ),
         Spacer(),
-        SlideTransition(
-            position: _animation,
-            transformHitTests: true,
-            child: CustomRaisedButton(
-                title: 'Next',
-                onPressed: () {
-                  _authProvider
-                      .updateYearOfBirth(yearOfBirth: _yearOfBirth)
-                      .then((value) {
-                    if (!value) {
-                      widget._changePage(widget._currentPage + 1);
-                      _authProvider.setConfigurationStep =
-                          Configuration.YearOfBirthScreenStepDone;
-                    }
-                  });
-                })),
+        CustomRaisedButton(
+            title: 'Next',
+            onPressed: () {
+              if (DateTime.now().year - _yearOfBirth >= 18) {
+                _authProvider
+                    .updateYearOfBirth(yearOfBirth: _yearOfBirth)
+                    .then((value) {
+                  if (!value) {
+                    widget._changePage(widget._currentPage + 1);
+                    _authProvider.setConfigurationStep =
+                        Configuration.YearOfBirthScreenStepDone;
+                  }
+                });
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CustomDialogBox(
+                        title: "NOT OF AGE",
+                        descriptions:
+                            "This App is to be used by people above the age of 18+",
+                        text: "CLOSE",
+                        textClose: "",
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    });
+              }
+            }),
         SizedBox(
-          height: 10,
+          height: 40,
         ),
       ],
     );
