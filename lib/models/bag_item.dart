@@ -23,7 +23,8 @@ class BagItem {
       'is_packed': isPacked,
       'owner': owner,
       'type': type,
-      'uid': uid
+      'uid': uid,
+      'id': id
     };
     if (id != null) {
       map['id'] = id;

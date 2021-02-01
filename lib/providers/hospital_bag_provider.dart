@@ -95,6 +95,32 @@ class HostipalBagProvider with ChangeNotifier {
     return hasError;
   }
 
+  /// put bag items
+  ///post bag item...
+  Future<bool> putBagItem({
+    @required BagItem bagItem,
+  }) async {
+    bool hasError = true;
+
+    try {
+      final http.Response response = await http.put(
+          api + "bagItem/${bagItem.id}",
+          body: json.encode(bagItem.toMap()),
+          headers: {'Content-Type': 'application/json'});
+
+      if (response.statusCode == 201) {
+        hasError = false;
+      }
+    } catch (error) {
+      print('-----------+++++----------------');
+      print(error);
+
+      hasError = true;
+    }
+
+    return hasError;
+  }
+
 //laod Item bags
   Future<bool> seedBagItems() async {
     bool hasError = true;
@@ -153,12 +179,15 @@ class HostipalBagProvider with ChangeNotifier {
 
   //pack items...
   packItem({@required BagItem item, @required bool status}) {
-    _availableBagItemsList.where((element) => element.id == item.id).first.isPacked =
-        status;
-    print("----------------------------------");
-    print(_availableBagItemsList.where((element) => element.isPacked).length);
-    print(item.id);
-    print("----------------------------------");
+    _availableBagItemsList
+        .where((element) => element.id == item.id)
+        .first
+        .isPacked = status;
+
+    putBagItem(
+        bagItem: _availableBagItemsList
+            .where((element) => element.id == item.id)
+            .first);
     notifyListeners();
   }
 }
