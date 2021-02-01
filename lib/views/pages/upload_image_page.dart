@@ -47,19 +47,6 @@ class UploadImagePage extends StatelessWidget {
           ],
         )
 
-        // Center(
-        //     child: ListView(
-        //   physics: NeverScrollableScrollPhysics(),
-        //   shrinkWrap: true,
-        //   children: [
-
-        //     Image.file(_chatProvider.files[0]),
-        //     MediaMessageEditBar(
-        //       chat: chat,
-        //     )
-        //   ],
-        // )
-        // ),
         );
   }
 }

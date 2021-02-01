@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 class ChatProvider with ChangeNotifier {
   ///firestore
@@ -23,13 +24,17 @@ class ChatProvider with ChangeNotifier {
 //
 
   List<PlatformFile> _paths = [];
+  List<File> _compressedFiles = [];
   bool _loadingPath = false;
 
   List<File> get files => _paths.map((path) => File(path.path)).toList();
+  List<File> get compressedFiles => _compressedFiles;
   bool get loadingPath => _loadingPath;
 
-  void resetImage() {
+  void clearSelectedMedia() {
+    _mediaType = "NON";
     _paths = [];
+    _compressedFiles = [];
     notifyListeners();
   }
 
@@ -57,8 +62,7 @@ class ChatProvider with ChangeNotifier {
         ///compress image...
         ///
         ///
-        
-        _uploadImage(messageUID: message.id, chat: chat);
+        _compressListFiles(messageUID: message.id, chat: chat);
       } else {
         _isSendingMessage = false;
         _mediaType = "NON";
@@ -70,9 +74,8 @@ class ChatProvider with ChangeNotifier {
   //upload image to server...
   Future<void> _uploadImage({@required messageUID, @required chat}) async {
     List<String> _mediaUrl = [];
-
-    if (files.isNotEmpty) {
-      files.forEach((file) async {
+    if (_compressedFiles.isNotEmpty) {
+      _compressedFiles.forEach((file) async {
         //edit files...
         firebase_storage.UploadTask task = firebase_storage
             .FirebaseStorage.instance
@@ -139,9 +142,9 @@ class ChatProvider with ChangeNotifier {
           .doc(messageUID)
           .update({'media': url});
 
-      _paths = [];
+      clearSelectedMedia();
       _isSendingMessage = false;
-      _mediaType = "NON";
+
       notifyListeners();
     }
   }
@@ -169,14 +172,32 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<File> testCompressAndGetFile(File file, String targetPath) async {
+  ///multiple files compression helper....
+  ///TODO:
+  _compressListFiles({@required messageUID, @required chat}) async {
+    final dir = await path_provider.getTemporaryDirectory();
+    int i = 0;
+    if (_mediaType.replaceAll('FileType.', '') == "image") {
+      files.forEach((file) async {
+        final targetPath = dir.absolute.path + "/temp$i.jpg";
+        await compressAndGetFile(file, targetPath);
+        i++;
+      });
+    } else {
+      _compressedFiles = files;
+    }
+    _uploadImage(messageUID: messageUID, chat: chat);
+  }
+
+  ///Compress a single file..
+  Future<File> compressAndGetFile(File file, String targetPath) async {
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
       quality: 88,
       rotate: 180,
     );
-
+    _compressedFiles.add(result);
     print(file.lengthSync());
     print(result.lengthSync());
 
