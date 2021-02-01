@@ -188,6 +188,7 @@ class HostipalBagProvider with ChangeNotifier {
         bagItem: _availableBagItemsList
             .where((element) => element.id == item.id)
             .first);
+
     notifyListeners();
   }
 }

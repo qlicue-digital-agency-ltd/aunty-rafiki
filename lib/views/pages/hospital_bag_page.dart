@@ -15,13 +15,6 @@ class HospitalBagPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Hospital Bag'),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                _hospitalBagProvider.seedBagItems();
-              })
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(children: [
