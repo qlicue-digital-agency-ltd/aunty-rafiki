@@ -20,7 +20,8 @@ class _SelectContactPageState extends State<SelectContactPage> {
       appBar: SelectContactPageAppBar(),
       body: Stack(
         children: [
-          _userProvider.availableUsers.isEmpty
+          _userProvider.availableUsers.isEmpty &&
+                  _userProvider.selectedUser.isEmpty
               ? Center(
                   child: NoItemTile(
                       icon: 'assets/icons/aunty_rafiki.png',
@@ -96,7 +97,8 @@ class _SelectContactPageState extends State<SelectContactPage> {
                     );
                   },
                 ),
-          _userProvider.availableUsers.isEmpty
+          _userProvider.availableUsers.isEmpty &&
+                  _userProvider.selectedUser.isEmpty
               ? Container()
               : Container(
                   height: 120,

@@ -10,8 +10,8 @@ class User {
   final String uid;
   final int gravida;
   final int haemoLevel;
-  final DateTime haemoLevelDate;
-  final DateTime lastDateTetanusVaccine;
+  final Timestamp haemoLevelDate;
+  final Timestamp lastDateTetanusVaccine;
   final int numberOfDeliveries;
   final int numberOfNormalDeliveries;
   final int numberOfOperationDeliveries;

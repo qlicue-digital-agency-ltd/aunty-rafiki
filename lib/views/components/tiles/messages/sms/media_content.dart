@@ -77,14 +77,16 @@ class MediaContent extends StatelessWidget {
                                                   .size
                                                   .height *
                                               0.2,
-                                          child: FadeInImage.memoryNetwork(
-                                            placeholder: kTransparentImage,
-                                            image: media.toString(),
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.2,
-                                            fit: BoxFit.cover,
+                                          child: Center(
+                                            child: FadeInImage.memoryNetwork(
+                                              placeholder: kTransparentImage,
+                                              image: media.toString(),
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.2,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
                                       ],

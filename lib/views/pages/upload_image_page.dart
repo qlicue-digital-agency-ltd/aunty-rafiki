@@ -26,14 +26,17 @@ class UploadImagePage extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            GridView.count(
-              crossAxisCount: 2,
-              children: List.generate(_chatProvider.files.length, (index) {
-                return Container(
-                  child: Image.file(_chatProvider.files[index]),
-                );
-              }),
-            ),
+            _chatProvider.files.length == 1
+                ? Image.file(_chatProvider.files[0])
+                : GridView.count(
+                    crossAxisCount: 2,
+                    children:
+                        List.generate(_chatProvider.files.length, (index) {
+                      return Container(
+                        child: Image.file(_chatProvider.files[index]),
+                      );
+                    }),
+                  ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -45,8 +48,6 @@ class UploadImagePage extends StatelessWidget {
               ),
             )
           ],
-        )
-
-        );
+        ));
   }
 }

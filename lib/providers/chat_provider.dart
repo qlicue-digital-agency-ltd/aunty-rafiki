@@ -59,9 +59,6 @@ class ChatProvider with ChangeNotifier {
       'searchKeywords': _searchKeywords,
     }).then((message) {
       if (files.isNotEmpty) {
-        ///compress image...
-        ///
-        ///
         _compressListFiles(messageUID: message.id, chat: chat);
       } else {
         _isSendingMessage = false;
@@ -81,8 +78,7 @@ class ChatProvider with ChangeNotifier {
             .FirebaseStorage.instance
             .ref('uploads/media/' +
                 messageUID +
-                DateTime.now().toIso8601String() +
-                '.png')
+                DateTime.now().toIso8601String())
             .putFile(file);
 
         task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
@@ -178,22 +174,36 @@ class ChatProvider with ChangeNotifier {
     int i = 0;
     if (_mediaType.replaceAll('FileType.', '') == "image") {
       files.forEach((file) async {
-        final targetPath = dir.absolute.path + "/temp$i.jpg";
+        var targetPath =
+            dir.absolute.path + "/temp" + DateTime.now().toString() + "$i.jpg";
         await compressAndGetFile(file, targetPath);
         i++;
+        print("BOSS:=>  $i");
+        if (i == files.length) {
+          print('a call at the right time...');
+          print("++++++++++++++++++++++++++++++++++++++++++++");
+          _compressedFiles.forEach((element) {
+            print(element.path + "\t");
+          });
+          print("++++++++++++++++++++++++++++++++++++++++++++");
+          _uploadImage(messageUID: messageUID, chat: chat);
+        }
       });
     } else {
       _compressedFiles = files;
+      print('check these results');
+      _uploadImage(messageUID: messageUID, chat: chat);
     }
-    _uploadImage(messageUID: messageUID, chat: chat);
   }
 
   ///Compress a single file..
   Future<File> compressAndGetFile(File file, String targetPath) async {
+    int bytes = await file.length();
+    print("bytes:=> $bytes");
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
-      quality: 88,
+      quality: 0,
       rotate: 0,
     );
     _compressedFiles.add(result);
