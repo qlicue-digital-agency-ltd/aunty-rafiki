@@ -201,24 +201,34 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  saveUserToFirestore({@required UserCredential userCredential}) {
+  saveUserToFirestore({@required UserCredential userCredential}) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     final user = users.where(FieldPath.documentId,
         isEqualTo: "${FirebaseAuth.instance.currentUser.uid}");
 
-    if (user != null) {
-      users.doc(userCredential.user.uid).set({
-        'uid': userCredential.user.uid,
-        'displayName': userCredential.user.displayName,
-        'photoURL': userCredential.user.photoURL,
-        'nameInitials': '~ ${userCredential.user.displayName}',
-        'phoneNumber': userCredential.user.phoneNumber,
-        'groups': [],
-        'pregnancyWeeks': 0,
-        'hasProfile': false
-      });
-    }
+    print('=====================================');
+    await user.get().then((snap) {
+      if (snap.docs.isEmpty) {
+        users.doc(userCredential.user.uid).set({
+          'uid': userCredential.user.uid,
+          'displayName': userCredential.user.displayName,
+          'photoURL': userCredential.user.photoURL,
+          'nameInitials': '~ ${userCredential.user.displayName}',
+          'phoneNumber': userCredential.user.phoneNumber,
+          'groups': [],
+          'pregnancyWeeks': 0,
+          'hasProfile': false
+        });
+        print('Mojaaa');
+      } else if (snap.docs.first.data()['hasProfile']) {
+        print('Mbili');
+      } else {
+        print('Tatu');
+      }
+    });
+
+    print('++++++++++++++++++++++++++++++++++++++');
   }
 
   void resetImage() {
@@ -415,12 +425,18 @@ class AuthProvider with ChangeNotifier {
     final user = users.where(FieldPath.documentId,
         isEqualTo: "${FirebaseAuth.instance.currentUser.uid}");
 
-    ///
-    ///
     print('=====================================');
     await user.get().then((snap) {
-      print(snap.docs.first.data()['hasProfile']);
-      _hasProfile = snap.docs.first.data()['hasProfile'];
+      if (snap.docs.isEmpty) {
+        _hasProfile = false;
+        print('Mojaaa');
+      } else if (snap.docs.first.data()['hasProfile']) {
+        _hasProfile = true;
+        print('Mbili');
+      } else {
+        _hasProfile = false;
+        print('Tatu');
+      }
     });
     print('++++++++++++++++++++++++++++++++++++++');
 

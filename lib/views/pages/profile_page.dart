@@ -123,7 +123,7 @@ class ProfilePage extends StatelessWidget {
               if (accountList[index].title == 'Logout') {
                 _authProvider.signOut().then((value) {
                   Navigator.pushNamed(context, landingPage);
-                 // _authProvider.setConfigurationStep = Configuration.Terms;
+                  // _authProvider.setConfigurationStep = Configuration.Terms;
                 });
               }
             },
