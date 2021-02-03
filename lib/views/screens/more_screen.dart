@@ -141,25 +141,25 @@ class MoreScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: <Widget>[
-                Expanded(
-                  child: MoreMenuCard(
-                    image: 'assets/access/mother.png',
-                    title: 'Baby Bump',
-                    onTap: () {
-                      Navigator.pushNamed(context, babyBumpPage);
-                    },
-                  ),
-                ),
-                const SizedBox(width: 16.0),
-                Expanded(
-                  child: MoreMenuCard(
-                    image: 'assets/access/to-do-list.png',
-                    title: 'To Do',
-                    onTap: () {
-                      Navigator.pushNamed(context, toDoListPage);
-                    },
-                  ),
-                )
+                // Expanded(
+                //   child: MoreMenuCard(
+                //     image: 'assets/access/mother.png',
+                //     title: 'Baby Bump',
+                //     onTap: () {
+                //       Navigator.pushNamed(context, babyBumpPage);
+                //     },
+                //   ),
+                // ),
+                // const SizedBox(width: 16.0),
+                // Expanded(
+                //   child: MoreMenuCard(
+                //     image: 'assets/access/to-do-list.png',
+                //     title: 'To Do',
+                //     onTap: () {
+                //       Navigator.pushNamed(context, toDoListPage);
+                //     },
+                //   ),
+                // )
               ],
             ),
           ),
