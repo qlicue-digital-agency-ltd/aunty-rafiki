@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class HostipalBagProvider with ChangeNotifier {
   //constructor..
   HostipalBagProvider() {
-    fetchBagItems();
+    seedBagItems();
   }
 
   //variables...
@@ -80,16 +80,9 @@ class HostipalBagProvider with ChangeNotifier {
         hasError = false;
       }
     } catch (error) {
-      print('-----------+++++----------------');
-      print(error);
-
       hasError = true;
     }
 
-    print(_availableBagItemsList.length);
-    print("-----------------------------------");
-    print(_availableBagItemsList.length);
-    print("-----------------------------------");
     _isSubmittingData = false;
     notifyListeners();
     return hasError;
@@ -131,8 +124,9 @@ class HostipalBagProvider with ChangeNotifier {
           api + "createBagItems/" + FirebaseAuth.instance.currentUser.uid,
           headers: {'Content-Type': 'application/json'});
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         fetchBagItems();
+
         hasError = false;
       }
     } catch (error) {
@@ -163,8 +157,6 @@ class HostipalBagProvider with ChangeNotifier {
         hasError = false;
       }
     } catch (error) {
-      print('---------------------------');
-      print(error);
       hasError = true;
     }
 

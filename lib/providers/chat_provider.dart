@@ -178,20 +178,14 @@ class ChatProvider with ChangeNotifier {
             dir.absolute.path + "/temp" + DateTime.now().toString() + "$i.jpg";
         await compressAndGetFile(file, targetPath);
         i++;
-        print("BOSS:=>  $i");
         if (i == files.length) {
-          print('a call at the right time...');
-          print("++++++++++++++++++++++++++++++++++++++++++++");
-          _compressedFiles.forEach((element) {
-            print(element.path + "\t");
-          });
-          print("++++++++++++++++++++++++++++++++++++++++++++");
+          _compressedFiles.forEach((element) {});
+
           _uploadImage(messageUID: messageUID, chat: chat);
         }
       });
     } else {
       _compressedFiles = files;
-      print('check these results');
       _uploadImage(messageUID: messageUID, chat: chat);
     }
   }
