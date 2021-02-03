@@ -20,30 +20,8 @@ class YearOfBirthScreen extends StatefulWidget {
   _YearOfBirthScreenState createState() => _YearOfBirthScreenState();
 }
 
-class _YearOfBirthScreenState extends State<YearOfBirthScreen>
-    with TickerProviderStateMixin {
-  AnimationController _controller;
-
-  Animation<Offset> _animation;
-
+class _YearOfBirthScreenState extends State<YearOfBirthScreen> {
   int _yearOfBirth = 1988;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    )..forward();
-    _animation = Tween<Offset>(
-      begin: const Offset(0.0, 2.0),
-      end: const Offset(0.0, 0.0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInCubic,
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {

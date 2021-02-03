@@ -63,13 +63,12 @@ class BloodLevelProvider extends ChangeNotifier {
   //post bloodLevel
   Future<bool> postBloodLevel({
     @required double quantity,
-    @required date,
+    @required String date,
   }) async {
     bool hasError = true;
     _isSubmittingData = true;
 
     notifyListeners();
-
 
     final Map<String, dynamic> _data = {
       "quantity": quantity,

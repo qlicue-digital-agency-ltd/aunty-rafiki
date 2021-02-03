@@ -1,4 +1,4 @@
-import 'package:aunty_rafiki/constants/enums/enums.dart';
+
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/models/profile.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';

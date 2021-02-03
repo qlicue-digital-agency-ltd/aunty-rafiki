@@ -18,30 +18,10 @@ class NameScreen extends StatefulWidget {
   _NameScreenState createState() => _NameScreenState();
 }
 
-class _NameScreenState extends State<NameScreen> with TickerProviderStateMixin {
+class _NameScreenState extends State<NameScreen> {
   TextEditingController _nameEditingController = TextEditingController();
 
   GlobalKey<FormState> _nameFormKey = GlobalKey<FormState>();
-
-  AnimationController _controller;
-
-  Animation<Offset> _animation;
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    )..forward();
-    _animation = Tween<Offset>(
-      begin: const Offset(0.0, 2.0),
-      end: const Offset(0.0, 0.0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInCubic,
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {

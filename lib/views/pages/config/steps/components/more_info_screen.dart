@@ -24,9 +24,7 @@ class MoreInfoScreen extends StatefulWidget {
   _MoreInfoScreenState createState() => _MoreInfoScreenState();
 }
 
-class _MoreInfoScreenState extends State<MoreInfoScreen>
-    with TickerProviderStateMixin {
-  AnimationController _controller;
+class _MoreInfoScreenState extends State<MoreInfoScreen> {
   int _haemoglobinLevel = 12;
   String _clinic = "NO";
   String _medication = "NO";
@@ -35,24 +33,6 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
   DateTime _nextTetanusDate;
   DateTime _lastTetanusDate;
   DateTime _haemoglobinLevelDate;
-
-  Animation<Offset> _animation;
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    )..forward();
-    _animation = Tween<Offset>(
-      begin: const Offset(0.0, 2.0),
-      end: const Offset(0.0, 0.0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInCubic,
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -211,10 +191,10 @@ class _MoreInfoScreenState extends State<MoreInfoScreen>
                   .then((value) {
                 if (!value) {
                   //send data to af server...
-                  
+
                   _bloodLevelProvider.postBloodLevel(
                     quantity: _haemoglobinLevel.toDouble(),
-                    date: _haemoglobinLevelDate,
+                    date: _haemoglobinLevelDate.toString(),
                   );
 
                   _authProvider.setConfigurationStep = Configuration.Done;

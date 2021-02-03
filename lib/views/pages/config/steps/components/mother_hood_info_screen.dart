@@ -20,32 +20,12 @@ class MotherhoodInfoScreen extends StatefulWidget {
   _MotherhoodInfoScreenState createState() => _MotherhoodInfoScreenState();
 }
 
-class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen>
-    with TickerProviderStateMixin {
-  AnimationController _controller;
+class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
   int _gravida = 1;
   String _miscarriage = "NO";
   int _miscarriageAge = 1;
   int _births = 0;
   int _operationBirths = 0;
-
-  Animation<Offset> _animation;
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    )..forward();
-    _animation = Tween<Offset>(
-      begin: const Offset(0.0, 2.0),
-      end: const Offset(0.0, 0.0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInCubic,
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
