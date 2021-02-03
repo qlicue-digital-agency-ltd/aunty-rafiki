@@ -1,10 +1,14 @@
+import 'package:aunty_rafiki/providers/food_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
 import 'package:aunty_rafiki/views/pages/food_details_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FoodPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _foodProvider = Provider.of<FoodProvider>(context);
+
     return Scaffold(
       appBar: AppBar(title: Text('Food')),
       body: Column(children: [
@@ -19,16 +23,17 @@ class FoodPage extends StatelessWidget {
                 child: MoreMenuCard(
                   image: 'assets/food/diet.png',
                   title: 'Diet',
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => FoodDetailsPage(
-                                  title: 'Diet',
-                                  icon: 'assets/food/diet.png',
-                                  cover: 'assets/chats/1.jpg',
-                                )));
-                  },
+                  onTap: _foodProvider.availableFoods.isEmpty
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => FoodDetailsPage(
+                                        icon: 'assets/food/diet.png',
+                                        food: _foodProvider.availableFoods[0],
+                                      )));
+                        },
                 ),
               ),
               const SizedBox(width: 16.0),
@@ -36,16 +41,17 @@ class FoodPage extends StatelessWidget {
                 child: MoreMenuCard(
                   image: 'assets/food/harvest.png',
                   title: 'Greens',
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => FoodDetailsPage(
-                                  title: 'Greens',
-                                  icon: 'assets/food/harvest.png',
-                                  cover: 'assets/chats/2.jpg',
-                                )));
-                  },
+                  onTap: _foodProvider.availableFoods.isEmpty
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => FoodDetailsPage(
+                                        icon: 'assets/food/harvest.png',
+                                        food: _foodProvider.availableFoods[1],
+                                      )));
+                        },
                 ),
               )
             ],
@@ -62,16 +68,17 @@ class FoodPage extends StatelessWidget {
                 child: MoreMenuCard(
                   image: 'assets/food/drink.png',
                   title: 'Juice',
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => FoodDetailsPage(
-                                  title: 'Juice',
-                                  icon: 'assets/food/drink.png',
-                                  cover: 'assets/chats/3.jpg',
-                                )));
-                  },
+                  onTap: _foodProvider.availableFoods.isEmpty
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => FoodDetailsPage(
+                                        icon: 'assets/food/drink.png',
+                                        food: _foodProvider.availableFoods[2],
+                                      )));
+                        },
                 ),
               ),
               const SizedBox(width: 16.0),
@@ -79,16 +86,17 @@ class FoodPage extends StatelessWidget {
                 child: MoreMenuCard(
                   image: 'assets/food/fruits.png',
                   title: 'Fruits',
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => FoodDetailsPage(
-                                  title: 'Fruits',
-                                  icon: 'assets/food/fruits.png',
-                                  cover: 'assets/chats/4.jpg',
-                                )));
-                  },
+                  onTap: _foodProvider.availableFoods.isEmpty
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => FoodDetailsPage(
+                                        icon: 'assets/food/fruits.png',
+                                        food: _foodProvider.availableFoods[3],
+                                      )));
+                        },
                 ),
               ),
             ],
@@ -105,16 +113,17 @@ class FoodPage extends StatelessWidget {
                 child: MoreMenuCard(
                   image: 'assets/food/maternity.png',
                   title: 'Expecting',
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => FoodDetailsPage(
-                                  title: 'Expecting Mothers',
-                                  icon: 'assets/food/maternity.png',
-                                  cover: 'assets/chats/5.jpg',
-                                )));
-                  },
+                  onTap: _foodProvider.availableFoods.isEmpty
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => FoodDetailsPage(
+                                        icon: 'assets/food/maternity.png',
+                                        food: _foodProvider.availableFoods[4],
+                                      )));
+                        },
                 ),
               ),
               const SizedBox(width: 16.0),
@@ -122,16 +131,17 @@ class FoodPage extends StatelessWidget {
                 child: MoreMenuCard(
                   image: 'assets/food/baby-food.png',
                   title: 'Weaning',
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => FoodDetailsPage(
-                                  title: 'Weaning',
-                                  icon: 'assets/food/baby-food.png',
-                                  cover: 'assets/chats/6.jpg',
-                                )));
-                  },
+                  onTap: _foodProvider.availableFoods.isEmpty
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => FoodDetailsPage(
+                                        icon: 'assets/food/baby-food.png',
+                                        food: _foodProvider.availableFoods[5],
+                                      )));
+                        },
                 ),
               ),
             ],
