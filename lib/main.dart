@@ -3,6 +3,7 @@ import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
+import 'package:aunty_rafiki/providers/food_provider.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
 import 'package:aunty_rafiki/providers/task_provider.dart';
@@ -30,6 +31,7 @@ void main() {
     ChangeNotifierProvider(create: (_) => TrackerProvider()),
     ChangeNotifierProvider(create: (_) => UserProvider()),
     ChangeNotifierProvider(create: (_) => GroupProvider()),
+    ChangeNotifierProvider(create: (_) => FoodProvider()),
     ChangeNotifierProvider(create: (_) => HostipalBagProvider()),
   ], child: App()));
 }
