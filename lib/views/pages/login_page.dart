@@ -36,6 +36,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ],
             ),
+            TextFormField(),
             SizedBox(
               height: 20,
             ),

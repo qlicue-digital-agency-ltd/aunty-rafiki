@@ -57,6 +57,11 @@ class AuthProvider with ChangeNotifier {
   customUser.User get currentUser => _currentUser;
   AuthProvider() {
     initializeFlutterFire();
+
+    if (FirebaseAuth.instance.currentUser != null) {
+      print('BOSSSSSSSSSSSSSSSSSSSSSSS');
+      getUserProfile();
+    }
   }
 
   void initializeFlutterFire() async {
@@ -431,7 +436,6 @@ class AuthProvider with ChangeNotifier {
     final user = users.where(FieldPath.documentId,
         isEqualTo: "${FirebaseAuth.instance.currentUser.uid}");
 
-    print('=====================================');
     await user.get().then((snap) {
       if (snap.docs.isEmpty) {
         _hasProfile = false;
@@ -444,7 +448,6 @@ class AuthProvider with ChangeNotifier {
         print('Tatu');
       }
     });
-    print('++++++++++++++++++++++++++++++++++++++');
 
     return _hasProfile;
   }

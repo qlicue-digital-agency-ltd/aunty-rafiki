@@ -6,25 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'edit_profile_page.dart';
 
-class ProfilePage extends StatefulWidget {
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  AuthProvider _authProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _authProvider = Provider.of<AuthProvider>(context, listen: false);
-      _authProvider.getUserProfile();
-    });
-  }
-
+class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(title: Text('Profile')),
       body: CustomScrollView(slivers: [
@@ -36,12 +21,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ? InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, editProfilePage);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => EditProfilePage(
-                                  user: _authProvider.currentUser),
-                            ));
                       },
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,

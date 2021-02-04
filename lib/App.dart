@@ -12,6 +12,7 @@ import 'package:aunty_rafiki/views/pages/config/terms_conditions.dart';
 import 'package:aunty_rafiki/views/pages/confirm_code_page.dart';
 import 'package:aunty_rafiki/views/pages/create_task_page.dart';
 import 'package:aunty_rafiki/views/pages/daily_appointments.dart';
+import 'package:aunty_rafiki/views/pages/edit_profile_page.dart';
 import 'package:aunty_rafiki/views/pages/food_page.dart';
 import 'package:aunty_rafiki/views/pages/group/create_group_page.dart';
 import 'package:aunty_rafiki/views/pages/group/select_contact_page.dart';
@@ -66,6 +67,7 @@ class App extends StatelessWidget {
                   selectContactsPage: (_) => SelectContactPage(),
                   createGroupPage: (_) => CreateGroupPage(),
                   profilePage: (_) => ProfilePage(),
+                  editProfilePage: (_) => EditProfilePage(),
                   bloodLevelPage: (_) => BloodLevelTimeline(),
                   toDoListPage: (_) => ToDoListPage(),
                   babyNamePage: (_) => BabyNamePage(),
