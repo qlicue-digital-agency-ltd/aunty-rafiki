@@ -178,22 +178,14 @@ class UtilityProvider with ChangeNotifier {
   List<TermModel> get checkBoxList => _checkBoxList;
 
   Future<void> storeTerms(List<TermModel> terms) async {
-    List<int> data = [];
-    terms.forEach((term) {
-      ///
-      ///terms and condition..
-      ///
-      if (term.isCheck) {
-        data.add(term.id);
-      }
-    });
+    _sharedPref.saveStringleString('terms', terms);
+  }
 
-    print('--------------------------');
-    print(data.length);
-    print('--------------------------');
-
-    ///TODO: send the data to the database
-    ///-----------------------------------
+//terms and condtiond....
+///TODO:terms and condtiond
+  Future<List<TermModel>> getTerms() async {
+    final List<TermModel> terms = await _sharedPref.readStringleString('terms');
+    return terms;
   }
 
   set setItemChange(int index) {

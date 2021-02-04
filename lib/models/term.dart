@@ -9,6 +9,14 @@ class TermModel {
 
   TermModel({this.id, this.body, this.isCheck});
 
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{'body': body, 'isCheck': isCheck, 'id': id};
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
+  }
+
   static List<TermModel> getUsers() {
     return <TermModel>[
       TermModel(
@@ -52,7 +60,7 @@ class TermModel {
           body: RichText(
               text: TextSpan(children: [
             TextSpan(
-               style: TextStyle(
+                style: TextStyle(
                   color: Colors.black54,
                 ),
                 text:
@@ -73,11 +81,11 @@ class TermModel {
           id: 3,
           body: RichText(
               text: TextSpan(children: [
-            TextSpan( 
-               style: TextStyle(
+            TextSpan(
+                style: TextStyle(
                   color: Colors.black54,
                 ),
-              text: 'I agree that Aunty Rafiki may use'),
+                text: 'I agree that Aunty Rafiki may use'),
             TextSpan(
                 style: TextStyle(
                   color: Colors.blue,
@@ -89,7 +97,7 @@ class TermModel {
                     _launchURL('https://qlicue.co.tz/');
                   }),
             TextSpan(
-               style: TextStyle(
+                style: TextStyle(
                   color: Colors.black54,
                 ),
                 text:

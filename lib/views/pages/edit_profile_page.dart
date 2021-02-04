@@ -1,10 +1,13 @@
+import 'package:aunty_rafiki/models/user.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
-import 'package:aunty_rafiki/views/components/text-field/label_text_field.dart';
+import 'package:aunty_rafiki/views/components/text-field/editor_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class EditProfilePage extends StatefulWidget {
+  final User user;
+
+  const EditProfilePage({Key key, @required this.user}) : super(key: key);
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
@@ -15,6 +18,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   TextEditingController _fullnameController = TextEditingController();
   TextEditingController _nameInitialsController = TextEditingController();
+  TextEditingController _textController = TextEditingController();
+  bool _onEdit = false;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -78,66 +83,69 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
             )),
+
             Padding(
               padding: EdgeInsets.only(
                   top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
-              child: LabelTextfield(
-                prefixIcon: FontAwesomeIcons.user,
-                message: 'Please enter your fullname',
-                maxLines: 1,
-                hitText: 'Fullname',
-                labelText: null,
-                focusNode: _fullnameFocusNode,
-                textEditingController: _fullnameController,
-                keyboardType: TextInputType.text,
+              child: EditorTextField(
+                icon: Icons.local_hospital,
+                textEditingController: _textController,
+                title: 'Blood Level',
+                validator: (val) {
+                  if (val.isEmpty)
+                    return 'Enter the blood level';
+                  else
+                    return null;
+                },
+                onEditTap: (val) {
+                  print('val=> $val');
+                  setState(() {
+                    _onEdit = val;
+                    if (val) {
+                      _textController.text = 'Blood Level';
+                    } else {
+                      _textController.text = '';
+
+                      ///TODO: SAVE THE CHANGED DATA ...
+                    }
+                  });
+                  //   _onEdit = val;
+                },
+                onEdit: _onEdit,
+                focusNode: null,
+                onTap: () {},
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
-              child: LabelTextfield(
-                prefixIcon: FontAwesomeIcons.user,
-                message: 'Please Enter your initials',
-                maxLines: 1,
-                hitText: 'Nickname',
-                labelText: null,
-                focusNode: _nameInitialsFocusNode,
-                textEditingController: _nameInitialsController,
-                keyboardType: TextInputType.text,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    padding: EdgeInsets.all(16.0),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
-                    onPressed: _authProvider.files.isNotEmpty
-                        ? () {
-                            if (_formKey.currentState.validate()) {
-                              _authProvider.updateProfileTask(
-                                  displayName: _fullnameController.text,
-                                  nameInitials: _nameInitialsController.text);
-                            }
-                          }
-                        : null,
-                    child: Text('Save'),
-                  ),
-                )),
-              ],
-            )
+
+            // Row(
+            //   children: [
+            //     Expanded(
+            //         child: Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            //       child: RaisedButton(
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(25.0),
+            //         ),
+            //         padding: EdgeInsets.all(16.0),
+            //         color: Theme.of(context).primaryColor,
+            //         textColor: Colors.white,
+            //         onPressed: _authProvider.files.isNotEmpty
+            //             ? () {
+            //                 if (_formKey.currentState.validate()) {
+            //                   _authProvider.updateProfileTask(
+            //                       displayName: _fullnameController.text,
+            //                       nameInitials: _nameInitialsController.text);
+            //                 }
+            //               }
+            //             : null,
+            //         child: Text('Save'),
+            //       ),
+            //     )),
+            //   ],
+            // )
           ],
         ),
       )),

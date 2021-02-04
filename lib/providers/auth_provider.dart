@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:aunty_rafiki/models/user.dart' as customUser;
 
 class AuthProvider with ChangeNotifier {
   bool _isSendingPhone = false;
@@ -21,6 +22,9 @@ class AuthProvider with ChangeNotifier {
   bool _isCodeSent = false;
   String _verificationId;
   PhoneNumber _phoneNumber;
+
+  ///current user profile..
+  customUser.User _currentUser;
 
   /// Shared preference DB
   SharedPref _sharedPref = SharedPref();
@@ -49,6 +53,8 @@ class AuthProvider with ChangeNotifier {
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   bool get loadingPath => _loadingPath;
 
+  ///current user profile getter..
+  customUser.User get currentUser => _currentUser;
   AuthProvider() {
     initializeFlutterFire();
   }
@@ -441,5 +447,17 @@ class AuthProvider with ChangeNotifier {
     print('++++++++++++++++++++++++++++++++++++++');
 
     return _hasProfile;
+  }
+
+  Future<void> getUserProfile() async {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final user = users.doc(FirebaseAuth.instance.currentUser.uid).get();
+    await user.then((doc) {
+      _currentUser = customUser.User.fromFirestore(doc);
+    });
+
+    ///0659497043
+
+    notifyListeners();
   }
 }
