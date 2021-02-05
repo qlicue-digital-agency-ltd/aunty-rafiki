@@ -5,11 +5,22 @@ import 'package:aunty_rafiki/views/components/tiles/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
+    List<Profile> accountList = <Profile>[
+      Profile(
+          icon: Icons.person,
+          title: 'Firstaname:  ${_authProvider.currentUser.displayName}'),
+      Profile(
+          icon: Icons.person,
+          title: 'Nickname:  ${_authProvider.currentUser.nameInitials}'),
+      Profile(
+          icon: Icons.calendar_today,
+          title: 'Age: ${_authProvider.currentUser.yearOfBirth}'),
+      Profile(icon: Icons.exit_to_app, title: 'Logout')
+    ];
     return Scaffold(
       appBar: AppBar(title: Text('Profile')),
       body: CustomScrollView(slivers: [

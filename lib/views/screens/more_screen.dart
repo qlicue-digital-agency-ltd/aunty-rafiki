@@ -1,10 +1,13 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _authProvider = Provider.of<AuthProvider>(context);
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(
@@ -32,7 +35,10 @@ class MoreScreen extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 20,
                           backgroundImage:
-                              AssetImage('assets/icons/female.png'),
+                              _authProvider.currentUser.photoUrl == null
+                                  ? AssetImage('assets/icons/female.png')
+                                  : NetworkImage(
+                                      _authProvider.currentUser.photoUrl),
                         ),
                       ),
                     ),
@@ -53,8 +59,7 @@ class MoreScreen extends StatelessWidget {
                     image: 'assets/access/diet.png',
                     title: 'Food',
                     onTap: () {
-                        Navigator.pushNamed(context, foodPage);
-                      
+                      Navigator.pushNamed(context, foodPage);
                     },
                   ),
                 ),
