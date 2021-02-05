@@ -2,24 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class User {
-  final String displayName;
-  final List<dynamic> groups;
-  final String nameInitials;
-  final String phoneNumber;
-  final String photoUrl;
-  final String uid;
-  final int gravida;
-  final int haemoLevel;
-  final Timestamp haemoLevelDate;
-  final Timestamp lastDateTetanusVaccine;
-  final int numberOfDeliveries;
-  final int numberOfNormalDeliveries;
-  final int numberOfOperationDeliveries;
-  final String onMedication;
-  final int pregnancyWeeks;
-  final String startedClinic;
-  final String takenTetanusVaccine;
-  final int yearOfBirth;
+  String displayName;
+  List<dynamic> groups;
+  String nameInitials;
+  String phoneNumber;
+  String photoUrl;
+  String uid;
+  int gravida;
+  int haemoLevel;
+  Timestamp haemoLevelDate;
+  Timestamp lastDateTetanusVaccine;
+  int numberOfDeliveries;
+  int numberOfNormalDeliveries;
+  int numberOfOperationDeliveries;
+  String onMedication;
+  int pregnancyWeeks;
+  String startedClinic;
+  String takenTetanusVaccine;
+  int yearOfBirth;
 
   User(
       {@required this.phoneNumber,
@@ -46,7 +46,7 @@ class User {
         phoneNumber = map['phoneNumber'],
         displayName = map['displayName'],
         nameInitials = map['nameInitials'],
-        photoUrl = map['photoUrl'],
+        photoUrl = map['photoURL'],
         gravida = map['gravida'],
         haemoLevel = map['haemoLevel'],
         haemoLevelDate = map['haemoLevelDate'],
@@ -66,7 +66,7 @@ class User {
         phoneNumber = doc.data()['phoneNumber'],
         displayName = doc.data()['displayName'],
         nameInitials = doc.data()['nameInitials'],
-        photoUrl = doc.data()['photoUrl'],
+        photoUrl = doc.data()['photoURL'],
         gravida = doc.data()['gravida'],
         haemoLevel = doc.data()['haemoLevel'],
         haemoLevelDate = doc.data()['haemoLevelDate'],

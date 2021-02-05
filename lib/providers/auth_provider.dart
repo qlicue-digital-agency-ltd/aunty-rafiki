@@ -9,10 +9,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:aunty_rafiki/models/user.dart' as customUser;
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 class AuthProvider with ChangeNotifier {
   bool _isSendingPhone = false;
@@ -59,7 +61,6 @@ class AuthProvider with ChangeNotifier {
     initializeFlutterFire();
 
     if (FirebaseAuth.instance.currentUser != null) {
-      print('BOSSSSSSSSSSSSSSSSSSSSSSS');
       getUserProfile();
     }
   }
@@ -242,21 +243,20 @@ class AuthProvider with ChangeNotifier {
     print('++++++++++++++++++++++++++++++++++++++');
   }
 
-  void resetImage() {
-    _paths = null;
+  void cleaeSelectedImage() {
+    _paths = [];
     notifyListeners();
   }
 
   //upload profile photo...
-  Future<void> updateProfileTask(
-      {String displayName, String nameInitials}) async {
-    if (files.isNotEmpty) {
+  Future<void> _uploadProleImageTask(File uploadFile) async {
+    if (uploadFile != null) {
       firebase_storage.UploadTask task = firebase_storage
           .FirebaseStorage.instance
           .ref('uploads/profile/' +
               FirebaseAuth.instance.currentUser.uid +
               '.png')
-          .putFile(files[0]);
+          .putFile(uploadFile);
 
       task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
         print('Task state: ${snapshot.state}');
@@ -276,11 +276,8 @@ class AuthProvider with ChangeNotifier {
         final url = await task;
 
         String photoURL = await url.ref.getDownloadURL();
-        //update profile...
-        _updateProfile(
-            photoURL: photoURL,
-            displayName: displayName,
-            nameInitials: nameInitials);
+
+        updateProfile(key: 'photoURL', data: photoURL);
         print('Upload complete.' + photoURL);
       } on firebase_core.FirebaseException catch (e) {
         // The final snapshot is also available on the task via `.snapshot`,
@@ -292,18 +289,7 @@ class AuthProvider with ChangeNotifier {
         }
         // ...
       }
-    } else {
-      _updateProfile(displayName: displayName, nameInitials: nameInitials);
     }
-  }
-
-//upload file url......
-  _updateProfile({String displayName, String nameInitials, String photoURL}) {
-    db.collection('users').doc(FirebaseAuth.instance.currentUser.uid).update({
-      'photoURL': photoURL,
-      'displayName': displayName,
-      'nameInitials': nameInitials,
-    });
   }
 
   ///getter for configuration ...
@@ -333,6 +319,10 @@ class AuthProvider with ChangeNotifier {
     } catch (ex) {
       print(ex);
     }
+
+    if (_paths == null) {
+      _paths = [];
+    } else {}
     notifyListeners();
   }
 
@@ -459,8 +449,46 @@ class AuthProvider with ChangeNotifier {
       _currentUser = customUser.User.fromFirestore(doc);
     });
 
-    ///0659497043
-
     notifyListeners();
+  }
+
+  updateProfile({@required String key, @required dynamic data}) async {
+    await db
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .update({
+      key: data,
+    });
+    getUserProfile();
+    //clear all selected files
+    cleaeSelectedImage();
+  }
+
+  ///Compress a single file..
+  Future<File> _compressAndGetFile(File file, String targetPath) async {
+    int bytes = await file.length();
+    print("bytes:=> $bytes");
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 0,
+      rotate: 0,
+    );
+
+    _uploadProleImageTask(result);
+
+    print(file.lengthSync());
+    print(result.lengthSync());
+
+    return result;
+  }
+
+  //upload profile..
+  saveProfileImage() async {
+    print('may b...');
+    final dir = await path_provider.getTemporaryDirectory();
+    var targetPath =
+        dir.absolute.path + "/temp" + DateTime.now().toString() + ".jpg";
+    _compressAndGetFile(files[0], targetPath);
   }
 }

@@ -9,13 +9,13 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final FocusNode _fullnameFocusNode = FocusNode();
-  final FocusNode _nicknameFocusNode = FocusNode();
+  final FocusNode _displayNameFocusNode = FocusNode();
+  final FocusNode _nameInitialsFocusNode = FocusNode();
   final FocusNode _yearOfBirthFocusNode = FocusNode();
 
-  TextEditingController _nicknameController = TextEditingController();
-  TextEditingController _yearOfBirthController = TextEditingController();
-  TextEditingController _fullnameController = TextEditingController();
+  TextEditingController nameInitials = TextEditingController();
+  TextEditingController yearOfBirth = TextEditingController();
+  TextEditingController displayName = TextEditingController();
   bool _onEditFullname = false;
   bool _onEditNickname = false;
   bool _onEditYearOfBirth = false;
@@ -28,12 +28,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_title),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {},
-          )
-        ],
       ),
       body: SingleChildScrollView(
           child: Form(
@@ -41,13 +35,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         child: Column(
           children: [
             Center(
-                child: InkWell(
-              onTap: () {
-                _authProvider.openFileExplorer();
-              },
               child: Container(
-                height: 180,
-                width: MediaQuery.of(context).size.width / 2,
                 child: Center(
                   child: Column(
                     children: <Widget>[
@@ -55,24 +43,61 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         height: 15,
                       ),
                       _authProvider.files.isEmpty
-                          ? CircleAvatar(
-                              radius: 60,
-                              child: Center(
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  size: 50,
-                                  color: Colors.white,
+                          ? InkWell(
+                              onTap: () {
+                                _authProvider.openFileExplorer();
+                              },
+                              child: CircleAvatar(
+                                backgroundImage:
+                                    _authProvider.currentUser.photoUrl != null
+                                        ? NetworkImage(
+                                            _authProvider.currentUser.photoUrl)
+                                        : null,
+                                radius: 60,
+                                child: Center(
+                                  child: _authProvider.currentUser.photoUrl !=
+                                          null
+                                      ? Text(
+                                          'Edit',
+                                          style: TextStyle(color: Colors.white),
+                                        )
+                                      : Icon(
+                                          Icons.add_a_photo,
+                                          size: 50,
+                                          color: Colors.white,
+                                        ),
                                 ),
                               ),
                             )
-                          : Container(
-                              height: 120,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: FileImage(_authProvider.files[0]),
-                                      fit: BoxFit.cover)),
+                          : Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    _authProvider.openFileExplorer();
+                                  },
+                                  child: Container(
+                                    height: 120,
+                                    width: 120,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: FileImage(
+                                                _authProvider.files[0]),
+                                            fit: BoxFit.cover)),
+                                  ),
+                                ),
+                                FlatButton.icon(
+                                    icon: Icon(Icons.save),
+                                    textColor: Colors.pink,
+                                    onPressed: () {
+                                      _authProvider.saveProfileImage();
+                                    },
+                                    label: Text(
+                                      'Save'.toUpperCase(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ))
+                              ],
                             ),
                       SizedBox(
                         height: 10,
@@ -81,14 +106,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
               ),
-            )),
+            ),
 
             Padding(
               padding: EdgeInsets.only(
                   top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
               child: EditorTextField(
                 icon: Icons.person,
-                textEditingController: _fullnameController,
+                textEditingController: displayName,
                 title: _authProvider.currentUser.displayName,
                 validator: (val) {
                   if (val.isEmpty)
@@ -99,20 +124,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onEditTap: (val) {
                   print('val=> $val');
                   setState(() {
-                    _onEditFullname = val;
                     if (val) {
-                      _fullnameController.text =
-                          _authProvider.currentUser.displayName;
+                      displayName.text = _authProvider.currentUser.displayName;
+                      _onEditFullname = val;
                     } else {
-                      _fullnameController.text = '';
-
-                      ///TODO: SAVE THE CHANGED DATA ...
+                      _authProvider.updateProfile(
+                          key: 'displayName', data: displayName.text);
+                      _onEditFullname = val;
+                      displayName.text = '';
                     }
                   });
                   //   _onEditFullname = val;
                 },
                 onEdit: _onEditFullname,
-                focusNode: _fullnameFocusNode,
+                focusNode: _displayNameFocusNode,
                 onTap: () {},
               ),
             ),
@@ -125,7 +150,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
               child: EditorTextField(
                 icon: Icons.local_hospital,
-                textEditingController: _nicknameController,
+                textEditingController: nameInitials,
                 title: _authProvider.currentUser.nameInitials,
                 validator: (val) {
                   if (val.isEmpty)
@@ -136,20 +161,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onEditTap: (val) {
                   print('val=> $val');
                   setState(() {
-                    _onEditNickname = val;
                     if (val) {
-                      _nicknameController.text =
+                      _onEditNickname = val;
+                      nameInitials.text =
                           _authProvider.currentUser.nameInitials;
                     } else {
-                      _nicknameController.text = '';
-
-                      ///TODO: SAVE THE CHANGED DATA ...
+                      _authProvider.updateProfile(
+                          key: 'nameInitials', data: nameInitials.text);
+                      _onEditNickname = val;
+                      nameInitials.text = '';
                     }
                   });
                   //   _onEditFullname = val;
                 },
                 onEdit: _onEditNickname,
-                focusNode: _nicknameFocusNode,
+                focusNode: _nameInitialsFocusNode,
                 onTap: () {},
               ),
             ),
@@ -161,7 +187,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
               child: EditorTextField(
                 icon: Icons.calendar_today,
-                textEditingController: _yearOfBirthController,
+                textEditingController: yearOfBirth,
+                textInputType: TextInputType.number,
                 title: '${_authProvider.currentUser.yearOfBirth}',
                 validator: (val) {
                   if (val.isEmpty)
@@ -172,14 +199,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onEditTap: (val) {
                   print('val=> $val');
                   setState(() {
-                    _onEditYearOfBirth = val;
                     if (val) {
-                      _yearOfBirthController.text =
+                      _onEditYearOfBirth = val;
+                      yearOfBirth.text =
                           _authProvider.currentUser.yearOfBirth.toString();
                     } else {
-                      _yearOfBirthController.text = '';
-
-                      ///TODO: SAVE THE CHANGED DATA ...
+                      _authProvider.updateProfile(
+                          key: 'yearOfBirth',
+                          data: int.parse(yearOfBirth.text));
+                      _onEditYearOfBirth = val;
+                      yearOfBirth.text = '';
                     }
                   });
                   //   _onEditFullname = val;
@@ -209,8 +238,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             //             ? () {
             //                 if (_formKey.currentState.validate()) {
             //                   _authProvider.updateProfileTask(
-            //                       displayName: _nicknameController.text,
-            //                       age: _yearOfBirthController.text);
+            //                       displayName: nameInitials.text,
+            //                       age: yearOfBirth.text);
             //                 }
             //               }
             //             : null,

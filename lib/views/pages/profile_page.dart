@@ -4,7 +4,7 @@ import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'edit_profile_page.dart';
+
 
 class ProfilePage extends StatelessWidget {
   @override
