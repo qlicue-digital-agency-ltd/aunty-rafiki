@@ -1,7 +1,4 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-
-import 'package:aunty_rafiki/sample/pages/chat_page.dart';
-import 'package:aunty_rafiki/sample/pages/new_group_page.dart';
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
 import 'package:aunty_rafiki/views/pages/add_blood_level_page.dart';
 import 'package:aunty_rafiki/views/pages/appointment_page.dart';
@@ -9,6 +6,9 @@ import 'package:aunty_rafiki/views/pages/baby_bump_page.dart';
 import 'package:aunty_rafiki/views/pages/baby_name_page.dart';
 import 'package:aunty_rafiki/views/pages/blood_level_page.dart';
 import 'package:aunty_rafiki/views/pages/chat_room_page.dart';
+import 'package:aunty_rafiki/views/pages/config/choice_page.dart';
+import 'package:aunty_rafiki/views/pages/config/steps_page.dart';
+import 'package:aunty_rafiki/views/pages/config/terms_conditions.dart';
 import 'package:aunty_rafiki/views/pages/confirm_code_page.dart';
 import 'package:aunty_rafiki/views/pages/create_task_page.dart';
 import 'package:aunty_rafiki/views/pages/daily_appointments.dart';
@@ -19,7 +19,9 @@ import 'package:aunty_rafiki/views/pages/group/select_contact_page.dart';
 import 'package:aunty_rafiki/views/pages/home_page.dart';
 import 'package:aunty_rafiki/views/pages/hospital_bag_page.dart';
 import 'package:aunty_rafiki/views/pages/login_page.dart';
+import 'package:aunty_rafiki/views/pages/onboarding_page.dart';
 import 'package:aunty_rafiki/views/pages/profile_page.dart';
+import 'package:aunty_rafiki/views/pages/startup_page.dart';
 import 'package:aunty_rafiki/views/pages/time_line_page.dart';
 import 'package:aunty_rafiki/views/pages/to_do_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,10 +49,14 @@ class App extends StatelessWidget {
                     primarySwatch: Colors.pink,
                     visualDensity: VisualDensity.adaptivePlatformDensity,
                     textTheme: GoogleFonts.poppinsTextTheme()),
-                home: FirebaseAuth.instance.currentUser == null
-                    ? LoginPage()
-                    : HomePage(),
+                home: StartupPage(),
                 routes: {
+                  landingPage: (context) =>
+                      FirebaseAuth.instance.currentUser == null
+                          ? LoginPage()
+                          : HomePage(),
+                  onboardingPage: (_) => OnboardingPage(),
+                  loginPage: (_) => LoginPage(),
                   homePage: (_) => HomePage(),
                   chatRoomPage: (_) => ChatRoomPage(),
                   appointmentPage: (_) => AppointmentPage(),
@@ -70,10 +76,11 @@ class App extends StatelessWidget {
                   foodPage: (_) => FoodPage(),
                   createTaskPage: (_) => CreateTaskPage(),
                   babyBumpPage: (_) => BabyBumpPage(),
-                  '/chat': (_) => ChatPage(),
-                  '/new': (_) => NewGroupPage(),
+                  createProfilePage: (_) => StepsPage(),
+                  termsConditionPage: (_) => TermsConditionPage(),
+                  choicePage: (_) => ChoicePage(),
+                  stepsPage: (_) => StepsPage(),
                 },
-                //initialRoute: '/',
               );
               break;
 

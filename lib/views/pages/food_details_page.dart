@@ -1,30 +1,26 @@
-
+import 'package:aunty_rafiki/models/food.dart';
 import 'package:flutter/material.dart';
 
 class FoodDetailsPage extends StatelessWidget {
-  const FoodDetailsPage(
-      {Key key,
-      @required this.title,
-      @required this.icon,
-      @required this.cover})
+  const FoodDetailsPage({Key key, @required this.icon, @required this.food})
       : super(key: key);
 
   final String icon;
-  final String title;
-  final String cover;
+
+  final Food food;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          title: Text(title),
+          title: Text(food.title),
         ),
         body: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Image.asset(
-              cover,
+            Image.network(
+              food.cover,
               height: size.height / 3,
               width: size.width,
               fit: BoxFit.fill,
@@ -35,7 +31,7 @@ class FoodDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
-                title + " AND TO PREPARE",
+                food.title + " AND TO PREPARE",
                 style: TextStyle(fontSize: 20),
               ),
             ),

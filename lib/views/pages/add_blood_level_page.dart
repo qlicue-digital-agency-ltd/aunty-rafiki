@@ -12,8 +12,6 @@ class AddBloodLevelPage extends StatefulWidget {
 }
 
 class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
-
-
   String date = 'Date';
 
   String valueDate = '';
@@ -69,16 +67,8 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                 },
               ),
               IconDateField(
-                onChage: (val) {
-                  print("------------------------------------");
-                  print(val);
-                  print("------------------------------------");
-                },
-                onSaved: (val) {
-                  print("------------------+++------------------");
-                  print(val);
-                  print("------------------+++-----------------");
-                },
+                onChage: (val) {},
+                onSaved: (val) {},
                 onValidate: (val) {
                   setState(() => valueToValidate3 = val);
                   return null;
@@ -111,7 +101,6 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
-                            print('save the data');
                             _bloodLevelProvider
                                 .postBloodLevel(
                               quantity:
@@ -120,11 +109,8 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                             )
                                 .then((value) {
                               if (!value) {
-                                print('bosssssssssss');
                                 Navigator.pop(context);
-                              } else {
-                                print('Error while submitting data');
-                              }
+                              } else {}
                             });
                           } else {}
                         },

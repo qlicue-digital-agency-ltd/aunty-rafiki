@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
 import 'package:flutter/gestures.dart';
@@ -7,8 +9,6 @@ import 'package:flutter/material.dart';
 
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-
-import 'home_page.dart';
 
 class ConfirmResetCodePage extends StatefulWidget {
   @override
@@ -37,7 +37,10 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
   void initState() {
     onTapRecognizer = TapGestureRecognizer()
       ..onTap = () {
-        Navigator.pop(context);
+        final _authProvider = Provider.of<AuthProvider>(context);
+        _authProvider.requestVerificationCode().then((value) {});
+
+        ///TODO:resend code.......
       };
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
@@ -209,13 +212,18 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                   BorderRadius.all(Radius.circular(100)),
                               color: Theme.of(context).primaryColor),
                           child: FlatButton(
-                            child: Text(
-                              "VERIFY".toUpperCase(),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18),
-                            ),
+                            child: _authProvider.isVerifyingCode
+                                ? CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
+                                  )
+                                : Text(
+                                    "VERIFY".toUpperCase(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 18),
+                                  ),
                             onPressed: () {
                               FocusScope.of(context)
                                   .requestFocus(new FocusNode());
@@ -233,34 +241,44 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                       .signIn(smsCode: currentText)
                                       .then((credential) {
                                     if (credential.user != null) {
+                                      _authProvider
+                                          .checkUserHasProfile()
+                                          .then((value) {
+                                        if (value) {
+                                          Navigator.pushReplacementNamed(
+                                              context, landingPage);
+
+                                          _authProvider.setConfigurationStep =
+                                              Configuration.Done;
+                                        } else {
+                                          Navigator.pushReplacementNamed(
+                                              context, createProfilePage);
+
+                                          _authProvider.setConfigurationStep =
+                                              Configuration.Profile;
+                                        }
+                                      });
                                       print("Auth User Phone: " +
                                           credential.user.phoneNumber);
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomePage()));
+                                    } else {
+                                      _scaffoldKey.currentState
+                                          .showSnackBar(SnackBar(
+                                        content: ListTile(
+                                            leading: Icon(Icons.error,
+                                                color: Colors.red),
+                                            title: Text(
+                                                "Incorrect verification code!!")),
+                                        duration: Duration(seconds: 2),
+                                      ));
                                     }
                                   });
                                   setState(() {
                                     hasError = false;
-                                    _scaffoldKey.currentState
-                                        .showSnackBar(SnackBar(
-                                      content: Text("Aye!!"),
-                                      duration: Duration(seconds: 2),
-                                    ));
-
-                                    // _authProvider
-                                    //     .createNewPassword(
-                                    //         mobile: widget.phoneNumber,
-                                    //         password:
-                                    //             _passwordTextEditingController
-                                    //                 .text,
-                                    //         code: currentText)
-                                    //     .then((status) {
-                                    //   Navigator.pushReplacementNamed(
-                                    //       context, landingPageRoute);
-                                    // });
+                                    // _scaffoldKey.currentState
+                                    //     .showSnackBar(SnackBar(
+                                    //   content: Text("Aye!!"),
+                                    //   duration: Duration(seconds: 2),
+                                    // ));
                                   });
                                 }
                               }
@@ -280,54 +298,3 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
     );
   }
 }
-
-// Widget _enterCode() {
-//   return Column(
-//     children: [
-//       // Image.asset('assets/decorative_friends.png'),
-//       SizedBox(
-//         height: 20,
-//       ),
-//       Container(
-//         height: 50,
-//         width: 300,
-//         decoration: BoxDecoration(
-//           border: Border.all(color: Colors.pink, width: 2),
-//           borderRadius: BorderRadius.circular(50.0),
-//         ),
-//         child: TextField(
-//           controller: _codeTextEditingController,
-//           decoration: InputDecoration(
-//               border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(20))),
-//         ),
-//       ),
-//       SizedBox(height: 20),
-//       Container(
-//         width: 300,
-//         height: 50,
-//         child: RaisedButton(
-//           shape:
-//               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-//           color: Colors.pink,
-//           onPressed: () {
-//             setState(() {
-//               _sendingCode = true;
-//             });
-//             //signIn();
-//             // Navigator.push(
-//             //     context,
-//             //     MaterialPageRoute(
-//             //         builder: (BuildContext context) => HomePage()));
-//           },
-//           child: _sendingCode
-//               ? CircularProgressIndicator()
-//               : Text(
-//                   'VERIFY',
-//                   style: TextStyle(color: Colors.white),
-//                 ),
-//         ),
-//       )
-//     ],
-//   );
-// }

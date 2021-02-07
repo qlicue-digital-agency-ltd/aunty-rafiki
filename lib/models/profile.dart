@@ -22,9 +22,4 @@ List<Profile> pregnancyList = <Profile>[
   Profile(icon: Icons.call, title: 'Due Date Calculator')
 ];
 
-List<Profile> accountList = <Profile>[
-  Profile(icon: Icons.person_add, title: 'Firstaname'),
-  Profile(icon: Icons.person, title: 'Lastname'),
-  Profile(icon: Icons.calendar_today, title: 'Age'),
-  Profile(icon: Icons.personal_video, title: 'You are the ')
-];
+

@@ -36,6 +36,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ],
             ),
+            TextFormField(),
             SizedBox(
               height: 20,
             ),
@@ -53,19 +54,21 @@ class LoginPage extends StatelessWidget {
               width: 300,
               child: RaisedButton(
                 onPressed: () {
-                  print(_authProvider.phoneNumber.completeNumber);
+                  // print(_authProvider.phoneNumber.completeNumber);
 
                   _authProvider.requestVerificationCode().then((value) {
-                 
+                    if (!value) {
                       Navigator.pushNamed(context, confirmationPage);
-                    
+                    }
                   });
                 },
                 color: Colors.pink,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0)),
                 child: _authProvider.isSendingPhone
-                    ? CircularProgressIndicator()
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
                     : Text(
                         'NEXT',
                         style: TextStyle(color: Colors.white, fontSize: 20),

@@ -82,19 +82,19 @@ class HomePage extends StatelessWidget {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.track_changes),
-                title: Text('Tracker'),
+                label: 'Tracker',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.chat),
-                title: Text('Chat'),
+                label: 'Chat',
               ),
               BottomNavigationBarItem(
                 icon: Icon(FontAwesomeIcons.chartLine),
-                title: Text('Blood Level'),
+                label: 'Blood Level',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.more_horiz),
-                title: Text('More'),
+                label: 'More',
               ),
             ],
             onTap: _utilityProvider.selectTab,

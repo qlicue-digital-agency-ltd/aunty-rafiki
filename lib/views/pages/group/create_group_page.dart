@@ -63,16 +63,15 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    _groupProvider.chooseAmImage();
+                                    _groupProvider.openFileExplorer();
                                   },
                                   child: CircleAvatar(
-                                    backgroundImage: _groupProvider
-                                                .pickedImage !=
-                                            null
-                                        ? FileImage(_groupProvider.pickedImage)
-                                        : null,
+                                    backgroundImage:
+                                        _groupProvider.files.isNotEmpty
+                                            ? FileImage(_groupProvider.files[0])
+                                            : null,
                                     radius: 30,
-                                    child: _groupProvider.pickedImage == null
+                                    child: _groupProvider.files.isEmpty
                                         ? Icon(Icons.camera_alt)
                                         : Container(),
                                   ),
@@ -117,17 +116,13 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                         onPressed: _groupProvider.isCreatingGroup
                             ? null
                             : () {
-                                List<String> _members = [];
-                                _userProvider.availableUsers.forEach((user) {
-                                  _members.add(user.uid);
-                                });
                                 if (_formKey.currentState.validate()) {
                                   _groupProvider
                                       .createUserGroup(
-                                          name: _controller.text,
-                                          time: Timestamp.fromDate(
-                                              DateTime.now()),
-                                          members: _members)
+                                    name: _controller.text,
+                                    time: Timestamp.fromDate(DateTime.now()),
+                                    groupMembers: _userProvider.selectedUser,
+                                  )
                                       .then((value) {
                                     Navigator.pop(context);
                                     Navigator.pop(context);

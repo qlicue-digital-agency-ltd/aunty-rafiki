@@ -1,43 +1,59 @@
 import 'dart:io';
 
+import 'package:aunty_rafiki/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:flutter/services.dart';
 
 class GroupProvider with ChangeNotifier {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
-  File _pickedImage, file;
   bool _isCreatingGroup = false;
 
-  //getters....
-  File get pickedImage => _pickedImage;
+  List<PlatformFile> _paths = [];
+  bool _loadingPath = false;
+
   bool get isCreatingGroup => _isCreatingGroup;
+  List<File> get files => _paths.map((path) => File(path.path)).toList();
+  bool get loadingPath => _loadingPath;
 
-  //file pickers
-  void chooseAmImage() async {
-    file = await ImagePicker.pickImage(source: ImageSource.gallery);
+  Future<void> openFileExplorer() async {
+    _loadingPath = true;
+    notifyListeners();
 
-    _pickedImage = file;
-// file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    try {
+      _paths = (await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+        allowedExtensions: null,
+      ))
+          ?.files;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
     notifyListeners();
   }
 
   void resetImage() {
-    _pickedImage = null;
+    _paths = [];
     notifyListeners();
   }
 
   //create user group...
   Future<void> uploadGroupIcon({@required groupUUID}) async {
-    if (_pickedImage != null) {
+    if (files.isNotEmpty) {
       firebase_storage.UploadTask task = firebase_storage
           .FirebaseStorage.instance
           .ref('uploads/group/' + groupUUID + '.png')
-          .putFile(_pickedImage);
+          .putFile(files[0]);
 
       task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
         print('Task state: ${snapshot.state}');
@@ -60,7 +76,7 @@ class GroupProvider with ChangeNotifier {
         //update profile...
         _updateUserGroupIcon(
           avatar: photoURL,
-          groupUUID: groupUUID,
+          groupUID: groupUUID,
         );
         print('Upload complete.' + photoURL);
         _isCreatingGroup = false;
@@ -83,27 +99,44 @@ class GroupProvider with ChangeNotifier {
 
 //upload file url......
   Future<void> createUserGroup(
-      {@required name, @required time, @required members}) async {
+      {@required name,
+      @required time,
+      @required List<User> groupMembers}) async {
     List<String> _searchKeywords = [];
+    List<String> _members = [auth.FirebaseAuth.instance.currentUser.uid];
+
+    groupMembers.forEach((member) {
+      _members.add(member.uid);
+    });
+    var character = "";
     name.runes.forEach((int rune) {
-      var character = new String.fromCharCode(rune);
-      _searchKeywords.add(character);
+      character += String.fromCharCode(rune);
+      _searchKeywords.add(character.toLowerCase());
       print(character);
     });
+
     _isCreatingGroup = true;
     notifyListeners();
     await db.collection('groups').add({
       'name': name,
       'time': time,
-      'members': members,
-      'messages': [],
+      'members': _members,
       'searchKeywords': _searchKeywords,
       'avatar': ""
-    }).then((group) => uploadGroupIcon(groupUUID: group.id));
+    }).then((group) {
+      uploadGroupIcon(groupUUID: group.id);
+      notifyListeners();
+    });
   }
 
   //upload file url......
-  _updateUserGroupIcon({@required String groupUUID, @required String avatar}) {
-    db.collection('groups').doc(groupUUID).update({'avatar': avatar});
+  _updateUserGroupIcon({@required String groupUID, @required String avatar}) {
+    db.collection('groups').doc(groupUID).update({'avatar': avatar});
+  }
+
+  leaveGroup({@required String groupUID, @required String memberUID}) {
+    db.collection('groups').doc(groupUID).update({
+      'members': FieldValue.arrayRemove([memberUID])
+    });
   }
 }

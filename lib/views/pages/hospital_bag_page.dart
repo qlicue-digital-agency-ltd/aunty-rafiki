@@ -1,14 +1,21 @@
-import 'package:aunty_rafiki/models/bag_item.dart';
+import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/hospital_bag_tile.dart';
-import 'package:aunty_rafiki/views/pages/hospital_bag_detail_page.dart';
+import 'package:aunty_rafiki/views/pages/hospital_bags/baby_hospital_bag_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+
+import 'hospital_bags/mother_hospital_bag_detail_page.dart';
+import 'hospital_bags/partner_hospital_bag_detail_page.dart';
 
 class HospitalBagPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _hospitalBagProvider = Provider.of<HostipalBagProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: Text('Hospital Bag')),
+      appBar: AppBar(
+        title: Text('Hospital Bag'),
+      ),
       body: SingleChildScrollView(
         child: Column(children: [
           SizedBox(height: 10),
@@ -18,12 +25,12 @@ class HospitalBagPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => HospitalBagDetailPage(
+                      builder: (_) => MotherHospitalBagDetailPage(
                             title: "Mother's Bag",
-                            bagItmes: motherBag,
                           )));
             },
-            subtitle: "0  items packed",
+            subtitle:
+                "${_hospitalBagProvider.packedMotherBagList.length}  items packed",
             title: "Mother's Bag",
           ),
           HospitalBagTile(
@@ -32,12 +39,12 @@ class HospitalBagPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => HospitalBagDetailPage(
+                      builder: (_) => PartnerHospitalBagDetailPage(
                             title: "Birth partner's Bag",
-                            bagItmes: partnerBag,
                           )));
             },
-            subtitle: "0  items packed",
+            subtitle:
+                "${_hospitalBagProvider.packedPartnerBagList.length}  items packed",
             title: "Birth partner's Bag",
           ),
           HospitalBagTile(
@@ -46,12 +53,12 @@ class HospitalBagPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => HospitalBagDetailPage(
+                      builder: (_) => BabyHospitalBagDetailPage(
                             title: "Baby's Bag",
-                            bagItmes: babyBag,
                           )));
             },
-            subtitle: "0  items packed",
+            subtitle:
+                "${_hospitalBagProvider.packedBabyBagList.length}  items packed",
             title: "Baby's Bag",
           ),
         ]),

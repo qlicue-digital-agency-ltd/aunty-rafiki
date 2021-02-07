@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -32,7 +33,8 @@ class UserProvider extends ChangeNotifier {
               querySnapshot.docs.forEach((doc) {
                 print(doc);
                 User _user = User.fromMap(doc.data());
-                _availableUsers.add(_user);
+                if (_user.uid != auth.FirebaseAuth.instance.currentUser.uid)
+                  _availableUsers.add(_user);
                 _originalAvailableUsers.add(_user);
               })
             });
