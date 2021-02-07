@@ -37,7 +37,10 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
   void initState() {
     onTapRecognizer = TapGestureRecognizer()
       ..onTap = () {
-        Navigator.pop(context);
+        final _authProvider = Provider.of<AuthProvider>(context);
+        _authProvider.requestVerificationCode().then((value) {});
+
+        ///TODO:resend code.......
       };
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
@@ -186,13 +189,18 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                     text: "Didn't receive the code? ",
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                     children: [
-                      TextSpan(
-                          text: " RESEND",
-                          recognizer: onTapRecognizer,
-                          style: TextStyle(
-                              color: Colors.pink,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16))
+                      _authProvider.isSendingPhone
+                          ? CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            )
+                          : TextSpan(
+                              text: " RESEND",
+                              recognizer: onTapRecognizer,
+                              style: TextStyle(
+                                  color: Colors.pink,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16))
                     ]),
               ),
               SizedBox(
@@ -209,13 +217,15 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                   BorderRadius.all(Radius.circular(100)),
                               color: Theme.of(context).primaryColor),
                           child: FlatButton(
-                            child: Text(
-                              "VERIFY".toUpperCase(),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18),
-                            ),
+                            child: _authProvider.isVerifyingCode
+                                ? CircularProgressIndicator()
+                                : Text(
+                                    "VERIFY".toUpperCase(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 18),
+                                  ),
                             onPressed: () {
                               FocusScope.of(context)
                                   .requestFocus(new FocusNode());

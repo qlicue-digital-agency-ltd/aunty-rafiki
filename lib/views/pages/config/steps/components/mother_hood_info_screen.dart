@@ -26,7 +26,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
   int _miscarriageAge = 1;
   int _births = 0;
   int _operationBirths = 0;
-
+  bool _isPressed = false;
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
@@ -116,24 +116,32 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           height: 20,
         ),
         CustomRaisedButton(
-            title: 'Next',
-            onPressed: () {
-              _authProvider
-                  .updateMotherhoodInfo(
-                      gravida: _gravida,
-                      miscarriage: _miscarriage,
-                      miscarriageWeeks: _miscarriageAge,
-                      numberOfDeliveries: _births,
-                      numberOfNormalDeliveries: _operationBirths,
-                      numberOfOperationDeliveries: _births - _operationBirths)
-                  .then((value) {
-                if (!value) {
-                  widget._changePage(widget._currentPage + 1);
-                  _authProvider.setConfigurationStep =
-                      Configuration.MotherhoodInfoScreenStepDone;
-                }
+          title: 'Next',
+          onPressed: () {
+            setState(() {
+              _isPressed = true;
+            });
+            _authProvider
+                .updateMotherhoodInfo(
+                    gravida: _gravida,
+                    miscarriage: _miscarriage,
+                    miscarriageWeeks: _miscarriageAge,
+                    numberOfDeliveries: _births,
+                    numberOfNormalDeliveries: _operationBirths,
+                    numberOfOperationDeliveries: _births - _operationBirths)
+                .then((value) {
+              setState(() {
+                _isPressed = false;
               });
-            }),
+              if (!value) {
+                widget._changePage(widget._currentPage + 1);
+                _authProvider.setConfigurationStep =
+                    Configuration.MotherhoodInfoScreenStepDone;
+              }
+            });
+          },
+          isPressed: _isPressed,
+        ),
         SizedBox(
           height: 40,
         ),

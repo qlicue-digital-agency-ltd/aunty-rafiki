@@ -64,7 +64,9 @@ class LoginPage extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0)),
                 child: _authProvider.isSendingPhone
-                    ? CircularProgressIndicator()
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
                     : Text(
                         'NEXT',
                         style: TextStyle(color: Colors.white, fontSize: 20),

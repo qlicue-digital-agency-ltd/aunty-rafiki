@@ -22,7 +22,7 @@ class _NameScreenState extends State<NameScreen> {
   TextEditingController _nameEditingController = TextEditingController();
 
   GlobalKey<FormState> _nameFormKey = GlobalKey<FormState>();
-
+  bool _isPressed = false;
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
@@ -53,25 +53,33 @@ class _NameScreenState extends State<NameScreen> {
             ),
             Spacer(),
             CustomRaisedButton(
-                title: 'Next',
-                onPressed: () {
-                  if (_nameFormKey.currentState.validate()) {
-                    print('save the data');
-                    _authProvider
-                        .updateUsername(
-                            displayName: _nameEditingController.text,
-                            hasProfile: false)
-                        .then((value) {
-                      if (!value) {
-                        widget._changePage(widget._currentPage + 1);
-                        _authProvider.setConfigurationStep =
-                            Configuration.NameScreenStepDone;
-                      }
+              title: 'Next',
+              onPressed: () {
+                setState(() {
+                  _isPressed = true;
+                });
+                if (_nameFormKey.currentState.validate()) {
+                  print('save the data');
+                  _authProvider
+                      .updateUsername(
+                          displayName: _nameEditingController.text,
+                          hasProfile: false)
+                      .then((value) {
+                    setState(() {
+                      _isPressed = false;
                     });
-                  } else {
-                    print('Issue the data');
-                  }
-                }),
+                    if (!value) {
+                      widget._changePage(widget._currentPage + 1);
+                      _authProvider.setConfigurationStep =
+                          Configuration.NameScreenStepDone;
+                    }
+                  });
+                } else {
+                  print('Issue the data');
+                }
+              },
+              isPressed: _isPressed,
+            ),
             SizedBox(
               height: 40,
             ),

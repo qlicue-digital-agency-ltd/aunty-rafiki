@@ -22,6 +22,7 @@ class YearOfBirthScreen extends StatefulWidget {
 
 class _YearOfBirthScreenState extends State<YearOfBirthScreen> {
   int _yearOfBirth = 1988;
+  bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,35 +47,43 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen> {
         ),
         Spacer(),
         CustomRaisedButton(
-            title: 'Next',
-            onPressed: () {
-              if (DateTime.now().year - _yearOfBirth >= 18) {
-                _authProvider
-                    .updateYearOfBirth(yearOfBirth: _yearOfBirth)
-                    .then((value) {
-                  if (!value) {
-                    widget._changePage(widget._currentPage + 1);
-                    _authProvider.setConfigurationStep =
-                        Configuration.YearOfBirthScreenStepDone;
-                  }
+          title: 'Next',
+          onPressed: () {
+            setState(() {
+              _isPressed = true;
+            });
+            if (DateTime.now().year - _yearOfBirth >= 18) {
+              _authProvider
+                  .updateYearOfBirth(yearOfBirth: _yearOfBirth)
+                  .then((value) {
+                setState(() {
+                  _isPressed = false;
                 });
-              } else {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CustomDialogBox(
-                        title: "NOT OF AGE",
-                        descriptions:
-                            "This App is to be used by people above the age of 18+",
-                        text: "CLOSE",
-                        textClose: "",
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      );
-                    });
-              }
-            }),
+                if (!value) {
+                  widget._changePage(widget._currentPage + 1);
+                  _authProvider.setConfigurationStep =
+                      Configuration.YearOfBirthScreenStepDone;
+                }
+              });
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CustomDialogBox(
+                      title: "NOT OF AGE",
+                      descriptions:
+                          "This App is to be used by people above the age of 18+",
+                      text: "CLOSE",
+                      textClose: "",
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    );
+                  });
+            }
+          },
+          isPressed: _isPressed,
+        ),
         SizedBox(
           height: 40,
         ),

@@ -21,7 +21,7 @@ class WeeksPregnancyScreen extends StatefulWidget {
 class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
   int _weeksOfPregnancy = 4;
   bool _isSelected = false;
-
+  bool _isPressed = false;
   void itemChange(bool val) {
     setState(() {
       _isSelected = val;
@@ -88,36 +88,44 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
               height: 5,
             ),
             CustomRaisedButton(
-                title: 'Next',
-                onPressed: () {
-                  _authProvider
-                      .updatePregnancyWeeks(
-                          pregnancyWeeks: _isSelected ? 0 : _weeksOfPregnancy)
-                      .then((value) {
-                    if (!value) {
-                      widget._changePage(widget._currentPage + 1);
-                      _authProvider.setConfigurationStep =
-                          Configuration.WeeksPregnancyScreenStepDone;
-                    }
+              title: 'Next',
+              onPressed: () {
+                setState(() {
+                  _isPressed = true;
+                });
+                _authProvider
+                    .updatePregnancyWeeks(
+                        pregnancyWeeks: _isSelected ? 0 : _weeksOfPregnancy)
+                    .then((value) {
+                  setState(() {
+                    _isPressed = false;
                   });
+                  if (!value) {
+                    widget._changePage(widget._currentPage + 1);
+                    _authProvider.setConfigurationStep =
+                        Configuration.WeeksPregnancyScreenStepDone;
+                  }
+                });
 
-                  // if (_isSelected) {
-                  //   _utilityProvider.setKnownPregnancy = false;
+                // if (_isSelected) {
+                //   _utilityProvider.setKnownPregnancy = false;
 
-                  //   widget._changePage(widget._currentPage + 1);
-                  // } else {
-                  //   _authProvider
-                  //       .updatePregnancyWeeks(pregnancyWeeks: _weeksOfPregnancy)
-                  //       .then((value) {
-                  //     if (!value) {
-                  //       widget._changePage(widget._currentPage + 1);
-                  //       _authProvider.setConfigurationStep =
-                  //           Configuration.WeeksPregnancyScreenStepDone;
-                  //     }
-                  //   });
+                //   widget._changePage(widget._currentPage + 1);
+                // } else {
+                //   _authProvider
+                //       .updatePregnancyWeeks(pregnancyWeeks: _weeksOfPregnancy)
+                //       .then((value) {
+                //     if (!value) {
+                //       widget._changePage(widget._currentPage + 1);
+                //       _authProvider.setConfigurationStep =
+                //           Configuration.WeeksPregnancyScreenStepDone;
+                //     }
+                //   });
 
-                  // }
-                }),
+                // }
+              },
+              isPressed: _isPressed,
+            ),
           ],
         ),
         SizedBox(

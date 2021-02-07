@@ -19,6 +19,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 class AuthProvider with ChangeNotifier {
   bool _isSendingPhone = false;
   bool _sendingCode = false;
+  bool _isVerifyingCode = false;
   bool _initialized, _error;
   bool _isLoggedIn = false;
   bool _isCodeSent = false;
@@ -96,6 +97,7 @@ class AuthProvider with ChangeNotifier {
 
   bool get isSendingPhone => _isSendingPhone;
   bool get isSendingCode => _sendingCode;
+  bool get isVerifyingCode => _isVerifyingCode;
   String get verificationId => _verificationId;
   bool get initialized => _initialized;
   bool get error => _error;
@@ -105,7 +107,8 @@ class AuthProvider with ChangeNotifier {
 
   ///sigin user....
   Future<UserCredential> signIn({@required smsCode}) async {
-    //   _sendingCode = true;
+    _isVerifyingCode = true;
+    notifyListeners();
     UserCredential credential;
 
     try {
@@ -154,6 +157,8 @@ class AuthProvider with ChangeNotifier {
       }
       print('The error is $errorType');
     }
+    _isVerifyingCode = false;
+    notifyListeners();
     return credential;
   }
 

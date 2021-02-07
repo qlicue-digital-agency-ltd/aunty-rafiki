@@ -34,6 +34,8 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
   DateTime _lastTetanusDate;
   DateTime _haemoglobinLevelDate;
 
+  bool _isPressed = false;
+
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
@@ -179,6 +181,9 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
         CustomRaisedButton(
             title: 'Next',
             onPressed: () {
+                setState(() {
+                  _isPressed = true;
+                });
               _authProvider
                   .updateAdditionalInfo(
                       haemoLevel: _haemoglobinLevel,
@@ -189,6 +194,9 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                       startedClinic: _clinic,
                       takenTetanusVaccine: _tetanasiVaccination)
                   .then((value) {
+                      setState(() {
+                  _isPressed = false;
+                });
                 if (!value) {
                   //send data to af server...
 
@@ -201,7 +209,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                   Navigator.pushNamed(context, landingPage);
                 }
               });
-            }),
+            }, isPressed: _isPressed,),
         SizedBox(
           height: 40,
         ),
