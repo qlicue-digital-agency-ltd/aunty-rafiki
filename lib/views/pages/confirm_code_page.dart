@@ -189,18 +189,13 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                     text: "Didn't receive the code? ",
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                     children: [
-                      _authProvider.isSendingPhone
-                          ? CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
-                            )
-                          : TextSpan(
-                              text: " RESEND",
-                              recognizer: onTapRecognizer,
-                              style: TextStyle(
-                                  color: Colors.pink,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16))
+                      TextSpan(
+                          text: " RESEND",
+                          recognizer: onTapRecognizer,
+                          style: TextStyle(
+                              color: Colors.pink,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16))
                     ]),
               ),
               SizedBox(
@@ -218,7 +213,10 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                               color: Theme.of(context).primaryColor),
                           child: FlatButton(
                             child: _authProvider.isVerifyingCode
-                                ? CircularProgressIndicator()
+                                ? CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
+                                  )
                                 : Text(
                                     "VERIFY".toUpperCase(),
                                     style: TextStyle(

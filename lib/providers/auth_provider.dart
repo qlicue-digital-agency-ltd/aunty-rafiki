@@ -191,10 +191,10 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> requestVerificationCode() async {
+  Future<bool> requestVerificationCode() async {
     _isSendingPhone = true;
-
     notifyListeners();
+
     String _phone = _phoneNumber.completeNumber.replaceAll('(', "");
     _phone = _phone.replaceAll(')', '');
     _phone = _phone.replaceAll('-', '');
@@ -208,6 +208,12 @@ class AuthProvider with ChangeNotifier {
         verificationFailed: _verificationFailed,
         codeSent: _codeSent,
         codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
+
+    _isSendingPhone = false;
+
+    notifyListeners();
+
+    return _isSendingPhone;
   }
 
   _verificationCompleted(PhoneAuthCredential credential) async {

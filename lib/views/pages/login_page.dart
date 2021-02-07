@@ -54,10 +54,12 @@ class LoginPage extends StatelessWidget {
               width: 300,
               child: RaisedButton(
                 onPressed: () {
-                  print(_authProvider.phoneNumber.completeNumber);
+                  // print(_authProvider.phoneNumber.completeNumber);
 
                   _authProvider.requestVerificationCode().then((value) {
-                    Navigator.pushNamed(context, confirmationPage);
+                    if (!value) {
+                      Navigator.pushNamed(context, confirmationPage);
+                    }
                   });
                 },
                 color: Colors.pink,
