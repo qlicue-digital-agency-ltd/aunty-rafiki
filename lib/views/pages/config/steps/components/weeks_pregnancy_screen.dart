@@ -67,7 +67,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                   ),
                 ),
               ),
-        Spacer(),
+      
         Column(
           children: [
             Container(

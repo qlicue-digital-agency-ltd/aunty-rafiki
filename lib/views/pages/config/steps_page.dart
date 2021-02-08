@@ -17,6 +17,8 @@ import 'package:aunty_rafiki/views/pages/config/steps/components/year_of_birth_s
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../loader_page.dart';
+
 class StepsPage extends StatefulWidget {
   @override
   _StepsPageState createState() => _StepsPageState();
@@ -31,7 +33,6 @@ class _StepsPageState extends State<StepsPage> {
 
   Color _inactiveColor = Colors.grey;
   String _title = "Mother's Name";
-  
 
   TextStyle _headerStyle =
       TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold);
@@ -92,135 +93,163 @@ class _StepsPageState extends State<StepsPage> {
     return FutureBuilder(
         future: _configProvider.appConfigurationStep,
         builder: (context, snapshot) {
-          if (snapshot.data == Configuration.NameScreenStepDone) {
-            _changePage(1);
-          } else if (snapshot.data ==
-              Configuration.WeeksPregnancyScreenStepDone) {
-            _changePage(2);
-          } else if (snapshot.data == Configuration.YearOfBirthScreenStepDone) {
-            _changePage(3);
-          } else if (snapshot.data ==
-              Configuration.MotherhoodInfoScreenStepDone) {
-            _changePage(4);
-          }
-
-          return Scaffold(
-            key: _scafoldKey,
-            appBar: AppBar(
-              leading: _currentPregPage == 1
-                  ? Container()
-                  : IconButton(
-                      icon: Icon(Platform.isIOS
-                          ? Icons.arrow_back_ios
-                          : Icons.arrow_back),
-                      onPressed: () {
-                        if (_utilityProvider.knownPregnancy) {
-                          if (_currentPregPage == 2) {
-                            _changePage(0);
-                          } else if (_currentPregPage == 3) {
-                            _changePage(1);
-                          } else if (_currentPregPage == 4) {
-                            _changePage(2);
-                          } else if (_currentPregPage == 5) {
-                            _changePage(3);
-                          } else {}
-                        } else {
-                          if (_currentUnknownPregPage == 2) {
-                            _changeUnknownPregnancyPage(0);
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        }
-                      }),
-              title: Text('Profile'),
-            ),
-            body: SingleChildScrollView(
-              child: Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      _utilityProvider.knownPregnancy
-                          ? StepProgressView(
-                              steps: _screens.length,
-                              curStep: _currentPregPage,
-                              height: _stepProgressViewHeight,
-                              width: MediaQuery.of(context).size.width,
-                              dotRadius: _stepCircleRadius,
-                              activeColor: _activeColor,
-                              inactiveColor: _inactiveColor,
-                              headerStyle: _headerStyle,
-                              stepsStyle: _stepStyle,
-                              decoration: BoxDecoration(color: Colors.white),
-                              padding: EdgeInsets.only(
-                                top: 48.0,
-                                left: 24.0,
-                                right: 24.0,
-                              ),
-                              title: _title,
-                            )
-                          : StepProgressView(
-                              steps: _unknownScreens.length,
-                              curStep: 1,
-                              height: _stepProgressViewHeight,
-                              width: MediaQuery.of(context).size.width,
-                              dotRadius: _stepCircleRadius,
-                              activeColor: _activeColor,
-                              inactiveColor: _inactiveColor,
-                              headerStyle: _headerStyle,
-                              stepsStyle: _stepStyle,
-                              decoration: BoxDecoration(color: Colors.white),
-                              padding: EdgeInsets.only(
-                                top: 48.0,
-                                left: 24.0,
-                                right: 24.0,
-                              ),
-                              title: _title,
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+            case ConnectionState.none:
+              print(snapshot.data);
+              if (snapshot.data == Configuration.NameScreenStepDone) {
+                _changePage(1);
+                _title = "Weeks of Pregnancy";
+              } else if (snapshot.data ==
+                  Configuration.WeeksPregnancyScreenStepDone) {
+                _changePage(2);
+              } else if (snapshot.data ==
+                  Configuration.YearOfBirthScreenStepDone) {
+                _changePage(3);
+              } else if (snapshot.data ==
+                  Configuration.MotherhoodInfoScreenStepDone) {
+                _changePage(4);
+              } else {}
+              return Scaffold(
+                key: _scafoldKey,
+                appBar: AppBar(
+                  leading: _currentPregPage == 1
+                      ? Container()
+                      : IconButton(
+                          icon: Icon(Platform.isIOS
+                              ? Icons.arrow_back_ios
+                              : Icons.arrow_back),
+                          onPressed: () {
+                            if (_utilityProvider.knownPregnancy) {
+                              if (_currentPregPage == 2) {
+                                _changePage(0);
+                              } else if (_currentPregPage == 3) {
+                                _changePage(1);
+                              } else if (_currentPregPage == 4) {
+                                _changePage(2);
+                              } else if (_currentPregPage == 5) {
+                                _changePage(3);
+                              } else {}
+                            } else {
+                              if (_currentUnknownPregPage == 2) {
+                                _changeUnknownPregnancyPage(0);
+                              } else {
+                                Navigator.pop(context);
+                              }
+                            }
+                          }),
+                  title: Text('Profile'),
+                ),
+                body: SingleChildScrollView(
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          _utilityProvider.knownPregnancy
+                              ? StepProgressView(
+                                  steps: _screens.length,
+                                  curStep: _currentPregPage,
+                                  height: _stepProgressViewHeight,
+                                  width: MediaQuery.of(context).size.width,
+                                  dotRadius: _stepCircleRadius,
+                                  activeColor: _activeColor,
+                                  inactiveColor: _inactiveColor,
+                                  headerStyle: _headerStyle,
+                                  stepsStyle: _stepStyle,
+                                  decoration:
+                                      BoxDecoration(color: Colors.white),
+                                  padding: EdgeInsets.only(
+                                    top: 48.0,
+                                    left: 24.0,
+                                    right: 24.0,
+                                  ),
+                                  title: _title,
+                                )
+                              : StepProgressView(
+                                  steps: _unknownScreens.length,
+                                  curStep: 1,
+                                  height: _stepProgressViewHeight,
+                                  width: MediaQuery.of(context).size.width,
+                                  dotRadius: _stepCircleRadius,
+                                  activeColor: _activeColor,
+                                  inactiveColor: _inactiveColor,
+                                  headerStyle: _headerStyle,
+                                  stepsStyle: _stepStyle,
+                                  decoration:
+                                      BoxDecoration(color: Colors.white),
+                                  padding: EdgeInsets.only(
+                                    top: 48.0,
+                                    left: 24.0,
+                                    right: 24.0,
+                                  ),
+                                  title: _title,
+                                ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.7,
+                            child: PageView(
+                              controller: _pageController,
+                              physics: NeverScrollableScrollPhysics(),
+                              children: _screens,
                             ),
-                      Expanded(
-                        child: _utilityProvider.knownPregnancy
-                            ? PageView(
-                                controller: _pageController,
-                                physics: NeverScrollableScrollPhysics(),
-                                children: _screens,
-                              )
-                            : PageView(
-                                controller: _pageUnknownController,
-                                physics: NeverScrollableScrollPhysics(),
-                                children: _unknownScreens,
-                              ),
-                      )
-                    ],
-                  )),
-            ),
-          );
+                          )
+
+                          // Expanded(
+                          //   child: _utilityProvider.knownPregnancy
+                          //       ? PageView(
+                          //           controller: _pageController,
+                          //           physics: NeverScrollableScrollPhysics(),
+                          //           children: _screens,
+                          //         )
+                          //       : PageView(
+                          //           controller: _pageUnknownController,
+                          //           physics: NeverScrollableScrollPhysics(),
+                          //           children: _unknownScreens,
+                          //         ),
+                          // )
+                        ],
+                      )),
+                ),
+              );
+
+              break;
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              return LoaderPage();
+
+              break;
+          }
+          return Container();
         });
   }
 
   void _changePage(int index) {
     // or this to jump to it without animating
-
-    _pageController.jumpToPage(index);
-    setState(() {
-      _currentPregPage = index + 1;
-      if (index == 0) {
-        _title = "Mother's Name";
-      }
-      if (index == 1) {
-        _title = "Weeks of Pregnancy";
-      }
-      if (index == 2) {
-        _title = "Mother's Birthday";
-      }
-      if (index == 3) {
-        _title = "Motherhood Information";
-      }
-      if (index == 4) {
-        _title = "More Information";
-      }
-    });
+    print('**********************');
+    print(index);
+    print('-----------------------');
+    _pageController = PageController(
+      initialPage: index,
+      keepPage: true,
+    );
+    _currentPregPage = index + 1;
+    if (index == 0) {
+      _title = "Mother's Name";
+    }
+    if (index == 1) {
+      _title = "Weeks of Pregnancy";
+    }
+    if (index == 2) {
+      _title = "Mother's Birthday";
+    }
+    if (index == 3) {
+      _title = "Motherhood Information";
+    }
+    if (index == 4) {
+      _title = "More Information";
+    }
   }
 
   void _changeUnknownPregnancyPage(int index) {

@@ -20,7 +20,8 @@ class StartupPage extends StatelessWidget {
 
     return FutureBuilder(
         future: _configProvider.appConfigurationStep,
-        builder: (context, AsyncSnapshot<Configuration> snapshot) {
+        builder: (context, AsyncSnapshot<Configuration> snapshot) 
+        {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
             case ConnectionState.none:
@@ -45,9 +46,6 @@ class StartupPage extends StatelessWidget {
                 default:
                   return StepsPage();
               }
-
-          
-
               break;
             case ConnectionState.waiting:
             case ConnectionState.active:

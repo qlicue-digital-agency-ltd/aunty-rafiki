@@ -47,7 +47,7 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen> {
           miniValue: 1931,
           maxValue: 2008,
         ),
-        Spacer(),
+       
         CustomRaisedButton(
           title: 'Next',
           onPressed: () {

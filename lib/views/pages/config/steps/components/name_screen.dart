@@ -53,7 +53,9 @@ class _NameScreenState extends State<NameScreen> {
                   return null;
               },
             ),
-            Spacer(),
+            SizedBox(
+              height: 10,
+            ),
             CustomRaisedButton(
               title: 'Next',
               onPressed: () {
