@@ -136,65 +136,67 @@ class _StepsPageState extends State<StepsPage> {
                 }),
         title: Text('Profile'),
       ),
-      body: Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _utilityProvider.knownPregnancy
-                  ? StepProgressView(
-                      steps: _screens.length,
-                      curStep: _currentPregPage,
-                      height: _stepProgressViewHeight,
-                      width: MediaQuery.of(context).size.width,
-                      dotRadius: _stepCircleRadius,
-                      activeColor: _activeColor,
-                      inactiveColor: _inactiveColor,
-                      headerStyle: _headerStyle,
-                      stepsStyle: _stepStyle,
-                      decoration: BoxDecoration(color: Colors.white),
-                      padding: EdgeInsets.only(
-                        top: 48.0,
-                        left: 24.0,
-                        right: 24.0,
-                      ),
-                      title: _title,
-                    )
-                  : StepProgressView(
-                      steps: _unknownScreens.length,
-                      curStep: 1,
-                      height: _stepProgressViewHeight,
-                      width: MediaQuery.of(context).size.width,
-                      dotRadius: _stepCircleRadius,
-                      activeColor: _activeColor,
-                      inactiveColor: _inactiveColor,
-                      headerStyle: _headerStyle,
-                      stepsStyle: _stepStyle,
-                      decoration: BoxDecoration(color: Colors.white),
-                      padding: EdgeInsets.only(
-                        top: 48.0,
-                        left: 24.0,
-                        right: 24.0,
-                      ),
-                      title: _title,
-                    ),
-              Expanded(
-                child: _utilityProvider.knownPregnancy
-                    ? PageView(
-                        controller: _pageController,
-                        physics: NeverScrollableScrollPhysics(),
-                        children: _screens,
+      body: SingleChildScrollView(
+        child: Padding(
+            padding: EdgeInsets.only(left: 20, right: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                _utilityProvider.knownPregnancy
+                    ? StepProgressView(
+                        steps: _screens.length,
+                        curStep: _currentPregPage,
+                        height: _stepProgressViewHeight,
+                        width: MediaQuery.of(context).size.width,
+                        dotRadius: _stepCircleRadius,
+                        activeColor: _activeColor,
+                        inactiveColor: _inactiveColor,
+                        headerStyle: _headerStyle,
+                        stepsStyle: _stepStyle,
+                        decoration: BoxDecoration(color: Colors.white),
+                        padding: EdgeInsets.only(
+                          top: 48.0,
+                          left: 24.0,
+                          right: 24.0,
+                        ),
+                        title: _title,
                       )
-                    : PageView(
-                        controller: _pageUnknownController,
-                        physics: NeverScrollableScrollPhysics(),
-                        children: _unknownScreens,
+                    : StepProgressView(
+                        steps: _unknownScreens.length,
+                        curStep: 1,
+                        height: _stepProgressViewHeight,
+                        width: MediaQuery.of(context).size.width,
+                        dotRadius: _stepCircleRadius,
+                        activeColor: _activeColor,
+                        inactiveColor: _inactiveColor,
+                        headerStyle: _headerStyle,
+                        stepsStyle: _stepStyle,
+                        decoration: BoxDecoration(color: Colors.white),
+                        padding: EdgeInsets.only(
+                          top: 48.0,
+                          left: 24.0,
+                          right: 24.0,
+                        ),
+                        title: _title,
                       ),
-              )
-            ],
-          )),
+                Expanded(
+                  child: _utilityProvider.knownPregnancy
+                      ? PageView(
+                          controller: _pageController,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: _screens,
+                        )
+                      : PageView(
+                          controller: _pageUnknownController,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: _unknownScreens,
+                        ),
+                )
+              ],
+            )),
+      ),
     );
   }
 
