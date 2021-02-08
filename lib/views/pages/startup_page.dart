@@ -21,7 +21,12 @@ class StartupPageState extends State<StartupPage>
   AuthProvider _authProvider;
 
   ///start time...
-  startTime() async => Timer(Duration(seconds: 5), navigationPage);
+  startTime() async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      _authProvider = Provider.of<AuthProvider>(context, listen: false);
+    });
+    return Timer(Duration(seconds: 5), navigationPage);
+  }
 
   void navigationPage() async {
     final _config = await _authProvider.appConfigurationStep;
@@ -43,9 +48,6 @@ class StartupPageState extends State<StartupPage>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _authProvider = Provider.of<AuthProvider>(context, listen: false);
-    });
 
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 2));
