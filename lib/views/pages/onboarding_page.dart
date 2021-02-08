@@ -29,96 +29,91 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        PageView(
-          controller: controller,
-          pageSnapping: true,
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            Walkthrougth(
-                icon: "assets/icons/fast-time.png",
-                title: "Tracker",
-                textContent:
-                    "Aunty Rafiki tracks your daily pregancy growth and changes."),
-            Walkthrougth(
-              icon: "assets/icons/chat.png",
-              title: 'Chat',
-              textContent:
-                  "Aunty Rafiki is connects you to your favorite midwife, 24/7",
-            ),
-            Walkthrougth(
-                icon: "assets/icons/baby.png",
-                title: 'Health',
-                textContent:
-                    "Aunty Rafiki carters for the health condition for you and your baby"),
-            Walkthrougth(
-                icon: "assets/icons/shield.png",
-                title: 'Secure',
-                textContent:
-                    "Aunty Rafiki keeps your information and messages safe from hacker attacks"),
-            Walkthrougth(
-                icon: "assets/icons/cloud-network.png",
-                title: 'Cloud-Based',
-                textContent:
-                    "Aunty Rafiki lets you access your messages from multiple devices"),
-          ],
-          onPageChanged: (value) {
-            setState(() => currentIndexPage = value);
-          },
-        ),
-        Align(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(
-                height: 100,
-              ),
-              SmoothPageIndicator(
-                  controller: controller,
-                  count: pageLength,
-                  effect: WormEffect(
-                      activeDotColor: Colors.pink,
-                      dotHeight: 10.0,
-                      dotWidth: 10.0)),
-              SizedBox(
-                height: 100,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 60, right: 60),
-                width: double.infinity / 2,
-                child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  color: Colors.pink[400],
-                  child: Text(
-                    currentIndexPage == 4 ? "Get Start" : "Next",
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900),
-                  ),
-                  onPressed: () {
-                    if (currentIndexPage == 4) {
-                      _authProvider.setConfigurationStep = Configuration.Terms;
-                      Navigator.pushNamed(context, termsConditionPage);
-                    } else {
-                      controller.nextPage(
-                          duration: Duration(milliseconds: 200),
-                          curve: Curves.linear);
-                    }
-                  },
+        body: SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 500,
+            child: PageView(
+              controller: controller,
+              pageSnapping: true,
+              physics: BouncingScrollPhysics(),
+              children: <Widget>[
+                Walkthrougth(
+                    icon: "assets/icons/fast-time.png",
+                    title: "Tracker",
+                    textContent:
+                        "Aunty Rafiki tracks your daily pregancy growth and changes."),
+                Walkthrougth(
+                  icon: "assets/icons/chat.png",
+                  title: 'Chat',
+                  textContent:
+                      "Aunty Rafiki is connects you to your favorite midwife, 24/7",
                 ),
-              ),
-              SizedBox(
-                height: 200,
-              ),
-            ],
+                Walkthrougth(
+                    icon: "assets/icons/baby.png",
+                    title: 'Health',
+                    textContent:
+                        "Aunty Rafiki carters for the health condition for you and your baby"),
+                Walkthrougth(
+                    icon: "assets/icons/shield.png",
+                    title: 'Secure',
+                    textContent:
+                        "Aunty Rafiki keeps your information and messages safe from hacker attacks"),
+                Walkthrougth(
+                    icon: "assets/icons/cloud-network.png",
+                    title: 'Cloud-Based',
+                    textContent:
+                        "Aunty Rafiki lets you access your messages from multiple devices"),
+              ],
+              onPageChanged: (value) {
+                setState(() => currentIndexPage = value);
+              },
+            ),
           ),
-        ),
-      ],
+         
+          SmoothPageIndicator(
+              controller: controller,
+              count: pageLength,
+              effect: WormEffect(
+                  activeDotColor: Colors.pink,
+                  dotHeight: 10.0,
+                  dotWidth: 10.0)),
+          SizedBox(
+            height: 100,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 60, right: 60),
+            width: double.infinity / 2,
+            child: FlatButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              color: Colors.pink[400],
+              child: Text(
+                currentIndexPage == 4 ? "Get Start" : "Next",
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900),
+              ),
+              onPressed: () {
+                if (currentIndexPage == 4) {
+                  _authProvider.setConfigurationStep = Configuration.Terms;
+                  Navigator.pushNamed(context, termsConditionPage);
+                } else {
+                  controller.nextPage(
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.linear);
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            height: 200,
+          ),
+        ],
+      ),
     ));
   }
 }

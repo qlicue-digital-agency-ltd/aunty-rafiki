@@ -7,7 +7,6 @@ import 'package:aunty_rafiki/providers/food_provider.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
 import 'package:aunty_rafiki/providers/task_provider.dart';
-import 'package:aunty_rafiki/providers/text_to_speech_provider.dart';
 import 'package:aunty_rafiki/providers/timeline_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
 import 'package:aunty_rafiki/providers/user_provider.dart';
@@ -22,7 +21,6 @@ void main() {
     ChangeNotifierProvider(create: (_) => AuthProvider()),
     ChangeNotifierProvider(create: (_) => ChatProvider()),
     ChangeNotifierProvider(create: (_) => UtilityProvider()),
-    ChangeNotifierProvider(create: (_) => TextToSpeechProvider()),
     ChangeNotifierProvider(create: (_) => TaskProvider()),
     ChangeNotifierProvider(create: (_) => AppointmentProvider()),
     ChangeNotifierProvider(create: (_) => BloodLevelProvider()),
