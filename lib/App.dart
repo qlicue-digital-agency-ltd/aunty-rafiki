@@ -44,7 +44,7 @@ class App extends StatelessWidget {
             case ConnectionState.none:
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: 'Aunty Rafiki',
+                title: 'Aunt Rafiki',
                 theme: ThemeData(
                     primarySwatch: Colors.pink,
                     visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class StartupPage extends StatefulWidget {
   @override
-  StartupPageState createState() => new StartupPageState();
+  StartupPageState createState() => StartupPageState();
 }
 
 class StartupPageState extends State<StartupPage>
@@ -20,14 +20,10 @@ class StartupPageState extends State<StartupPage>
 
   AuthProvider _authProvider;
 
-  startTime() async {
-    var _duration = new Duration(seconds: 3);
-    return new Timer(_duration, navigationPage);
-  }
+  ///start time...
+  startTime() async => Timer(Duration(seconds: 5), navigationPage);
 
   void navigationPage() async {
-    //Navigator.of(context).pushReplacementNamed(landingPage);
-
     final _config = await _authProvider.appConfigurationStep;
     if (_config == Configuration.Non) {
       Navigator.of(context).pushReplacementNamed(onboardingPage);
@@ -51,10 +47,10 @@ class StartupPageState extends State<StartupPage>
       _authProvider = Provider.of<AuthProvider>(context, listen: false);
     });
 
-    animationController = new AnimationController(
-        vsync: this, duration: new Duration(seconds: 2));
+    animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
     animation =
-        new CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
 
     animation.addListener(() => this.setState(() {}));
     animationController.forward();
@@ -71,24 +67,24 @@ class StartupPageState extends State<StartupPage>
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          new Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text('AUNT RAFIKI FROM QLICUE'),
               Padding(
                   padding: EdgeInsets.only(bottom: 30.0),
-                  child: new Image.asset(
+                  child: Image.asset(
                     'assets/icons/aunty_rafiki.png',
                     height: 25.0,
                     fit: BoxFit.scaleDown,
                   ))
             ],
           ),
-          new Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Image.asset(
+              Image.asset(
                 'assets/icons/aunty_rafiki.png',
                 width: animation.value * 250,
                 height: animation.value * 250,
