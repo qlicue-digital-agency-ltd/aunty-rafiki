@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aunty_rafiki/constants/enums/enums.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:file_picker/file_picker.dart';
@@ -27,6 +28,7 @@ class AuthProvider with ChangeNotifier {
 
   ///current user profile..
   customUser.User _currentUser;
+
 
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
