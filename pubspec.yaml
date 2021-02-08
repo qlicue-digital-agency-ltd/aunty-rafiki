@@ -78,7 +78,7 @@ flutter:
     - assets/icons/
     - assets/access/
     - assets/food/
-    - assets/background.png
+    - assets/
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

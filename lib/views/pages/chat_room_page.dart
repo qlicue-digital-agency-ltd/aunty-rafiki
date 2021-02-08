@@ -1,7 +1,7 @@
 import 'package:aunty_rafiki/models/send_menu_items.dart';
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
-import 'package:aunty_rafiki/views/backgrounds/background.dart';
+import 'package:aunty_rafiki/views/backgrounds/chat_background.dart';
 import 'package:aunty_rafiki/views/components/tiles/messages/input/message_edit_bar.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/messages/message_list.dart';
