@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
+import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_string_dropdown.dart';
 import 'package:aunty_rafiki/views/components/buttons/number_counter.dart';
@@ -30,6 +31,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
+     final _confogProvider = Provider.of<ConfigProvider>(context);
     return ListView(
       shrinkWrap: true,
       children: [
@@ -135,7 +137,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
               });
               if (!value) {
                 widget._changePage(widget._currentPage + 1);
-                _authProvider.setConfigurationStep =
+                _confogProvider.setConfigurationStep =
                     Configuration.MotherhoodInfoScreenStepDone;
               }
             });

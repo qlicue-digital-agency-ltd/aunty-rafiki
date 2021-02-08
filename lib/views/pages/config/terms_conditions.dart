@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-import 'package:aunty_rafiki/providers/auth_provider.dart';
+
+import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +15,8 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
   @override
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
-    final _authProvider = Provider.of<AuthProvider>(context);
 
+    final _confogProvider = Provider.of<ConfigProvider>(context);
     void itemChange(bool val, int index) {
       _utilityProvider.setItemChange = index;
     }
@@ -100,7 +101,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                         .storeTerms(_utilityProvider.checkBoxList)
                         .then((value) {
                       Navigator.of(context).pushReplacementNamed(loginPage);
-                      _authProvider.setConfigurationStep = Configuration.SignUp;
+                      _confogProvider.setConfigurationStep = Configuration.SignUp;
                     });
                   } else {
                     _utilityProvider.selectAllTerms();
@@ -119,7 +120,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                                 .then((value) {
                               Navigator.of(context)
                                   .pushReplacementNamed(loginPage);
-                              _authProvider.setConfigurationStep =
+                              _confogProvider.setConfigurationStep =
                                   Configuration.SignUp;
                             });
                           },

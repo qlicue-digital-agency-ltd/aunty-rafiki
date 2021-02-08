@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
+import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
@@ -27,6 +28,7 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen> {
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
+     final _configProvider = Provider.of<ConfigProvider>(context);
     return Column(
       children: [
         SizedBox(
@@ -61,7 +63,7 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen> {
                 });
                 if (!value) {
                   widget._changePage(widget._currentPage + 1);
-                  _authProvider.setConfigurationStep =
+                  _configProvider.setConfigurationStep =
                       Configuration.YearOfBirthScreenStepDone;
                 }
               });
