@@ -34,8 +34,9 @@ class MoreScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(1.0),
                         child: CircleAvatar(
                           radius: 20,
-                          backgroundImage:
-                              _authProvider.currentUser.photoUrl == null
+                          backgroundImage: _authProvider.currentUser == null
+                              ? AssetImage('assets/icons/female.png')
+                              : _authProvider.currentUser.photoUrl == null
                                   ? AssetImage('assets/icons/female.png')
                                   : NetworkImage(
                                       _authProvider.currentUser.photoUrl),

@@ -1,6 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-import 'package:aunty_rafiki/providers/auth_provider.dart';
+import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/onboarding/walk_through.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +27,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _authProvider = Provider.of<AuthProvider>(context);
+    
+    final _confogProvider = Provider.of<ConfigProvider>(context);
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -71,7 +72,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
               },
             ),
           ),
-         
           SmoothPageIndicator(
               controller: controller,
               count: pageLength,
@@ -99,7 +99,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
               onPressed: () {
                 if (currentIndexPage == 4) {
-                  _authProvider.setConfigurationStep = Configuration.Terms;
+                  _confogProvider.setConfigurationStep = Configuration.Terms;
                   Navigator.pushNamed(context, termsConditionPage);
                 } else {
                   controller.nextPage(

@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
+import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
+     final _confogProvider = Provider.of<ConfigProvider>(context);
     return Column(
       children: [
         SizedBox(
@@ -65,7 +67,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                   ),
                 ),
               ),
-        Spacer(),
+      
         Column(
           children: [
             Container(
@@ -102,27 +104,12 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                   });
                   if (!value) {
                     widget._changePage(widget._currentPage + 1);
-                    _authProvider.setConfigurationStep =
+                    _confogProvider.setConfigurationStep =
                         Configuration.WeeksPregnancyScreenStepDone;
                   }
                 });
 
-                // if (_isSelected) {
-                //   _utilityProvider.setKnownPregnancy = false;
-
-                //   widget._changePage(widget._currentPage + 1);
-                // } else {
-                //   _authProvider
-                //       .updatePregnancyWeeks(pregnancyWeeks: _weeksOfPregnancy)
-                //       .then((value) {
-                //     if (!value) {
-                //       widget._changePage(widget._currentPage + 1);
-                //       _authProvider.setConfigurationStep =
-                //           Configuration.WeeksPregnancyScreenStepDone;
-                //     }
-                //   });
-
-                // }
+            
               },
               isPressed: _isPressed,
             ),

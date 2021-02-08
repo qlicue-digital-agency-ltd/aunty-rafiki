@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
+import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
+    final _confogProvider = Provider.of<ConfigProvider>(context);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -248,13 +250,13 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                           Navigator.pushReplacementNamed(
                                               context, landingPage);
 
-                                          _authProvider.setConfigurationStep =
+                                          _confogProvider.setConfigurationStep =
                                               Configuration.Done;
                                         } else {
                                           Navigator.pushReplacementNamed(
                                               context, createProfilePage);
 
-                                          _authProvider.setConfigurationStep =
+                                          _confogProvider.setConfigurationStep =
                                               Configuration.Profile;
                                         }
                                       });

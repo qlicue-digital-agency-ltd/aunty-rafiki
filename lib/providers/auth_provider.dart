@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:aunty_rafiki/constants/enums/enums.dart';
-import 'package:aunty_rafiki/service/shared/shared_preference.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:enum_to_string/enum_to_string.dart';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,22 +29,6 @@ class AuthProvider with ChangeNotifier {
   ///current user profile..
   customUser.User _currentUser;
 
-  /// Shared preference DB
-  SharedPref _sharedPref = SharedPref();
-
-  //app configuration...
-  Configuration _appConfigurationStep = Configuration.Non;
-
-  ///setter for configuration
-  set setConfigurationStep(Configuration step) {
-    _appConfigurationStep = step;
-
-    String _result = EnumToString.convertToString(_appConfigurationStep);
-
-    _sharedPref.saveStringleString('configurationStep', _result);
-
-    notifyListeners();
-  }
 
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
@@ -301,17 +285,6 @@ class AuthProvider with ChangeNotifier {
         // ...
       }
     }
-  }
-
-  ///getter for configuration ...
-  Future<Configuration> get appConfigurationStep async {
-    final _config = await _sharedPref.readStringleString('configurationStep');
-    print(_config);
-    if (_config != null) {
-      _appConfigurationStep =
-          EnumToString.fromString(Configuration.values, _config);
-    }
-    return _appConfigurationStep;
   }
 
   Future<void> openFileExplorer() async {
