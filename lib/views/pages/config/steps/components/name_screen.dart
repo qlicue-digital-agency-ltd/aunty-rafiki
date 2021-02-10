@@ -27,7 +27,7 @@ class _NameScreenState extends State<NameScreen> {
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
-    final _confogProvider = Provider.of<ConfigProvider>(context);
+    final _configProvider = Provider.of<ConfigProvider>(context);
     return Form(
         key: _nameFormKey,
         child: Column(
@@ -74,7 +74,7 @@ class _NameScreenState extends State<NameScreen> {
                     });
                     if (!value) {
                       widget._changePage(widget._currentPage + 1);
-                      _confogProvider.setConfigurationStep =
+                      _configProvider.setConfigurationStep =
                           Configuration.NameScreenStepDone;
                     }
                   });

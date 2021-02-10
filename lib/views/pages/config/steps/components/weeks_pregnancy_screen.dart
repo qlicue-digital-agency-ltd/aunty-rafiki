@@ -32,7 +32,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
-     final _confogProvider = Provider.of<ConfigProvider>(context);
+     final _configProvider = Provider.of<ConfigProvider>(context);
     return Column(
       children: [
         SizedBox(
@@ -104,7 +104,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                   });
                   if (!value) {
                     widget._changePage(widget._currentPage + 1);
-                    _confogProvider.setConfigurationStep =
+                    _configProvider.setConfigurationStep =
                         Configuration.WeeksPregnancyScreenStepDone;
                   }
                 });

@@ -16,7 +16,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
 
-    final _confogProvider = Provider.of<ConfigProvider>(context);
+    final _configProvider = Provider.of<ConfigProvider>(context);
     void itemChange(bool val, int index) {
       _utilityProvider.setItemChange = index;
     }
@@ -101,7 +101,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                         .storeTerms(_utilityProvider.checkBoxList)
                         .then((value) {
                       Navigator.of(context).pushReplacementNamed(loginPage);
-                      _confogProvider.setConfigurationStep = Configuration.SignUp;
+                      _configProvider.setConfigurationStep = Configuration.SignUp;
                     });
                   } else {
                     _utilityProvider.selectAllTerms();
@@ -120,7 +120,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                                 .then((value) {
                               Navigator.of(context)
                                   .pushReplacementNamed(loginPage);
-                              _confogProvider.setConfigurationStep =
+                              _configProvider.setConfigurationStep =
                                   Configuration.SignUp;
                             });
                           },
