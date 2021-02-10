@@ -15,13 +15,11 @@ import 'config/steps_page.dart';
 class StartupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final _configProvider = Provider.of<ConfigProvider>(context);
 
     return FutureBuilder(
         future: _configProvider.appConfigurationStep,
-        builder: (context, AsyncSnapshot<Configuration> snapshot) 
-        {
+        builder: (context, AsyncSnapshot<Configuration> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
             case ConnectionState.none:

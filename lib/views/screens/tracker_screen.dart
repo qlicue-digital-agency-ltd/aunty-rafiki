@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:aunty_rafiki/models/tracker.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/tracker_tile.dart';
 import 'package:aunty_rafiki/views/pages/tracker_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -33,45 +36,58 @@ class TrackerScreen extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
-                 ],
+                  ],
                 ),
               ),
             ),
-         
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: _trackerProvider.availableTrackers.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Tracker tracker =
-                    _trackerProvider.availableTrackers[index];
+            _trackerProvider.availableTrackers.isEmpty
+                ? Column(
+                    children: [
+                     SizedBox(height: MediaQuery.of(context).size.height / 2.7,),
+                      Center(
+                          child: Platform.isAndroid
+                              ? CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.pink),
+                                )
+                              : CupertinoActivityIndicator()),
+                      
+                    ],
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: _trackerProvider.availableTrackers.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Tracker tracker =
+                          _trackerProvider.availableTrackers[index];
 
-                final IndicatorStyle indicator = tracker.isCheckpoint
-                    ? _indicatorStyleCheckpoint(tracker)
-                    : const IndicatorStyle(width: 0);
+                      final IndicatorStyle indicator = tracker.isCheckpoint
+                          ? _indicatorStyleCheckpoint(tracker)
+                          : const IndicatorStyle(width: 0);
 
-                return TimelineTile(
-                  alignment: TimelineAlign.manual,
-                  lineXY: 0.15,
-                  isFirst: index == 0,
-                  isLast:
-                      index == _trackerProvider.availableTrackers.length - 1,
-                  startChild: _LeftChildTimeline(
-                    tracker: _trackerProvider.availableTrackers[index],
+                      return TimelineTile(
+                        alignment: TimelineAlign.manual,
+                        lineXY: 0.15,
+                        isFirst: index == 0,
+                        isLast: index ==
+                            _trackerProvider.availableTrackers.length - 1,
+                        startChild: _LeftChildTimeline(
+                          tracker: _trackerProvider.availableTrackers[index],
+                        ),
+                        endChild: _RightChildTimeline(
+                          tracker: _trackerProvider.availableTrackers[index],
+                        ),
+                        indicatorStyle: indicator,
+                        hasIndicator: _trackerProvider
+                            .availableTrackers[index].isCheckpoint,
+                        beforeLineStyle: LineStyle(
+                          color: tracker.color,
+                          thickness: 8,
+                        ),
+                      );
+                    },
                   ),
-                  endChild: _RightChildTimeline(
-                    tracker: _trackerProvider.availableTrackers[index],
-                  ),
-                  indicatorStyle: indicator,
-                  hasIndicator:
-                      _trackerProvider.availableTrackers[index].isCheckpoint,
-                  beforeLineStyle: LineStyle(
-                    color: tracker.color,
-                    thickness: 8,
-                  ),
-                );
-              },
-            ),
           ],
         ),
       ),

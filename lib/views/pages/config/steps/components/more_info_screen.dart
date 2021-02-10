@@ -41,7 +41,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
     final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
-     final _confogProvider = Provider.of<ConfigProvider>(context);
+     final _configProvider = Provider.of<ConfigProvider>(context);
     return ListView(
       shrinkWrap: true,
       children: [
@@ -207,7 +207,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                     date: _haemoglobinLevelDate.toString(),
                   );
 
-                  _confogProvider.setConfigurationStep = Configuration.Done;
+                  _configProvider.setConfigurationStep = Configuration.Done;
                   Navigator.pushNamed(context, landingPage);
                 }
               });
