@@ -62,16 +62,6 @@ class _StepsPageState extends State<StepsPage> {
         scaffoldKey: _scafoldKey,
       ),
     ];
-    // List<Widget> unknownScreens = [
-    //   DetermineWeekScreen(
-    //     currentPage: 0,
-    //     changePage: _configProvider.changeUnknownPregnancyPage,
-    //   ),
-    //   ChooseDateScreen(
-    //     currentPage: 1,
-    //     changePage: _configProvider.changeUnknownPregnancyPage,
-    //   ),
-    // ];
 
     return Scaffold(
       key: _scafoldKey,
@@ -91,10 +81,9 @@ class _StepsPageState extends State<StepsPage> {
       body: SingleChildScrollView(
         child: Padding(
             padding: EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: ListView(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 StepProgressView(
                   steps: _screens.length,
@@ -114,9 +103,7 @@ class _StepsPageState extends State<StepsPage> {
                   ),
                   title: _configProvider.title,
                 ),
-                Container(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: _screens[_configProvider.currentPregPage - 1])
+                _screens[_configProvider.currentPregPage - 1]
               ],
             )),
       ),

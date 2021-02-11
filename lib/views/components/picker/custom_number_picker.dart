@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -48,7 +49,7 @@ class CustomNumberPicker extends StatelessWidget {
               )
             : Container(),
         SizedBox(
-          height: 160,
+          height:10,
         ),
         Theme(
           data: theme.copyWith(

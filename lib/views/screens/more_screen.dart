@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
+import 'package:aunty_rafiki/views/pages/image_test.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,9 @@ class MoreScreen extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, profilePage);
+                      // Navigator.pushNamed(context, profilePage);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => ImageCapture()));
                     },
                     child: Container(
                       decoration: BoxDecoration(

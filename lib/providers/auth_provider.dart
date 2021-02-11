@@ -191,7 +191,8 @@ class AuthProvider with ChangeNotifier {
         verificationCompleted: _verificationCompleted,
         verificationFailed: _verificationFailed,
         codeSent: _codeSent,
-        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
+        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout
+        );
 
     _isSendingPhone = false;
 

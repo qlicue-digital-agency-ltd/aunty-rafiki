@@ -70,6 +70,9 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
       
         Column(
           children: [
+             SizedBox(
+              height: 50,
+            ),
             Container(
               decoration: BoxDecoration(
                 color: Color.fromRGBO(255, 240, 240, 1),
@@ -116,7 +119,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
           ],
         ),
         SizedBox(
-          height: 10,
+          height: 100,
         ),
       ],
     );

@@ -27,14 +27,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     final _confogProvider = Provider.of<ConfigProvider>(context);
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
         children: <Widget>[
           Container(
-            height: 500,
+            height: MediaQuery.of(context).size.height * 0.5,
             child: PageView(
               controller: controller,
               pageSnapping: true,
