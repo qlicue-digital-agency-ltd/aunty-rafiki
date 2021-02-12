@@ -2,6 +2,7 @@ import 'package:aunty_rafiki/models/send_menu_items.dart';
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:aunty_rafiki/views/backgrounds/chat_background.dart';
+import 'package:aunty_rafiki/views/components/app/selected_chat_app_bar.dart';
 import 'package:aunty_rafiki/views/components/tiles/messages/input/message_edit_bar.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/messages/message_list.dart';
@@ -56,7 +57,9 @@ class ChatRoomPage extends StatelessWidget {
                             onTap: () {
                               _chatProvider
                                   .openFileExplorer(
-                                      pickingType: menuItems[index].fileType, allowedExtensions: menuItems[index].allowedExtensions)
+                                      pickingType: menuItems[index].fileType,
+                                      allowedExtensions:
+                                          menuItems[index].allowedExtensions)
                                   .then((val) {
                                 Navigator.pop(context);
                                 Navigator.push(
@@ -97,9 +100,14 @@ class ChatRoomPage extends StatelessWidget {
     return Provider<Chat>.value(
       value: chat,
       child: Scaffold(
-        appBar: ChatDetailPageAppBar(
-          chat: chat,
-        ),
+        appBar: _chatProvider.selectedMessagesIndex.isEmpty
+            ? ChatDetailPageAppBar(
+                chat: chat,
+              )
+            : SelectedChatAppBar(
+                chat: chat,
+                list: _chatProvider.selectedMessagesIndex,
+              ),
         body: Stack(
           children: <Widget>[
             ChatBackground(),

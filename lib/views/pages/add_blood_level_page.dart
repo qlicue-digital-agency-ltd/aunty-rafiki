@@ -57,6 +57,7 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
               IconTextField(
                 icon: Icons.local_hospital,
                 textEditingController: _valueEditingController,
+                textInputType: TextInputType.number,
                 title: 'Blood Level',
                 suffix: 'g/dl',
                 validator: (val) {
@@ -93,27 +94,34 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         color: Colors.pink[400],
                         child: Text(
-                          'Save'.toUpperCase(),
+                          _bloodLevelProvider.isSubmittingData
+                              ? CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                )
+                              : 'Save'.toUpperCase(),
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,
                               fontWeight: FontWeight.w900),
                         ),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _bloodLevelProvider
-                                .postBloodLevel(
-                              quantity:
-                                  double.parse(_valueEditingController.text),
-                              date: _dateEditingController.text,
-                            )
-                                .then((value) {
-                              if (!value) {
-                                Navigator.pop(context);
-                              } else {}
-                            });
-                          } else {}
-                        },
+                        onPressed: _bloodLevelProvider.isSubmittingData
+                            ? null
+                            : () {
+                                if (_formKey.currentState.validate()) {
+                                  _bloodLevelProvider
+                                      .postBloodLevel(
+                                    quantity: double.parse(
+                                        _valueEditingController.text),
+                                    date: _dateEditingController.text,
+                                  )
+                                      .then((value) {
+                                    if (!value) {
+                                      Navigator.pop(context);
+                                    } else {}
+                                  });
+                                } else {}
+                              },
                       ),
                     ),
                   ),

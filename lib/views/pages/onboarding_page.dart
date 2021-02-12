@@ -71,6 +71,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
               },
             ),
           ),
+          SizedBox(
+            height: 100,
+          ),
           SmoothPageIndicator(
               controller: controller,
               count: pageLength,
@@ -109,7 +112,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
           ),
           SizedBox(
-            height: 200,
+            height: 40,
           ),
         ],
       ),

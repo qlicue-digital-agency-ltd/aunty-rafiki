@@ -37,7 +37,12 @@ class MessageList extends StatelessWidget {
           child: ListView.builder(
             padding: EdgeInsets.only(bottom: 4),
             itemCount: docs.length,
-            itemBuilder: (context, index) => ChatMessage(docs[index]),
+            itemBuilder: (context, index) => ChatMessage(
+              message: docs[index],
+              onLongPress: () {
+                print('okay...');
+              },
+            ),
           ),
         );
       },

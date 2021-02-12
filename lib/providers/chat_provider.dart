@@ -19,17 +19,30 @@ class ChatProvider with ChangeNotifier {
   ///message...
   bool _isSendingMessage = false;
   String _mediaType = "NON";
-  bool get isCreatingGroup => _isSendingMessage;
-
-//
-
+  List<int> _selectedMessagesIndex = [];
   List<PlatformFile> _paths = [];
   List<File> _compressedFiles = [];
   bool _loadingPath = false;
 
+  ///setter..
+  set selectedMessageIndex(int index) {
+    final _selected =
+        _selectedMessagesIndex.where((element) => element == index).first;
+    if (_selected != null) {
+      _selectedMessagesIndex.remove(index);
+    } else {
+      _selectedMessagesIndex.add(index);
+    }
+
+    notifyListeners();
+  }
+
+  ///getters..
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   List<File> get compressedFiles => _compressedFiles;
   bool get loadingPath => _loadingPath;
+  List<int> get selectedMessagesIndex => _selectedMessagesIndex;
+  bool get isCreatingGroup => _isSendingMessage;
 
   void clearSelectedMedia() {
     _mediaType = "NON";
@@ -55,8 +68,10 @@ class ChatProvider with ChangeNotifier {
       'time': time,
       'user': user,
       'media': [],
+      'showDeletedMessage': true,
       'mediaType': _mediaType.replaceAll('FileType.', ''),
       'searchKeywords': _searchKeywords,
+      'textDelete': 'deleted this message'
     }).then((message) {
       if (files.isNotEmpty) {
         _compressListFiles(messageUID: message.id, chat: chat);
@@ -205,5 +220,49 @@ class ChatProvider with ChangeNotifier {
     print(result.lengthSync());
 
     return result;
+  }
+
+  ///update chat message..
+  updateChatMessage(
+      {@required String key,
+      @required dynamic data,
+      @required messageUID,
+      @required chat}) async {
+    await db.collection('groups/${chat.id}/messages').doc(messageUID).update({
+      key: data,
+    });
+  }
+
+  ///delete chat message..
+  deleteChatMessage(
+      {@required String choice, @required messageUID, @required chat}) async {
+    switch (choice) {
+      case 'me_only':
+
+        ///delete for me only messages..
+        updateChatMessage(
+            chat: chat,
+            messageUID: messageUID,
+            key: 'deleteFor',
+            data: 'meOnly');
+        break;
+      case 'both_of_us':
+
+        ///delete for me only messages..
+        updateChatMessage(
+            chat: chat,
+            messageUID: messageUID,
+            key: 'deleteFor',
+            data: 'bothOfUs');
+        break;
+      default:
+
+        ///delete messages..
+        updateChatMessage(
+            chat: chat,
+            messageUID: messageUID,
+            key: 'showDeletedMessage',
+            data: false);
+    }
   }
 }

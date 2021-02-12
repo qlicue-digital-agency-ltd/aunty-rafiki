@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Message {
-  String text;
+  String text, sender, mediaType, deleteFor, textDelete;
   DateTime time;
-  String sender;
+
   List<dynamic> media;
-  String mediaType;
+
+  bool showDeletedMessage;
 
   Message(this.text, this.time);
 
@@ -14,6 +15,9 @@ class Message {
         time = data['time'].toDate(),
         sender = data['user'],
         mediaType = data['mediaType'],
+        deleteFor = data['deleteFor'],
+        showDeletedMessage = data['showDeletedMessage'],
+        textDelete = data['textDelete'],
         media = data['media'];
 }
 

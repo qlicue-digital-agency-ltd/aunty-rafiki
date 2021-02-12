@@ -116,6 +116,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
+                      textInputType: TextInputType.number,
                       length: 6,
                       animationType: AnimationType.fade,
                       validator: (v) {

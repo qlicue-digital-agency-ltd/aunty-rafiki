@@ -14,9 +14,7 @@ class Walkthrougth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 200,
-        ),
+       SizedBox(height: 100,),
         Image.asset(icon,
         height: 150,
         ),

@@ -133,7 +133,9 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                                   });
                                 },
                           child: Text('NEXT')),
-                 
+                  SizedBox(
+                    height: 40,
+                  ),
                 ]),
               ),
             ]),

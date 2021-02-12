@@ -19,12 +19,11 @@ class Chat {
         avatar = doc.data()['avatar'],
         searchKeywords = doc.data()['searchKeywords'],
         isMessageRead = false,
-        lastMessage = "Asome mama kijacho",
+        lastMessage = "",
         time = (doc.data()['time'] as Timestamp).toDate().toString();
 }
 
 List<Chat> firestoreToChatList(QuerySnapshot snapshot) {
-
   return snapshot.docs.map((doc) => Chat.fromFirestore(doc)).toList();
 }
 
