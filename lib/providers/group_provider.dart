@@ -139,4 +139,18 @@ class GroupProvider with ChangeNotifier {
       'members': FieldValue.arrayRemove([memberUID])
     });
   }
+
+   addToGroup({@required String groupUID, @required String memberUID}) {
+    db.collection('groups').doc(groupUID).update({
+      'members': FieldValue.arrayUnion([memberUID])
+    });
+  }
+
+  deleteGroup({@required String groupUID}) {
+    db.collection('groups').doc(groupUID).delete();
+  }
+
+
+
+
 }

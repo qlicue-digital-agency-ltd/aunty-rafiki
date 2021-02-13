@@ -25,14 +25,21 @@ class ChatProvider with ChangeNotifier {
   bool _loadingPath = false;
 
   ///setter..
-  set selectedMessageIndex(int index) {
-    final _selected =
-        _selectedMessagesIndex.where((element) => element == index).first;
-    if (_selected != null) {
+  set setMessageIndex(int index) {
+    if (_selectedMessagesIndex.contains(index)) {
       _selectedMessagesIndex.remove(index);
+      print('removed');
     } else {
       _selectedMessagesIndex.add(index);
+      print('added');
     }
+
+    // if (_selected != null) {
+    //   _selectedMessagesIndex.remove(index);
+    // } else {
+    //   _selectedMessagesIndex.add(index);
+    // }
+    //_selectedMessagesIndex.add(index);
 
     notifyListeners();
   }
@@ -235,25 +242,28 @@ class ChatProvider with ChangeNotifier {
 
   ///delete chat message..
   deleteChatMessage(
-      {@required String choice, @required messageUID, @required chat}) async {
+      {@required String choice,
+      @required messageUID,
+      @required chat,
+      @required userUID}) async {
     switch (choice) {
       case 'me_only':
 
         ///delete for me only messages..
-        updateChatMessage(
-            chat: chat,
-            messageUID: messageUID,
-            key: 'deleteFor',
-            data: 'meOnly');
+        _deleteChatMessageFirebase(
+          chat: chat,
+          messageUID: messageUID,
+          userUID: userUID,
+        );
         break;
       case 'both_of_us':
 
-        ///delete for me only messages..
-        updateChatMessage(
-            chat: chat,
-            messageUID: messageUID,
-            key: 'deleteFor',
-            data: 'bothOfUs');
+        ///delete messages for everyone..
+        _deleteChatMessageFirebase(
+          chat: chat,
+          messageUID: messageUID,
+          userUID: null,
+        );
         break;
       default:
 
@@ -263,6 +273,21 @@ class ChatProvider with ChangeNotifier {
             messageUID: messageUID,
             key: 'showDeletedMessage',
             data: false);
+    }
+  }
+
+//firebase delete massage...
+  _deleteChatMessageFirebase(
+      {@required messageUID, @required chat, @required userUID}) {
+    if (userUID != null) {
+      db.collection('groups/${chat.id}/messages').doc(messageUID).update({
+        'members': FieldValue.arrayUnion([userUID])
+      });
+    } else {
+      db
+          .collection('groups/${chat.id}/messages')
+          .doc(messageUID)
+          .update({'members': []});
     }
   }
 }

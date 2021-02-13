@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/models/message.dart';
 
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/providers/chat_provider.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/messages/message.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 class MessageList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _chatProvider = Provider.of<ChatProvider>(context);
     Chat chat = Provider.of<Chat>(context);
     return StreamBuilder<List<Message>>(
       stream: FirebaseFirestore.instance
@@ -38,11 +40,22 @@ class MessageList extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 4),
             itemCount: docs.length,
             itemBuilder: (context, index) => ChatMessage(
-              message: docs[index],
-              onLongPress: () {
-                print('okay...');
-              },
-            ),
+                message: docs[index],
+                onLongPress: _chatProvider.selectedMessagesIndex.isNotEmpty
+                    ? null
+                    : () {
+                        print('okay...');
+                        _chatProvider.setMessageIndex = index;
+                      },
+                onTap: _chatProvider.selectedMessagesIndex.isEmpty
+                    ? null
+                    : () {
+                        print('we good...');
+                        _chatProvider.setMessageIndex = index;
+                      },
+                color: _chatProvider.selectedMessagesIndex.contains(index)
+                    ? Colors.pink[50].withOpacity(0.5)
+                    : Colors.transparent),
           ),
         );
       },
