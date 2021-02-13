@@ -3,6 +3,7 @@ import 'package:aunty_rafiki/models/chat.dart';
 
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
+import 'package:aunty_rafiki/views/components/dialog/custom_dialog_two_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,25 @@ class SelectedChatAppBar extends StatelessWidget
               Icons.delete,
               color: Colors.white,
             ),
-            onPressed: () {}),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CustomDialogTwoBox(onDeleteOne: () {
+                      // _groupProvider.leaveGroup(
+                      //     groupUID: chat.id,
+                      //     memberUID: FirebaseAuth.instance.currentUser.uid);
+                      Navigator.pop(context);
+                    }, onClose: () {
+                      Navigator.pop(context);
+                    }, onDeleteTwo: () {
+                      // _groupProvider.leaveGroup(
+                      //     groupUID: chat.id,
+                      //     memberUID: FirebaseAuth.instance.currentUser.uid);
+                      Navigator.pop(context);
+                    });
+                  });
+            }),
         IconButton(
             icon: FaIcon(FontAwesomeIcons.share, color: Colors.white),
             onPressed: () {}),

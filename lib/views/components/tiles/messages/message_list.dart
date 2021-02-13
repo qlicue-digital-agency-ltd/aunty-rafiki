@@ -2,6 +2,7 @@ import 'package:aunty_rafiki/models/message.dart';
 
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
+import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/messages/message.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class MessageList extends StatelessWidget {
   Widget build(BuildContext context) {
     final _chatProvider = Provider.of<ChatProvider>(context);
     Chat chat = Provider.of<Chat>(context);
+
     return StreamBuilder<List<Message>>(
       stream: FirebaseFirestore.instance
           .collection('groups/${chat.id}/messages')
