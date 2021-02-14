@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Chat {
   String id, name, avatar, time, lastMessage;
-  List<dynamic> searchKeywords;
+  List<dynamic> searchKeywords, members;
   bool isMessageRead;
   Chat(
       {this.id,
@@ -11,6 +11,7 @@ class Chat {
       this.isMessageRead = false,
       this.time,
       this.lastMessage,
+      this.members,
       this.searchKeywords});
 
   Chat.fromFirestore(DocumentSnapshot doc)
@@ -18,6 +19,7 @@ class Chat {
         name = doc.data()['name'],
         avatar = doc.data()['avatar'],
         searchKeywords = doc.data()['searchKeywords'],
+        members = doc.data()['members'],
         isMessageRead = false,
         lastMessage = "",
         time = (doc.data()['time'] as Timestamp).toDate().toString();

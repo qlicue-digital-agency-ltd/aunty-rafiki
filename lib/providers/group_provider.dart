@@ -150,7 +150,4 @@ class GroupProvider with ChangeNotifier {
     db.collection('groups').doc(groupUID).delete();
   }
 
-
-
-
 }

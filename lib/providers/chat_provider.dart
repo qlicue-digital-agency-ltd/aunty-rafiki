@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:aunty_rafiki/models/chat.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -19,27 +20,20 @@ class ChatProvider with ChangeNotifier {
   ///message...
   bool _isSendingMessage = false;
   String _mediaType = "NON";
-  List<int> _selectedMessagesIndex = [];
+  List<String> _selectedMessages = [];
   List<PlatformFile> _paths = [];
   List<File> _compressedFiles = [];
   bool _loadingPath = false;
 
   ///setter..
-  set setMessageIndex(int index) {
-    if (_selectedMessagesIndex.contains(index)) {
-      _selectedMessagesIndex.remove(index);
+  set setMessage(String id) {
+    if (_selectedMessages.contains(id)) {
+      _selectedMessages.remove(id);
       print('removed');
     } else {
-      _selectedMessagesIndex.add(index);
+      _selectedMessages.add(id);
       print('added');
     }
-
-    // if (_selected != null) {
-    //   _selectedMessagesIndex.remove(index);
-    // } else {
-    //   _selectedMessagesIndex.add(index);
-    // }
-    //_selectedMessagesIndex.add(index);
 
     notifyListeners();
   }
@@ -48,7 +42,7 @@ class ChatProvider with ChangeNotifier {
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   List<File> get compressedFiles => _compressedFiles;
   bool get loadingPath => _loadingPath;
-  List<int> get selectedMessagesIndex => _selectedMessagesIndex;
+  List<String> get selectedMessages => _selectedMessages;
   bool get isCreatingGroup => _isSendingMessage;
 
   void clearSelectedMedia() {
@@ -78,7 +72,7 @@ class ChatProvider with ChangeNotifier {
       'showDeletedMessage': true,
       'mediaType': _mediaType.replaceAll('FileType.', ''),
       'searchKeywords': _searchKeywords,
-      'textDelete': 'deleted this message'
+      'members': chat.members
     }).then((message) {
       if (files.isNotEmpty) {
         _compressListFiles(messageUID: message.id, chat: chat);
@@ -241,34 +235,32 @@ class ChatProvider with ChangeNotifier {
   }
 
   ///delete chat message..
-  deleteChatMessage(
+  Future<void> deleteChatMessage(
       {@required String choice,
-      @required messageUID,
+      messageUID,
       @required chat,
       @required userUID}) async {
     switch (choice) {
       case 'me_only':
 
         ///delete for me only messages..
-        _deleteChatMessageFirebase(
+        await _deleteChatMessageFirebase(
           chat: chat,
-          messageUID: messageUID,
           userUID: userUID,
         );
         break;
       case 'both_of_us':
 
         ///delete messages for everyone..
-        _deleteChatMessageFirebase(
+        await _deleteChatMessageFirebase(
           chat: chat,
-          messageUID: messageUID,
           userUID: null,
         );
         break;
       default:
 
         ///delete messages..
-        updateChatMessage(
+        await updateChatMessage(
             chat: chat,
             messageUID: messageUID,
             key: 'showDeletedMessage',
@@ -277,17 +269,33 @@ class ChatProvider with ChangeNotifier {
   }
 
 //firebase delete massage...
-  _deleteChatMessageFirebase(
-      {@required messageUID, @required chat, @required userUID}) {
+  _deleteChatMessageFirebase({@required Chat chat, @required userUID}) async {
+    int i = 0;
     if (userUID != null) {
-      db.collection('groups/${chat.id}/messages').doc(messageUID).update({
-        'members': FieldValue.arrayUnion([userUID])
+      _selectedMessages.forEach((messageUID) async {
+        await db
+            .collection('groups/${chat.id}/messages')
+            .doc(messageUID)
+            .update({
+          'members': FieldValue.arrayRemove([userUID])
+        });
+        i++;
+        if (i == _selectedMessages.length) clearSelectedChats();
       });
     } else {
-      db
-          .collection('groups/${chat.id}/messages')
-          .doc(messageUID)
-          .update({'members': []});
+      _selectedMessages.forEach((messageUID) async {
+        await db
+            .collection('groups/${chat.id}/messages')
+            .doc(messageUID)
+            .update({'members': []});
+        i++;
+        if (i == _selectedMessages.length) clearSelectedChats();
+      });
     }
+  }
+
+  clearSelectedChats() {
+    _selectedMessages.clear();
+    notifyListeners();
   }
 }

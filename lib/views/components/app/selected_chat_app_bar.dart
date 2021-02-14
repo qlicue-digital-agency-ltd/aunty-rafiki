@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/providers/chat_provider.dart';
 
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
@@ -13,12 +14,13 @@ import 'package:provider/provider.dart';
 class SelectedChatAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   final Chat chat;
-  final List<int> list;
+  final List<String> list;
   const SelectedChatAppBar({Key key, @required this.chat, @required this.list})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _groupProvider = Provider.of<GroupProvider>(context);
+    final _chatProvider = Provider.of<ChatProvider>(context);
     return AppBar(
       elevation: 0,
       title: Text('${list.length}'),
@@ -38,17 +40,28 @@ class SelectedChatAppBar extends StatelessWidget
                   context: context,
                   builder: (BuildContext context) {
                     return CustomDialogTwoBox(onDeleteOne: () {
-                      // _groupProvider.leaveGroup(
-                      //     groupUID: chat.id,
-                      //     memberUID: FirebaseAuth.instance.currentUser.uid);
-                      Navigator.pop(context);
+                      _chatProvider
+                          .deleteChatMessage(
+                        choice: 'me_only',
+                        chat: chat,
+                        userUID: FirebaseAuth.instance.currentUser.uid,
+                      )
+                          .then((value) {
+                        Navigator.pop(context);
+                      });
                     }, onClose: () {
                       Navigator.pop(context);
+                      _chatProvider.clearSelectedChats();
                     }, onDeleteTwo: () {
-                      // _groupProvider.leaveGroup(
-                      //     groupUID: chat.id,
-                      //     memberUID: FirebaseAuth.instance.currentUser.uid);
-                      Navigator.pop(context);
+                      _chatProvider
+                          .deleteChatMessage(
+                        choice: 'both_of_us',
+                        chat: chat,
+                        userUID: null,
+                      )
+                          .then((value) {
+                        Navigator.pop(context);
+                      });
                     });
                   });
             }),

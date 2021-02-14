@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Message {
-  String text, sender, mediaType, deleteFor, textDelete;
+  String id, text, sender, mediaType;
   DateTime time;
 
   List<dynamic> media;
@@ -10,19 +10,16 @@ class Message {
 
   Message(this.text, this.time);
 
-  Message.fromFirestoreData(Map<String, dynamic> data)
-      : text = data['text'],
-        time = data['time'].toDate(),
-        sender = data['user'],
-        mediaType = data['mediaType'],
-        deleteFor = data['deleteFor'],
-        showDeletedMessage = data['showDeletedMessage'],
-        textDelete = data['textDelete'],
-        media = data['media'];
+  Message.fromFirestoreData(DocumentSnapshot doc)
+      : id = doc.id,
+        text = doc.data()['text'],
+        time = doc.data()['time'].toDate(),
+        sender = doc.data()['user'],
+        mediaType = doc.data()['mediaType'],
+        showDeletedMessage = doc.data()['showDeletedMessage'],
+        media = doc.data()['media'];
 }
 
 List<Message> firestoreToMessageList(QuerySnapshot snapshot) {
-  return snapshot.docs
-      .map((doc) => Message.fromFirestoreData(doc.data()))
-      .toList();
+  return snapshot.docs.map((doc) => Message.fromFirestoreData(doc)).toList();
 }

@@ -100,13 +100,13 @@ class ChatRoomPage extends StatelessWidget {
     return Provider<Chat>.value(
       value: chat,
       child: Scaffold(
-        appBar: _chatProvider.selectedMessagesIndex.isEmpty
+        appBar: _chatProvider.selectedMessages.isEmpty
             ? ChatDetailPageAppBar(
                 chat: chat,
               )
             : SelectedChatAppBar(
                 chat: chat,
-                list: _chatProvider.selectedMessagesIndex,
+                list: _chatProvider.selectedMessages,
               ),
         body: Stack(
           children: <Widget>[

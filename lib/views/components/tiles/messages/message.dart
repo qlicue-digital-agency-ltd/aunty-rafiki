@@ -43,6 +43,7 @@ class ChatMessage extends StatelessWidget {
                     child: message.media.isEmpty
                         ? NoMediaContent(message: message)
                         : message.mediaType == "image"
+                        
                             ? MediaContent(
                                 message: message,
                                 width: MediaQuery.of(context).size.width,
