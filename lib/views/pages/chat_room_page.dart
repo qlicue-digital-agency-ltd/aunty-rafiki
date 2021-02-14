@@ -22,7 +22,7 @@ class ChatRoomPage extends StatelessWidget {
           context: context,
           builder: (context) {
             return Container(
-              height: MediaQuery.of(context).size.height / 2,
+              height: MediaQuery.of(context).size.height / 6,
               color: Color(0xff737373),
               child: Container(
                 decoration: BoxDecoration(

@@ -62,7 +62,7 @@ class SelectedChatAppBar extends StatelessWidget
                           .then((value) {
                         Navigator.pop(context);
                       });
-                    });
+                    }, list: list,);
                   });
             }),
         IconButton(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class CustomDialogTwoBox extends StatefulWidget {
   final Image img;
+  final List<String> list;
   final Function _onClose, _onDeleteOne, _onDeleteTwo;
 
   const CustomDialogTwoBox({
@@ -13,6 +14,7 @@ class CustomDialogTwoBox extends StatefulWidget {
     @required Function onClose,
     @required Function onDeleteOne,
     @required Function onDeleteTwo,
+    @required this.list,
   })  : _onClose = onClose,
         _onDeleteOne = onDeleteOne,
         _onDeleteTwo = onDeleteTwo,
@@ -73,12 +75,14 @@ class _CustomDialogTwoBoxState extends State<CustomDialogTwoBox> {
               SizedBox(
                 height: 15,
               ),
-              FlatButton(
-                  onPressed: widget._onDeleteOne,
-                  child: Text(
-                    'DELETE FOR ME',
-                    style: TextStyle(fontSize: 16, color: Colors.pink),
-                  )),
+              widget.list.length > 1
+                  ? Container()
+                  : FlatButton(
+                      onPressed: widget._onDeleteOne,
+                      child: Text(
+                        'DELETE FOR ME',
+                        style: TextStyle(fontSize: 16, color: Colors.pink),
+                      )),
               SizedBox(
                 height: 5,
               ),
