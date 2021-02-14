@@ -1,11 +1,13 @@
 import 'dart:ui';
 import 'package:aunty_rafiki/constants/app/constants.dart';
+import 'package:aunty_rafiki/models/message.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialogTwoBox extends StatefulWidget {
   final Image img;
-  final List<String> list;
+  final List<Message> listMessage;
   final Function _onClose, _onDeleteOne, _onDeleteTwo;
 
   const CustomDialogTwoBox({
@@ -14,7 +16,7 @@ class CustomDialogTwoBox extends StatefulWidget {
     @required Function onClose,
     @required Function onDeleteOne,
     @required Function onDeleteTwo,
-    @required this.list,
+    @required this.listMessage,
   })  : _onClose = onClose,
         _onDeleteOne = onDeleteOne,
         _onDeleteTwo = onDeleteTwo,
@@ -75,14 +77,12 @@ class _CustomDialogTwoBoxState extends State<CustomDialogTwoBox> {
               SizedBox(
                 height: 15,
               ),
-              widget.list.length > 1
-                  ? Container()
-                  : FlatButton(
-                      onPressed: widget._onDeleteOne,
-                      child: Text(
-                        'DELETE FOR ME',
-                        style: TextStyle(fontSize: 16, color: Colors.pink),
-                      )),
+              FlatButton(
+                  onPressed: widget._onDeleteOne,
+                  child: Text(
+                    'DELETE FOR ME',
+                    style: TextStyle(fontSize: 16, color: Colors.pink),
+                  )),
               SizedBox(
                 height: 5,
               ),
@@ -95,13 +95,18 @@ class _CustomDialogTwoBoxState extends State<CustomDialogTwoBox> {
               SizedBox(
                 height: 5,
               ),
-              FlatButton(
-                  textColor: Colors.pink,
-                  onPressed: widget._onDeleteTwo,
-                  child: Text(
-                    'DELETE FOR EVERYONE',
-                    style: TextStyle(fontSize: 16, color: Colors.pink),
-                  )),
+              widget.listMessage.length > 1
+                  ? Container()
+                  : widget.listMessage.first.sender ==
+                          FirebaseAuth.instance.currentUser.uid
+                      ? FlatButton(
+                          textColor: Colors.pink,
+                          onPressed: widget._onDeleteTwo,
+                          child: Text(
+                            'DELETE FOR EVERYONE',
+                            style: TextStyle(fontSize: 16, color: Colors.pink),
+                          ))
+                      : Container(),
             ],
           ),
         ),

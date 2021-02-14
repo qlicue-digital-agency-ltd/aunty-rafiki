@@ -106,7 +106,7 @@ class ChatRoomPage extends StatelessWidget {
               )
             : SelectedChatAppBar(
                 chat: chat,
-                list: _chatProvider.selectedMessages,
+                listMessage: _chatProvider.selectedMessages,
               ),
         body: Stack(
           children: <Widget>[

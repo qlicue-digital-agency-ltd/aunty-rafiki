@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/models/message.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -20,18 +21,19 @@ class ChatProvider with ChangeNotifier {
   ///message...
   bool _isSendingMessage = false;
   String _mediaType = "NON";
-  List<String> _selectedMessages = [];
+  List<Message> _selectedMessages = [];
+
   List<PlatformFile> _paths = [];
   List<File> _compressedFiles = [];
   bool _loadingPath = false;
 
   ///setter..
-  set setMessage(String id) {
-    if (_selectedMessages.contains(id)) {
-      _selectedMessages.remove(id);
+  set setMessage(Message message) {
+    if (_selectedMessages.contains(message)) {
+      _selectedMessages.remove(message);
       print('removed');
     } else {
-      _selectedMessages.add(id);
+      _selectedMessages.add(message);
       print('added');
     }
 
@@ -42,7 +44,7 @@ class ChatProvider with ChangeNotifier {
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   List<File> get compressedFiles => _compressedFiles;
   bool get loadingPath => _loadingPath;
-  List<String> get selectedMessages => _selectedMessages;
+  List<Message> get selectedMessages => _selectedMessages;
   bool get isCreatingGroup => _isSendingMessage;
 
   void clearSelectedMedia() {
@@ -238,7 +240,7 @@ class ChatProvider with ChangeNotifier {
   Future<void> deleteChatMessage(
       {@required String choice,
       messageUID,
-      @required chat,
+      @required Chat chat,
       @required userUID}) async {
     switch (choice) {
       case 'me_only':
@@ -252,6 +254,7 @@ class ChatProvider with ChangeNotifier {
       case 'both_of_us':
 
         ///delete messages for everyone..
+
         await _deleteChatMessageFirebase(
           chat: chat,
           userUID: null,
@@ -272,10 +275,10 @@ class ChatProvider with ChangeNotifier {
   _deleteChatMessageFirebase({@required Chat chat, @required userUID}) async {
     int i = 0;
     if (userUID != null) {
-      _selectedMessages.forEach((messageUID) async {
+      _selectedMessages.forEach((message) async {
         await db
             .collection('groups/${chat.id}/messages')
-            .doc(messageUID)
+            .doc(message.id)
             .update({
           'members': FieldValue.arrayRemove([userUID])
         });
@@ -283,10 +286,10 @@ class ChatProvider with ChangeNotifier {
         if (i == _selectedMessages.length) clearSelectedChats();
       });
     } else {
-      _selectedMessages.forEach((messageUID) async {
+      _selectedMessages.forEach((message) async {
         await db
             .collection('groups/${chat.id}/messages')
-            .doc(messageUID)
+            .doc(message.id)
             .update({'members': []});
         i++;
         if (i == _selectedMessages.length) clearSelectedChats();

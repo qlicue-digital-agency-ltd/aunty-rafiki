@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/models/message.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 
 import 'package:aunty_rafiki/providers/group_provider.dart';
@@ -14,8 +15,9 @@ import 'package:provider/provider.dart';
 class SelectedChatAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   final Chat chat;
-  final List<String> list;
-  const SelectedChatAppBar({Key key, @required this.chat, @required this.list})
+  final List<Message> listMessage;
+  const SelectedChatAppBar(
+      {Key key, @required this.chat, @required this.listMessage})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class SelectedChatAppBar extends StatelessWidget
     final _chatProvider = Provider.of<ChatProvider>(context);
     return AppBar(
       elevation: 0,
-      title: Text('${list.length}'),
+      title: Text('${listMessage.length}'),
       actions: [
         IconButton(
             icon: FaIcon(FontAwesomeIcons.reply, color: Colors.white),
@@ -39,30 +41,35 @@ class SelectedChatAppBar extends StatelessWidget
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return CustomDialogTwoBox(onDeleteOne: () {
-                      _chatProvider
-                          .deleteChatMessage(
-                        choice: 'me_only',
-                        chat: chat,
-                        userUID: FirebaseAuth.instance.currentUser.uid,
-                      )
-                          .then((value) {
+                    return CustomDialogTwoBox(
+                      onDeleteOne: () {
+                        _chatProvider
+                            .deleteChatMessage(
+                          choice: 'me_only',
+                          chat: chat,
+                          userUID: FirebaseAuth.instance.currentUser.uid,
+                        )
+                            .then((value) {
+                          Navigator.pop(context);
+                        });
+                      },
+                      onClose: () {
                         Navigator.pop(context);
-                      });
-                    }, onClose: () {
-                      Navigator.pop(context);
-                      _chatProvider.clearSelectedChats();
-                    }, onDeleteTwo: () {
-                      _chatProvider
-                          .deleteChatMessage(
-                        choice: 'both_of_us',
-                        chat: chat,
-                        userUID: null,
-                      )
-                          .then((value) {
-                        Navigator.pop(context);
-                      });
-                    }, list: list,);
+                        _chatProvider.clearSelectedChats();
+                      },
+                      onDeleteTwo: () {
+                        _chatProvider
+                            .deleteChatMessage(
+                          choice: 'both_of_us',
+                          chat: chat,
+                          userUID: null,
+                        )
+                            .then((value) {
+                          Navigator.pop(context);
+                        });
+                      },
+                      listMessage: listMessage,
+                    );
                   });
             }),
         IconButton(

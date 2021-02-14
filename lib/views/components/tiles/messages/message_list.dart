@@ -50,13 +50,13 @@ class MessageList extends StatelessWidget {
                     ? null
                     : () {
                         print('okay...');
-                        _chatProvider.setMessage = docs[index].id;
+                        _chatProvider.setMessage = docs[index];
                       },
                 onTap: _chatProvider.selectedMessages.isEmpty
                     ? null
                     : () {
                         print('we good...');
-                        _chatProvider.setMessage = docs[index].id;
+                        _chatProvider.setMessage = docs[index];
                       },
                 color: _chatProvider.selectedMessages.contains(docs[index].id)
                     ? Colors.pink[50].withOpacity(0.5)
