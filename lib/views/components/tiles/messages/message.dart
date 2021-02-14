@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 
 import 'sms/no_media_content.dart';
 
-const kUrl1 = 'https://luan.xyz/files/audio/ambient_c_motion.mp3';
-
 class ChatMessage extends StatelessWidget {
   final Message message;
   final Function onLongPress;
@@ -43,7 +41,6 @@ class ChatMessage extends StatelessWidget {
                     child: message.media.isEmpty
                         ? NoMediaContent(message: message)
                         : message.mediaType == "image"
-                        
                             ? MediaContent(
                                 message: message,
                                 width: MediaQuery.of(context).size.width,

@@ -4,6 +4,7 @@ import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/messages/message.dart';
+import 'package:aunty_rafiki/views/components/tiles/messages/reply_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -44,8 +45,9 @@ class MessageList extends StatelessWidget {
           child: ListView.builder(
             padding: EdgeInsets.only(bottom: 4),
             itemCount: docs.length,
-            itemBuilder: (context, index) => ChatMessage(
-                message: docs[index],
+            itemBuilder: (context, index) => ReplyChatMessage(
+                orignalMessage: docs[index],
+                replyMessage: docs[index],
                 onLongPress: _chatProvider.selectedMessages.isNotEmpty
                     ? null
                     : () {
