@@ -31,9 +31,16 @@ class ChatProvider with ChangeNotifier {
 
   ///setter..
   set setMessage(Message message) {
-    if (_selectedMessages.contains(message)) {
-      _selectedMessages.remove(message);
-      print('removed');
+    if (_selectedMessages.isNotEmpty) {
+      final _message =
+          _selectedMessages.where((sms) => sms.id == message.id).first;
+      if (_message != null) {
+        _selectedMessages.remove(message);
+        print('removed');
+      } else {
+        _selectedMessages.add(message);
+        print('added');
+      }
     } else {
       _selectedMessages.add(message);
       print('added');
