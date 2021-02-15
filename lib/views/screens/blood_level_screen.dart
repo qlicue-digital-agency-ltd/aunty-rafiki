@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/models/blood.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -34,7 +37,20 @@ class BloodLevelScreen extends StatelessWidget {
           // Chartboard(),
           Container(
             child: _bloodLevelProvider.isFetchingBloodLevelData
-                ? Center(child: CircularProgressIndicator())
+                ? Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 2.7,
+                      ),
+                      Center(
+                          child: Platform.isAndroid
+                              ? CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.pink),
+                                )
+                              : CupertinoActivityIndicator()),
+                    ],
+                  )
                 : _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
           )
         ],

@@ -132,6 +132,7 @@ class HostipalBagProvider with ChangeNotifier {
     } catch (error) {
       hasError = true;
     }
+
     return hasError;
   }
 
@@ -163,7 +164,6 @@ class HostipalBagProvider with ChangeNotifier {
     _availableBagItemsList = _fetchedBagItems;
     _isFetchingBagItemsData = false;
 
-    print(_availableBagItemsList.length);
     notifyListeners();
 
     return hasError;

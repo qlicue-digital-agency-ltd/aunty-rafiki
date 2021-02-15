@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:aunty_rafiki/models/time_line.dart';
 import 'package:aunty_rafiki/providers/timeline_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/pages/time_line_detail_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +29,20 @@ class _TimeLinePageState extends State<TimeLinePage> {
             const SizedBox(height: 16),
             Expanded(
               child: _timelineProvider.isFetchingTimelineData
-                  ? Center(child: CircularProgressIndicator())
+                  ? Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 2.7,
+                        ),
+                        Center(
+                            child: Platform.isAndroid
+                                ? CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.pink),
+                                  )
+                                : CupertinoActivityIndicator()),
+                      ],
+                    )
                   : _Timeline(data: _timelineProvider.availableTimelines),
             )
           ],

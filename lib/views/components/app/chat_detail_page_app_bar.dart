@@ -3,6 +3,7 @@ import 'package:aunty_rafiki/models/chat.dart';
 
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
+import 'package:aunty_rafiki/views/pages/group_info_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,10 @@ class ChatDetailPageAppBar extends StatelessWidget
               Expanded(
                 child: InkWell(
                   onTap: () {
-                    print('opsss');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => GroupInfoPage(chat: chat)));
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
