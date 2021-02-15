@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 class SelectedChatAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   final Chat chat;
-  final List<Message> listMessage;
+  final Map<String, Message> listMessage;
   const SelectedChatAppBar(
       {Key key, @required this.chat, @required this.listMessage})
       : super(key: key);
@@ -31,7 +31,7 @@ class SelectedChatAppBar extends StatelessWidget
             ? IconButton(
                 icon: FaIcon(FontAwesomeIcons.reply, color: Colors.white),
                 onPressed: () {
-                  _chatProvider.setMessageToReply = listMessage.first;
+                  _chatProvider.setMessageToReply = listMessage[0];
                   _chatProvider.clearSelectedChats();
                 })
             : Container(),

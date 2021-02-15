@@ -55,36 +55,40 @@ class MessageList extends StatelessWidget {
                         ? null
                         : () {
                             print('okay...');
-                            _chatProvider.setMessage = docs[index];
+                            _chatProvider.setMessage(
+                                message: docs[index], uid: docs[index].id);
                           },
                     onTap: _chatProvider.selectedMessages.isEmpty
                         ? null
                         : () {
                             print('we good...');
-                            _chatProvider.setMessage = docs[index];
+                            _chatProvider.setMessage(
+                                message: docs[index], uid: docs[index].id);
                           },
-                    color:
-                        _chatProvider.selectedMessages.contains(docs[index].id)
-                            ? Colors.pink[50].withOpacity(0.5)
-                            : Colors.transparent)
+                    color: _chatProvider.selectedMessages
+                            .containsKey(docs[index].id)
+                        ? Colors.pink[50].withOpacity(0.5)
+                        : Colors.transparent)
                 : ChatMessage(
                     message: docs[index],
                     onLongPress: _chatProvider.selectedMessages.isNotEmpty
                         ? null
                         : () {
                             print('okay...');
-                            _chatProvider.setMessage = docs[index];
+                            _chatProvider.setMessage(
+                                message: docs[index], uid: docs[index].id);
                           },
                     onTap: _chatProvider.selectedMessages.isEmpty
                         ? null
                         : () {
                             print('we good...');
-                            _chatProvider.setMessage = docs[index];
+                            _chatProvider.setMessage(
+                                message: docs[index], uid: docs[index].id);
                           },
-                    color:
-                        _chatProvider.selectedMessages.contains(docs[index].id)
-                            ? Colors.pink[50].withOpacity(0.5)
-                            : Colors.transparent),
+                    color: _chatProvider.selectedMessages
+                            .containsKey(docs[index].id)
+                        ? Colors.pink[50].withOpacity(0.5)
+                        : Colors.transparent),
           ),
         );
       },

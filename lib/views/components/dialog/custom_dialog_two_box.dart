@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class CustomDialogTwoBox extends StatefulWidget {
   final Image img;
-  final List<Message> listMessage;
+  final Map<String, Message> listMessage;
   final Function _onClose, _onDeleteOne, _onDeleteTwo;
 
   const CustomDialogTwoBox({
@@ -97,7 +97,7 @@ class _CustomDialogTwoBoxState extends State<CustomDialogTwoBox> {
               ),
               widget.listMessage.length > 1
                   ? Container()
-                  : widget.listMessage.first.sender ==
+                  : widget.listMessage[0].sender ==
                           FirebaseAuth.instance.currentUser.uid
                       ? FlatButton(
                           textColor: Colors.pink,

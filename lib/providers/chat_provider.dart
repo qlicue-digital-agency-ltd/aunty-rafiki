@@ -21,7 +21,7 @@ class ChatProvider with ChangeNotifier {
   ///message...
   bool _isSendingMessage = false;
   String _mediaType = "NON";
-  List<Message> _selectedMessages = [];
+  Map<String, Message> _selectedMessages = {};
 
   Message _messageToReply;
 
@@ -30,22 +30,15 @@ class ChatProvider with ChangeNotifier {
   bool _loadingPath = false;
 
   ///setter..
-  set setMessage(Message message) {
-    if (_selectedMessages.isNotEmpty) {
-      final _message =
-          _selectedMessages.where((sms) => sms.id == message.id).first;
-      if (_message != null) {
-        _selectedMessages.remove(message);
-        print('removed');
-      } else {
-        _selectedMessages.add(message);
-        print('added');
-      }
+  setMessage({@required String uid, @required Message message}) {
+    if (_selectedMessages.containsKey(uid)) {
+      _selectedMessages.remove(uid);
+      print('removed');
     } else {
-      _selectedMessages.add(message);
+      _selectedMessages.update(uid, (message) => message);
       print('added');
     }
-
+    print(_selectedMessages.length);
     notifyListeners();
   }
 
@@ -58,7 +51,7 @@ class ChatProvider with ChangeNotifier {
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   List<File> get compressedFiles => _compressedFiles;
   bool get loadingPath => _loadingPath;
-  List<Message> get selectedMessages => _selectedMessages;
+  Map<String, Message> get selectedMessages => _selectedMessages;
   bool get isCreatingGroup => _isSendingMessage;
   Message get messageToReply => _messageToReply;
 
@@ -296,7 +289,7 @@ class ChatProvider with ChangeNotifier {
   _deleteChatMessageFirebase({@required Chat chat, @required userUID}) async {
     int i = 0;
     if (userUID != null) {
-      _selectedMessages.forEach((message) async {
+      _selectedMessages.forEach(((uid, message) async {
         await db
             .collection('groups/${chat.id}/messages')
             .doc(message.id)
@@ -305,16 +298,16 @@ class ChatProvider with ChangeNotifier {
         });
         i++;
         if (i == _selectedMessages.length) clearSelectedChats();
-      });
+      }));
     } else {
-      _selectedMessages.forEach((message) async {
+      _selectedMessages.forEach(((uid, message) async {
         await db
             .collection('groups/${chat.id}/messages')
             .doc(message.id)
             .update({'members': []});
         i++;
         if (i == _selectedMessages.length) clearSelectedChats();
-      });
+      }));
     }
   }
 
