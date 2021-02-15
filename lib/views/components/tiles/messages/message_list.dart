@@ -45,24 +45,46 @@ class MessageList extends StatelessWidget {
           child: ListView.builder(
             padding: EdgeInsets.only(bottom: 4),
             itemCount: docs.length,
-            itemBuilder: (context, index) => ReplyChatMessage(
-                orignalMessage: docs[index],
-                replyMessage: docs[index],
-                onLongPress: _chatProvider.selectedMessages.isNotEmpty
-                    ? null
-                    : () {
-                        print('okay...');
-                        _chatProvider.setMessage = docs[index];
-                      },
-                onTap: _chatProvider.selectedMessages.isEmpty
-                    ? null
-                    : () {
-                        print('we good...');
-                        _chatProvider.setMessage = docs[index];
-                      },
-                color: _chatProvider.selectedMessages.contains(docs[index].id)
-                    ? Colors.pink[50].withOpacity(0.5)
-                    : Colors.transparent),
+            itemBuilder: (context, index) => docs[index].repliedUID != null
+                ? ReplyChatMessage(
+                    orignalMessage: docs
+                        .where((sms) => sms.id == docs[index].repliedUID)
+                        .first,
+                    replyMessage: docs[index],
+                    onLongPress: _chatProvider.selectedMessages.isNotEmpty
+                        ? null
+                        : () {
+                            print('okay...');
+                            _chatProvider.setMessage = docs[index];
+                          },
+                    onTap: _chatProvider.selectedMessages.isEmpty
+                        ? null
+                        : () {
+                            print('we good...');
+                            _chatProvider.setMessage = docs[index];
+                          },
+                    color:
+                        _chatProvider.selectedMessages.contains(docs[index].id)
+                            ? Colors.pink[50].withOpacity(0.5)
+                            : Colors.transparent)
+                : ChatMessage(
+                    message: docs[index],
+                    onLongPress: _chatProvider.selectedMessages.isNotEmpty
+                        ? null
+                        : () {
+                            print('okay...');
+                            _chatProvider.setMessage = docs[index];
+                          },
+                    onTap: _chatProvider.selectedMessages.isEmpty
+                        ? null
+                        : () {
+                            print('we good...');
+                            _chatProvider.setMessage = docs[index];
+                          },
+                    color:
+                        _chatProvider.selectedMessages.contains(docs[index].id)
+                            ? Colors.pink[50].withOpacity(0.5)
+                            : Colors.transparent),
           ),
         );
       },

@@ -78,7 +78,8 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                                   text: _controller.text,
                                   time: Timestamp.fromDate(DateTime.now()),
                                   user: FirebaseAuth.instance.currentUser.uid,
-                                  chat: widget.chat)
+                                  chat: widget.chat,
+                                  repliedMessage: _chatProvider.messageToReply)
                               .then((value) {
                             _controller.clear();
                             Navigator.pop(context);
@@ -125,7 +126,8 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                             text: _controller.text,
                             time: Timestamp.fromDate(DateTime.now()),
                             user: FirebaseAuth.instance.currentUser.uid,
-                            chat: widget.chat)
+                            chat: widget.chat,
+                            repliedMessage: _chatProvider.messageToReply)
                         .then((value) {
                       _controller.clear();
                       setState(() {

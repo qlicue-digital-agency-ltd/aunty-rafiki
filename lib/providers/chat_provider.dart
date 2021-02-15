@@ -23,6 +23,8 @@ class ChatProvider with ChangeNotifier {
   String _mediaType = "NON";
   List<Message> _selectedMessages = [];
 
+  Message _messageToReply;
+
   List<PlatformFile> _paths = [];
   List<File> _compressedFiles = [];
   bool _loadingPath = false;
@@ -40,12 +42,18 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set setMessageToReply(Message message) {
+    _messageToReply = message;
+    notifyListeners();
+  }
+
   ///getters..
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   List<File> get compressedFiles => _compressedFiles;
   bool get loadingPath => _loadingPath;
   List<Message> get selectedMessages => _selectedMessages;
   bool get isCreatingGroup => _isSendingMessage;
+  Message get messageToReply => _messageToReply;
 
   void clearSelectedMedia() {
     _mediaType = "NON";
@@ -56,7 +64,11 @@ class ChatProvider with ChangeNotifier {
 
 //send image ....
   Future<void> sendMessage(
-      {@required text, @required time, @required user, @required chat}) async {
+      {@required text,
+      @required time,
+      @required user,
+      @required Chat chat,
+      @required Message repliedMessage}) async {
     List<String> _searchKeywords = [];
     var character = "";
     text.runes.forEach((int rune) {
@@ -71,6 +83,7 @@ class ChatProvider with ChangeNotifier {
       'time': time,
       'user': user,
       'media': [],
+      'repliedUID': repliedMessage.id,
       'showDeletedMessage': true,
       'mediaType': _mediaType.replaceAll('FileType.', ''),
       'searchKeywords': _searchKeywords,
@@ -81,6 +94,7 @@ class ChatProvider with ChangeNotifier {
       } else {
         _isSendingMessage = false;
         _mediaType = "NON";
+        setMessageToReply = null;
         notifyListeners();
       }
     });

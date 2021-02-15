@@ -27,9 +27,14 @@ class SelectedChatAppBar extends StatelessWidget
       elevation: 0,
       title: Text('${listMessage.length}'),
       actions: [
-        IconButton(
-            icon: FaIcon(FontAwesomeIcons.reply, color: Colors.white),
-            onPressed: () {}),
+        listMessage.length == 1
+            ? IconButton(
+                icon: FaIcon(FontAwesomeIcons.reply, color: Colors.white),
+                onPressed: () {
+                  _chatProvider.setMessageToReply = listMessage.first;
+                  _chatProvider.clearSelectedChats();
+                })
+            : Container(),
         IconButton(
             icon: Icon(Icons.star, color: Colors.white), onPressed: () {}),
         IconButton(
