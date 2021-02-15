@@ -35,7 +35,7 @@ class ChatProvider with ChangeNotifier {
       _selectedMessages.remove(uid);
       print('removed');
     } else {
-      _selectedMessages.update(uid, (message) => message);
+      _selectedMessages[uid] = message;
       print('added');
     }
     print(_selectedMessages.length);

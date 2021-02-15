@@ -45,36 +45,41 @@ class ChatDetailPageAppBar extends StatelessWidget
                 width: 12,
               ),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      chat.name,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600, color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            "Online",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
+                child: InkWell(
+                  onTap: () {
+                    print('opsss');
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        chat.name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Tap to view group info",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               PopupMenuButton<ChatGroupPopMenu>(

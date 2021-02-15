@@ -97,7 +97,8 @@ class _CustomDialogTwoBoxState extends State<CustomDialogTwoBox> {
               ),
               widget.listMessage.length > 1
                   ? Container()
-                  : widget.listMessage[0].sender ==
+                  : widget.listMessage[widget.listMessage.keys.elementAt(0)]
+                              .sender ==
                           FirebaseAuth.instance.currentUser.uid
                       ? FlatButton(
                           textColor: Colors.pink,

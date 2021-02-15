@@ -31,7 +31,8 @@ class SelectedChatAppBar extends StatelessWidget
             ? IconButton(
                 icon: FaIcon(FontAwesomeIcons.reply, color: Colors.white),
                 onPressed: () {
-                  _chatProvider.setMessageToReply = listMessage[0];
+                  String key = listMessage.keys.elementAt(0);
+                  _chatProvider.setMessageToReply = listMessage[key];
                   _chatProvider.clearSelectedChats();
                 })
             : Container(),
