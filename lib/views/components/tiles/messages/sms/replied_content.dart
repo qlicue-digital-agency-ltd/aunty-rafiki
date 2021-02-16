@@ -15,93 +15,89 @@ class RepliedContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final constraintsWidth = width * 0.65;
+
+    final mediaWidth = width * 0.65;
+    final noMediaWidth = width * 0.40;
     final formatter = new DateFormat('HH:mm');
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey[100]),
+
+    return Container(
+      width: originalMessage.media.isEmpty ? noMediaWidth : mediaWidth,
+      child: Column(
+        children: [
+          Container(
             color: Colors.grey[200],
-          ),
-          margin: const EdgeInsets.all(8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                color: Colors.pink,
-                height: originalMessage.media.isEmpty ? 60 : 100,
-                width: 5,
-              ),
-              Container(
-                constraints: BoxConstraints(maxWidth: constraintsWidth),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 6,
-                  vertical: 4,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  color: Colors.pink,
+                  height: originalMessage.media.isEmpty ? 40 : 100,
+                  width: 5,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'You',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      originalMessage.text,
-                      style: TextStyle(
-                        fontSize: 16,
+                Expanded(
+                  child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 4,
                       ),
-                    ),
-                  ],
+                      child: RichText(
+                          text: TextSpan(
+                              text: 'You\n',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 13),
+                              children: <TextSpan>[
+                            TextSpan(
+                                text: originalMessage.text,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 13))
+                          ]))),
                 ),
-              ),
-              originalMessage.media.isEmpty
-                  ? SizedBox(
-                      width: 20,
-                    )
-                  : Container(
-                      padding: const EdgeInsets.only(right: 4, bottom: 2),
-                      child: FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        image: originalMessage.media[0],
-                        height: 100,
-                        fit: BoxFit.cover,
+                originalMessage.media.isEmpty
+                    ? Container()
+                    : Container(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: FadeInImage.memoryNetwork(
+                          placeholder: kTransparentImage,
+                          image: originalMessage.media[0],
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-            ],
+              ],
+            ),
           ),
-        ),
-   
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              constraints: BoxConstraints(maxWidth: constraintsWidth),
-              padding: EdgeInsets.symmetric(
-                horizontal: 3,
-              ),
-              child: Text(
-                replyMessage.text,
-                style: TextStyle(
-                  fontSize: 16,
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 3,
+                  ),
+                  child: Text(
+                    replyMessage.text,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(right: 4, bottom: 2),
-              child: Text(
-                '${formatter.format(replyMessage.time)}',
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Colors.grey,
+                Container(
+                  padding: const EdgeInsets.only(right: 4, bottom: 2),
+                  child: Text(
+                    '${formatter.format(replyMessage.time)}',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        )
-      ],
+          )
+        ],
+      ),
     );
 
     ///////

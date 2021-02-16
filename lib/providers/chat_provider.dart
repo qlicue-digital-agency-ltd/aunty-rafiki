@@ -83,7 +83,7 @@ class ChatProvider with ChangeNotifier {
       'time': time,
       'user': user,
       'media': [],
-      'repliedUID': repliedMessage.id,
+      'repliedUID': repliedMessage != null ? repliedMessage.id : null,
       'showDeletedMessage': true,
       'mediaType': _mediaType.replaceAll('FileType.', ''),
       'searchKeywords': _searchKeywords,
