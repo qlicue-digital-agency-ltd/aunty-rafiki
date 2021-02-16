@@ -8,6 +8,7 @@ import 'package:aunty_rafiki/views/components/tiles/messages/input/message_edit_
 import 'package:aunty_rafiki/views/components/tiles/messages/message_list.dart';
 import 'package:aunty_rafiki/views/components/app/chat_detail_page_app_bar.dart';
 import 'package:aunty_rafiki/views/pages/upload_image_page.dart';
+import 'package:emoji_picker/emoji_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -119,7 +120,8 @@ class ChatRoomPage extends StatelessWidget {
                     showModal(chat);
                   },
                 ),
-                SizedBox(height:20)
+                SizedBox(height: 20),
+               
               ],
             ),
           ],
