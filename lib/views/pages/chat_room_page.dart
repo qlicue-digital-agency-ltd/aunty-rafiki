@@ -118,7 +118,8 @@ class ChatRoomPage extends StatelessWidget {
                   onPressed: () {
                     showModal(chat);
                   },
-                )
+                ),
+                SizedBox(height:20)
               ],
             ),
           ],
