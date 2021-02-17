@@ -33,7 +33,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
       child: Column(
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height * 0.5,
+            
+            height: MediaQuery.of(context).size.height  /1.6,
             child: PageView(
               controller: controller,
               pageSnapping: true,
@@ -72,7 +73,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
           ),
           SizedBox(
-            height: 100,
+            height: 20,
           ),
           SmoothPageIndicator(
               controller: controller,
@@ -107,6 +108,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   controller.nextPage(
                       duration: Duration(milliseconds: 200),
                       curve: Curves.linear);
+
+                      
                 }
               },
             ),

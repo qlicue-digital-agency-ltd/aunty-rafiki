@@ -285,6 +285,7 @@ class _MessageEditBarState extends State<MessageEditBar> {
                           setState(() {
                             _isSending = false;
                           });
+                          _chatProvider.scrollToBootomOfChats();
                         });
                       },
                 color: Colors.white,

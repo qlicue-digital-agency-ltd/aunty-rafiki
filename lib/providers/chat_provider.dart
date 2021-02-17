@@ -23,6 +23,8 @@ class ChatProvider with ChangeNotifier {
   String _mediaType = "NON";
   Map<String, Message> _selectedMessages = {};
 
+  ScrollController _scrollController = new ScrollController();
+
   Message _messageToReply;
 
   List<PlatformFile> _paths = [];
@@ -47,6 +49,16 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  ///scroll to bottom of chats
+  void scrollToBootomOfChats() {
+    _scrollController.animateTo(
+      0.0,
+      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 300),
+    );
+    notifyListeners();
+  }
+
   ///getters..
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   List<File> get compressedFiles => _compressedFiles;
@@ -54,6 +66,7 @@ class ChatProvider with ChangeNotifier {
   Map<String, Message> get selectedMessages => _selectedMessages;
   bool get isCreatingGroup => _isSendingMessage;
   Message get messageToReply => _messageToReply;
+  ScrollController get scrollController => _scrollController;
 
   void clearSelectedMedia() {
     _mediaType = "NON";
