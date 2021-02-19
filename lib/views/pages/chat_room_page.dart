@@ -124,6 +124,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 MessageList(
                  
                 ),
+                //Spacer(),
                 MessageEditBar(
                   onPressed: () {
                     showModal(chat);

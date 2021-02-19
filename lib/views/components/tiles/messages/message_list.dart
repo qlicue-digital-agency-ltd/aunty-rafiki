@@ -40,7 +40,7 @@ class MessageList extends StatelessWidget {
             ),
           );
         }
-         
+
         List<Message> _data = snapshot.data;
         List<Message> docs = _data.reversed.toList();
         return Flexible(

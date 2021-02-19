@@ -71,15 +71,17 @@ class RepliedContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 3,
-                  ),
-                  child: Text(
-                    replyMessage.text,
-                    style: TextStyle(
-                      fontSize: 16,
+                Expanded(
+                                  child: Container(
+                    
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 3,
+                    ),
+                    child: Text(
+                      replyMessage.text,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),

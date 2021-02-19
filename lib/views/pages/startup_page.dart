@@ -42,7 +42,7 @@ class StartupPage extends StatelessWidget {
                       : HomePage();
                   break;
                 default:
-                  return OnboardingPage();
+                  return StepsPage();
               }
               break;
             case ConnectionState.waiting:

@@ -102,8 +102,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
               onPressed: () {
                 if (currentIndexPage == 4) {
-                  _confogProvider.setConfigurationStep = Configuration.Terms;
-                  Navigator.pushNamed(context, termsConditionPage);
+                 _confogProvider.setConfigurationStep = Configuration.Terms;
+                 Navigator.pushNamed(context, termsConditionPage);
+  
                 } else {
                   controller.nextPage(
                       duration: Duration(milliseconds: 200),

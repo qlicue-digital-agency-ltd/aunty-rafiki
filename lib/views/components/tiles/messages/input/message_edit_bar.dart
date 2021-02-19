@@ -272,6 +272,7 @@ class _MessageEditBarState extends State<MessageEditBar> {
                     : () {
                         setState(() {
                           _isSending = true;
+                          _showEmojiPicker = false;
                         });
                         _chatProvider
                             .sendMessage(

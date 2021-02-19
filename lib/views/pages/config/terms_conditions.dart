@@ -53,10 +53,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
               SliverList(
                   delegate: SliverChildBuilderDelegate((_, index) {
                 return ListTile(
-                    onTap: () {
-                      itemChange(
-                          !_utilityProvider.checkBoxList[index].isCheck, index);
-                    },
+                    
                     leading: Checkbox(
                         value: _utilityProvider.checkBoxList[index].isCheck,
                         onChanged: (bool val) {

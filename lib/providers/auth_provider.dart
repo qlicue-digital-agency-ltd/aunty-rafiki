@@ -29,6 +29,7 @@ class AuthProvider with ChangeNotifier {
   ///current user profile..
   customUser.User _currentUser;
 
+  List<customUser.User> _groupUsers = [];
 
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
@@ -42,6 +43,8 @@ class AuthProvider with ChangeNotifier {
 
   ///current user profile getter..
   customUser.User get currentUser => _currentUser;
+  List<customUser.User> get groupUsers => _groupUsers;
+
   AuthProvider() {
     initializeFlutterFire();
 
@@ -191,8 +194,7 @@ class AuthProvider with ChangeNotifier {
         verificationCompleted: _verificationCompleted,
         verificationFailed: _verificationFailed,
         codeSent: _codeSent,
-        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout
-        );
+        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
 
     _isSendingPhone = false;
 
@@ -432,6 +434,20 @@ class AuthProvider with ChangeNotifier {
     final user = users.doc(FirebaseAuth.instance.currentUser.uid).get();
     await user.then((doc) {
       _currentUser = customUser.User.fromFirestore(doc);
+    });
+
+    notifyListeners();
+  }
+
+  Future<void> getGroupUsers({@required List<String> members}) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    members.forEach((memberUID) async {
+      ////------ -------------///
+      final user = users.doc(memberUID).get();
+      await user.then((doc) {
+        _groupUsers.add(customUser.User.fromFirestore(doc));
+      });
     });
 
     notifyListeners();

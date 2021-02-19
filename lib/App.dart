@@ -1,4 +1,3 @@
-
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
@@ -45,7 +44,7 @@ class App extends StatelessWidget {
             case ConnectionState.none:
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: 'Aunt Rafiki',
+                title: 'Aunty Rafiki',
                 theme: ThemeData(
                     primarySwatch: Colors.pink,
                     visualDensity: VisualDensity.adaptivePlatformDensity,
