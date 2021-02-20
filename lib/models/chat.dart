@@ -1,7 +1,9 @@
+import 'package:aunty_rafiki/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Chat {
   String id, name, avatar, time, lastMessage;
+  Stream<List<User>> groupMembers;
   List<dynamic> searchKeywords, members;
   bool isMessageRead;
   Chat(
@@ -12,7 +14,8 @@ class Chat {
       this.time,
       this.lastMessage,
       this.members,
-      this.searchKeywords});
+      this.searchKeywords,
+      this.groupMembers});
 
   Chat.fromFirestore(DocumentSnapshot doc)
       : id = doc.id,
@@ -20,6 +23,11 @@ class Chat {
         avatar = doc.data()['avatar'],
         searchKeywords = doc.data()['searchKeywords'],
         members = doc.data()['members'],
+        groupMembers = (doc.reference
+            .collection("groupMembers")
+            .snapshots()
+            .map((snapshot) =>
+                snapshot.docs.map((doc) => User.fromFirestore(doc)).toList())),
         isMessageRead = false,
         lastMessage = "",
         time = (doc.data()['time'] as Timestamp).toDate().toString();

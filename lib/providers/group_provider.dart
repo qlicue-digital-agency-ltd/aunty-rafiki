@@ -18,11 +18,18 @@ class GroupProvider with ChangeNotifier {
 
   List<PlatformFile> _paths = [];
   bool _loadingPath = false;
+  bool _loadingMembers = false;
+
+  List<User> _currentGroupMembers = [];
 
   bool get isCreatingGroup => _isCreatingGroup;
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   bool get loadingPath => _loadingPath;
+  List<User> get currentGroupMembers => _currentGroupMembers;
+  bool get loadingMembers => _loadingMembers;
 
+  ///open files....
+  ///
   Future<void> openFileExplorer() async {
     _loadingPath = true;
     notifyListeners();
@@ -177,5 +184,22 @@ class GroupProvider with ChangeNotifier {
 
   deleteGroup({@required String groupUID}) {
     db.collection('groups').doc(groupUID).delete();
+  }
+
+  ///group members....
+  ///
+  Future<void> getGroupMembers(Stream<List<User>> groupMembers) async {
+    List<User> _members = [];
+    _loadingMembers = true;
+    notifyListeners();
+    await groupMembers.first.then((users) {
+      users.forEach((user) {
+        print(user.displayName);
+        _members.add(user);
+      });
+    });
+    _loadingMembers = false;
+    _currentGroupMembers = _members;
+    notifyListeners();
   }
 }

@@ -18,8 +18,6 @@ class ChatRoomPage extends StatefulWidget {
 }
 
 class _ChatRoomPageState extends State<ChatRoomPage> {
-
-
   @override
   Widget build(BuildContext context) {
     Chat chat = ModalRoute.of(context).settings.arguments;
@@ -121,15 +119,17 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             ChatBackground(),
             Column(
               children: <Widget>[
-                MessageList(
-                 
-                ),
+                MessageList(),
                 //Spacer(),
                 MessageEditBar(
                   onPressed: () {
-                    showModal(chat);
                     
-                    
+                    //showModal(chat);
+                    chat.groupMembers.first.then((users) {
+                      users.forEach((user) {
+                        print(user.displayName);
+                      });
+                    });
                   },
                 ),
                 SizedBox(height: 20),

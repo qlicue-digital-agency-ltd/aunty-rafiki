@@ -328,4 +328,7 @@ class ChatProvider with ChangeNotifier {
     _selectedMessages.clear();
     notifyListeners();
   }
+
+
+  ///
 }
