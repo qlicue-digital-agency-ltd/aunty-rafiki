@@ -124,7 +124,6 @@ class GroupProvider with ChangeNotifier {
       'searchKeywords': _searchKeywords,
       'avatar': ""
     }).then((group) {
-
       ///add all members...
       groupMembers.forEach((member) {
         db
@@ -136,7 +135,8 @@ class GroupProvider with ChangeNotifier {
           "displayName": member.displayName,
           "phoneNumber": member.phoneNumber,
           "nameInitials": member.nameInitials,
-          "photoUrl": member.photoUrl
+          "photoUrl": member.photoUrl,
+          "isAdmin": false
         });
       });
 
@@ -156,13 +156,22 @@ class GroupProvider with ChangeNotifier {
     });
   }
 
-  addToGroup(
-      {@required String groupUID,
-      @required String memberUID,
-      @required User user}) {
+  addToGroup({@required String groupUID, @required User user}) {
     db.collection('groups').doc(groupUID).update({
-      'members': FieldValue.arrayUnion([memberUID]),
-      'groupMembers': FieldValue.arrayUnion([user.toMap()]),
+      'members': FieldValue.arrayUnion([user.uid]),
+    });
+
+    db
+        .collection("groups")
+        .doc(groupUID)
+        .collection("groupMembers")
+        .doc(user.uid)
+        .set({
+      "displayName": user.displayName,
+      "phoneNumber": user.phoneNumber,
+      "nameInitials": user.nameInitials,
+      "photoUrl": user.photoUrl,
+      "isAdmin": false
     });
   }
 
