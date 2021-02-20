@@ -41,6 +41,17 @@ class User {
       this.yearOfBirth,
       @required this.uid});
 
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      phoneNumber: phoneNumber,
+      displayName: displayName,
+      nameInitials: nameInitials,
+      photoUrl: photoUrl,
+    };
+
+    return map;
+  }
+
   User.fromMap(Map<String, dynamic> map)
       : uid = map['uid'],
         phoneNumber = map['phoneNumber'],

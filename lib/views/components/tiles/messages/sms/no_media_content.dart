@@ -10,7 +10,9 @@ class NoMediaContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final formatter = new DateFormat('HH:mm');
-    return Row(
+    return 
+    
+    Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Container(
