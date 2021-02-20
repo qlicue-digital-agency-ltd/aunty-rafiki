@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/providers/group_provider.dart';
+import 'package:aunty_rafiki/views/components/tiles/user_tile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class GroupInfoPage extends StatelessWidget {
@@ -8,6 +14,7 @@ class GroupInfoPage extends StatelessWidget {
   const GroupInfoPage({Key key, @required this.chat}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _groupProvider = Provider.of<GroupProvider>(context);
     return Scaffold(
       body: CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
         SliverAppBar(
@@ -87,6 +94,7 @@ class GroupInfoPage extends StatelessWidget {
                         ],
                       ),
                     ),
+                    SizedBox(height: 20),
                     Divider(indent: 20),
                   ],
                 ),
@@ -94,6 +102,39 @@ class GroupInfoPage extends StatelessWidget {
             )
           ]),
         ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            SizedBox(
+              height: 20,
+            ),
+            Material(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 30),
+                child: Text(
+                    '${_groupProvider.currentGroupMembers.length} participants'),
+              ),
+            ),
+            Visibility(
+              child: Center(
+                  child: Platform.isAndroid
+                      ? CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.pink),
+                        )
+                      : CupertinoActivityIndicator()),
+              visible: _groupProvider.loadingMembers,
+            )
+          ]),
+        ),
+        SliverList(
+            delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
+          return UserTile(
+            user: _groupProvider.currentGroupMembers[index],
+            onTap: () {},
+          );
+        }, childCount: _groupProvider.currentGroupMembers.length))
       ]),
     );
   }

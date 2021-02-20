@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:aunty_rafiki/models/chat.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/chat_user_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class GroupChats extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _GroupChatsState extends State<GroupChats> {
 
   @override
   Widget build(BuildContext context) {
+    final _groupProvider = Provider.of<GroupProvider>(context);
     final db = FirebaseFirestore.instance;
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
@@ -102,6 +105,8 @@ class _GroupChatsState extends State<GroupChats> {
                               chatRoomPage,
                               arguments: chatList[index],
                             );
+                            _groupProvider
+                                .getGroupMembers(chatList[index].groupMembers);
                           },
                           isGroup: true,
                         );
