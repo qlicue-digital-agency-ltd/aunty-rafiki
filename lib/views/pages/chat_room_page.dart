@@ -123,13 +123,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 //Spacer(),
                 MessageEditBar(
                   onPressed: () {
-                    
-                    //showModal(chat);
-                    chat.groupMembers.first.then((users) {
-                      users.forEach((user) {
-                        print(user.displayName);
-                      });
-                    });
+                    showModal(chat);
                   },
                 ),
                 SizedBox(height: 20),

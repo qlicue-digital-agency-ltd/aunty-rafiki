@@ -50,7 +50,9 @@ class RepliedContent extends StatelessWidget {
                                 text: originalMessage.text,
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 13))
-                          ]))),
+                          ])
+                          )
+                          ),
                 ),
                 originalMessage.media.isEmpty
                     ? Container()

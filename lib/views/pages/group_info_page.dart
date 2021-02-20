@@ -20,7 +20,6 @@ class GroupInfoPage extends StatelessWidget {
         SliverAppBar(
             expandedHeight: 300,
             stretch: true,
-            stretchTriggerOffset: 150.0,
             actions: [
               IconButton(
                 icon: Icon(
@@ -34,7 +33,15 @@ class GroupInfoPage extends StatelessWidget {
               return;
             },
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(chat.name),
+              title: RichText(
+                  text: TextSpan(
+                      text: chat.name + '\n',
+                      style: TextStyle(color: Colors.black, fontSize: 13),
+                      children: <TextSpan>[
+                    TextSpan(
+                        text: 'created by robbyn on 12/12/2020',
+                        style: TextStyle(color: Colors.black, fontSize: 9))
+                  ])),
               centerTitle: false,
               stretchModes: [
                 StretchMode.zoomBackground,
@@ -115,6 +122,17 @@ class GroupInfoPage extends StatelessWidget {
                     '${_groupProvider.currentGroupMembers.length} participants'),
               ),
             ),
+            Material(
+              color: Colors.white,
+              child: ListTile(
+                onTap: (){
+                  
+                },
+                leading: CircleAvatar(child: Icon(Icons.person_add)),
+                title: Text('Add participants'),
+              ),
+            ),
+            Material(color: Colors.white, child: Divider(indent: 20)),
             Visibility(
               child: Center(
                   child: Platform.isAndroid
