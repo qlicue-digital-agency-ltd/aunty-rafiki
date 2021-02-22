@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
+import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/user_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+import 'group/add_group_members_page.dart';
 
 class GroupInfoPage extends StatelessWidget {
   final Chat chat;
@@ -15,6 +18,7 @@ class GroupInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _groupProvider = Provider.of<GroupProvider>(context);
+        final _userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
         SliverAppBar(
@@ -125,8 +129,10 @@ class GroupInfoPage extends StatelessWidget {
             Material(
               color: Colors.white,
               child: ListTile(
-                onTap: (){
-                  
+                onTap: () {
+                  _userProvider.getUsersToAdd(users: chat.members);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => AddGroupMemberPage(chat: chat,)));
                 },
                 leading: CircleAvatar(child: Icon(Icons.person_add)),
                 title: Text('Add participants'),

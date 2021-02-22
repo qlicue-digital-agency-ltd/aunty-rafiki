@@ -9,12 +9,18 @@ class UserProvider extends ChangeNotifier {
   }
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   List<User> _availableUsers = [];
+  List<User> _availableUsersToAdd = [];
   List<User> _originalAvailableUsers = [];
   List<User> _selectedUser = [];
+  bool _isLoadingData = false;
   //getters..
   List<User> get availableUsers => _availableUsers;
+  List<User> get availableUsersToAdd => _availableUsersToAdd;
+
   List<User> get originalAvailableUsers => _originalAvailableUsers;
   List<User> get selectedUser => _selectedUser;
+  bool get isLoadingData => _isLoadingData;
+
   //fetch users...
   Stream<List<User>> availableUserList() {
     return _firebaseFirestore.collection('users').snapshots().map((snapShot) =>
@@ -51,6 +57,15 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  selectUsersToAdd({@required int index, @required User user}) {
+    //selected user
+    _selectedUser.add(user);
+
+    ///available user
+    _availableUsersToAdd.removeAt(index);
+    notifyListeners();
+  }
+
   removeUser({@required int indexSelectedUser, @required User user}) {
     //selected user
     _selectedUser.removeAt(indexSelectedUser);
@@ -60,11 +75,43 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  removeUsersToAdd({@required int index, @required User user}) {
+    //selected user
+    _selectedUser.removeAt(index);
+
+    ///available user
+    _availableUsersToAdd.add(user);
+    notifyListeners();
+  }
+
   clearAllSelectedUsers() {
     _selectedUser.forEach((user) {
       _availableUsers.add(user);
     });
     _selectedUser.clear();
+    notifyListeners();
+  }
+
+  clearAllSelectedUsersToAdd() {
+    _selectedUser.clear();
+    notifyListeners();
+  }
+
+  void getUsersToAdd({@required List<dynamic> users}) {
+    _isLoadingData = true;
+    clearAllSelectedUsersToAdd();
+    notifyListeners();
+
+    List<User> _memberUsers = [];
+    print(_memberUsers);
+    _availableUsers.forEach((user) {
+      if (!users.contains(user.uid)) {
+        _memberUsers.add(user);
+        print(user);
+      }
+    });
+    _availableUsersToAdd = _memberUsers;
+    _isLoadingData = false;
     notifyListeners();
   }
 }

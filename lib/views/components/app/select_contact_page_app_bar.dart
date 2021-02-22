@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SelectContactPageAppBar extends StatelessWidget
+class  SelectContactPageAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {

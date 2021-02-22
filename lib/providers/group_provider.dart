@@ -163,23 +163,31 @@ class GroupProvider with ChangeNotifier {
     });
   }
 
-  addToGroup({@required String groupUID, @required User user}) {
-    db.collection('groups').doc(groupUID).update({
-      'members': FieldValue.arrayUnion([user.uid]),
+  Future<bool> addToGroup(
+      {@required String groupUID, @required List<User> users}) async {
+    bool _isUploading = true;
+
+    users.forEach((user) {
+      db.collection('groups').doc(groupUID).update({
+        'members': FieldValue.arrayUnion([user.uid]),
+      });
+
+      db
+          .collection("groups")
+          .doc(groupUID)
+          .collection("groupMembers")
+          .doc(user.uid)
+          .set({
+        "displayName": user.displayName,
+        "phoneNumber": user.phoneNumber,
+        "nameInitials": user.nameInitials,
+        "photoUrl": user.photoUrl,
+        "isAdmin": false
+      });
     });
 
-    db
-        .collection("groups")
-        .doc(groupUID)
-        .collection("groupMembers")
-        .doc(user.uid)
-        .set({
-      "displayName": user.displayName,
-      "phoneNumber": user.phoneNumber,
-      "nameInitials": user.nameInitials,
-      "photoUrl": user.photoUrl,
-      "isAdmin": false
-    });
+    _isUploading = false;
+    return _isUploading;
   }
 
   deleteGroup({@required String groupUID}) {
