@@ -157,10 +157,34 @@ class GroupProvider with ChangeNotifier {
     db.collection('groups').doc(groupUID).update({'avatar': avatar});
   }
 
-  leaveGroup({@required String groupUID, @required String memberUID}) {
-    db.collection('groups').doc(groupUID).update({
+  leaveGroup({@required String groupUID, @required String memberUID}) async {
+    //remove user reference
+    await db.collection('groups').doc(groupUID).update({
       'members': FieldValue.arrayRemove([memberUID])
     });
+
+////delete actual user from the group....
+    db
+        .collection("groups")
+        .doc(groupUID)
+        .collection("groupMembers")
+        .doc(memberUID)
+        .delete();
+  }
+
+  ///make user group admin...
+  ///
+  Future<void> makeGroupAdmin(
+      {@required String groupUID,
+      @required String memberUID,
+      @required bool status}) async {
+////group admin....
+    await db
+        .collection("groups")
+        .doc(groupUID)
+        .collection("groupMembers")
+        .doc(memberUID)
+        .update({'isAdmin': status});
   }
 
   Future<bool> addToGroup(
@@ -203,6 +227,7 @@ class GroupProvider with ChangeNotifier {
     await groupMembers.first.then((users) {
       users.forEach((user) {
         print(user.displayName);
+        print(user.isAdmin);
         _members.add(user);
       });
     });

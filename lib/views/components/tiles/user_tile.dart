@@ -55,6 +55,13 @@ class UserTile extends StatelessWidget {
                             ),
                           ),
                         ),
+                        // user.isAdmin
+                        //     ? Chip(
+                        //         backgroundColor: Colors.pink,
+                        //         label: Text('Group Admin',
+                        //             style: TextStyle(
+                        //                 fontSize: 10, color: Colors.white)))
+                        //     : Container()
                       ],
                     ),
                   ),

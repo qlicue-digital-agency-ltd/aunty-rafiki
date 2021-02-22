@@ -20,6 +20,7 @@ class User {
   String startedClinic;
   String takenTetanusVaccine;
   int yearOfBirth;
+  bool isAdmin=false;
 
   User(
       {@required this.phoneNumber,
@@ -39,6 +40,7 @@ class User {
       this.startedClinic,
       this.takenTetanusVaccine,
       this.yearOfBirth,
+      this.isAdmin ,
       @required this.uid});
 
   Map<String, dynamic> toMap() {
@@ -57,6 +59,7 @@ class User {
         phoneNumber = map['phoneNumber'],
         displayName = map['displayName'],
         nameInitials = map['nameInitials'],
+        isAdmin = map['isAdmin'],
         photoUrl = map['photoURL'],
         gravida = map['gravida'],
         haemoLevel = map['haemoLevel'],
@@ -78,6 +81,7 @@ class User {
         displayName = doc.data()['displayName'],
         nameInitials = doc.data()['nameInitials'],
         photoUrl = doc.data()['photoURL'],
+        isAdmin = doc.data()['isAdmin'],
         gravida = doc.data()['gravida'],
         haemoLevel = doc.data()['haemoLevel'],
         haemoLevelDate = doc.data()['haemoLevelDate'],

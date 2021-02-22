@@ -48,7 +48,14 @@ class GroupInfoPage extends StatelessWidget {
                   ListTile(
                     onTap: () {
                       print('make group admin');
-                      Navigator.of(context).pop();
+                      _groupProvider
+                          .makeGroupAdmin(
+                              groupUID: chat.id,
+                              memberUID: user.uid,
+                              status: true)
+                          .then((value) {
+                        Navigator.of(context).pop();
+                      });
                     },
                     title: Text('Make group Admin'),
                   ),
@@ -56,6 +63,25 @@ class GroupInfoPage extends StatelessWidget {
                     onTap: () {
                       print('remove');
                       Navigator.of(context).pop();
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomDialogBox(
+                              title: "Remove from Group?",
+                              descriptions:
+                                  "By removing ${user.displayName} from this group they will not be able to access this group's chats",
+                              text: "Remove",
+                              textClose: "CLOSE",
+                              onPressed: () {
+                                _groupProvider.leaveGroup(
+                                    groupUID: chat.id, memberUID: user.uid);
+                                Navigator.pop(context);
+                              },
+                              onClose: () {
+                                Navigator.pop(context);
+                              },
+                            );
+                          });
                     },
                     title: Text('Remove ${user.displayName}'),
                   ),
