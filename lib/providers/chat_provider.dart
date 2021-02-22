@@ -80,6 +80,7 @@ class ChatProvider with ChangeNotifier {
       {@required text,
       @required time,
       @required user,
+      @required senderName,
       @required Chat chat,
       @required Message repliedMessage}) async {
     List<String> _searchKeywords = [];
@@ -95,6 +96,7 @@ class ChatProvider with ChangeNotifier {
       'text': text,
       'time': time,
       'user': user,
+      'senderName': senderName,
       'media': [],
       'repliedUID': repliedMessage != null ? repliedMessage.id : null,
       'showDeletedMessage': true,

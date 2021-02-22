@@ -39,11 +39,17 @@ class ChatMessage extends StatelessWidget {
                     elevation: 1,
                     borderRadius: BorderRadius.all(Radius.circular(3)),
                     child: message.media.isEmpty
-                        ? NoMediaContent(message: message)
+                        ? NoMediaContent(
+                            message: message,
+                            byMe: FirebaseAuth.instance.currentUser.uid ==
+                                message.sender,
+                          )
                         : message.mediaType == "image"
                             ? MediaContent(
                                 message: message,
                                 width: MediaQuery.of(context).size.width,
+                                byMe: FirebaseAuth.instance.currentUser.uid ==
+                                message.sender,
                               )
                             : message.mediaType == "audio"
                                 ? Container(

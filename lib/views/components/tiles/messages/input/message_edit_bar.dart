@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emoji_picker/emoji_picker.dart';
@@ -45,7 +46,7 @@ class _MessageEditBarState extends State<MessageEditBar> {
     Chat chat = Provider.of<Chat>(context);
 
     final _chatProvider = Provider.of<ChatProvider>(context);
-
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Column(
       children: [
         Row(
@@ -197,7 +198,9 @@ class _MessageEditBarState extends State<MessageEditBar> {
                                               .instance.currentUser.uid,
                                           chat: chat,
                                           repliedMessage:
-                                              _chatProvider.messageToReply)
+                                              _chatProvider.messageToReply,
+                                          senderName: _authProvider
+                                              .currentUser.displayName)
                                       .then((value) {
                                     _controller.clear();
                                   });
@@ -280,7 +283,9 @@ class _MessageEditBarState extends State<MessageEditBar> {
                                 time: Timestamp.fromDate(DateTime.now()),
                                 user: FirebaseAuth.instance.currentUser.uid,
                                 chat: chat,
-                                repliedMessage: _chatProvider.messageToReply)
+                                repliedMessage: _chatProvider.messageToReply,
+                                senderName:
+                                    _authProvider.currentUser.displayName)
                             .then((value) {
                           _controller.clear();
                           setState(() {

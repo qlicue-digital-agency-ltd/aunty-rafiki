@@ -1,12 +1,9 @@
 import 'dart:io';
-
-import 'package:aunty_rafiki/constants/app/constants.dart';
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/models/user.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/user_tile.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

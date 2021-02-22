@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aunty_rafiki/models/chat.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
@@ -36,7 +37,7 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
   @override
   Widget build(BuildContext context) {
     final _chatProvider = Provider.of<ChatProvider>(context);
-
+    final _authProvider = Provider.of<AuthProvider>(context);
     return Row(
       children: <Widget>[
         Expanded(
@@ -79,7 +80,9 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                                   time: Timestamp.fromDate(DateTime.now()),
                                   user: FirebaseAuth.instance.currentUser.uid,
                                   chat: widget.chat,
-                                  repliedMessage: _chatProvider.messageToReply)
+                                  repliedMessage: _chatProvider.messageToReply,
+                                  senderName:
+                                      _authProvider.currentUser.displayName)
                               .then((value) {
                             _controller.clear();
                             Navigator.pop(context);
@@ -127,7 +130,8 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                             time: Timestamp.fromDate(DateTime.now()),
                             user: FirebaseAuth.instance.currentUser.uid,
                             chat: widget.chat,
-                            repliedMessage: _chatProvider.messageToReply)
+                            repliedMessage: _chatProvider.messageToReply,
+                            senderName: _authProvider.currentUser.displayName)
                         .then((value) {
                       _controller.clear();
                       setState(() {

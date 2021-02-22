@@ -12,8 +12,13 @@ import 'package:transparent_image/transparent_image.dart';
 class MediaContent extends StatelessWidget {
   final Message message;
   final double width;
+  final bool byMe;
   List<Widget> widgetlist = List();
-  MediaContent({Key key, @required this.message, @required this.width})
+  MediaContent(
+      {Key key,
+      @required this.message,
+      @required this.width,
+      @required this.byMe})
       : super(key: key) {
     if (message.media.length > 3) getWidgets(widgetlist);
   }
@@ -25,6 +30,15 @@ class MediaContent extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            RichText(
+                text: TextSpan(
+              text: byMe ? "" : '${message.senderName}\n',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            )),
             message.media.length < 4
                 ? InkWell(
                     onTap: () {
