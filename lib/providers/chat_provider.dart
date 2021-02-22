@@ -52,9 +52,9 @@ class ChatProvider with ChangeNotifier {
   ///scroll to bottom of chats
   void scrollToBootomOfChats() {
     _scrollController.animateTo(
-      0.0,
-      curve: Curves.easeOut,
-      duration: const Duration(milliseconds: 300),
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(seconds: 1),
+      curve: Curves.fastOutSlowIn,
     );
     notifyListeners();
   }
@@ -328,7 +328,6 @@ class ChatProvider with ChangeNotifier {
     _selectedMessages.clear();
     notifyListeners();
   }
-
 
   ///
 }

@@ -42,10 +42,9 @@ class MessageList extends StatelessWidget {
         }
 
         List<Message> _data = snapshot.data;
-        List<Message> docs = _data.reversed.toList();
+        List<Message> docs = _data;
         return Flexible(
           child: ListView.builder(
-            reverse: true,
             controller: _chatProvider.scrollController,
             padding: EdgeInsets.only(bottom: 4),
             itemCount: docs.length,
