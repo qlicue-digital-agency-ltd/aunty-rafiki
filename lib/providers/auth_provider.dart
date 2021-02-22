@@ -472,7 +472,7 @@ class AuthProvider with ChangeNotifier {
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
-      quality: 0,
+      quality: 100,
       rotate: 0,
     );
 
