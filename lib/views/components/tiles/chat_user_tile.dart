@@ -22,52 +22,61 @@ class ChatUserTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    backgroundImage: chat.avatar.isNotEmpty
-                        ? NetworkImage(chat.avatar)
-                        : isGroup
-                            ? AssetImage('assets/icons/aunty_rafiki.png')
-                            : AssetImage('assets/icons/female.png'),
-                    maxRadius: 30,
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(chat.name),
-                          SizedBox(
-                            height: 6,
-                          ),
-                          Text(
-                            chat.lastMessage,
-                            style: TextStyle(
-                                fontSize: 14, color: Colors.grey.shade500),
-                          ),
-                        ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Row(
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        backgroundImage: chat.avatar.isNotEmpty
+                            ? NetworkImage(chat.avatar)
+                            : isGroup
+                                ? AssetImage('assets/icons/aunty_rafiki.png')
+                                : AssetImage('assets/icons/female.png'),
+                        maxRadius: 30,
                       ),
-                    ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Expanded(
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(chat.name),
+                              SizedBox(
+                                height: 6,
+                              ),
+                              Text(
+                                chat.lastMessage,
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.grey.shade500),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Text(
+                  _utilityProvider.formatDate(DateTime.parse(chat.time)),
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: chat.isMessageRead
+                          ? Colors.pink
+                          : Colors.grey.shade500),
+                ),
+              ],
             ),
-            Text(
-              _utilityProvider.formatDate(DateTime.parse(chat.time)),
-              style: TextStyle(
-                  fontSize: 12,
-                  color:
-                      chat.isMessageRead ? Colors.pink : Colors.grey.shade500),
-            ),
+            Divider(
+              indent: 60,
+            )
           ],
         ),
       ),

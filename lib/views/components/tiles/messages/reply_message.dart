@@ -3,7 +3,6 @@ import 'package:aunty_rafiki/views/components/tiles/messages/sms/replied_content
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 class ReplyChatMessage extends StatelessWidget {
   final Message orignalMessage;
   final Message replyMessage;
@@ -38,9 +37,10 @@ class ReplyChatMessage extends StatelessWidget {
                     elevation: 1,
                     borderRadius: BorderRadius.all(Radius.circular(3)),
                     child: RepliedContent(
-                      originalMessage: orignalMessage,
-                      replyMessage: replyMessage,
-                    )),
+                        originalMessage: orignalMessage,
+                        replyMessage: replyMessage,
+                        byMe: FirebaseAuth.instance.currentUser.uid ==
+                            orignalMessage.sender)),
               ),
             ],
           ),

@@ -85,6 +85,7 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                                       _authProvider.currentUser.displayName)
                               .then((value) {
                             _controller.clear();
+                            _chatProvider.scrollToBootomOfChats();
                             Navigator.pop(context);
                           });
                         },

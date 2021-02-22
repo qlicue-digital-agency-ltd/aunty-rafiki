@@ -7,9 +7,13 @@ import 'package:transparent_image/transparent_image.dart';
 class RepliedContent extends StatelessWidget {
   final Message originalMessage;
   final Message replyMessage;
+  final bool byMe;
 
   const RepliedContent(
-      {Key key, @required this.originalMessage, @required this.replyMessage})
+      {Key key,
+      @required this.originalMessage,
+      @required this.replyMessage,
+      @required this.byMe})
       : super(key: key);
 
   @override
@@ -42,7 +46,9 @@ class RepliedContent extends StatelessWidget {
                       ),
                       child: RichText(
                           text: TextSpan(
-                              text: 'You\n',
+                              text: byMe
+                                  ? 'You\n'
+                                  : '${originalMessage.senderName}\n',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 13),
                               children: <TextSpan>[
@@ -50,9 +56,7 @@ class RepliedContent extends StatelessWidget {
                                 text: originalMessage.text,
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 13))
-                          ])
-                          )
-                          ),
+                          ]))),
                 ),
                 originalMessage.media.isEmpty
                     ? Container()
@@ -74,8 +78,7 @@ class RepliedContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(
-                                  child: Container(
-                    
+                  child: Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 3,
                     ),

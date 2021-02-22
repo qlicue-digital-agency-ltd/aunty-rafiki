@@ -30,15 +30,21 @@ class MediaContent extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RichText(
-                text: TextSpan(
-              text: byMe ? "" : '${message.senderName}\n',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-              ),
-            )),
+            byMe
+                ? Container()
+                : Padding(
+                    padding:
+                        const EdgeInsets.only(left: 6.0, top: 8.0, right: 6.0),
+                    child: RichText(
+                        text: TextSpan(
+                      text: '${message.senderName}',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    )),
+                  ),
             message.media.length < 4
                 ? InkWell(
                     onTap: () {

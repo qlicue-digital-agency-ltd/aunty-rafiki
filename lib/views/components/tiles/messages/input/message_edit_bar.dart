@@ -91,7 +91,13 @@ class _MessageEditBarState extends State<MessageEditBar> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'You',
+                                                FirebaseAuth.instance
+                                                            .currentUser.uid ==
+                                                        _chatProvider
+                                                            .messageToReply
+                                                            .sender
+                                                    ? 'You'
+                                                    : '${_chatProvider.messageToReply.senderName}',
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight:
