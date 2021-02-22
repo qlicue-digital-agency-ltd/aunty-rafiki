@@ -92,29 +92,11 @@ class ChatDetailPageAppBar extends StatelessWidget
                   color: Colors.white,
                 ),
                 onSelected: (ChatGroupPopMenu result) {
-                  if (result == ChatGroupPopMenu.ExitGroup) {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CustomDialogBox(
-                            title: "Leave Group?",
-                            descriptions:
-                                "By leaving this group you will not be able to access this group chats",
-                            text: "LEAVE",
-                            textClose: "CLOSE",
-                            onPressed: () {
-                              _groupProvider.leaveGroup(
-                                  groupUID: chat.id,
-                                  memberUID:
-                                      FirebaseAuth.instance.currentUser.uid);
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                            onClose: () {
-                              Navigator.pop(context);
-                            },
-                          );
-                        });
+                  if (result == ChatGroupPopMenu.GroupInfo) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => GroupInfoPage(chat: chat)));
                   }
                 },
                 itemBuilder: (BuildContext context) =>
@@ -130,10 +112,6 @@ class ChatDetailPageAppBar extends StatelessWidget
                   const PopupMenuItem<ChatGroupPopMenu>(
                     value: ChatGroupPopMenu.ClearChat,
                     child: Text('Clear Chat'),
-                  ),
-                  const PopupMenuItem<ChatGroupPopMenu>(
-                    value: ChatGroupPopMenu.ExitGroup,
-                    child: Text('Exit Group'),
                   ),
                 ],
               )

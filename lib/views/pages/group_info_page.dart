@@ -3,7 +3,9 @@ import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/models/user.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/providers/user_provider.dart';
+import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
 import 'package:aunty_rafiki/views/components/tiles/user_tile.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebaseUser;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -218,7 +220,43 @@ class GroupInfoPage extends StatelessWidget {
               _showMyDialog(user: _groupProvider.currentGroupMembers[index]);
             },
           );
-        }, childCount: _groupProvider.currentGroupMembers.length))
+        }, childCount: _groupProvider.currentGroupMembers.length)),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            SizedBox(height: 10),
+            Material(
+                color: Colors.white,
+                child: ListTile(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomDialogBox(
+                            title: "Leave Group?",
+                            descriptions:
+                                "By leaving this group you will not be able to access this group chats",
+                            text: "LEAVE",
+                            textClose: "CLOSE",
+                            onPressed: () {
+                              _groupProvider.leaveGroup(
+                                  groupUID: chat.id,
+                                  memberUID: firebaseUser
+                                      .FirebaseAuth.instance.currentUser.uid);
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            onClose: () {
+                              Navigator.pop(context);
+                            },
+                          );
+                        });
+                  },
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Exit Group'),
+                )),
+            SizedBox(height: 20),
+          ]),
+        ),
       ]),
     );
   }
