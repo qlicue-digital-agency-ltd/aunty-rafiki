@@ -26,7 +26,6 @@ import 'package:aunty_rafiki/views/pages/startup_page.dart';
 import 'package:aunty_rafiki/views/pages/time_line_page.dart';
 import 'package:aunty_rafiki/views/pages/to_do_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,60 +35,44 @@ import 'views/pages/home_page.dart';
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Firebase.initializeApp(),
-        builder: (BuildContext context, AsyncSnapshot<FirebaseApp> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-            case ConnectionState.none:
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'Aunty Rafiki',
-                theme: ThemeData(
-                    primarySwatch: Colors.pink,
-                    visualDensity: VisualDensity.adaptivePlatformDensity,
-                    textTheme: GoogleFonts.poppinsTextTheme()),
-                home: StartupPage(),
-                routes: {
-                  landingPage: (context) =>
-                      FirebaseAuth.instance.currentUser == null
-                          ? LoginPage()
-                          : HomePage(),
-                  onboardingPage: (_) => OnboardingPage(),
-                  loginPage: (_) => LoginPage(),
-                  homePage: (_) => HomePage(),
-                  chatRoomPage: (_) => ChatRoomPage(),
-                  appointmentPage: (_) => AppointmentPage(),
-                  addAppointmentPage: (_) => AddAppointmentPage(),
-                  addBloodLevelPage: (_) => AddBloodLevelPage(),
-                  dailyAppointmentsPage: (_) => DailyAppointment(),
-                  confirmationPage: (_) => ConfirmResetCodePage(),
-                  selectContactsPage: (_) => SelectContactPage(),
-                  createGroupPage: (_) => CreateGroupPage(),
-                  profilePage: (_) => ProfilePage(),
-                  editProfilePage: (_) => EditProfilePage(),
-                  bloodLevelPage: (_) => BloodLevelTimeline(),
-                  toDoListPage: (_) => ToDoListPage(),
-                  babyNamePage: (_) => BabyNamePage(),
-                  timeLinePage: (_) => TimeLinePage(),
-                  hospitalBagPage: (_) => HospitalBagPage(),
-                  foodPage: (_) => FoodPage(),
-                  createTaskPage: (_) => CreateTaskPage(),
-                  babyBumpPage: (_) => BabyBumpPage(),
-                  createProfilePage: (_) => StepsPage(),
-                  termsConditionPage: (_) => TermsConditionPage(),
-                  choicePage: (_) => ChoicePage(),
-                  stepsPage: (_) => StepsPage(),
-                },
-              );
-              break;
-
-            case ConnectionState.waiting:
-            case ConnectionState.active:
-              return Container();
-              break;
-          }
-          return Container();
-        });
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Aunty Rafiki',
+      theme: ThemeData(
+          primarySwatch: Colors.pink,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: GoogleFonts.poppinsTextTheme()),
+      home: StartupPage(),
+      routes: {
+        landingPage: (context) => FirebaseAuth.instance.currentUser == null
+            ? LoginPage()
+            : HomePage(),
+        onboardingPage: (_) => OnboardingPage(),
+        loginPage: (_) => LoginPage(),
+        homePage: (_) => HomePage(),
+        chatRoomPage: (_) => ChatRoomPage(),
+        appointmentPage: (_) => AppointmentPage(),
+        addAppointmentPage: (_) => AddAppointmentPage(),
+        addBloodLevelPage: (_) => AddBloodLevelPage(),
+        dailyAppointmentsPage: (_) => DailyAppointment(),
+        confirmationPage: (_) => ConfirmResetCodePage(),
+        selectContactsPage: (_) => SelectContactPage(),
+        createGroupPage: (_) => CreateGroupPage(),
+        profilePage: (_) => ProfilePage(),
+        editProfilePage: (_) => EditProfilePage(),
+        bloodLevelPage: (_) => BloodLevelTimeline(),
+        toDoListPage: (_) => ToDoListPage(),
+        babyNamePage: (_) => BabyNamePage(),
+        timeLinePage: (_) => TimeLinePage(),
+        hospitalBagPage: (_) => HospitalBagPage(),
+        foodPage: (_) => FoodPage(),
+        createTaskPage: (_) => CreateTaskPage(),
+        babyBumpPage: (_) => BabyBumpPage(),
+        createProfilePage: (_) => StepsPage(),
+        termsConditionPage: (_) => TermsConditionPage(),
+        choicePage: (_) => ChoicePage(),
+        stepsPage: (_) => StepsPage(),
+      },
+    );
   }
 }

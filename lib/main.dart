@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 
 import 'App.dart';
 
-void main() {
+Future<void> main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AuthProvider()),
     ChangeNotifierProvider(create: (_) => ChatProvider()),
