@@ -12,6 +12,7 @@ import 'package:aunty_rafiki/providers/timeline_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
 import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
+import 'package:aunty_rafiki/test_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -82,5 +83,9 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (_) => FoodProvider()),
     ChangeNotifierProvider(create: (_) => HostipalBagProvider()),
     ChangeNotifierProvider(create: (_) => ConfigProvider()),
-  ], child: App()));
+  ], child: MessagingExampleApp()
+
+      //App()
+
+      ));
 }

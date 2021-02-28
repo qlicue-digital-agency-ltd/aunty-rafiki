@@ -3,12 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Requests & displays the current user permissions for this device.
-class PermissionPage extends StatefulWidget {
+class Permissions extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _PermissionPage();
 }
 
-class _PermissionPage extends State<PermissionPage> {
+class _PermissionPage extends State<Permissions> {
   bool _requested = false;
   bool _fetching = false;
   NotificationSettings _settings;
