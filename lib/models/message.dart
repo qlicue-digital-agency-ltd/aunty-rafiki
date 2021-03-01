@@ -1,29 +1,27 @@
-import 'package:aunty_rafiki/models/audio.dart';
-import 'package:aunty_rafiki/models/media.dart';
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Message {
-  final String text;
-  Audio audio;
-  List<Media> media;
-  final String sticker;
+  String id, text, sender, senderName, mediaType, repliedUID;
+  DateTime time;
 
-  final DateTime date;
-  final String sender;
-  final String phoneNumber;
-  final String userName;
-  final String chatUuid;
-  final bool sentByMe;
+  List<dynamic> media;
 
-  Message(
-      {this.text,
-      @required this.date,
-      @required this.chatUuid,
-      @required this.sentByMe,
-      this.sender,
-      this.media,
-      this.audio,
-      this.sticker,
-      @required this.phoneNumber,
-      @required this.userName});
+  bool showDeletedMessage;
+
+  Message(this.text, this.time);
+
+  Message.fromFirestoreData(DocumentSnapshot doc)
+      : id = doc.id,
+        text = doc.data()['text'],
+        time = doc.data()['time'].toDate(),
+        sender = doc.data()['user'],
+        senderName = doc.data()['senderName'],
+        mediaType = doc.data()['mediaType'],
+        repliedUID = doc.data()['repliedUID'],
+        showDeletedMessage = doc.data()['showDeletedMessage'],
+        media = doc.data()['media'];
+}
+
+List<Message> firestoreToMessageList(QuerySnapshot snapshot) {
+  return snapshot.docs.map((doc) => Message.fromFirestoreData(doc)).toList();
 }

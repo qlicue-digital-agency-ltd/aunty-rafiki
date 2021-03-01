@@ -1,298 +1,335 @@
-import 'package:aunty_rafiki/models/audio.dart';
+import 'dart:io';
 import 'package:aunty_rafiki/models/chat.dart';
-import 'package:aunty_rafiki/models/media.dart';
 import 'package:aunty_rafiki/models/message.dart';
+import 'package:flutter/services.dart';
+import 'package:file_picker/file_picker.dart';
+
 import 'package:flutter/material.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+
 class ChatProvider with ChangeNotifier {
-  bool _isShowSticker = false;
-  List<Chat> _chatList = [];
-  Chat _selectedChat;
+  ///firestore
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
-  ChatProvider() {
-    loadChats();
-  }
-//setter
-  void getSticker() {
-    // Hide keyboard when sticker appear
-    // focusNode.unfocus();
+  ///message...
+  bool _isSendingMessage = false;
+  String _mediaType = "NON";
+  Map<String, Message> _selectedMessages = {};
 
-    _isShowSticker = !_isShowSticker;
+  ScrollController _scrollController = new ScrollController();
+
+  Message _messageToReply;
+
+  List<PlatformFile> _paths = [];
+  List<File> _compressedFiles = [];
+  bool _loadingPath = false;
+
+  ///setter..
+  setMessage({@required String uid, @required Message message}) {
+    if (_selectedMessages.containsKey(uid)) {
+      _selectedMessages.remove(uid);
+      print('removed');
+    } else {
+      _selectedMessages[uid] = message;
+      print('added');
+    }
+    print(_selectedMessages.length);
     notifyListeners();
   }
 
-  set selectChat(Chat chat) {
-    _selectedChat = chat;
+  set setMessageToReply(Message message) {
+    _messageToReply = message;
     notifyListeners();
   }
 
-  //getters
-  bool get isShowSticker => _isShowSticker;
-
-  List<Chat> get chatList => List<Chat>.from(_chatList);
-  Chat get selectedChat => _selectedChat;
-
-  void loadChats() {
-    _chatList = <Chat>[
-      Chat(
-          avatar: 'assets/images/a.jpg',
-          name: 'Matias',
-          date: DateTime.now(),
-          uuid: 'chat1',
-          unreadMessageCounter: 0,
-          chatType: 'private',
-          messages: [
-            Message(
-              text: 'Hello world',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              sender: 'Henry Victor',
-              phoneNumber: '+29982222',
-              userName: '~P-L',
-            ),
-            Message(
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              sender: 'Henry Victor',
-              phoneNumber: '+29982222',
-              userName: '~P-L',
-              media: [
-                Media(
-                    url:
-                        'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
-                    type: 'video'),
-              ],
-            ),
-            Message(
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              sender: 'Henry Victor',
-              phoneNumber: '+29982222',
-              audio: Audio(
-                  url: 'http://127.0.0.1:8000/api/music', duration: '12:28'),
-              userName: '~P-L',
-              media: [
-                Media(
-                    url:
-                        'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
-                    type: 'video'),
-              ],
-            ),
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              phoneNumber: '+255715785672',
-              userName: "~P-L😂",
-              media: [
-                Media(url: 'assets/chats/2.jpg', type: 'image'),
-                Media(url: 'assets/chats/3.jpg', type: 'image')
-              ],
-            ),
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              phoneNumber: '+255715785672',
-              userName: "~P-L😂",
-              media: [
-                Media(url: 'assets/chats/4.jpg', type: 'image'),
-                Media(url: 'assets/chats/5.jpg', type: 'image'),
-                Media(url: 'assets/chats/6.jpg', type: 'image')
-              ],
-            ),
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              phoneNumber: '+255715785672',
-              userName: "~P-L😂",
-              media: [
-                Media(url: 'assets/chats/7.jpg', type: 'image'),
-                Media(url: 'assets/chats/8.jpg', type: 'image'),
-                Media(url: 'assets/chats/9.jpg', type: 'image'),
-                Media(url: 'assets/chats/10.jpg', type: 'image'),
-              ],
-            ),
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              phoneNumber: '+255715785672',
-              userName: "~P-L😂",
-              media: [
-                Media(url: 'assets/chats/11.jpg', type: 'image'),
-                Media(url: 'assets/chats/12.jpg', type: 'image'),
-                Media(url: 'assets/chats/13.jpg', type: 'image')
-              ],
-            ),
-          ]),
-      Chat(
-          avatar: 'assets/images/b.jpg',
-          name: 'Goup Soccer',
-          date: DateTime.now(),
-          uuid: 'chat2',
-          unreadMessageCounter: 2,
-          chatType: 'group',
-          messages: [
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              sender: 'Mary Paul',
-              phoneNumber: '+29982222',
-              userName: '~K-L',
-              media: [
-                Media(url: 'assets/chats/1.jpg', type: 'image'),
-                Media(url: 'assets/chats/2.jpg', type: 'image'),
-                Media(url: 'assets/chats/3.jpg', type: 'image')
-              ],
-            ),
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              // sender: 'Mary Paul',
-              phoneNumber: '+29982222',
-              userName: '~K-L',
-              media: [
-                Media(url: 'assets/chats/4.jpg', type: 'image'),
-                Media(url: 'assets/chats/5.jpg', type: 'image'),
-                Media(url: 'assets/chats/6.jpg', type: 'image'),
-                Media(url: 'assets/chats/7.jpg', type: 'image'),
-                Media(url: 'assets/chats/8.jpg', type: 'image'),
-                Media(url: 'assets/chats/9.jpg', type: 'image')
-              ],
-            ),
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: true,
-              sender: 'James',
-              media: [
-                Media(url: 'assets/chats/10.jpg', type: 'image'),
-                Media(url: 'assets/chats/11.jpg', type: 'image'),
-              ],
-              phoneNumber: '+29982222',
-              userName: '~R-D',
-            ),
-          ]),
-      Chat(
-          avatar: 'assets/images/c.jpeg',
-          name: 'Marry',
-          date: DateTime.now(),
-          uuid: 'chat3',
-          unreadMessageCounter: 10,
-          chatType: 'private',
-          messages: [
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              sender: 'Mary Paul',
-              phoneNumber: '+29982222',
-              userName: '~K-L',
-              media: [
-                Media(url: 'assets/chats/1.jpg', type: 'image'),
-                Media(url: 'assets/chats/2.jpg', type: 'image'),
-                Media(url: 'assets/chats/3.jpg', type: 'image')
-              ],
-            ),
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: true,
-              sender: 'James',
-              media: [
-                Media(url: 'assets/chats/4.jpg', type: 'image'),
-                Media(url: 'assets/chats/5.jpg', type: 'image'),
-              ],
-              phoneNumber: '+29982222',
-              userName: '~R-D',
-            ),
-          ]),
-      Chat(
-          avatar: 'assets/images/d.jpeg',
-          name: 'Family',
-          date: DateTime.now(),
-          uuid: 'chat4',
-          unreadMessageCounter: 0,
-          chatType: 'group',
-          messages: [
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              sender: 'Mary Paul',
-              phoneNumber: '+29982222',
-              userName: '~K-L',
-              media: [
-                Media(url: 'assets/chats/1.jpg', type: 'image'),
-                Media(url: 'assets/chats/2.jpg', type: 'image'),
-              ],
-            ),
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: true,
-              sender: 'James',
-              media: [
-                Media(url: 'assets/chats/3.jpg', type: 'image'),
-              ],
-              phoneNumber: '+29982222',
-              userName: '~R-D',
-            ),
-          ]),
-      Chat(
-          avatar: 'assets/images/a.jpg',
-          name: 'Peter',
-          date: DateTime.now(),
-          uuid: 'chat5',
-          chatType: 'private',
-          unreadMessageCounter: 3,
-          messages: [
-            Message(
-              text: 'Hello world today',
-              date: DateTime.now(),
-              chatUuid: 'YYUU90989',
-              sentByMe: false,
-              sender: 'Mary Paul',
-              phoneNumber: '+29982222',
-              userName: '~K-L',
-              // media: [],
-            ),
-          ])
-    ];
+  ///scroll to bottom of chats
+  void scrollToBootomOfChats() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(seconds: 1),
+      curve: Curves.fastOutSlowIn,
+    );
     notifyListeners();
   }
 
-  sendMessage({@required String text, @required String type}) {
-    final _message = Message(
-        text: text,
-        date: DateTime.now(),
-        chatUuid: _selectedChat.uuid,
-        sentByMe: true,
-        phoneNumber: '_255715785672',
-        userName: 'Robbyn');
+  ///getters..
+  List<File> get files => _paths.map((path) => File(path.path)).toList();
+  List<File> get compressedFiles => _compressedFiles;
+  bool get loadingPath => _loadingPath;
+  Map<String, Message> get selectedMessages => _selectedMessages;
+  bool get isCreatingGroup => _isSendingMessage;
+  Message get messageToReply => _messageToReply;
+  ScrollController get scrollController => _scrollController;
 
-    _chatList
-        .firstWhere((_chat) => _chat.uuid == _selectedChat.uuid)
-        .messages
-        .add(_message);
+  void clearSelectedMedia() {
+    _mediaType = "NON";
+    _paths = [];
+    _compressedFiles = [];
     notifyListeners();
   }
+
+//send image ....
+  Future<void> sendMessage(
+      {@required text,
+      @required time,
+      @required user,
+      @required senderName,
+      @required Chat chat,
+      @required Message repliedMessage}) async {
+    List<String> _searchKeywords = [];
+    var character = "";
+    text.runes.forEach((int rune) {
+      character += String.fromCharCode(rune);
+      _searchKeywords.add(character.toLowerCase());
+      print(character);
+    });
+    _isSendingMessage = true;
+    notifyListeners();
+    await db.collection('groups/${chat.id}/messages').add({
+      'text': text,
+      'time': time,
+      'user': user,
+      'senderName': senderName,
+      'media': [],
+      'repliedUID': repliedMessage != null ? repliedMessage.id : null,
+      'showDeletedMessage': true,
+      'mediaType': _mediaType.replaceAll('FileType.', ''),
+      'searchKeywords': _searchKeywords,
+      'members': chat.members
+    }).then((message) {
+      if (files.isNotEmpty) {
+        _compressListFiles(messageUID: message.id, chat: chat);
+      } else {
+        _isSendingMessage = false;
+        _mediaType = "NON";
+        setMessageToReply = null;
+        notifyListeners();
+      }
+    });
+  }
+
+  //upload image to server...
+  Future<void> _uploadImage({@required messageUID, @required chat}) async {
+    List<String> _mediaUrl = [];
+    if (_compressedFiles.isNotEmpty) {
+      _compressedFiles.forEach((file) async {
+        //edit files...
+        firebase_storage.UploadTask task = firebase_storage
+            .FirebaseStorage.instance
+            .ref('uploads/media/' +
+                messageUID +
+                DateTime.now().toIso8601String())
+            .putFile(file);
+
+        task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
+          print('Task state: ${snapshot.state}');
+          print(
+              'Progress: ${(snapshot.totalBytes / snapshot.bytesTransferred) * 100} %');
+        }, onError: (e) {
+          // The final snapshot is also available on the task via `.snapshot`,
+          // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
+          //print(task.snapshot);
+          print('User does not have ');
+          if (e.code == 'permission-denied') {
+            print('User does not have permission to upload to this reference.');
+          }
+        });
+        try {
+          // Storage tasks function as a Delegating Future so we can await them.
+          final url = await task;
+
+          String photoURL = await url.ref.getDownloadURL();
+          //upload image...
+
+          _mediaUrl.add(photoURL);
+
+          _updateMessageMedia(
+            url: _mediaUrl,
+            messageUID: messageUID,
+            chat: chat,
+          );
+
+          print('Upload complete.' + photoURL);
+        } on firebase_core.FirebaseException catch (e) {
+          // The final snapshot is also available on the task via `.snapshot`,
+          // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
+          print(task.snapshot);
+
+          if (e.code == 'permission-denied') {
+            print('User does not have permission to upload to this reference.');
+          }
+          // ...
+        }
+      });
+    } else {
+      _isSendingMessage = false;
+      notifyListeners();
+    }
+  }
+
+  //update message media url......
+  _updateMessageMedia(
+      {@required String messageUID,
+      @required List<String> url,
+      @required chat}) {
+    if (url.length == files.length) {
+      db
+          .collection('groups/${chat.id}/messages')
+          .doc(messageUID)
+          .update({'media': url});
+
+      clearSelectedMedia();
+      _isSendingMessage = false;
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> openFileExplorer(
+      {@required FileType pickingType,
+      @required List<String> allowedExtensions,
+      bool multiPick = false}) async {
+    _mediaType = pickingType.toString();
+    _loadingPath = true;
+    notifyListeners();
+
+    try {
+      _paths = (await FilePicker.platform.pickFiles(
+        type: pickingType,
+        allowMultiple: multiPick,
+        allowedExtensions: allowedExtensions,
+      ))
+          ?.files;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    } catch (ex) {
+      print(ex);
+    }
+    notifyListeners();
+  }
+
+  ///multiple files compression helper....
+  _compressListFiles({@required messageUID, @required chat}) async {
+    final dir = await path_provider.getTemporaryDirectory();
+    int i = 0;
+    if (_mediaType.replaceAll('FileType.', '') == "image") {
+      files.forEach((file) async {
+        var targetPath =
+            dir.absolute.path + "/temp" + DateTime.now().toString() + "$i.jpg";
+        await compressAndGetFile(file, targetPath);
+        i++;
+        if (i == files.length) {
+          _compressedFiles.forEach((element) {});
+
+          _uploadImage(messageUID: messageUID, chat: chat);
+        }
+      });
+    } else {
+      _compressedFiles = files;
+      _uploadImage(messageUID: messageUID, chat: chat);
+    }
+  }
+
+  ///Compress a single file..
+  Future<File> compressAndGetFile(File file, String targetPath) async {
+    int bytes = await file.length();
+    print("bytes:=> $bytes");
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 100,
+      rotate: 0,
+    );
+    _compressedFiles.add(result);
+    print(file.lengthSync());
+    print(result.lengthSync());
+
+    return result;
+  }
+
+  ///update chat message..
+  updateChatMessage(
+      {@required String key,
+      @required dynamic data,
+      @required messageUID,
+      @required chat}) async {
+    await db.collection('groups/${chat.id}/messages').doc(messageUID).update({
+      key: data,
+    });
+  }
+
+  ///delete chat message..
+  Future<void> deleteChatMessage(
+      {@required String choice,
+      messageUID,
+      @required Chat chat,
+      @required userUID}) async {
+    switch (choice) {
+      case 'me_only':
+
+        ///delete for me only messages..
+        await _deleteChatMessageFirebase(
+          chat: chat,
+          userUID: userUID,
+        );
+        break;
+      case 'both_of_us':
+
+        ///delete messages for everyone..
+
+        await _deleteChatMessageFirebase(
+          chat: chat,
+          userUID: null,
+        );
+        break;
+      default:
+
+        ///delete messages..
+        await updateChatMessage(
+            chat: chat,
+            messageUID: messageUID,
+            key: 'showDeletedMessage',
+            data: false);
+    }
+  }
+
+//firebase delete massage...
+  _deleteChatMessageFirebase({@required Chat chat, @required userUID}) async {
+    int i = 0;
+    if (userUID != null) {
+      _selectedMessages.forEach(((uid, message) async {
+        await db
+            .collection('groups/${chat.id}/messages')
+            .doc(message.id)
+            .update({
+          'members': FieldValue.arrayRemove([userUID])
+        });
+        i++;
+        if (i == _selectedMessages.length) clearSelectedChats();
+      }));
+    } else {
+      _selectedMessages.forEach(((uid, message) async {
+        await db
+            .collection('groups/${chat.id}/messages')
+            .doc(message.id)
+            .update({'members': []});
+        i++;
+        if (i == _selectedMessages.length) clearSelectedChats();
+      }));
+    }
+  }
+
+  clearSelectedChats() {
+    _selectedMessages.clear();
+    notifyListeners();
+  }
+
+  ///
 }

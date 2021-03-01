@@ -1,30 +1,20 @@
-import 'package:aunty_rafiki/models/media.dart';
-import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'media_preview_page.dart';
 
 class MediaPreviewListPage extends StatelessWidget {
-  final List<Media> media;
+  final List<dynamic> media;
 
-  const MediaPreviewListPage({Key key, @required this.media})
-      : super(key: key);
+  const MediaPreviewListPage({Key key, @required this.media}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _chatProvider = Provider.of<ChatProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(_chatProvider.selectedChat.name.toString()),
-          Text(
-            DateFormat('Hm').format(_chatProvider.selectedChat.date),
-            style: TextStyle(fontSize: 12),
-          )
-        ]),
+        title:
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: []),
         actions: [
           IconButton(icon: Icon(Icons.star_border), onPressed: () {}),
           IconButton(icon: Icon(Icons.share), onPressed: () {}),
@@ -44,9 +34,9 @@ class MediaPreviewListPage extends StatelessWidget {
                                 ))),
                     child: Container(
                       margin: EdgeInsets.only(bottom: 20),
-                      child: Hero(
-                        tag: media[index].url,
-                        child: Image.asset(media[index].url),
+                      child: FadeInImage.memoryNetwork(
+                        placeholder: kTransparentImage,
+                        image: media[index],
                       ),
                     ),
                   ))),
