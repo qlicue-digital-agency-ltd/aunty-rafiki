@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 class ConfigProvider with ChangeNotifier {
   ConfigProvider() {
+    getAppConfigurationStep();
     fetchConfigurations().then((value) {
       if (_fetchedConfiguration == Configuration.NameScreenStepDone) {
         changePage(2);
@@ -17,9 +18,6 @@ class ConfigProvider with ChangeNotifier {
   String _title = "Mother's Name";
   int _currentPregPage = 1;
   int _currentUnknownPregPage = 1;
-
-
-
 
   /// Shared preference DB
   SharedPref _sharedPref = SharedPref();
@@ -41,20 +39,21 @@ class ConfigProvider with ChangeNotifier {
   }
 
   ///getter for configuration ...
-  Future<Configuration> get appConfigurationStep async {
+  Future<void> getAppConfigurationStep() async {
     final _config = await _sharedPref.readStringleString('configurationStep');
     print(_config);
     if (_config != null) {
       _appConfigurationStep =
           EnumToString.fromString(Configuration.values, _config);
     }
-    return _appConfigurationStep;
+    notifyListeners();
   }
 
+  Configuration get currentConfigurationStep => _appConfigurationStep;
   String get title => _title;
   int get currentPregPage => _currentPregPage;
   int get currentUnknownPregPage => _currentUnknownPregPage;
- // PageController get pageController => _pageController;
+  // PageController get pageController => _pageController;
 
   Configuration get fetchedConfiguration => _fetchedConfiguration;
 
@@ -69,7 +68,6 @@ class ConfigProvider with ChangeNotifier {
   }
 
   void changePage(int index) {
- 
     _currentPregPage = index + 1;
 
     if (index == 0) {
@@ -92,7 +90,6 @@ class ConfigProvider with ChangeNotifier {
   }
 
   void changeUnknownPregnancyPage(int index) {
-  
     _currentUnknownPregPage = index + 1;
     if (index == 0) {
       _title = "Detect your week";
