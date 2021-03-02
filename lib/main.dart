@@ -7,6 +7,7 @@ import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/food_provider.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
+import 'package:aunty_rafiki/providers/post_provider.dart';
 import 'package:aunty_rafiki/providers/task_provider.dart';
 import 'package:aunty_rafiki/providers/timeline_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
@@ -84,6 +85,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => FoodProvider()),
         ChangeNotifierProvider(create: (_) => HostipalBagProvider()),
         ChangeNotifierProvider(create: (_) => ConfigProvider()),
+        ChangeNotifierProvider(create: (_) => PostProvider()),
       ],
       child:
 

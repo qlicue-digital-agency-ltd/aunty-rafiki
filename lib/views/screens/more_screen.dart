@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
+import 'package:aunty_rafiki/views/pages/hiv_mother_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -120,6 +121,8 @@ class MoreScreen extends StatelessWidget {
                   title: 'HIV Mothers',
                   onTap: () {
                     Navigator.pushNamed(context, hospitalBagPage);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => HIVMotherPage()));
                   },
                 )),
                 const SizedBox(width: 16.0),
