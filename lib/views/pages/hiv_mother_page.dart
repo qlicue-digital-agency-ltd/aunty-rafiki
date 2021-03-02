@@ -40,7 +40,7 @@ class HIVMotherPage extends StatelessWidget {
                         shrinkWrap: true,
                         children: <Widget>[
                           NoItemTile(
-                            title: 'No Posts',
+                            title: 'No Content',
                             icon: 'assets/access/red-ribbon.png',
                           ),
                         ],
