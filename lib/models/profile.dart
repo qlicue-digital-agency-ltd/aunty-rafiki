@@ -1,25 +1,42 @@
 import 'package:flutter/material.dart';
 
 class Profile {
-  final IconData icon;
-  final String title;
-  Widget trailing;
+  final int id;
+  final String avatar;
+  final String phone;
+  final String gender;
+  final String location;
+  final int userId;
 
-  Profile({@required this.icon, @required this.title});
+  Profile(
+      {@required this.id,
+      @required this.userId,
+      @required this.avatar,
+      @required this.phone,
+      @required this.gender,
+      @required this.location});
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      'user_id': userId,
+      'avatar': avatar,
+      'phone': phone,
+      'location': location,
+      'gender': gender,
+    };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
+  }
+
+  Profile.fromMap(Map<String, dynamic> map)
+      : assert(map['id'] != null),
+        assert(map['user_id'] != null),
+        id = map['id'],
+        userId = int.parse(map['user_id'].toString()),
+        avatar = map['avatar'].toString(),
+        phone = map['phone'].toString(),
+        gender = map['gender'].toString(),
+        location = map['location'].toString();
 }
-
-List<Profile> menuList = <Profile>[
-  Profile(icon: Icons.settings, title: 'Settings'),
-  Profile(icon: Icons.ac_unit, title: 'About Us'),
-  Profile(icon: Icons.contact_phone, title: 'Contant Us'),
-  Profile(icon: Icons.personal_video, title: 'privacy Policy')
-];
-
-List<Profile> pregnancyList = <Profile>[
-  Profile(icon: Icons.search, title: 'Baby Sex'),
-  Profile(icon: Icons.keyboard, title: 'Baby Name'),
-  Profile(icon: Icons.dashboard, title: 'Due Date'),
-  Profile(icon: Icons.call, title: 'Due Date Calculator')
-];
-
-
