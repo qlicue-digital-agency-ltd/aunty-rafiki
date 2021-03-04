@@ -120,7 +120,6 @@ class MoreScreen extends StatelessWidget {
                   image: 'assets/access/red-ribbon.png',
                   title: 'HIV Mothers',
                   onTap: () {
-                    Navigator.pushNamed(context, hospitalBagPage);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => HIVMotherPage()));
                   },

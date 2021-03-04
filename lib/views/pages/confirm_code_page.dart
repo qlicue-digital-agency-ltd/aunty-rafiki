@@ -24,8 +24,6 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
   double divider = 3;
   String passwordText = '';
 
-  var onTapRecognizer;
-
   TextEditingController textEditingController = TextEditingController()
     ..text = "";
 
@@ -36,13 +34,13 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
 
   @override
   void initState() {
-    onTapRecognizer = TapGestureRecognizer()
-      ..onTap = () {
-        final _authProvider = Provider.of<AuthProvider>(context);
-        _authProvider.requestVerificationCode().then((value) {});
+    // onTapRecognizer = TapGestureRecognizer()
+    //   ..onTap = () {
+    //     final _authProvider = Provider.of<AuthProvider>(context);
+    //     _authProvider.requestVerificationCode().then((value) {});
 
-        ///TODO:resend code.......
-      };
+    //     ///TODO:resend code.......
+    //   };
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }
@@ -194,7 +192,10 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                     children: [
                       TextSpan(
                           text: " RESEND",
-                          recognizer: onTapRecognizer,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              print('***************object*************');
+                            },
                           style: TextStyle(
                               color: Colors.pink,
                               fontWeight: FontWeight.bold,
