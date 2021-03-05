@@ -1,12 +1,6 @@
-import 'dart:io';
-
-import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/private_chart_card.dart';
-import 'package:aunty_rafiki/views/pages/peer-chat/peer_chat_page.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -70,7 +64,6 @@ class _PrivateChatsState extends State<PrivateChats> {
                   return Loading();
                 } else {
                   return ListView.builder(
-                    padding: EdgeInsets.all(10.0),
                     itemBuilder: (context, index) =>
                         buildItem(context, snapshot.data.docs[index]),
                     itemCount: snapshot.data.docs.length,
@@ -95,11 +88,8 @@ class _PrivateChatsState extends State<PrivateChats> {
     if (document.data()['id'] == currentUserId) {
       return Container();
     } else {
-      return Container(
-        child: PrivateChartcard(
-          document: document,
-        ),
-        margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
+      return PrivateChartcard(
+        document: document,
       );
     }
   }

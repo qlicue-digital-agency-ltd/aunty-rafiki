@@ -12,14 +12,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'full_photo.dart';
+import 'full_photo_viewer_page.dart';
 
-class PeerChatPage extends StatefulWidget {
+class PrivateChatRoomPage extends StatefulWidget {
   final String peerId;
   final String peerAvatar;
   final String id;
 
-  const PeerChatPage(
+  const PrivateChatRoomPage(
       {Key key,
       @required this.peerId,
       @required this.peerAvatar,
@@ -27,14 +27,14 @@ class PeerChatPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PeerChatPageState createState() => _PeerChatPageState(
+  _PrivateChatRoomPageState createState() => _PrivateChatRoomPageState(
       peerId: peerId,
       peerAvatar: peerAvatar,
       id: FirebaseAuth.instance.currentUser.uid);
 }
 
-class _PeerChatPageState extends State<PeerChatPage> {
-  _PeerChatPageState(
+class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
+  _PrivateChatRoomPageState(
       {@required this.peerId, @required this.peerAvatar, @required this.id});
   String peerId;
   String peerAvatar;
