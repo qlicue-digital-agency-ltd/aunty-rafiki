@@ -4,6 +4,7 @@ import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,18 +17,25 @@ import 'full_photo.dart';
 class PeerChatPage extends StatefulWidget {
   final String peerId;
   final String peerAvatar;
+  final String id;
 
   const PeerChatPage(
-      {Key key, @required this.peerId, @required this.peerAvatar})
+      {Key key,
+      @required this.peerId,
+      @required this.peerAvatar,
+      @required this.id})
       : super(key: key);
 
   @override
-  _PeerChatPageState createState() =>
-      _PeerChatPageState(peerId: peerId, peerAvatar: peerAvatar);
+  _PeerChatPageState createState() => _PeerChatPageState(
+      peerId: peerId,
+      peerAvatar: peerAvatar,
+      id: FirebaseAuth.instance.currentUser.uid);
 }
 
 class _PeerChatPageState extends State<PeerChatPage> {
-  _PeerChatPageState({@required this.peerId, @required this.peerAvatar});
+  _PeerChatPageState(
+      {@required this.peerId, @required this.peerAvatar, @required this.id});
   String peerId;
   String peerAvatar;
   String id;
@@ -419,17 +427,13 @@ class _PeerChatPageState extends State<PeerChatPage> {
   }
 
   Future<bool> onBackPress() {
-    if (isShowSticker) {
-      setState(() {
-        isShowSticker = false;
-      });
-    } else {
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(id)
-          .update({'chattingWith': null});
-      Navigator.pop(context);
-    }
+    print('nnn');
+
+    // FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(id)
+    //     .update({'chattingWith': null});
+    Navigator.pop(context);
 
     return Future.value(false);
   }
@@ -461,7 +465,7 @@ class _PeerChatPageState extends State<PeerChatPage> {
             ),
 
             // Loading
-            buildLoading()
+            // buildLoading()
           ],
         ),
         onWillPop: onBackPress,
@@ -675,12 +679,12 @@ class _PeerChatPageState extends State<PeerChatPage> {
                           valueColor:
                               AlwaysStoppedAnimation<Color>(themeColor)));
                 } else {
-                  listMessage.addAll(snapshot.data.documents);
+                  listMessage.addAll(snapshot.data.docs);
                   return ListView.builder(
                     padding: EdgeInsets.all(10.0),
                     itemBuilder: (context, index) =>
-                        buildItem(index, snapshot.data.documents[index]),
-                    itemCount: snapshot.data.documents.length,
+                        buildItem(index, snapshot.data.docs[index]),
+                    itemCount: snapshot.data.docs.length,
                     reverse: true,
                     controller: _listScrollController,
                   );

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Loading extends StatelessWidget {
@@ -8,9 +11,11 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(themeColor),
-        ),
+        child: Platform.isAndroid
+            ? CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+              )
+            : CupertinoActivityIndicator(),
       ),
       color: Colors.white.withOpacity(0.8),
     );

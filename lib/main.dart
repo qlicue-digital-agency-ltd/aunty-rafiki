@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
@@ -25,10 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 import 'App.dart';
 
 const MethodChannel platform = MethodChannel('aunty-rafiki.qlicue.co.tz');
@@ -62,7 +57,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  await _configureLocalTimeZone();
+  // await _configureLocalTimeZone();
 
   // Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -133,6 +128,9 @@ Future<void> main() async {
     });
   }
 
+
+  ///
+
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
@@ -158,8 +156,8 @@ Future<void> main() async {
           App()));
 }
 
-Future<void> _configureLocalTimeZone() async {
-  tz.initializeTimeZones();
-  final String timeZoneName = await platform.invokeMethod('getTimeZoneName');
-  tz.setLocalLocation(tz.getLocation(timeZoneName));
-}
+// Future<void> _configureLocalTimeZone() async {
+//   tz.initializeTimeZones();
+//   final String timeZoneName = await platform.invokeMethod('getTimeZoneName');
+//   tz.setLocalLocation(tz.getLocation(timeZoneName));
+// }
