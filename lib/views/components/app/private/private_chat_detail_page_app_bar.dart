@@ -1,19 +1,15 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
-import 'package:aunty_rafiki/models/chat.dart';
-
-import 'package:aunty_rafiki/providers/group_provider.dart';
-import 'package:aunty_rafiki/views/pages/group_info_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class ChatDetailPageAppBar extends StatelessWidget
+class PrivateChatDetailPageAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  final Chat chat;
-  const ChatDetailPageAppBar({Key key, @required this.chat}) : super(key: key);
+  final DocumentSnapshot document;
+  const PrivateChatDetailPageAppBar({Key key, @required this.document})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -35,8 +31,8 @@ class ChatDetailPageAppBar extends StatelessWidget
                 width: 2,
               ),
               CircleAvatar(
-                backgroundImage: chat.avatar.isNotEmpty
-                    ? NetworkImage(chat.avatar)
+                backgroundImage: document.data()['photoUrl'] != null
+                    ? NetworkImage(document.data()['photoUrl'])
                     : AssetImage('assets/icons/female.png'),
                 maxRadius: 20,
               ),
@@ -46,17 +42,17 @@ class ChatDetailPageAppBar extends StatelessWidget
               Expanded(
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => GroupInfoPage(chat: chat)));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (_) => GroupInfoPage(chat: chat)));
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        chat.name,
+                        '${document.data()['displayName']}',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, color: Colors.white),
                       ),
@@ -68,7 +64,7 @@ class ChatDetailPageAppBar extends StatelessWidget
                         children: [
                           Expanded(
                             child: Text(
-                              "Tap to view group info",
+                              "online",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               textAlign: TextAlign.left,
@@ -91,10 +87,10 @@ class ChatDetailPageAppBar extends StatelessWidget
                 ),
                 onSelected: (ChatGroupPopMenu result) {
                   if (result == ChatGroupPopMenu.GroupInfo) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => GroupInfoPage(chat: chat)));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (_) => GroupInfoPage(chat: chat)));
                   }
                 },
                 itemBuilder: (BuildContext context) =>

@@ -45,10 +45,10 @@ class PrivateChartcard extends StatelessWidget {
                                   height: 50.0,
                                   fit: BoxFit.cover,
                                 )
-                              : Icon(
-                                  Icons.account_circle,
-                                  size: 50.0,
-                                  color: greyColor,
+                              : CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/icons/female.png'),
+                                  maxRadius: 30,
                                 ),
                         ),
                         SizedBox(
@@ -103,7 +103,8 @@ class PrivateChartcard extends StatelessWidget {
                 builder: (context) => PrivateChatRoomPage(
                       peerId: document.id,
                       peerAvatar: document.data()['photoUrl'],
-                      id: FirebaseAuth.instance.currentUser.uid,
+ 
+                      document: document,
                     )));
       },
     );

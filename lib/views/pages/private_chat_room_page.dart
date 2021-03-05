@@ -1,6 +1,8 @@
-import 'dart:io';
-
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
+import 'package:aunty_rafiki/providers/chat_provider.dart';
+import 'package:aunty_rafiki/views/backgrounds/chat_background.dart';
+import 'package:aunty_rafiki/views/components/app/private/private_chat_detail_page_app_bar.dart';
+import 'package:aunty_rafiki/views/components/app/private/private_selected_chat_app_bar.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,47 +10,47 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import 'full_photo_viewer_page.dart';
 
 class PrivateChatRoomPage extends StatefulWidget {
   final String peerId;
   final String peerAvatar;
-  final String id;
+  final DocumentSnapshot document;
 
   const PrivateChatRoomPage(
       {Key key,
       @required this.peerId,
       @required this.peerAvatar,
-      @required this.id})
+      @required this.document})
       : super(key: key);
 
   @override
   _PrivateChatRoomPageState createState() => _PrivateChatRoomPageState(
-      peerId: peerId,
-      peerAvatar: peerAvatar,
-      id: FirebaseAuth.instance.currentUser.uid);
+      peerId: peerId, peerAvatar: peerAvatar, document: document);
 }
 
 class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
-  _PrivateChatRoomPageState(
-      {@required this.peerId, @required this.peerAvatar, @required this.id});
+  _PrivateChatRoomPageState({
+    @required this.peerId,
+    @required this.peerAvatar,
+    @required this.document,
+  });
   String peerId;
   String peerAvatar;
   String id;
+  final DocumentSnapshot document;
 
   List<QueryDocumentSnapshot> listMessage = new List.from([]);
   int _limit = 20;
   int _limitIncrement = 20;
   String groupChatId;
-  SharedPreferences prefs;
 
-  File imageFile;
   bool isLoading;
-  bool isShowSticker;
+
   String imageUrl;
 
   final TextEditingController _textEditingController = TextEditingController();
@@ -75,7 +77,7 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
     groupChatId = '';
 
     isLoading = false;
-    isShowSticker = false;
+
     imageUrl = '';
     readLocal();
   }
@@ -83,68 +85,24 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
   void onFocusChange() {
     if (_focusNode.hasFocus) {
       // Hide sticker when keyboard appear
-      setState(() {
-        isShowSticker = false;
-      });
+
     }
   }
 
   readLocal() async {
-    prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ?? '';
+    id = FirebaseAuth.instance.currentUser.uid;
     if (id.hashCode <= peerId.hashCode) {
       groupChatId = '$id-$peerId';
     } else {
       groupChatId = '$peerId-$id';
     }
+
     FirebaseFirestore.instance
         .collection('users')
         .doc(id)
         .update({'chattingWith': peerId});
 
-    setState(() {});
-  }
 
-  Future getImage() async {
-    ImagePicker imagePicker = ImagePicker();
-    PickedFile pickedFile;
-
-    pickedFile = await imagePicker.getImage(source: ImageSource.gallery);
-    imageFile = File(pickedFile.path);
-
-    if (imageFile != null) {
-      setState(() {
-        isLoading = true;
-      });
-      uploadFile();
-    }
-  }
-
-  void getSticker() {
-    // Hide keyboard when sticker appear
-    _focusNode.unfocus();
-    setState(() {
-      isShowSticker = !isShowSticker;
-    });
-  }
-
-  Future uploadFile() async {
-    // String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    // StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
-    // StorageUploadTask uploadTask = reference.putFile(imageFile);
-    // StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
-    // storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
-    //   imageUrl = downloadUrl;
-    //   setState(() {
-    //     isLoading = false;
-    //     onSendMessage(imageUrl, 1);
-    //   });
-    // }, onError: (err) {
-    //   setState(() {
-    //     isLoading = false;
-    //   });
-    //   Fluttertoast.showToast(msg: 'This file is not an image');
-    // });
   }
 
   void onSendMessage(String content, int type) {
@@ -162,7 +120,7 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
         transaction.set(
           documentReference,
           {
-            'idFrom': id,
+            'idFrom': FirebaseAuth.instance.currentUser.uid,
             'idTo': peerId,
             'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
             'content': content,
@@ -427,12 +385,12 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
   }
 
   Future<bool> onBackPress() {
-    print('nnn');
+    
 
-    // FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(id)
-    //     .update({'chattingWith': null});
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .update({'chattingWith': null});
     Navigator.pop(context);
 
     return Future.value(false);
@@ -440,24 +398,24 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _chatProvider = Provider.of<ChatProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'CHAT',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
+      appBar: _chatProvider.selectedMessages.isEmpty
+          ? PrivateChatDetailPageAppBar(
+              document: document,
+            )
+          : PrivateSelectedChatAppBar(
+              document: document,
+              listMessage: _chatProvider.selectedMessages,
+            ),
       body: WillPopScope(
         child: Stack(
           children: <Widget>[
+            ChatBackground(),
             Column(
               children: <Widget>[
                 // List of messages
                 buildListMessage(),
-
-                // Sticker
-                (isShowSticker ? buildSticker() : Container()),
 
                 // Input content
                 buildInput(),
@@ -473,117 +431,6 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
     );
   }
 
-  Widget buildSticker() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              FlatButton(
-                onPressed: () => onSendMessage('mimi1', 2),
-                child: Image.asset(
-                  'images/mimi1.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi2', 2),
-                child: Image.asset(
-                  'images/mimi2.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi3', 2),
-                child: Image.asset(
-                  'images/mimi3.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              )
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
-          Row(
-            children: <Widget>[
-              FlatButton(
-                onPressed: () => onSendMessage('mimi4', 2),
-                child: Image.asset(
-                  'images/mimi4.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi5', 2),
-                child: Image.asset(
-                  'images/mimi5.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi6', 2),
-                child: Image.asset(
-                  'images/mimi6.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              )
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
-          Row(
-            children: <Widget>[
-              FlatButton(
-                onPressed: () => onSendMessage('mimi7', 2),
-                child: Image.asset(
-                  'images/mimi7.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi8', 2),
-                child: Image.asset(
-                  'images/mimi8.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              FlatButton(
-                onPressed: () => onSendMessage('mimi9', 2),
-                child: Image.asset(
-                  'images/mimi9.gif',
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-              )
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          )
-        ],
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      ),
-      decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: greyColor2, width: 0.5)),
-          color: Colors.white),
-      padding: EdgeInsets.all(5.0),
-      height: 180.0,
-    );
-  }
-
   Widget buildLoading() {
     return Positioned(
       child: isLoading ? const Loading() : Container(),
@@ -594,30 +441,6 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
     return Container(
       child: Row(
         children: <Widget>[
-          // Button send image
-          Material(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 1.0),
-              child: IconButton(
-                icon: Icon(Icons.image),
-                onPressed: getImage,
-                color: primaryColor,
-              ),
-            ),
-            color: Colors.white,
-          ),
-          Material(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 1.0),
-              child: IconButton(
-                icon: Icon(Icons.face),
-                onPressed: getSticker,
-                color: primaryColor,
-              ),
-            ),
-            color: Colors.white,
-          ),
-
           // Edit text
           Flexible(
             child: Container(
