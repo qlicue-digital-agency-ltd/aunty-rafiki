@@ -5,7 +5,7 @@ import 'package:aunty_rafiki/views/backgrounds/chat_background.dart';
 import 'package:aunty_rafiki/views/components/app/selected_chat_app_bar.dart';
 import 'package:aunty_rafiki/views/components/tiles/messages/input/message_edit_bar.dart';
 
-import 'package:aunty_rafiki/views/components/tiles/messages/message_list.dart';
+import 'package:aunty_rafiki/views/components/tiles/messages/lists/message_list.dart';
 import 'package:aunty_rafiki/views/components/app/chat_detail_page_app_bar.dart';
 import 'package:aunty_rafiki/views/pages/upload_image_page.dart';
 

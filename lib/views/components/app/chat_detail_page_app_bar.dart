@@ -1,11 +1,9 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/models/chat.dart';
 
-import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/views/pages/group_info_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ChatDetailPageAppBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -13,7 +11,6 @@ class ChatDetailPageAppBar extends StatelessWidget
   const ChatDetailPageAppBar({Key key, @required this.chat}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,

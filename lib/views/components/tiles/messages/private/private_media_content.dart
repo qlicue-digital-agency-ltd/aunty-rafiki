@@ -1,5 +1,5 @@
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
-import 'package:aunty_rafiki/models/message.dart';
+import 'package:aunty_rafiki/models/private_message.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/pages/media_preview_list_page.dart';
 import 'package:aunty_rafiki/views/pages/media_preview_page.dart';
@@ -8,13 +8,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+
 // ignore: must_be_immutable
-class MediaContent extends StatelessWidget {
-  final Message message;
+class PrivateMediaContent extends StatelessWidget {
+  final PrivateMessage message;
   final double width;
   final bool byMe;
   List<Widget> widgetlist = List();
-  MediaContent(
+  PrivateMediaContent(
       {Key key,
       @required this.message,
       @required this.width,
@@ -38,7 +39,7 @@ class MediaContent extends StatelessWidget {
                         const EdgeInsets.only(left: 6.0, top: 8.0, right: 6.0),
                     child: RichText(
                         text: TextSpan(
-                      text: '${message.senderName}',
+                      text: '${message.idFrom}',
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -153,7 +154,7 @@ class MediaContent extends StatelessWidget {
                     vertical: 4,
                   ),
                   child: Text(
-                    message.text,
+                    message.content,
                     style: TextStyle(
                       fontSize: 16,
                     ),

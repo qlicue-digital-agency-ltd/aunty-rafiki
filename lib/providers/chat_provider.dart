@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/models/message.dart';
+import 'package:aunty_rafiki/models/private_message.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -24,6 +25,7 @@ class ChatProvider with ChangeNotifier {
   String _privateGroupId;
   String _peerId;
   Map<String, Message> _selectedMessages = {};
+  Map<String, PrivateMessage> _selectedPrivateMessages = {};
 
   ScrollController _scrollController = new ScrollController();
 
@@ -40,6 +42,18 @@ class ChatProvider with ChangeNotifier {
       print('removed');
     } else {
       _selectedMessages[uid] = message;
+      print('added');
+    }
+    print(_selectedMessages.length);
+    notifyListeners();
+  }
+
+  setPrivateMessage({@required String uid, @required PrivateMessage message}) {
+    if (_selectedMessages.containsKey(uid)) {
+      _selectedMessages.remove(uid);
+      print('removed');
+    } else {
+      _selectedPrivateMessages[uid] = message;
       print('added');
     }
     print(_selectedMessages.length);
@@ -76,6 +90,8 @@ class ChatProvider with ChangeNotifier {
   List<File> get compressedFiles => _compressedFiles;
   bool get loadingPath => _loadingPath;
   Map<String, Message> get selectedMessages => _selectedMessages;
+  Map<String, PrivateMessage> get selectedPrivateMessages =>
+      _selectedPrivateMessages;
   bool get isCreatingGroup => _isSendingMessage;
   Message get messageToReply => _messageToReply;
   ScrollController get scrollController => _scrollController;
