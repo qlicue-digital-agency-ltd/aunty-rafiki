@@ -1,15 +1,15 @@
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
+import 'package:aunty_rafiki/models/user.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/pages/private_chat_room_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PrivateChartcard extends StatelessWidget {
-  final DocumentSnapshot document;
+  final User peer;
 
-  const PrivateChartcard({Key key, @required this.document}) : super(key: key);
+  const PrivateChartcard({Key key, @required this.peer}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
@@ -27,7 +27,7 @@ class PrivateChartcard extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         Container(
-                          child: document.data()['photoUrl'] != null
+                          child: peer.photoUrl != null
                               ? CachedNetworkImage(
                                   placeholder: (context, url) => Container(
                                     child: CircularProgressIndicator(
@@ -39,7 +39,7 @@ class PrivateChartcard extends StatelessWidget {
                                     height: 50.0,
                                     padding: EdgeInsets.all(15.0),
                                   ),
-                                  imageUrl: document.data()['photoUrl'],
+                                  imageUrl: peer.photoUrl,
                                   width: 50.0,
                                   height: 50.0,
                                   fit: BoxFit.cover,
@@ -60,13 +60,13 @@ class PrivateChartcard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  '${document.data()['displayName']}',
+                                  '${peer.displayName}',
                                 ),
                                 SizedBox(
                                   height: 6,
                                 ),
                                 Text(
-                                  '${document.data()['lastMessage'] ?? 'offline'}',
+                                  '${peer.isAdmin ?? 'offline'}',
                                   style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey.shade500),
@@ -84,7 +84,7 @@ class PrivateChartcard extends StatelessWidget {
                         .formatDate(DateTime.parse(DateTime.now().toString())),
                     style: TextStyle(
                         fontSize: 12,
-                        color: document.data()['isMessageRead'] == null
+                        color: peer.isAdmin == null
                             ? Colors.pink
                             : Colors.grey.shade500),
                   ),
@@ -96,14 +96,12 @@ class PrivateChartcard extends StatelessWidget {
         ),
       ),
       onTap: () {
+        ///
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => PrivateChatRoomPage(
-                      peerId: document.id,
-                      peerAvatar: document.data()['photoUrl'],
- 
-                      document: document,
+                      peer: peer,
                     )));
       },
     );

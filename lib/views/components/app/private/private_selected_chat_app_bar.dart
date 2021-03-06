@@ -1,12 +1,11 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 
 import 'package:aunty_rafiki/models/message.dart';
+import 'package:aunty_rafiki/models/user.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
-
 
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_two_box.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +14,10 @@ import 'package:provider/provider.dart';
 
 class PrivateSelectedChatAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  final DocumentSnapshot document;
+  final User peer;
   final Map<String, Message> listMessage;
   const PrivateSelectedChatAppBar(
-      {Key key, @required this.document, @required this.listMessage})
+      {Key key, @required this.peer, @required this.listMessage})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

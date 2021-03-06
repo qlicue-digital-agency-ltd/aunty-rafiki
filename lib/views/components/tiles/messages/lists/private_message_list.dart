@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PrivateMessageList extends StatelessWidget {
-  final int limit;
-
-  const PrivateMessageList({Key key, @required this.limit}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _chatProvider = Provider.of<ChatProvider>(context);
@@ -20,7 +17,7 @@ class PrivateMessageList extends StatelessWidget {
           .doc(_chatProvider.privateGroupId)
           .collection(_chatProvider.privateGroupId)
           .orderBy('timestamp', descending: false)
-          .limit(limit)
+          .limit(_chatProvider.limit)
           .snapshots()
           .map(firestoreToPrivateMessageList),
       builder: (context, AsyncSnapshot<List<PrivateMessage>> snapshot) {

@@ -26,6 +26,8 @@ class ChatProvider with ChangeNotifier {
   String _peerId;
   Map<String, Message> _selectedMessages = {};
   Map<String, PrivateMessage> _selectedPrivateMessages = {};
+  int _limit = 20;
+  int _limitIncrement = 20;
 
   ScrollController _scrollController = new ScrollController();
 
@@ -89,14 +91,27 @@ class ChatProvider with ChangeNotifier {
   List<File> get files => _paths.map((path) => File(path.path)).toList();
   List<File> get compressedFiles => _compressedFiles;
   bool get loadingPath => _loadingPath;
+
   Map<String, Message> get selectedMessages => _selectedMessages;
   Map<String, PrivateMessage> get selectedPrivateMessages =>
       _selectedPrivateMessages;
   bool get isCreatingGroup => _isSendingMessage;
   Message get messageToReply => _messageToReply;
+  int get limit => _limit;
+
   ScrollController get scrollController => _scrollController;
   String get privateGroupId => _privateGroupId;
   String get peerId => _peerId;
+
+  _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      _limit += _limitIncrement;
+      notifyListeners();
+    }
+  }
+
   void clearSelectedMedia() {
     _mediaType = "NON";
     _paths = [];

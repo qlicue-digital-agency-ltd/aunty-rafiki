@@ -1,5 +1,7 @@
+import 'package:aunty_rafiki/models/user.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/private_chart_card.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -54,19 +56,26 @@ class _PrivateChatsState extends State<PrivateChats> {
         children: <Widget>[
           // List
           Container(
-            child: StreamBuilder(
+            child: StreamBuilder<List<User>>(
               stream: FirebaseFirestore.instance
                   .collection('users')
                   .limit(_limit)
-                  .snapshots(),
-              builder: (context, snapshot) {
+                  .snapshots()
+                  .map(firestoreToUserList),
+              builder: (context, AsyncSnapshot<List<User>> snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                      child: Text('error: ${snapshot.error.toString()}'));
+                }
+
                 if (!snapshot.hasData) {
                   return Loading();
                 } else {
+                  List<User> userList = snapshot.data;
                   return ListView.builder(
                     itemBuilder: (context, index) =>
-                        buildItem(context, snapshot.data.docs[index]),
-                    itemCount: snapshot.data.docs.length,
+                        buildItem(context, userList[index]),
+                    itemCount: userList.length,
                     controller: _listScrollController,
                   );
                 }
@@ -84,12 +93,12 @@ class _PrivateChatsState extends State<PrivateChats> {
     );
   }
 
-  Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document.data()['id'] == currentUserId) {
+  Widget buildItem(BuildContext context, User peer) {
+    if (peer.uid == currentUserId) {
       return Container();
     } else {
       return PrivateChartcard(
-        document: document,
+        peer: peer,
       );
     }
   }

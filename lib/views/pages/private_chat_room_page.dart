@@ -6,56 +6,37 @@ import 'package:aunty_rafiki/views/components/tiles/messages/input/message_edit_
 import 'package:aunty_rafiki/views/components/tiles/messages/lists/private_message_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:aunty_rafiki/models/user.dart' as userModel;
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-
 class PrivateChatRoomPage extends StatefulWidget {
-  final String peerId;
-  final String peerAvatar;
-  final DocumentSnapshot document;
+  final userModel.User peer;
 
-  const PrivateChatRoomPage(
-      {Key key,
-      @required this.peerId,
-      @required this.peerAvatar,
-      @required this.document})
-      : super(key: key);
+  const PrivateChatRoomPage({
+    Key key,
+    @required this.peer,
+  }) : super(key: key);
 
   @override
-  _PrivateChatRoomPageState createState() => _PrivateChatRoomPageState(
-      peerId: peerId, peerAvatar: peerAvatar, document: document);
+  _PrivateChatRoomPageState createState() =>
+      _PrivateChatRoomPageState(peer: peer);
 }
 
 class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
   _PrivateChatRoomPageState({
-    @required this.peerId,
-    @required this.peerAvatar,
-    @required this.document,
+    @required this.peer,
   });
-  String peerId;
-  String peerAvatar;
+  userModel.User peer;
+
   String id;
-  final DocumentSnapshot document;
 
   List<QueryDocumentSnapshot> listMessage = new List.from([]);
-  int _limit = 20;
-  int _limitIncrement = 20;
+
   String groupChatId;
 
   final FocusNode _focusNode = FocusNode();
-
-  // _scrollListener() {
-  //   if (_listScrollController.offset >=
-  //           _listScrollController.position.maxScrollExtent &&
-  //       !_listScrollController.position.outOfRange) {
-  //     setState(() {
-  //       _limit += _limitIncrement;
-  //     });
-  //   }
-  // }
 
   @override
   void initState() {
@@ -77,16 +58,16 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
 
   readLocal() async {
     id = FirebaseAuth.instance.currentUser.uid;
-    if (id.hashCode <= peerId.hashCode) {
-      groupChatId = '$id-$peerId';
+    if (id.hashCode <= peer.uid.hashCode) {
+      groupChatId = '$id-${peer.uid}';
     } else {
-      groupChatId = '$peerId-$id';
+      groupChatId = '${peer.uid}-$id';
     }
 
     FirebaseFirestore.instance
         .collection('users')
         .doc(id)
-        .update({'chattingWith': peerId});
+        .update({'chattingWith': peer.uid});
   }
 
   Future<bool> onBackPress() {
@@ -105,10 +86,10 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
     return Scaffold(
       appBar: _chatProvider.selectedMessages.isEmpty
           ? PrivateChatDetailPageAppBar(
-              document: document,
+              peer: peer,
             )
           : PrivateSelectedChatAppBar(
-              document: document,
+               peer: peer,
               listMessage: _chatProvider.selectedMessages,
             ),
       body: WillPopScope(
@@ -118,9 +99,7 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
             Column(
               children: <Widget>[
                 // List of messages
-                PrivateMessageList(
-                  limit: _limit,
-                ),
+                PrivateMessageList(),
 
                 // Input content
                 MessageEditBar(

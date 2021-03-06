@@ -1,12 +1,12 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:aunty_rafiki/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PrivateChatDetailPageAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  final DocumentSnapshot document;
-  const PrivateChatDetailPageAppBar({Key key, @required this.document})
+  final User peer;
+  const PrivateChatDetailPageAppBar({Key key, @required this.peer})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,8 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
                 width: 2,
               ),
               CircleAvatar(
-                backgroundImage: document.data()['photoUrl'] != null
-                    ? NetworkImage(document.data()['photoUrl'])
+                backgroundImage: peer.photoUrl != null
+                    ? NetworkImage(peer.photoUrl)
                     : AssetImage('assets/icons/female.png'),
                 maxRadius: 20,
               ),
@@ -52,7 +52,7 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        '${document.data()['displayName']}',
+                        '${peer.displayName}',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, color: Colors.white),
                       ),
