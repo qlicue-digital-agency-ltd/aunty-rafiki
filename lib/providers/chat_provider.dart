@@ -21,6 +21,8 @@ class ChatProvider with ChangeNotifier {
   ///message...
   bool _isSendingMessage = false;
   String _mediaType = "NON";
+  String _privateGroupId;
+  String _peerId;
   Map<String, Message> _selectedMessages = {};
 
   ScrollController _scrollController = new ScrollController();
@@ -49,6 +51,16 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set setPrivateGroupId(String id) {
+    _privateGroupId = id;
+    notifyListeners();
+  }
+
+  set setPeerId(String id) {
+    _peerId = id;
+    notifyListeners();
+  }
+
   ///scroll to bottom of chats
   void scrollToBootomOfChats() {
     _scrollController.animateTo(
@@ -67,7 +79,8 @@ class ChatProvider with ChangeNotifier {
   bool get isCreatingGroup => _isSendingMessage;
   Message get messageToReply => _messageToReply;
   ScrollController get scrollController => _scrollController;
-
+  String get privateGroupId => _privateGroupId;
+  String get peerId => _peerId;
   void clearSelectedMedia() {
     _mediaType = "NON";
     _paths = [];
@@ -332,4 +345,36 @@ class ChatProvider with ChangeNotifier {
   }
 
   ///
+  ///
+  ///private message.........
+  ///
+
+  Future<void> onSendPrivateMessage(
+      {@required String content,
+      @required String groupChatId,
+      @required String peerId,
+      @required String senderId,
+      @required dynamic time}) async {
+    var documentReference = FirebaseFirestore.instance
+        .collection('messages')
+        .doc(groupChatId)
+        .collection(groupChatId)
+        .doc(DateTime.now().millisecondsSinceEpoch.toString());
+
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.set(
+        documentReference,
+        {
+          'idFrom': senderId,
+          'idTo': peerId,
+          'time': time,
+          'content': content,
+          'media': [],
+          'repliedUID': null,
+          'mediaType': _mediaType.replaceAll('FileType.', ''),
+          'showDeletedMessage': true
+        },
+      );
+    });
+  }
 }

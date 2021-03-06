@@ -17,7 +17,6 @@ class Loading extends StatelessWidget {
               )
             : CupertinoActivityIndicator(),
       ),
-      color: Colors.white.withOpacity(0.8),
     );
   }
 }

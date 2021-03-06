@@ -125,6 +125,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   onPressed: () {
                     showModal(chat);
                   },
+                  isGroup: true,
                 ),
                 SizedBox(height: 20),
               ],

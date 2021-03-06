@@ -4,6 +4,7 @@ import 'package:aunty_rafiki/views/backgrounds/chat_background.dart';
 import 'package:aunty_rafiki/views/components/app/private/private_chat_detail_page_app_bar.dart';
 import 'package:aunty_rafiki/views/components/app/private/private_selected_chat_app_bar.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
+import 'package:aunty_rafiki/views/components/tiles/messages/input/message_edit_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -101,41 +102,6 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
         .collection('users')
         .doc(id)
         .update({'chattingWith': peerId});
-
-
-  }
-
-  void onSendMessage(String content, int type) {
-    // type: 0 = text, 1 = image, 2 = sticker
-    if (content.trim() != '') {
-      _textEditingController.clear();
-
-      var documentReference = FirebaseFirestore.instance
-          .collection('messages')
-          .doc(groupChatId)
-          .collection(groupChatId)
-          .doc(DateTime.now().millisecondsSinceEpoch.toString());
-
-      FirebaseFirestore.instance.runTransaction((transaction) async {
-        transaction.set(
-          documentReference,
-          {
-            'idFrom': FirebaseAuth.instance.currentUser.uid,
-            'idTo': peerId,
-            'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
-            'content': content,
-            'type': type
-          },
-        );
-      });
-      _listScrollController.animateTo(0.0,
-          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-    } else {
-      Fluttertoast.showToast(
-          msg: 'Nothing to send',
-          backgroundColor: Colors.black,
-          textColor: Colors.red);
-    }
   }
 
   Widget buildItem(int index, DocumentSnapshot document) {
@@ -143,88 +109,18 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
       // Right (my message)
       return Row(
         children: <Widget>[
-          document.data()['type'] == 0
-              // Text
-              ? Container(
-                  child: Text(
-                    document.data()['content'],
-                    style: TextStyle(color: primaryColor),
-                  ),
-                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                  width: 200.0,
-                  decoration: BoxDecoration(
-                      color: greyColor2,
-                      borderRadius: BorderRadius.circular(8.0)),
-                  margin: EdgeInsets.only(
-                      bottom: isLastMessageRight(index) ? 20.0 : 10.0,
-                      right: 10.0),
-                )
-              : document.data()['type'] == 1
-                  // Image
-                  ? Container(
-                      child: FlatButton(
-                        child: Material(
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) => Container(
-                              child: CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(themeColor),
-                              ),
-                              width: 200.0,
-                              height: 200.0,
-                              padding: EdgeInsets.all(70.0),
-                              decoration: BoxDecoration(
-                                color: greyColor2,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Material(
-                              child: Image.asset(
-                                'images/img_not_available.jpeg',
-                                width: 200.0,
-                                height: 200.0,
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              clipBehavior: Clip.hardEdge,
-                            ),
-                            imageUrl: document.data()['content'],
-                            width: 200.0,
-                            height: 200.0,
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                          clipBehavior: Clip.hardEdge,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FullPhoto(
-                                      url: document.data()['content'])));
-                        },
-                        padding: EdgeInsets.all(0),
-                      ),
-                      margin: EdgeInsets.only(
-                          bottom: isLastMessageRight(index) ? 20.0 : 10.0,
-                          right: 10.0),
-                    )
-                  // Sticker
-                  : Container(
-                      child: Image.asset(
-                        'images/${document.data()['content']}.gif',
-                        width: 100.0,
-                        height: 100.0,
-                        fit: BoxFit.cover,
-                      ),
-                      margin: EdgeInsets.only(
-                          bottom: isLastMessageRight(index) ? 20.0 : 10.0,
-                          right: 10.0),
-                    ),
+          Container(
+            child: Text(
+              document.data()['content'],
+              style: TextStyle(color: primaryColor),
+            ),
+            padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+            width: 200.0,
+            decoration: BoxDecoration(
+                color: greyColor2, borderRadius: BorderRadius.circular(8.0)),
+            margin: EdgeInsets.only(
+                bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
+          )
         ],
         mainAxisAlignment: MainAxisAlignment.end,
       );
@@ -385,8 +281,6 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
   }
 
   Future<bool> onBackPress() {
-    
-
     FirebaseFirestore.instance
         .collection('users')
         .doc(id)
@@ -418,7 +312,11 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
                 buildListMessage(),
 
                 // Input content
-                buildInput(),
+                MessageEditBar(
+                  onPressed: () {},
+                  isGroup: false,
+                ),
+                SizedBox(height: 20),
               ],
             ),
 
@@ -434,50 +332,6 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
   Widget buildLoading() {
     return Positioned(
       child: isLoading ? const Loading() : Container(),
-    );
-  }
-
-  Widget buildInput() {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          // Edit text
-          Flexible(
-            child: Container(
-              child: TextField(
-                onSubmitted: (value) {
-                  onSendMessage(_textEditingController.text, 0);
-                },
-                style: TextStyle(color: primaryColor, fontSize: 15.0),
-                controller: _textEditingController,
-                decoration: InputDecoration.collapsed(
-                  hintText: 'Type your message...',
-                  hintStyle: TextStyle(color: greyColor),
-                ),
-                focusNode: _focusNode,
-              ),
-            ),
-          ),
-
-          // Button send message
-          Material(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 8.0),
-              child: IconButton(
-                icon: Icon(Icons.send),
-                onPressed: () => onSendMessage(_textEditingController.text, 0),
-                color: primaryColor,
-              ),
-            ),
-            color: Colors.white,
-          ),
-        ],
-      ),
-      width: double.infinity,
-      height: 50.0,
-      decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: greyColor2, width: 0.5)),
-          color: Colors.white),
     );
   }
 

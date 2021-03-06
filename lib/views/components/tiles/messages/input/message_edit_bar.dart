@@ -15,16 +15,19 @@ import 'package:transparent_image/transparent_image.dart';
 class MessageEditBar extends StatefulWidget {
   final LocalFileSystem localFileSystem;
   final Function onPressed;
+  final bool isGroup;
 
-  const MessageEditBar({Key key, this.onPressed, localFileSystem})
+  const MessageEditBar(
+      {Key key, this.onPressed, localFileSystem, @required this.isGroup})
       : this.localFileSystem = localFileSystem,
         super(key: key);
 
   @override
-  _MessageEditBarState createState() => _MessageEditBarState();
+  _MessageEditBarState createState() => _MessageEditBarState(isGroup: isGroup);
 }
 
 class _MessageEditBarState extends State<MessageEditBar> {
+  _MessageEditBarState({@required this.isGroup});
   FirebaseFirestore db;
   TextEditingController _controller;
   List<Asset> images = List<Asset>();
@@ -32,6 +35,7 @@ class _MessageEditBarState extends State<MessageEditBar> {
   bool _isAudio = true;
   bool _showEmojiPicker = false;
   FocusNode focusNode;
+  final bool isGroup;
 
   @override
   void initState() {
@@ -283,22 +287,41 @@ class _MessageEditBarState extends State<MessageEditBar> {
                           _isSending = true;
                           _showEmojiPicker = false;
                         });
-                        _chatProvider
-                            .sendMessage(
-                                text: _controller.text,
-                                time: Timestamp.fromDate(DateTime.now()),
-                                user: FirebaseAuth.instance.currentUser.uid,
-                                chat: chat,
-                                repliedMessage: _chatProvider.messageToReply,
-                                senderName:
-                                    _authProvider.currentUser.displayName)
-                            .then((value) {
-                          _controller.clear();
-                          setState(() {
-                            _isSending = false;
+
+                        if (isGroup) {
+                          _chatProvider
+                              .sendMessage(
+                                  text: _controller.text,
+                                  time: Timestamp.fromDate(DateTime.now()),
+                                  user: FirebaseAuth.instance.currentUser.uid,
+                                  chat: chat,
+                                  repliedMessage: _chatProvider.messageToReply,
+                                  senderName:
+                                      _authProvider.currentUser.displayName)
+                              .then((value) {
+                            _controller.clear();
+                            setState(() {
+                              _isSending = false;
+                            });
+                            _chatProvider.scrollToBootomOfChats();
                           });
-                          _chatProvider.scrollToBootomOfChats();
-                        });
+                        } else {
+                          _chatProvider
+                              .onSendPrivateMessage(
+                            content: _controller.text,
+                            time: Timestamp.fromDate(DateTime.now()),
+                            senderId: FirebaseAuth.instance.currentUser.uid,
+                            groupChatId: _chatProvider.privateGroupId,
+                            peerId: _chatProvider.peerId,
+                          )
+                              .then((value) {
+                            _controller.clear();
+                            setState(() {
+                              _isSending = false;
+                            });
+                            _chatProvider.scrollToBootomOfChats();
+                          });
+                        }
                       },
                 color: Colors.white,
               ),
