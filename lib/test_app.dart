@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 
-
-
 /// Entry point for the example application.
 class MessagingExampleApp extends StatelessWidget {
   @override
@@ -68,8 +66,8 @@ class _Application extends State<Application> {
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification notification = message.notification;
-      AndroidNotification android = message.notification?.android;
+      //RemoteNotification notification = message.notification;
+      // AndroidNotification android = message.notification?.android;
 
       // if (notification != null && android != null) {
       //   flutterLocalNotificationsPlugin.show(
@@ -81,7 +79,7 @@ class _Application extends State<Application> {
       //           channel.id,
       //           channel.name,
       //           channel.description,
-      //           // TODO add a proper drawable resource to android, for now using
+
       //           //      one that already exists in example app.
       //           icon: 'launch_background',
       //         ),

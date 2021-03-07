@@ -1,6 +1,5 @@
 import 'dart:io' as io;
-import 'package:aunty_rafiki/models/chat.dart';
-import 'package:aunty_rafiki/providers/auth_provider.dart';
+
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emoji_picker/emoji_picker.dart';
@@ -11,23 +10,31 @@ import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:aunty_rafiki/models/user.dart' as userModel;
 
-class MessageEditBar extends StatefulWidget {
+class PrivateMessageEditBar extends StatefulWidget {
   final LocalFileSystem localFileSystem;
   final Function onPressed;
 
-  const MessageEditBar({
-    Key key,
-    this.onPressed,
-    localFileSystem,
-  })  : this.localFileSystem = localFileSystem,
+  final String groupChatId;
+  final userModel.User peer;
+
+  const PrivateMessageEditBar(
+      {Key key,
+      this.onPressed,
+      localFileSystem,
+      @required this.groupChatId,
+      @required this.peer})
+      : this.localFileSystem = localFileSystem,
         super(key: key);
 
   @override
-  _MessageEditBarState createState() => _MessageEditBarState();
+  _MessageEditBarState createState() =>
+      _MessageEditBarState(groupChatId: groupChatId, peer: peer);
 }
 
-class _MessageEditBarState extends State<MessageEditBar> {
+class _MessageEditBarState extends State<PrivateMessageEditBar> {
+  _MessageEditBarState({@required this.groupChatId, @required this.peer});
   FirebaseFirestore db;
   TextEditingController _controller;
   List<Asset> images = List<Asset>();
@@ -35,6 +42,9 @@ class _MessageEditBarState extends State<MessageEditBar> {
   bool _isAudio = true;
   bool _showEmojiPicker = false;
   FocusNode focusNode;
+  final userModel.User peer;
+
+  String groupChatId;
 
   @override
   void initState() {
@@ -46,10 +56,8 @@ class _MessageEditBarState extends State<MessageEditBar> {
 
   @override
   Widget build(BuildContext context) {
-    Chat chat = Provider.of<Chat>(context);
-
     final _chatProvider = Provider.of<ChatProvider>(context);
-    final _authProvider = Provider.of<AuthProvider>(context);
+
     return Column(
       children: [
         Row(
@@ -199,19 +207,20 @@ class _MessageEditBarState extends State<MessageEditBar> {
                                 },
                                 onSubmitted: (text) {
                                   _chatProvider
-                                      .sendMessage(
-                                          text: _controller.text,
-                                          time: Timestamp.fromDate(
-                                              DateTime.now()),
-                                          user: FirebaseAuth
-                                              .instance.currentUser.uid,
-                                          chat: chat,
-                                          repliedMessage:
-                                              _chatProvider.messageToReply,
-                                          senderName: _authProvider
-                                              .currentUser.displayName)
+                                      .onSendPrivateMessage(
+                                    content: _controller.text,
+                                    time: Timestamp.fromDate(DateTime.now()),
+                                    senderId:
+                                        FirebaseAuth.instance.currentUser.uid,
+                                    groupChatId: groupChatId,
+                                    peerId: peer.uid,
+                                  )
                                       .then((value) {
                                     _controller.clear();
+                                    setState(() {
+                                      _isSending = false;
+                                    });
+                                    _chatProvider.scrollToBootomOfChats();
                                   });
                                 },
                                 decoration: InputDecoration(
@@ -232,34 +241,6 @@ class _MessageEditBarState extends State<MessageEditBar> {
                 ),
               ),
             ),
-            // _isAudio
-            //     ? Material(
-            //         elevation: 2,
-            //         shape: CircleBorder(),
-            //         clipBehavior: Clip.antiAlias,
-            //         color: Theme.of(context).primaryColor,
-            //         child: IconButton(
-            //           icon: _isSending
-            //               ? Center(
-            //                   child: io.Platform.isIOS
-            //                       ? Theme(
-            //                           data: ThemeData(
-            //                               cupertinoOverrideTheme:
-            //                                   CupertinoThemeData(
-            //                                       brightness: Brightness.dark)),
-            //                           child: CupertinoActivityIndicator())
-            //                       : CircularProgressIndicator(
-            //                           valueColor:
-            //                               new AlwaysStoppedAnimation<Color>(
-            //                                   Colors.white),
-            //                         ))
-            //               : Icon(Icons.mic),
-            //           onPressed: () {},
-            //           color: Colors.white,
-            //         ),
-            //       )
-            //     :
-
             Material(
               elevation: 2,
               shape: CircleBorder(),
@@ -288,14 +269,13 @@ class _MessageEditBarState extends State<MessageEditBar> {
                         });
 
                         _chatProvider
-                            .sendMessage(
-                                text: _controller.text,
-                                time: Timestamp.fromDate(DateTime.now()),
-                                user: FirebaseAuth.instance.currentUser.uid,
-                                chat: chat,
-                                repliedMessage: _chatProvider.messageToReply,
-                                senderName:
-                                    _authProvider.currentUser.displayName)
+                            .onSendPrivateMessage(
+                          content: _controller.text,
+                          time: Timestamp.fromDate(DateTime.now()),
+                          senderId: FirebaseAuth.instance.currentUser.uid,
+                          groupChatId: groupChatId,
+                          peerId: peer.uid,
+                        )
                             .then((value) {
                           _controller.clear();
                           setState(() {

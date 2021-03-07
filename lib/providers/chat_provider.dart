@@ -22,8 +22,7 @@ class ChatProvider with ChangeNotifier {
   ///message...
   bool _isSendingMessage = false;
   String _mediaType = "NON";
-  String _privateGroupId;
-  String _peerId;
+
   Map<String, Message> _selectedMessages = {};
   Map<String, PrivateMessage> _selectedPrivateMessages = {};
   int _limit = 20;
@@ -67,15 +66,7 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set setPrivateGroupId(String id) {
-    _privateGroupId = id;
-    notifyListeners();
-  }
 
-  set setPeerId(String id) {
-    _peerId = id;
-    notifyListeners();
-  }
 
   ///scroll to bottom of chats
   void scrollToBootomOfChats() {
@@ -100,10 +91,10 @@ class ChatProvider with ChangeNotifier {
   int get limit => _limit;
 
   ScrollController get scrollController => _scrollController;
-  String get privateGroupId => _privateGroupId;
-  String get peerId => _peerId;
+ 
 
-  _scrollListener() {
+
+  scrollListener() {
     if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {

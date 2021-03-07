@@ -2,7 +2,7 @@ import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:aunty_rafiki/views/backgrounds/chat_background.dart';
 import 'package:aunty_rafiki/views/components/app/private/private_chat_detail_page_app_bar.dart';
 import 'package:aunty_rafiki/views/components/app/private/private_selected_chat_app_bar.dart';
-import 'package:aunty_rafiki/views/components/tiles/messages/input/message_edit_bar.dart';
+import 'package:aunty_rafiki/views/components/tiles/messages/input/private_edit_bar.dart';
 import 'package:aunty_rafiki/views/components/tiles/messages/lists/private_message_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,7 +89,7 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
               peer: peer,
             )
           : PrivateSelectedChatAppBar(
-               peer: peer,
+              peer: peer,
               listMessage: _chatProvider.selectedMessages,
             ),
       body: WillPopScope(
@@ -99,19 +99,18 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
             Column(
               children: <Widget>[
                 // List of messages
-                PrivateMessageList(),
+                PrivateMessageList(
+                  groupChatId: groupChatId,
+                ),
 
                 // Input content
-                MessageEditBar(
+                PrivateMessageEditBar(
                   onPressed: () {},
-                  isGroup: false,
+                  groupChatId: groupChatId, peer: peer,
                 ),
                 SizedBox(height: 20),
               ],
             ),
-
-            // Loading
-            // buildLoading()
           ],
         ),
         onWillPop: onBackPress,

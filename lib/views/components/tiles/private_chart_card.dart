@@ -26,7 +26,8 @@ class PrivateChartcard extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: <Widget>[
-                        Container(
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30.0),
                           child: peer.photoUrl != null
                               ? CachedNetworkImage(
                                   placeholder: (context, url) => Container(
@@ -96,7 +97,7 @@ class PrivateChartcard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        ///
+      
         Navigator.push(
             context,
             MaterialPageRoute(
