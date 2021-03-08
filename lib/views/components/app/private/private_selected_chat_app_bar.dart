@@ -1,11 +1,11 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
-
-import 'package:aunty_rafiki/models/message.dart';
-import 'package:aunty_rafiki/models/user.dart';
+import 'package:aunty_rafiki/models/private_message.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
-import 'package:aunty_rafiki/views/components/dialog/custom_dialog_two_box.dart';
+
+import 'package:aunty_rafiki/views/components/dialog/private_custom_dialog_two_box.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +14,8 @@ import 'package:provider/provider.dart';
 
 class PrivateSelectedChatAppBar extends StatelessWidget
     implements PreferredSizeWidget {
-  final User peer;
-  final Map<String, Message> listMessage;
-  const PrivateSelectedChatAppBar(
-      {Key key, @required this.peer, @required this.listMessage})
+  final Map<String, PrivateMessage> listMessage;
+  const PrivateSelectedChatAppBar({Key key, @required this.listMessage})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class PrivateSelectedChatAppBar extends StatelessWidget
                 icon: FaIcon(FontAwesomeIcons.reply, color: Colors.white),
                 onPressed: () {
                   String key = listMessage.keys.elementAt(0);
-                  _chatProvider.setMessageToReply = listMessage[key];
+                  _chatProvider.setPrivateMessageToReply = listMessage[key];
                   _chatProvider.clearSelectedChats();
                 })
             : Container(),
@@ -46,32 +44,30 @@ class PrivateSelectedChatAppBar extends StatelessWidget
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return CustomDialogTwoBox(
+                    return PrivateCustomDialogTwoBox(
                       onDeleteOne: () {
-                        // _chatProvider
-                        //     .deleteChatMessage(
-                        //   choice: 'me_only',
-                        //   chat: chat,
-                        //   userUID: FirebaseAuth.instance.currentUser.uid,
-                        // )
-                        //     .then((value) {
-                        //   Navigator.pop(context);
-                        // });
+                        _chatProvider
+                            .deletePrivateChatMessage(
+                          choice: 'me_only',
+                          userUID: FirebaseAuth.instance.currentUser.uid,
+                        )
+                            .then((value) {
+                          Navigator.pop(context);
+                        });
                       },
                       onClose: () {
                         Navigator.pop(context);
                         _chatProvider.clearSelectedChats();
                       },
                       onDeleteTwo: () {
-                        // _chatProvider
-                        //     .deleteChatMessage(
-                        //   choice: 'both_of_us',
-                        //   chat: chat,
-                        //   userUID: null,
-                        // )
-                        //     .then((value) {
-                        //   Navigator.pop(context);
-                        // });
+                        _chatProvider
+                            .deletePrivateChatMessage(
+                          choice: 'both_of_us',
+                          userUID: null,
+                        )
+                            .then((value) {
+                          Navigator.pop(context);
+                        });
                       },
                       listMessage: listMessage,
                     );

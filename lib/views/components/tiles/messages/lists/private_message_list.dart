@@ -21,7 +21,6 @@ class PrivateMessageList extends StatelessWidget {
           .collection('messages')
           .doc(groupChatId)
           .collection(groupChatId)
-        
           .limit(_chatProvider.limit)
           .snapshots()
           .map(firestoreToPrivateMessageList),
@@ -55,43 +54,43 @@ class PrivateMessageList extends StatelessWidget {
                         .where((sms) => sms.id == docs[index].repliedUID)
                         .first,
                     replyMessage: docs[index],
-                    onLongPress: _chatProvider.selectedMessages.isNotEmpty
+                    onLongPress: _chatProvider.selectedPrivateMessages.isNotEmpty
                         ? null
                         : () {
                             print('okay...');
                             _chatProvider.setPrivateMessage(
                                 message: docs[index], uid: docs[index].id);
                           },
-                    onTap: _chatProvider.selectedMessages.isEmpty
+                    onTap: _chatProvider.selectedPrivateMessages.isEmpty
                         ? null
                         : () {
                             print('we good...');
                             _chatProvider.setPrivateMessage(
                                 message: docs[index], uid: docs[index].id);
                           },
-                    color: _chatProvider.selectedMessages
+                    color: _chatProvider.selectedPrivateMessages
                             .containsKey(docs[index].id)
                         ? Colors.pink[50].withOpacity(0.5)
                         : Colors.transparent)
                 : PrivateChatMessage(
                     message: docs[index],
-                    onLongPress: _chatProvider.selectedMessages.isNotEmpty
+                    onLongPress: _chatProvider.selectedPrivateMessages.isNotEmpty
                         ? null
                         : () {
                             print('okay...');
                             _chatProvider.setPrivateMessage(
                                 message: docs[index], uid: docs[index].id);
                           },
-                    onTap: _chatProvider.selectedMessages.isEmpty
+                    onTap: _chatProvider.selectedPrivateMessages.isEmpty
                         ? null
                         : () {
                             print('we good...');
                             _chatProvider.setPrivateMessage(
                                 message: docs[index], uid: docs[index].id);
                           },
-                    color: _chatProvider.selectedMessages
+                    color: _chatProvider.selectedPrivateMessages
                             .containsKey(docs[index].id)
-                        ? Colors.pink[50].withOpacity(0.5)
+                        ? Colors.pink[100].withOpacity(0.5)
                         : Colors.transparent),
           ),
         );

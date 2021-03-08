@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PrivateMessage {
   String id, idFrom, idTo, content, mediaType, repliedUID;
   DateTime time;
+  DocumentReference reference;
 
   List<dynamic> media;
 
@@ -10,6 +11,7 @@ class PrivateMessage {
 
   PrivateMessage(
       this.id,
+      this.reference,
       this.idFrom,
       this.idTo,
       this.content,
@@ -21,6 +23,7 @@ class PrivateMessage {
 
   PrivateMessage.fromFirestoreData(DocumentSnapshot doc)
       : id = doc.id,
+        reference = doc.reference,
         idFrom = doc.data()['idFrom'],
         idTo = doc.data()['idTo'],
         time = doc.data()['time'].toDate(),

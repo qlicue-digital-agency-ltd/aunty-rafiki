@@ -166,13 +166,12 @@ class _PrivateChatRoomPageState extends State<PrivateChatRoomPage> {
     }
 
     return Scaffold(
-      appBar: _chatProvider.selectedMessages.isEmpty
+      appBar: _chatProvider.selectedPrivateMessages.isEmpty
           ? PrivateChatDetailPageAppBar(
               peer: peer,
             )
           : PrivateSelectedChatAppBar(
-              peer: peer,
-              listMessage: _chatProvider.selectedMessages,
+              listMessage: _chatProvider.selectedPrivateMessages,
             ),
       body: WillPopScope(
         child: Stack(

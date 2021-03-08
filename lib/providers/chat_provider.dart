@@ -29,6 +29,7 @@ class ChatProvider with ChangeNotifier {
   ScrollController _scrollController = new ScrollController();
 
   Message _messageToReply;
+  PrivateMessage _privateMessageToReply;
 
   List<PlatformFile> _paths = [];
 
@@ -79,6 +80,11 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set setPrivateMessageToReply(PrivateMessage message) {
+    _privateMessageToReply = message;
+    notifyListeners();
+  }
+
   ///scroll to bottom of chats
   void scrollToBootomOfChats() {
     _scrollController.animateTo(
@@ -105,6 +111,7 @@ class ChatProvider with ChangeNotifier {
       _selectedPrivateMessages;
   bool get isCreatingGroup => _isSendingMessage;
   Message get messageToReply => _messageToReply;
+  PrivateMessage get privateMessageToReply => _privateMessageToReply;
   int get limit => _limit;
 
   ScrollController get scrollController => _scrollController;
@@ -389,6 +396,31 @@ class ChatProvider with ChangeNotifier {
     }
   }
 
+  ///delete chat message..
+  Future<void> deletePrivateChatMessage({
+    @required String choice,
+    messageUID,
+    @required userUID,
+  }) async {
+    switch (choice) {
+      case 'me_only':
+
+        ///delete for me only messages..
+        await _deletePrivateChatMessageFirebase(
+          userUID: userUID,
+        );
+        break;
+      case 'both_of_us':
+
+        ///delete messages for everyone..
+        await _deletePrivateChatMessageFirebase(
+          userUID: null,
+        );
+        break;
+      default:
+    }
+  }
+
 //firebase delete massage...
   _deleteChatMessageFirebase({@required Chat chat, @required userUID}) async {
     int i = 0;
@@ -415,8 +447,41 @@ class ChatProvider with ChangeNotifier {
     }
   }
 
+  _deletePrivateChatMessageFirebase({@required userUID}) async {
+    int i = 0;
+    if (userUID != null) {
+      _selectedPrivateMessages.forEach(((uid, message) async {
+        await FirebaseFirestore.instance.runTransaction((transaction) async {
+          transaction.update(
+            message.reference,
+            {
+              'idFrom': null,
+            },
+          );
+        });
+        i++;
+        if (i == _selectedPrivateMessages.length) clearSelectedChats();
+      }));
+    } else {
+      _selectedPrivateMessages.forEach(((uid, message) async {
+        await FirebaseFirestore.instance.runTransaction((transaction) async {
+          transaction.update(
+            message.reference,
+            {
+              'idFrom': null,
+              'idTo': null,
+            },
+          );
+        });
+        i++;
+        if (i == _selectedPrivateMessages.length) clearSelectedChats();
+      }));
+    }
+  }
+
   clearSelectedChats() {
     _selectedMessages.clear();
+    _selectedPrivateMessages.clear();
     notifyListeners();
   }
 
@@ -456,8 +521,6 @@ class ChatProvider with ChangeNotifier {
         setMessageToReply = null;
         notifyListeners();
       }
-
-     
     });
   }
 }
