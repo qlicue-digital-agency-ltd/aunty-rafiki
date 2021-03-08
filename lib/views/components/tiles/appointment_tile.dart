@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 
 class AppointmentTile extends StatelessWidget {
   final Appointment appointment;
-
-  const AppointmentTile({Key key, @required this.appointment})
+  final Function onTap;
+  const AppointmentTile({Key key, @required this.appointment,@required  this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(children: [
         ListTile(
+          onTap: onTap ,
           leading: CircleAvatar(
             radius: 40,
             child: Center(child: Image.asset('assets/icons/time.png')),

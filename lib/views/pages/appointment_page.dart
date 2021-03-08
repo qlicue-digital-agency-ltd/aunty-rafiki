@@ -3,6 +3,7 @@ import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/calendar_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/appointment_tile.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
+import 'package:aunty_rafiki/views/pages/appointment_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,6 +56,14 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           AppointmentTile(
                             appointment: _appointmentProvider
                                 .selectedCalendarAppointments.last,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => AppointmentDetailsPage(
+                                          appointment: _appointmentProvider
+                                              .availableAppointments.last)));
+                            },
                           ),
                           _appointmentProvider
                                       .selectedCalendarAppointments.length >
@@ -83,6 +92,14 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     return AppointmentTile(
                       appointment:
                           _appointmentProvider.availableAppointments[index],
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => AppointmentDetailsPage(
+                                    appointment: _appointmentProvider
+                                        .availableAppointments[index])));
+                      },
                     );
                   }),
       bottomNavigationBar: BottomAppBar(
