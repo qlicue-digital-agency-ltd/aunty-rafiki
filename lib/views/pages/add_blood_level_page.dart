@@ -66,6 +66,9 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                   else
                     return null;
                 },
+                content: null,
+                isEditing: false,
+                onEdit: null,
               ),
               IconDateField(
                 onChage: (val) {},

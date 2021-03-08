@@ -1,5 +1,5 @@
 import 'package:aunty_rafiki/models/appointment.dart';
-import 'package:aunty_rafiki/views/components/text-field/icon_text.dart';
+import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentDetailsPage extends StatefulWidget {
@@ -25,10 +25,10 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
             padding: const EdgeInsets.all(8.0),
             child: Card(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-              children: [
-                  IconText(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  IconTextField(
                     content: widget.appointment.name,
                     icon: Icons.assignment,
                     textEditingController: _descriptionEditingController,
@@ -46,9 +46,9 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                       });
                     },
                   ),
-              ],
-            ),
-                )),
+                ],
+              ),
+            )),
           )
         ]),
       ),

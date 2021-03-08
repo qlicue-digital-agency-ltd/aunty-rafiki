@@ -153,6 +153,9 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   else
                     return null;
                 },
+                content: null,
+                isEditing: null,
+                onEdit: null,
               ),
               IconDateField(
                 onChage: (val) {
@@ -268,7 +271,6 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                                     syncToCalendar: _syncToCalendar)
                                 .then((value) {
                               if (!value) {
-                                
                                 Navigator.pop(context);
                               } else {
                                 print('Error while submitting data');

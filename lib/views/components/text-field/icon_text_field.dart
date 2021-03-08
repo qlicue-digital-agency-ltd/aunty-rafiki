@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-typedef IconTextFieldFunction = Function(String);
-typedef IconTextFieldOnTap = Function();
-
 class IconTextField extends StatelessWidget {
   final IconData icon;
   final String title;
+  final String content;
+  final bool isEditing;
   final TextEditingController textEditingController;
-  final IconTextFieldOnTap onTap;
-  final IconTextFieldFunction validator;
+  final Function onTap;
+  final Function(String) validator;
+  final Function onEdit;
   final FocusNode focusNode;
   final TextInputType textInputType;
   final String suffix;
@@ -21,7 +21,10 @@ class IconTextField extends StatelessWidget {
       @required this.title,
       this.focusNode,
       this.textInputType = TextInputType.text,
-      this.suffix = ''})
+      this.suffix = '',
+      @required this.isEditing,
+      @required this.content,
+      @required this.onEdit})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -47,34 +50,35 @@ class IconTextField extends StatelessWidget {
                 width: 24,
               ),
               Expanded(
-                child: TextFormField(
-                  focusNode: focusNode,
-                  validator: validator,
-                  keyboardType: textInputType,
-                  onTap: onTap,
-                  controller: textEditingController,
-                  decoration: InputDecoration(
-                      labelText: title,
-                      border: InputBorder.none,
-                      suffix: Text(suffix)),
-                ),
+                child: isEditing
+                    ? TextFormField(
+                        focusNode: focusNode,
+                        validator: validator,
+                        keyboardType: textInputType,
+                        onTap: onTap,
+                        controller: textEditingController,
+                        decoration: InputDecoration(
+                            labelText: title,
+                            border: InputBorder.none,
+                            suffix: Text(suffix)),
+                      )
+                    : Text(content),
               ),
-
-              // ///For Text
-              // Text(
-              //   "Friday 28, November",
-              //   style: TextStyle(
-              //       fontSize: 18,
-              //       height: 1.2,
-              //       fontWeight: FontWeight.w700,
-              //       color: Colors.grey[700]),
-              // )
+              IconButton(
+                  color: Colors.pink,
+                  icon: Icon(isEditing ? Icons.save : Icons.edit),
+                  onPressed: onEdit)
             ],
           ),
         ),
-        Divider(
-          indent: 50,
-        ),
+        content != null
+            ? Divider(
+                indent: 50,
+                color: Colors.pink,
+              )
+            : Divider(
+                indent: 50,
+              ),
       ],
     );
   }
