@@ -1,13 +1,17 @@
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/messages/input/media_message_edit_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UploadImagePage extends StatelessWidget {
   final Chat chat;
 
-  const UploadImagePage({Key key, @required this.chat}) : super(key: key);
+  const UploadImagePage({
+    Key key,
+    @required this.chat,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _chatProvider = Provider.of<ChatProvider>(context);

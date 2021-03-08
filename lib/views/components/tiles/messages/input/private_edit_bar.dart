@@ -29,12 +29,16 @@ class PrivateMessageEditBar extends StatefulWidget {
         super(key: key);
 
   @override
-  _MessageEditBarState createState() =>
-      _MessageEditBarState(groupChatId: groupChatId, peer: peer);
+  _MessageEditBarState createState() => _MessageEditBarState(
+      groupChatId: groupChatId, peer: peer, onPressed: onPressed);
 }
 
 class _MessageEditBarState extends State<PrivateMessageEditBar> {
-  _MessageEditBarState({@required this.groupChatId, @required this.peer});
+  _MessageEditBarState({
+    @required this.groupChatId,
+    @required this.peer,
+    @required this.onPressed,
+  });
   FirebaseFirestore db;
   TextEditingController _controller;
   List<Asset> images = List<Asset>();
@@ -43,6 +47,7 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
   bool _showEmojiPicker = false;
   FocusNode focusNode;
   final userModel.User peer;
+  final Function onPressed;
 
   String groupChatId;
 
@@ -231,7 +236,7 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                           ),
                           IconButton(
                             icon: new Icon(Icons.attach_file),
-                            onPressed: widget.onPressed,
+                            onPressed: onPressed,
                             color: Colors.black26,
                           ),
                         ],
