@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:aunty_rafiki/models/tracker.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
+import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/components/tiles/tracker_tile.dart';
 import 'package:aunty_rafiki/views/pages/tracker_page.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +14,14 @@ import 'package:timeline_tile/timeline_tile.dart';
 
 import '../components/cards/tracker_card.dart';
 
-class TrackerScreen extends StatelessWidget {
+class TrackerScreen extends StatefulWidget {
+  @override
+  _TrackerScreenState createState() => _TrackerScreenState();
+}
+
+class _TrackerScreenState extends State<TrackerScreen> {
+  TextEditingController _dateEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
@@ -40,10 +49,12 @@ class TrackerScreen extends StatelessWidget {
                 ),
               ),
             ),
-            _trackerProvider.availableTrackers.isEmpty
+            _trackerProvider.isFetchingTrackerData
                 ? Column(
                     children: [
-                     SizedBox(height: MediaQuery.of(context).size.height / 2.7,),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 2.7,
+                      ),
                       Center(
                           child: Platform.isAndroid
                               ? CircularProgressIndicator(
@@ -51,43 +62,89 @@ class TrackerScreen extends StatelessWidget {
                                       Colors.pink),
                                 )
                               : CupertinoActivityIndicator()),
-                      
                     ],
                   )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: _trackerProvider.availableTrackers.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Tracker tracker =
-                          _trackerProvider.availableTrackers[index];
+                : _trackerProvider.availableTrackers.isEmpty
+                    ? Column(
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 2.7,
+                          ),
+                          Center(
+                              child: Stack(
+                            children: [
+                              NoItemTile(
+                                icon: 'assets/access/mother.png',
+                                title: 'Tap to add your conception date',
+                              ),
+                              DateTimePicker(
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                                style: TextStyle(color: Colors.transparent),
+                                type: DateTimePickerType.date,
+                                dateMask: "MMMM d, y",
+                                controller: _dateEditingController,
+                                timeLabelText: 'Date',
+                                onChanged: (val) {
+                                  print('---------------------');
+                                  print(val);
+                                  print('---------------------');
 
-                      final IndicatorStyle indicator = tracker.isCheckpoint
-                          ? _indicatorStyleCheckpoint(tracker)
-                          : const IndicatorStyle(width: 0);
+                                  
+                                 
+                                },
+                                validator: (val) {
+                                  return null;
+                                },
+                                onSaved: (val) {
+                                  print('+++++++++++++++++++++');
+                                  print(val);
+                                  print('+++++++++++++++++++++');
+                                },
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                              ),
+                            ],
+                          )),
+                        ],
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: _trackerProvider.availableTrackers.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final Tracker tracker =
+                              _trackerProvider.availableTrackers[index];
 
-                      return TimelineTile(
-                        alignment: TimelineAlign.manual,
-                        lineXY: 0.15,
-                        isFirst: index == 0,
-                        isLast: index ==
-                            _trackerProvider.availableTrackers.length - 1,
-                        startChild: _LeftChildTimeline(
-                          tracker: _trackerProvider.availableTrackers[index],
-                        ),
-                        endChild: _RightChildTimeline(
-                          tracker: _trackerProvider.availableTrackers[index],
-                        ),
-                        indicatorStyle: indicator,
-                        hasIndicator: _trackerProvider
-                            .availableTrackers[index].isCheckpoint,
-                        beforeLineStyle: LineStyle(
-                          color: tracker.color,
-                          thickness: 8,
-                        ),
-                      );
-                    },
-                  ),
+                          final IndicatorStyle indicator = tracker.isCheckpoint
+                              ? _indicatorStyleCheckpoint(tracker)
+                              : const IndicatorStyle(width: 0);
+
+                          return TimelineTile(
+                            alignment: TimelineAlign.manual,
+                            lineXY: 0.15,
+                            isFirst: index == 0,
+                            isLast: index ==
+                                _trackerProvider.availableTrackers.length - 1,
+                            startChild: _LeftChildTimeline(
+                              tracker:
+                                  _trackerProvider.availableTrackers[index],
+                            ),
+                            endChild: _RightChildTimeline(
+                              tracker:
+                                  _trackerProvider.availableTrackers[index],
+                            ),
+                            indicatorStyle: indicator,
+                            hasIndicator: _trackerProvider
+                                .availableTrackers[index].isCheckpoint,
+                            beforeLineStyle: LineStyle(
+                              color: tracker.color,
+                              thickness: 8,
+                            ),
+                          );
+                        },
+                      ),
           ],
         ),
       ),
