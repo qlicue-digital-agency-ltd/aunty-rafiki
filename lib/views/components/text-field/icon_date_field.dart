@@ -1,19 +1,20 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
-typedef IconDateFieldFunction = Function(String);
-
 class IconDateField extends StatelessWidget {
   final TextEditingController textEditingController;
-  final IconDateFieldFunction onChage;
-  final IconDateFieldFunction onValidate;
-  final IconDateFieldFunction onSaved;
+  final Function(String) onChage;
+  final Function(String) onValidate;
+  final Function(String) onSaved;
+  final Function onEdit;
   final IconData icon;
   final DateTimePickerType type;
   final String title;
   final String dateMask;
   final DateTime firstDate;
   final DateTime lastDate;
+  final String date;
+  final bool isEditing;
 
   const IconDateField(
       {Key key,
@@ -26,7 +27,10 @@ class IconDateField extends StatelessWidget {
       @required this.title,
       this.dateMask,
       this.firstDate,
-      this.lastDate})
+      this.lastDate,
+      @required this.date,
+      @required this.isEditing,
+      @required this.onEdit})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -54,27 +58,40 @@ class IconDateField extends StatelessWidget {
 
               ///For Text
               Expanded(
-                child: DateTimePicker(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                  ),
-                  type: type,
-                  dateMask: dateMask,
-                  controller: textEditingController,
-                  timeLabelText: title,
-                  onChanged: onChage,
-                  validator: onValidate,
-                  onSaved: onSaved,
-                  firstDate: firstDate,
-                  lastDate: lastDate,
-                ),
+                child: isEditing
+                    ? DateTimePicker(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        type: type,
+                        dateMask: dateMask,
+                        controller: textEditingController,
+                        timeLabelText: title,
+                        onChanged: onChage,
+                        validator: onValidate,
+                        onSaved: onSaved,
+                        firstDate: firstDate,
+                        lastDate: lastDate,
+                      )
+                    : Text(date),
               ),
+              date != null
+                  ? IconButton(
+                      color: Colors.pink,
+                      icon: Icon(isEditing ? Icons.save : Icons.edit),
+                      onPressed: onEdit)
+                  : Container()
             ],
           ),
         ),
-        Divider(
-          indent: 50,
-        ),
+        date != null
+            ? Divider(
+                indent: 50,
+                color: Colors.pink,
+              )
+            : Divider(
+                indent: 50,
+              ),
       ],
     );
   }

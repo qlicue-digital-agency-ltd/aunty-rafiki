@@ -84,6 +84,9 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                 title: 'Date',
                 dateMask: "EEEE, MMMM d, y",
                 type: DateTimePickerType.date,
+                date: null,
+                isEditing: false,
+                onEdit: null,
               ),
               SizedBox(height: 30),
               Row(

@@ -179,6 +179,9 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 title: 'Date',
                 dateMask: "EEEE, MMMM d, y",
                 type: DateTimePickerType.date,
+                date: null,
+                isEditing: false,
+                onEdit: null,
               ),
               IconDateField(
                 onChage: (val) {
@@ -197,6 +200,9 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 title: 'Time',
                 dateMask: 'dd/MM/yyyy',
                 type: DateTimePickerType.time,
+                date: null,
+                isEditing: false,
+                onEdit: null,
               ),
               IconSelectorField(
                 onTap: () {
@@ -204,6 +210,9 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 },
                 title: _selectedProfession,
                 icon: Icons.assignment_ind,
+                isEditing: false,
+                onEdit: null,
+                profession: null,
               ),
               SizedBox(
                 height: 10,

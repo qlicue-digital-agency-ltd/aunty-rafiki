@@ -229,6 +229,9 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                 title: 'Date',
                 dateMask: "EEEE, MMMM d, y",
                 type: DateTimePickerType.date,
+                date: null,
+                isEditing: false,
+                onEdit: null,
               ),
               SizedBox(
                 height: 16,
@@ -251,6 +254,9 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                 title: 'Time',
                 dateMask: 'dd/MM/yyyy',
                 type: DateTimePickerType.time,
+                date: null,
+                isEditing: false,
+                onEdit: null,
               ),
 
               ///For Spacing
@@ -263,6 +269,9 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                 },
                 title: _selectedCategory,
                 icon: Icons.web_asset,
+                isEditing: false,
+                onEdit: null,
+                profession: null,
               ),
 
               ///For Spacing

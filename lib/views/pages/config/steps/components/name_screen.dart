@@ -52,6 +52,9 @@ class _NameScreenState extends State<NameScreen> {
                 else
                   return null;
               },
+              content: null,
+              isEditing: null,
+              onEdit: null,
             ),
             SizedBox(
               height: 10,

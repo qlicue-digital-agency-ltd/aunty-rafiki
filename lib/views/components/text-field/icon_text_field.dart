@@ -64,10 +64,12 @@ class IconTextField extends StatelessWidget {
                       )
                     : Text(content),
               ),
-              IconButton(
-                  color: Colors.pink,
-                  icon: Icon(isEditing ? Icons.save : Icons.edit),
-                  onPressed: onEdit)
+              content != null
+                  ? IconButton(
+                      color: Colors.pink,
+                      icon: Icon(isEditing ? Icons.save : Icons.edit),
+                      onPressed: onEdit)
+                  : Container()
             ],
           ),
         ),
