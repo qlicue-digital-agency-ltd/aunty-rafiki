@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aunty_rafiki/models/tracker.dart';
+import 'package:aunty_rafiki/providers/mother_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/components/tiles/tracker_tile.dart';
@@ -25,6 +26,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
   @override
   Widget build(BuildContext context) {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
+    final _motherProvider = Provider.of<MotherProvider>(context);
     return RefreshIndicator(
       onRefresh: () {
         return _trackerProvider.fetchTrackers();
@@ -90,9 +92,11 @@ class _TrackerScreenState extends State<TrackerScreen> {
                                   print('---------------------');
                                   print(val);
                                   print('---------------------');
-
-                                  
-                                 
+                                  _motherProvider
+                                      .postMother(conceptionDate: val)
+                                      .then((value) {
+                                    _trackerProvider.fetchTrackers();
+                                  });
                                 },
                                 validator: (val) {
                                   return null;

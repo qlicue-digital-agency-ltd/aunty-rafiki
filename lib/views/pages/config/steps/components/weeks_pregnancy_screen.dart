@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
+import 'package:aunty_rafiki/providers/mother_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,8 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
-     final _configProvider = Provider.of<ConfigProvider>(context);
+    final _configProvider = Provider.of<ConfigProvider>(context);
+    final _motherProvider = Provider.of<MotherProvider>(context);
     return Column(
       children: [
         SizedBox(
@@ -67,10 +69,9 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                   ),
                 ),
               ),
-      
         Column(
           children: [
-             SizedBox(
+            SizedBox(
               height: 50,
             ),
             Container(
@@ -102,6 +103,13 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                     .updatePregnancyWeeks(
                         pregnancyWeeks: _isSelected ? 0 : _weeksOfPregnancy)
                     .then((value) {
+                  if (_weeksOfPregnancy > 1) {
+                    ///TODO: post mother .....
+                    _motherProvider
+                        .postMother(conceptionDate: DateTime.now().toString())
+                        .then((value) {});
+                  }
+
                   setState(() {
                     _isPressed = false;
                   });
@@ -111,8 +119,6 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                         Configuration.WeeksPregnancyScreenStepDone;
                   }
                 });
-
-            
               },
               isPressed: _isPressed,
             ),

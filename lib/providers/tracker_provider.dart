@@ -26,7 +26,7 @@ class TrackerProvider extends ChangeNotifier {
     notifyListeners();
 
     final Map<String, dynamic> _data = {
-      "uuid": FirebaseAuth.instance.currentUser.uid
+      "uid": FirebaseAuth.instance.currentUser.uid
     };
 
     final List<Tracker> _fetchedTrackers = [];

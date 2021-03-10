@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 class Mother {
   final int id;
-  final String uuid;
+  final String uid;
   final String conceptionDate;
 
   Mother({
     @required this.id,
-    @required this.uuid,
+    @required this.uid,
     @required this.conceptionDate,
   });
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      'uuid': uuid,
+      'uid': uid,
       'conception_date': conceptionDate
     };
     if (id != null) {
@@ -25,6 +25,6 @@ class Mother {
   Mother.fromMap(Map<String, dynamic> map)
       : assert(map['id'] != null),
         id = map['id'],
-        uuid = map['uuid'],
+        uid = map['uid'],
         conceptionDate = map['conception_date'];
 }
