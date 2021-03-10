@@ -1,23 +1,23 @@
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
-import 'package:aunty_rafiki/models/food.dart';
+import 'package:aunty_rafiki/models/recipe.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class FoodDetailsPage extends StatelessWidget {
-  const FoodDetailsPage({Key key, @required this.icon, @required this.food})
+class RecipeDetailsPage extends StatelessWidget {
+  const RecipeDetailsPage({Key key, @required this.icon, @required this.recipe})
       : super(key: key);
 
   final String icon;
 
-  final Food food;
+  final Recipe recipe;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          title: Text(food.title),
+          title: Text(recipe.title),
         ),
         body: SingleChildScrollView(
           child:
@@ -47,7 +47,7 @@ class FoodDetailsPage extends StatelessWidget {
                 ),
                 clipBehavior: Clip.hardEdge,
               ),
-              imageUrl: food.cover,
+              imageUrl: recipe.cover,
               height: size.height / 3,
               width: size.width,
               fit: BoxFit.fill,
@@ -58,13 +58,13 @@ class FoodDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(
-                food.title,
+                recipe.title,
                 style: TextStyle(fontSize: 20),
               ),
             ),
             ListTile(
               title: Text('Ingredients'),
-              subtitle: Text('All you need to prepare this food'),
+              subtitle: Text('All you need to prepare this recipe'),
               trailing: Text(
                 "🥗",
                 style: TextStyle(fontSize: 50),
@@ -77,7 +77,7 @@ class FoodDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '1. Macaroon cookie tiramisu wafer liquorice pudding.\n\n2. Carrot cake candy cookie.\n\n3. Chocolate bar jujubes jelly-o brownie gummi bears tiramisu sesame snaps oat cake.\n\n4. Tiramisu bear claw gingerbread cotton candy muffin.\n\n5. Oat cake chocolate cake danish bear claw sweet roll soufflé fruitcake jelly halvah. Tiramisu gingerbread sesame snaps sugar plum.\n\n6. Chupa chups candy brownie macaroon donut tiramisu.',
+                    '${recipe.ingredients}',
                     style: TextStyle(fontSize: 16.0),
                   )
                 ],
@@ -102,7 +102,7 @@ class FoodDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Macaroon cookie tiramisu wafer liquorice pudding. Carrot cake candy cookie. Chocolate bar jujubes jelly-o brownie gummi bears tiramisu sesame snaps oat cake. Tiramisu bear claw gingerbread cotton candy muffin.\n\nLiquorice oat cake jelly bear claw candy chocolate bar oat cake chocolate cake cotton candy. Oat cake chocolate cake danish bear claw sweet roll soufflé fruitcake jelly halvah. Tiramisu gingerbread sesame snaps sugar plum. Chupa chups candy brownie macaroon donut tiramisu.',
+                    '${recipe.howToPrepare}',
                     style: TextStyle(fontSize: 16.0),
                   )
                 ],
@@ -113,8 +113,8 @@ class FoodDetailsPage extends StatelessWidget {
               endIndent: 10,
             ),
             ListTile(
-              title: Text('Alternative foods'),
-              subtitle: Text('Substitute foods for this food'),
+              title: Text('Alternative recipes'),
+              subtitle: Text('Substitute recipes for this recipe'),
               trailing: Text(
                 "🥙",
                 style: TextStyle(fontSize: 50),
@@ -127,7 +127,7 @@ class FoodDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Macaroon cookie tiramisu wafer liquorice pudding. Carrot cake candy cookie. Chocolate bar jujubes jelly-o brownie gummi bears tiramisu sesame snaps oat cake. Tiramisu bear claw gingerbread cotton candy muffin.\n\nLiquorice oat cake jelly bear claw candy chocolate bar oat cake chocolate cake cotton candy. Oat cake chocolate cake danish bear claw sweet roll soufflé fruitcake jelly halvah. Tiramisu gingerbread sesame snaps sugar plum. Chupa chups candy brownie macaroon donut tiramisu.',
+                    '${recipe.alternativeFood}',
                     style: TextStyle(fontSize: 16.0),
                   )
                 ],

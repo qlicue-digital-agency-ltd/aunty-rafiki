@@ -88,6 +88,5 @@ flutter:
   assets:
     - assets/icons/
     - assets/access/
-    - assets/food/
     - assets/
  
