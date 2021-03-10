@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/models/time_line.dart';
 import 'package:aunty_rafiki/providers/timeline_provider.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/pages/time_line_detail_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -187,9 +190,30 @@ class _TimelineChild extends StatelessWidget {
           children: <Widget>[
             Column(
               children: [
-                Image.network(
-                  timeline.image,
+                CachedNetworkImage(
+                  placeholder: (context, url) => Container(
+                    child: Loading(),
+                    padding: EdgeInsets.all(70.0),
+                    decoration: BoxDecoration(
+                      color: greyColor2,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Material(
+                    child: Image.asset(
+                      'images/img_not_available.jpeg',
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                    clipBehavior: Clip.hardEdge,
+                  ),
+                  imageUrl: timeline.image,
                   width: MediaQuery.of(context).size.width / 2,
+                  fit: BoxFit.fill,
                 ),
                 Row(
                   children: [Expanded(child: Text(timeline.body))],
