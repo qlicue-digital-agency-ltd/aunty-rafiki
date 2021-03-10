@@ -1,28 +1,28 @@
+import 'package:aunty_rafiki/models/recipe.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Food {
-  final int id;
-  final String title;
-  final String subtitle;
-  final String body;
-  final String cover;
+  int id;
+  String title;
+  String subtitle;
+  String cover;
+  List<Recipe> recipes;
 
   Food({
     @required this.id,
     @required this.title,
     @required this.subtitle,
-    @required this.body,
     @required this.cover,
+    @required this.recipes,
   });
-
-  static final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   Food.fromMap(Map<String, dynamic> map)
       : assert(map['id'] != null),
         id = map['id'],
         title = map['title'],
         subtitle = map['subtitle'],
-        body = map['body'],
-        cover = map['cover'];
+        cover = map['cover'],
+        recipes = map['recipes'] != null
+            ? (map['recipes'] as List).map((i) => Recipe.fromMap(i)).toList()
+            : null;
 }
