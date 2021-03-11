@@ -104,7 +104,7 @@ class MediaContent extends StatelessWidget {
                                                   (context, url, error) =>
                                                       Material(
                                                 child: Image.asset(
-                                                  'images/img_not_available.jpeg',
+                                                  'assets/images/img_not_available.jpeg',
                                                   height: _imageHolderHeight,
                                                   fit: BoxFit.cover,
                                                 ),
@@ -206,7 +206,7 @@ class MediaContent extends StatelessWidget {
               ),
               errorWidget: (context, url, error) => Material(
                 child: Image.asset(
-                  'images/img_not_available.jpeg',
+                  'assets/images/img_not_available.jpeg',
                   height: width * 0.3,
                   width: width * 0.3,
                   fit: BoxFit.cover,
@@ -241,7 +241,7 @@ class MediaContent extends StatelessWidget {
                   ),
                   errorWidget: (context, url, error) => Material(
                     child: Image.asset(
-                      'images/img_not_available.jpeg',
+                      'assets/images/img_not_available.jpeg',
                       height: width * 0.3,
                       width: width * 0.3,
                       fit: BoxFit.cover,

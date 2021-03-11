@@ -1,4 +1,8 @@
+import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/models/post.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
+import 'package:aunty_rafiki/views/pages/post_details_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -52,10 +56,36 @@ class _PostCardState extends State<PostCard> {
             ),
             widget.post.image != null
                 ? InkWell(
-                    onTap: () {},
-                    child: FadeInImage.memoryNetwork(
-                      placeholder: kTransparentImage,
-                      image: widget.post.image,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => PostDetailsPage(
+                                    post: widget.post,
+                                  )));
+                    },
+                    child: CachedNetworkImage(
+                      placeholder: (context, url) => Container(
+                        child: Loading(),
+                        padding: EdgeInsets.all(70.0),
+                        decoration: BoxDecoration(
+                          color: greyColor2,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8.0),
+                          ),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Material(
+                        child: Image.asset(
+                          'assets/images/img_not_available.jpeg',
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.0),
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                      ),
+                      imageUrl: widget.post.image,
                       fit: BoxFit.cover,
                     ),
                   )
@@ -75,7 +105,6 @@ class _PostCardState extends State<PostCard> {
                 ),
               ],
             ),
-            FlatButton(onPressed: () {}, child: Text('More...')),
             SizedBox(height: 10),
             Row(
               children: <Widget>[
@@ -98,7 +127,8 @@ class _PostCardState extends State<PostCard> {
                     onTap: () {
                       Share.share(
                           'download our app on https://auntierafiki.co.tz',
-                          subject: 'Aunty Rafiki' + widget.post.title);
+                          subject: 'Read from Auntie Rafiki App:' +
+                              widget.post.title);
                     })
               ],
             ),

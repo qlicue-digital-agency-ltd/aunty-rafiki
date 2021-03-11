@@ -37,7 +37,7 @@ class RecipeDetailsPage extends StatelessWidget {
               ),
               errorWidget: (context, url, error) => Material(
                 child: Image.asset(
-                  'images/img_not_available.jpeg',
+                  'assets/images/img_not_available.jpeg',
                   height: size.height / 3,
                   width: size.width,
                   fit: BoxFit.cover,

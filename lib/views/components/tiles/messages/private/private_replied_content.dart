@@ -77,7 +77,7 @@ class PrivateRepliedContent extends StatelessWidget {
                           ),
                           errorWidget: (context, url, error) => Material(
                             child: Image.asset(
-                              'images/img_not_available.jpeg',
+                              'assets/images/img_not_available.jpeg',
                               height: 100,
                               fit: BoxFit.cover,
                             ),

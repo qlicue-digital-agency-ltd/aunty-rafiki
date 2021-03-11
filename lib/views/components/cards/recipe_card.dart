@@ -41,7 +41,7 @@ class RecipeCard extends StatelessWidget {
                     ),
                     errorWidget: (context, url, error) => Material(
                       child: Image.asset(
-                        'images/img_not_available.jpeg',
+                        'assets/images/img_not_available.jpeg',
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.all(
