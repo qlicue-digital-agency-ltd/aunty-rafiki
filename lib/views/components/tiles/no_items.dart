@@ -25,7 +25,10 @@ class NoItemTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image.asset(icon, height: height),
-            Text(title),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(title, textAlign: TextAlign.center,),
+            ),
           ],
         ),
       ),

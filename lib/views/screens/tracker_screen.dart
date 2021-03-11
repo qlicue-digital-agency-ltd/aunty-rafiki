@@ -77,7 +77,8 @@ class _TrackerScreenState extends State<TrackerScreen> {
                             children: [
                               NoItemTile(
                                 icon: 'assets/access/mother.png',
-                                title: 'Tap to add your conception date',
+                                title:
+                                    'Tap to add the date of the first day of your last menstrual period',
                               ),
                               DateTimePicker(
                                 decoration: InputDecoration(

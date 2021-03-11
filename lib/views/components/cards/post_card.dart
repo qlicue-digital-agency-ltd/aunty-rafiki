@@ -8,7 +8,6 @@ import 'dart:math' as math;
 
 import 'package:share/share.dart';
 
-import 'package:transparent_image/transparent_image.dart';
 
 class PostCard extends StatefulWidget {
   final Post post;
