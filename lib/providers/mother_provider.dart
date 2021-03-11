@@ -60,9 +60,7 @@ class MotherProvider extends ChangeNotifier {
   }
 
   //post mother
-  Future<bool> postMother({
-    @required String conceptionDate,
-  }) async {
+  Future<bool> postMother() async {
     bool hasError = true;
     _isSubmittingData = true;
 
@@ -70,13 +68,12 @@ class MotherProvider extends ChangeNotifier {
 
     final Map<String, dynamic> _data = {
       "uid": FirebaseAuth.instance.currentUser.uid,
-      "first_day_of_your_last_period": conceptionDate,
     };
 
     notifyListeners();
 
     try {
-      final http.Response response = await http.post(api + "mother",
+      final http.Response response = await http.put(api + "mother",
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 
@@ -103,17 +100,41 @@ class MotherProvider extends ChangeNotifier {
     notifyListeners();
     return hasError;
   }
-}
 
-class MotherMessage {
-  final double quantity;
-  final String title;
-  final String subtitle;
-  final String status;
+  //put mother
+  Future<bool> postPregnancy({
+    @required String conceptionDate,
+  }) async {
+    bool hasError = true;
+    _isSubmittingData = true;
 
-  MotherMessage(
-      {@required this.quantity,
-      @required this.title,
-      @required this.subtitle,
-      @required this.status});
+    notifyListeners();
+
+    final Map<String, dynamic> _data = {
+      "uid": FirebaseAuth.instance.currentUser.uid,
+      "first_day_of_your_last_period": conceptionDate,
+    };
+
+    notifyListeners();
+
+    try {
+      final http.Response response = await http.post(api + "pregnancy",
+          body: json.encode(_data),
+          headers: {'Content-Type': 'application/json'});
+
+      if (response.statusCode == 201) {
+        print('ayeeeee');
+        hasError = false;
+      }
+    } catch (error) {
+      print('-----------+++++----------------');
+      print(error);
+
+      hasError = true;
+    }
+
+    _isSubmittingData = false;
+    notifyListeners();
+    return hasError;
+  }
 }

@@ -154,7 +154,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                     return null;
                 },
                 content: null,
-                isEditing: null,
+              
                 onEdit: null,
               ),
               IconDateField(

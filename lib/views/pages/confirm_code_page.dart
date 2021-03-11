@@ -4,6 +4,7 @@ import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
+import 'package:aunty_rafiki/providers/mother_provider.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
     final _confogProvider = Provider.of<ConfigProvider>(context);
+    final _motherProvider = Provider.of<MotherProvider>(context);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -260,6 +262,8 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
 
                                           _confogProvider.setConfigurationStep =
                                               Configuration.Profile;
+
+                                          _motherProvider.postMother();
                                         }
                                       });
                                       print("Auth User Phone: " +

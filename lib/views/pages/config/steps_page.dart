@@ -78,34 +78,41 @@ class _StepsPageState extends State<StepsPage> {
                 }),
         title: Text('Profile'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: ListView(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                StepProgressView(
-                  steps: _screens.length,
-                  curStep: _configProvider.currentPregPage,
-                  height: _stepProgressViewHeight,
-                  width: MediaQuery.of(context).size.width,
-                  dotRadius: _stepCircleRadius,
-                  activeColor: _activeColor,
-                  inactiveColor: _inactiveColor,
-                  headerStyle: _headerStyle,
-                  stepsStyle: _stepStyle,
-                  decoration: BoxDecoration(color: Colors.white),
-                  padding: EdgeInsets.only(
-                    top: 48.0,
-                    left: 24.0,
-                    right: 24.0,
+      body: CustomScrollView(
+        
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: StepProgressView(
+                    steps: _screens.length,
+                    curStep: _configProvider.currentPregPage,
+                    height: _stepProgressViewHeight,
+                    width: MediaQuery.of(context).size.width,
+                    dotRadius: _stepCircleRadius,
+                    activeColor: _activeColor,
+                    inactiveColor: _inactiveColor,
+                    headerStyle: _headerStyle,
+                    stepsStyle: _stepStyle,
+                    decoration: BoxDecoration(color: Colors.white),
+                    padding: EdgeInsets.only(
+                      top: 48.0,
+                      left: 24.0,
+                      right: 24.0,
+                    ),
+                    title: _configProvider.title,
                   ),
-                  title: _configProvider.title,
                 ),
-                _screens[_configProvider.currentPregPage - 1]
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: _screens[_configProvider.currentPregPage - 1],
+                )
               ],
-            )),
+            ),
+          )
+        ],
       ),
     );
   }

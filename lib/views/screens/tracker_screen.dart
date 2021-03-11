@@ -78,7 +78,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
                               NoItemTile(
                                 icon: 'assets/access/mother.png',
                                 title:
-                                    'Tap to add the date of the first day of your last menstrual period',
+                                    'Tap to add your first day of your last period',
                               ),
                               DateTimePicker(
                                 decoration: InputDecoration(
@@ -94,7 +94,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
                                   print(val);
                                   print('---------------------');
                                   _motherProvider
-                                      .postMother(conceptionDate: val)
+                                      .postPregnancy(conceptionDate: val)
                                       .then((value) {
                                     _trackerProvider.fetchTrackers();
                                   });

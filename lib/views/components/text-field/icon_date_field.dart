@@ -29,7 +29,7 @@ class IconDateField extends StatelessWidget {
       this.firstDate,
       this.lastDate,
       @required this.date,
-      @required this.isEditing,
+      this.isEditing = true,
       @required this.onEdit})
       : super(key: key);
   @override
@@ -75,12 +75,6 @@ class IconDateField extends StatelessWidget {
                       )
                     : Text(date),
               ),
-              date != null
-                  ? IconButton(
-                      color: Colors.pink,
-                      icon: Icon(isEditing ? Icons.save : Icons.edit),
-                      onPressed: onEdit)
-                  : Container()
             ],
           ),
         ),

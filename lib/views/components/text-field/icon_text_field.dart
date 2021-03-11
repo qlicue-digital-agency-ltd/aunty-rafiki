@@ -22,7 +22,7 @@ class IconTextField extends StatelessWidget {
       this.focusNode,
       this.textInputType = TextInputType.text,
       this.suffix = '',
-      @required this.isEditing,
+      this.isEditing = true,
       @required this.content,
       @required this.onEdit})
       : super(key: key);

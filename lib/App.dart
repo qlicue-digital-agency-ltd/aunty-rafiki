@@ -58,11 +58,31 @@ class App extends StatelessWidget {
                         Configuration.Profile
                     ? StepsPage()
                     : _configProvider.currentConfigurationStep ==
-                            Configuration.Done
-                        ? (FirebaseAuth.instance.currentUser == null
-                            ? LoginPage()
-                            : HomePage())
-                        : OnboardingPage()),
+                            Configuration.NameScreenStepDone
+                        ? StepsPage()
+                        : _configProvider.currentConfigurationStep ==
+                                Configuration.WeeksPregnancyScreenStepDone
+                            ? StepsPage()
+                            : _configProvider.currentConfigurationStep ==
+                                    Configuration.YearOfBirthScreenStepDone
+                                ? StepsPage()
+                                : _configProvider.currentConfigurationStep ==
+                                        Configuration
+                                            .MotherhoodInfoScreenStepDone
+                                    ? StepsPage()
+                                    : _configProvider
+                                                .currentConfigurationStep ==
+                                            Configuration.MoreInfoScreenStepDone
+                                        ? StepsPage()
+                                        : _configProvider
+                                                    .currentConfigurationStep ==
+                                                Configuration.Done
+                                            ? (FirebaseAuth
+                                                        .instance.currentUser ==
+                                                    null
+                                                ? LoginPage()
+                                                : HomePage())
+                                            : OnboardingPage()),
         onboardingPage: (_) => OnboardingPage(),
         loginPage: (_) => LoginPage(),
         homePage: (_) => HomePage(),

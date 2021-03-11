@@ -330,12 +330,12 @@ class AuthProvider with ChangeNotifier {
     return _error;
   }
 
-  Future<bool> updatePregnancyWeeks({@required int pregnancyWeeks}) async {
+  Future<bool> updateConceptionDate({@required String conceptionDate}) async {
     bool _error = false;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     try {
       await users.doc(FirebaseAuth.instance.currentUser.uid).update({
-        'pregnancyWeeks': pregnancyWeeks,
+        'conceptionDate': conceptionDate,
       });
     } catch (e) {
       _error = true;
