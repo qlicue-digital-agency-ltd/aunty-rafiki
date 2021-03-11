@@ -44,7 +44,7 @@ class _PostCardState extends State<PostCard> {
                 SizedBox(
                   width: 20,
                 ),
-                Text(widget.post.author.name)
+                Text('Auntie Rafiki')
               ],
             ),
             SizedBox(

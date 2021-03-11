@@ -35,7 +35,7 @@ class PostProvider with ChangeNotifier {
     notifyListeners();
     List<Post> _fetchedPosts = [];
     final Map<String, dynamic> _data = {
-      'user_id': userId,
+     // 'user_id': userId,
     };
 
     try {
@@ -43,7 +43,7 @@ class PostProvider with ChangeNotifier {
           await http.post(api + "posts", body: json.encode(_data));
 
       final Map<String, dynamic> data = json.decode(response.body);
-
+      print(data);
       if (response.statusCode == 200) {
         data['posts'].forEach((data) {
           final post = Post.fromMap(data);

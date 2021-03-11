@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'author.dart';
-
 class Post {
-  final int id;
-  final String title;
-  final String body;
-  final String time;
-  final int authorId;
-  final int likeCount;
-  final bool likedByMe;
+  int id;
+  String title;
+  String body;
+  String time;
+  int authorId;
+  int likeCount;
+  bool likedByMe;
   String image;
-  Author author;
 
   Post(
       {@required this.id,
@@ -21,7 +18,6 @@ class Post {
       @required this.authorId,
       @required this.likeCount,
       @required this.likedByMe,
-      @required this.author,
       this.image});
 
   Map<String, dynamic> toMap() {
@@ -47,6 +43,5 @@ class Post {
         image = map['image'],
         likeCount = map['likes_count'],
         likedByMe = map['liked_by_me'],
-        authorId = int.parse(map['author_id']),
-        author = Author.fromMap(map['author']);
+        authorId = map['user_id'];
 }
