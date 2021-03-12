@@ -4,6 +4,8 @@ import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
+import 'package:aunty_rafiki/providers/mother_provider.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,6 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
   double divider = 3;
   String passwordText = '';
 
-  var onTapRecognizer;
-
   TextEditingController textEditingController = TextEditingController()
     ..text = "";
 
@@ -36,13 +36,6 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
 
   @override
   void initState() {
-    onTapRecognizer = TapGestureRecognizer()
-      ..onTap = () {
-        final _authProvider = Provider.of<AuthProvider>(context);
-        _authProvider.requestVerificationCode().then((value) {});
-
-        ///TODO:resend code.......
-      };
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }
@@ -58,6 +51,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
     final _confogProvider = Provider.of<ConfigProvider>(context);
+    final _motherProvider = Provider.of<MotherProvider>(context);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -192,13 +186,19 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                     text: "Didn't receive the code? ",
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                     children: [
-                      TextSpan(
-                          text: " RESEND",
-                          recognizer: onTapRecognizer,
-                          style: TextStyle(
-                              color: Colors.pink,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16))
+                      _authProvider.isSendingPhone
+                          ? Loading()
+                          : TextSpan(
+                              text: " RESEND",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  _authProvider.resendCode();
+                                  print('***************object*************');
+                                },
+                              style: TextStyle(
+                                  color: Colors.pink,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16))
                     ]),
               ),
               SizedBox(
@@ -259,6 +259,8 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
 
                                           _confogProvider.setConfigurationStep =
                                               Configuration.Profile;
+
+                                          _motherProvider.postMother();
                                         }
                                       });
                                       print("Auth User Phone: " +

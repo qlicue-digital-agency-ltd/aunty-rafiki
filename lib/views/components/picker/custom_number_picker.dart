@@ -36,18 +36,7 @@ class CustomNumberPicker extends StatelessWidget {
     final theme = Theme.of(context);
     return Column(
       children: [
-        Text(
-          _title,
-          style: TextStyle(color: Colors.black, fontSize: 18),
-        ),
-        _subtitle != null
-            ? Text(
-                _subtitle,
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              )
-            : Container(),
+     
         SizedBox(
           height:10,
         ),

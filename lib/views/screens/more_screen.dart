@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
+import 'package:aunty_rafiki/views/pages/hiv_mother_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -86,15 +87,6 @@ class MoreScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: <Widget>[
-                // Expanded(
-                //   child: MoreMenuCard(
-                //     image: 'assets/access/baby-stroller.png',
-                //     title: 'Baby Name',
-                //     onTap: () {
-                //       Navigator.pushNamed(context, babyNamePage);
-                //     },
-                //   ),
-                // ),
                 Expanded(
                     child: MoreMenuCard(
                   image: 'assets/access/baby-bag.png',
@@ -119,6 +111,28 @@ class MoreScreen extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                    child: MoreMenuCard(
+                  image: 'assets/access/red-ribbon.png',
+                  title: 'HIV Mothers',
+                  onTap: () {
+ 
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => HIVMotherPage()));
+                  },
+                )),
+                const SizedBox(width: 16.0),
+                Expanded(
+                  child: Container(),
+                ),
+              ],
+            ),
+          ),
+
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
           //   child: Row(

@@ -55,8 +55,7 @@ class LoginPage extends StatelessWidget {
                 onPressed: _authProvider.isSendingPhone
                     ? null
                     : () {
-                        // print(_authProvider.phoneNumber.completeNumber);
-
+                 
                         _authProvider.requestVerificationCode().then((value) {
                           if (!value) {
                             Navigator.pushNamed(context, confirmationPage);

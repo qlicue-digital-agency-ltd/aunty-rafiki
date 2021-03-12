@@ -32,7 +32,8 @@ class HospitalBagPage extends StatelessWidget {
                               valueColor:
                                   AlwaysStoppedAnimation<Color>(Colors.pink),
                             )
-                          : CupertinoActivityIndicator()),
+                          : CupertinoActivityIndicator()
+                          ),
                 ],
               )
             : Column(children: [

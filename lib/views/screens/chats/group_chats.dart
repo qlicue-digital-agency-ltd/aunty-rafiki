@@ -108,7 +108,6 @@ class _GroupChatsState extends State<GroupChats> {
                             _groupProvider
                                 .getGroupMembers(chatList[index].groupMembers);
                           },
-                          isGroup: true,
                         );
                       },
                     );

@@ -153,6 +153,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   else
                     return null;
                 },
+              
               ),
               IconDateField(
                 onChage: (val) {
@@ -176,6 +177,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 title: 'Date',
                 dateMask: "EEEE, MMMM d, y",
                 type: DateTimePickerType.date,
+             
               ),
               IconDateField(
                 onChage: (val) {
@@ -194,6 +196,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 title: 'Time',
                 dateMask: 'dd/MM/yyyy',
                 type: DateTimePickerType.time,
+           
               ),
               IconSelectorField(
                 onTap: () {
@@ -201,6 +204,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 },
                 title: _selectedProfession,
                 icon: Icons.assignment_ind,
+      
               ),
               SizedBox(
                 height: 10,
@@ -268,7 +272,6 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                                     syncToCalendar: _syncToCalendar)
                                 .then((value) {
                               if (!value) {
-                                
                                 Navigator.pop(context);
                               } else {
                                 print('Error while submitting data');

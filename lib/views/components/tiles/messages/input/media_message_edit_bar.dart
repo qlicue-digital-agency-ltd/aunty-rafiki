@@ -19,7 +19,8 @@ class MediaMessageEditBar extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MediaMessageEditBarState createState() => _MediaMessageEditBarState();
+  _MediaMessageEditBarState createState() =>
+      _MediaMessageEditBarState(chat: chat);
 }
 
 class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
@@ -27,6 +28,9 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
   TextEditingController _controller;
   List<Asset> images = List<Asset>();
   bool _isSending = false;
+  final Chat chat;
+
+  _MediaMessageEditBarState({@required this.chat});
   @override
   void initState() {
     db = FirebaseFirestore.instance;
@@ -74,20 +78,41 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                         controller: _controller,
                         enabled: !_isSending,
                         onSubmitted: (text) {
-                          _chatProvider
-                              .sendMessage(
-                                  text: _controller.text,
-                                  time: Timestamp.fromDate(DateTime.now()),
-                                  user: FirebaseAuth.instance.currentUser.uid,
-                                  chat: widget.chat,
-                                  repliedMessage: _chatProvider.messageToReply,
-                                  senderName:
-                                      _authProvider.currentUser.displayName)
-                              .then((value) {
-                            _controller.clear();
-                            _chatProvider.scrollToBootomOfChats();
-                            Navigator.pop(context);
-                          });
+                          if (chat != null) {
+                            _chatProvider
+                                .sendMessage(
+                                    text: _controller.text,
+                                    time: Timestamp.fromDate(DateTime.now()),
+                                    user: FirebaseAuth.instance.currentUser.uid,
+                                    chat: chat,
+                                    repliedMessage:
+                                        _chatProvider.messageToReply,
+                                    senderName:
+                                        _authProvider.currentUser.displayName)
+                                .then((value) {
+                              _controller.clear();
+                              setState(() {
+                                _isSending = false;
+                              });
+                              Navigator.pop(context);
+                            });
+                          } else {
+                            _chatProvider
+                                .onSendPrivateMessage(
+                                    content: _controller.text,
+                                    time: Timestamp.fromDate(DateTime.now()),
+                                    groupChatId: _chatProvider.groupChatId,
+                                    peerId: _chatProvider.peerId,
+                                    senderId:
+                                        FirebaseAuth.instance.currentUser.uid)
+                                .then((value) {
+                              _controller.clear();
+                              setState(() {
+                                _isSending = false;
+                              });
+                              Navigator.pop(context);
+                            });
+                          }
                         },
                         decoration: InputDecoration(
                             border: InputBorder.none,
@@ -125,21 +150,38 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                     setState(() {
                       _isSending = true;
                     });
-                    _chatProvider
-                        .sendMessage(
-                            text: _controller.text,
-                            time: Timestamp.fromDate(DateTime.now()),
-                            user: FirebaseAuth.instance.currentUser.uid,
-                            chat: widget.chat,
-                            repliedMessage: _chatProvider.messageToReply,
-                            senderName: _authProvider.currentUser.displayName)
-                        .then((value) {
-                      _controller.clear();
-                      setState(() {
-                        _isSending = false;
+                    if (chat != null) {
+                      _chatProvider
+                          .sendMessage(
+                              text: _controller.text,
+                              time: Timestamp.fromDate(DateTime.now()),
+                              user: FirebaseAuth.instance.currentUser.uid,
+                              chat: chat,
+                              repliedMessage: _chatProvider.messageToReply,
+                              senderName: _authProvider.currentUser.displayName)
+                          .then((value) {
+                        _controller.clear();
+                        setState(() {
+                          _isSending = false;
+                        });
+                        Navigator.pop(context);
                       });
-                      Navigator.pop(context);
-                    });
+                    } else {
+                      _chatProvider
+                          .onSendPrivateMessage(
+                              content: _controller.text,
+                              time: Timestamp.fromDate(DateTime.now()),
+                              groupChatId: _chatProvider.groupChatId,
+                              peerId: _chatProvider.peerId,
+                              senderId: FirebaseAuth.instance.currentUser.uid)
+                          .then((value) {
+                        _controller.clear();
+                        setState(() {
+                          _isSending = false;
+                        });
+                        Navigator.pop(context);
+                      });
+                    }
                   },
             color: Colors.white,
           ),

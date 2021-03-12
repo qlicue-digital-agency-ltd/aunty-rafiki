@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aunty_rafiki/api/api.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:aunty_rafiki/models/tracker.dart';
@@ -23,8 +24,10 @@ class TrackerProvider extends ChangeNotifier {
     bool hasError = true;
     _isFetchingTrackerData = true;
     notifyListeners();
-    
-    final Map<String, dynamic> _data = {"conception_date": conceptioDate};
+
+    final Map<String, dynamic> _data = {
+      "uid": FirebaseAuth.instance.currentUser.uid
+    };
 
     final List<Tracker> _fetchedTrackers = [];
     try {
@@ -33,7 +36,7 @@ class TrackerProvider extends ChangeNotifier {
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
-      
+
       if (response.statusCode == 200) {
         data['trackers'].forEach((trackerData) {
           final tracker = Tracker.fromMap(trackerData);
@@ -41,7 +44,6 @@ class TrackerProvider extends ChangeNotifier {
         });
         hasError = false;
       }
-
     } catch (error) {
       print('---------------------------');
       print(error);

@@ -1,4 +1,4 @@
-import 'package:aunty_rafiki/models/profile.dart';
+import 'package:aunty_rafiki/models/view/profile.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTile extends StatelessWidget {

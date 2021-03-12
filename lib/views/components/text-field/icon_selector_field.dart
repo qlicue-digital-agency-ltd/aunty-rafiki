@@ -5,12 +5,12 @@ class IconSelectorField extends StatelessWidget {
   final Function onTap;
   final IconData icon;
 
-  const IconSelectorField(
-      {Key key,
-      @required this.title,
-      @required this.onTap,
-      @required this.icon})
-      : super(key: key);
+  const IconSelectorField({
+    Key key,
+    @required this.title,
+    @required this.onTap,
+    @required this.icon,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -41,15 +41,10 @@ class IconSelectorField extends StatelessWidget {
             SizedBox(
               width: 24,
             ),
-
-            ///For Text
-            Text(
-              title,
-            ),
-
+            Text(title),
             Spacer(),
             IconButton(
-              icon: Icon(Icons.arrow_forward_ios),
+              icon: Icon(Icons.select_all),
               onPressed: onTap,
             )
           ],

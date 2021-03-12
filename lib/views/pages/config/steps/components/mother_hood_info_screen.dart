@@ -31,9 +31,8 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
-     final _configProvider = Provider.of<ConfigProvider>(context);
-    return ListView(
-      shrinkWrap: true,
+    final _configProvider = Provider.of<ConfigProvider>(context);
+    return Column(
       children: [
         SizedBox(
           height: 10,
@@ -42,7 +41,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           counter: _gravida,
           onTap: (val) {
             setState(() {
-              _gravida = val;
+              if (val != null) _gravida = val;
             });
           },
           title: 'Gravida',
@@ -57,7 +56,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           items: ["NO", "YES"],
           onChange: (value) {
             setState(() {
-              _miscarriage = value;
+              if (value != null) _miscarriage = value;
               if (_miscarriage == "NO") {
                 _miscarriageAge = 0;
               }
@@ -72,7 +71,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
                 counter: _miscarriageAge,
                 onTap: (val) {
                   setState(() {
-                    _miscarriageAge = val;
+                    if (val != null) _miscarriageAge = val;
                   });
                 },
                 title: 'How many weeks was the pregnancy upon miscarriage?',
@@ -88,7 +87,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           counter: _births,
           onTap: (val) {
             setState(() {
-              _births = val;
+              if (val != null) _births = val;
             });
           },
           title: 'How many times have you given birth?',
@@ -102,7 +101,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
                 counter: _operationBirths,
                 onTap: (val) {
                   setState(() {
-                    _operationBirths = val;
+                    if (val != null) _operationBirths = val;
                   });
                 },
                 title: 'How many times did you give birth by operation?',
@@ -144,8 +143,8 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           },
           isPressed: _isPressed,
         ),
-        SizedBox(
-          height: 40,
+         SizedBox(
+          height: 100,
         ),
       ],
     );

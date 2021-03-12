@@ -1,3 +1,6 @@
+import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 typedef QuickMenuCardTap = Function();
@@ -5,17 +8,15 @@ typedef QuickMenuCardTap = Function();
 class MoreMenuCard extends StatelessWidget {
   final String image;
   final String title;
-  final String data;
-  final bool showIcon;
+  final bool isLocal;
   final QuickMenuCardTap onTap;
 
   const MoreMenuCard(
       {Key key,
       @required this.image,
       @required this.title,
-      this.data,
       @required this.onTap,
-      this.showIcon = false})
+      this.isLocal = true})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -35,28 +36,34 @@ class MoreMenuCard extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: Center(
-                    child: Image.asset(
-                      image,
-                      height: MediaQuery.of(context).size.height / 16,
-                    ),
+                    child: isLocal
+                        ? Image.asset(image,
+                            height: MediaQuery.of(context).size.height / 16)
+                        : CachedNetworkImage(
+                            placeholder: (context, url) => Container(
+                                  child: Loading(),
+                                  padding: EdgeInsets.all(70.0),
+                                  decoration: BoxDecoration(
+                                    color: greyColor2,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8.0),
+                                    ),
+                                  ),
+                                ),
+                            errorWidget: (context, url, error) => Material(
+                                  child: Image.asset(
+                                    'assets/images/img_not_available.jpeg',
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                ),
+                            imageUrl: image,
+                            fit: BoxFit.fill,
+                            height: MediaQuery.of(context).size.height / 16),
                   )),
-              data != null
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Chip(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          label: Text(
-                            data,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Container(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Align(

@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/providers/config_provider.dart';
 
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
 import 'package:aunty_rafiki/views/pages/add_blood_level_page.dart';
@@ -22,19 +23,23 @@ import 'package:aunty_rafiki/views/pages/hospital_bag_page.dart';
 import 'package:aunty_rafiki/views/pages/login_page.dart';
 import 'package:aunty_rafiki/views/pages/onboarding_page.dart';
 import 'package:aunty_rafiki/views/pages/profile_page.dart';
-import 'package:aunty_rafiki/views/pages/startup_page.dart';
+import 'package:aunty_rafiki/views/pages/splash_screen_page.dart';
 import 'package:aunty_rafiki/views/pages/time_line_page.dart';
 import 'package:aunty_rafiki/views/pages/to_do_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import 'constants/enums/enums.dart';
 import 'views/pages/home_page.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _configProvider = Provider.of<ConfigProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Aunty Rafiki',
@@ -42,11 +47,42 @@ class App extends StatelessWidget {
           primarySwatch: Colors.pink,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: GoogleFonts.poppinsTextTheme()),
-      home: StartupPage(),
+      home: AnimatedSplashScreen(),
       routes: {
-        landingPage: (context) => FirebaseAuth.instance.currentUser == null
-            ? LoginPage()
-            : HomePage(),
+        landingPage: (_) => _configProvider.currentConfigurationStep ==
+                Configuration.Terms
+            ? TermsConditionPage()
+            : _configProvider.currentConfigurationStep == Configuration.SignUp
+                ? LoginPage()
+                : (_configProvider.currentConfigurationStep ==
+                        Configuration.Profile
+                    ? StepsPage()
+                    : _configProvider.currentConfigurationStep ==
+                            Configuration.NameScreenStepDone
+                        ? StepsPage()
+                        : _configProvider.currentConfigurationStep ==
+                                Configuration.WeeksPregnancyScreenStepDone
+                            ? StepsPage()
+                            : _configProvider.currentConfigurationStep ==
+                                    Configuration.YearOfBirthScreenStepDone
+                                ? StepsPage()
+                                : _configProvider.currentConfigurationStep ==
+                                        Configuration
+                                            .MotherhoodInfoScreenStepDone
+                                    ? StepsPage()
+                                    : _configProvider
+                                                .currentConfigurationStep ==
+                                            Configuration.MoreInfoScreenStepDone
+                                        ? StepsPage()
+                                        : _configProvider
+                                                    .currentConfigurationStep ==
+                                                Configuration.Done
+                                            ? (FirebaseAuth
+                                                        .instance.currentUser ==
+                                                    null
+                                                ? LoginPage()
+                                                : HomePage())
+                                            : OnboardingPage()),
         onboardingPage: (_) => OnboardingPage(),
         loginPage: (_) => LoginPage(),
         homePage: (_) => HomePage(),

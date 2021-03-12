@@ -16,8 +16,11 @@ class MessageEditBar extends StatefulWidget {
   final LocalFileSystem localFileSystem;
   final Function onPressed;
 
-  const MessageEditBar({Key key, this.onPressed, localFileSystem})
-      : this.localFileSystem = localFileSystem,
+  const MessageEditBar({
+    Key key,
+    this.onPressed,
+    localFileSystem,
+  })  : this.localFileSystem = localFileSystem,
         super(key: key);
 
   @override
@@ -283,6 +286,7 @@ class _MessageEditBarState extends State<MessageEditBar> {
                           _isSending = true;
                           _showEmojiPicker = false;
                         });
+
                         _chatProvider
                             .sendMessage(
                                 text: _controller.text,

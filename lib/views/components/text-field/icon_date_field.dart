@@ -1,13 +1,11 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
-typedef IconDateFieldFunction = Function(String);
-
 class IconDateField extends StatelessWidget {
   final TextEditingController textEditingController;
-  final IconDateFieldFunction onChage;
-  final IconDateFieldFunction onValidate;
-  final IconDateFieldFunction onSaved;
+  final Function(String) onChage;
+  final Function(String) onValidate;
+  final Function(String) onSaved;
   final IconData icon;
   final DateTimePickerType type;
   final String title;
@@ -15,19 +13,19 @@ class IconDateField extends StatelessWidget {
   final DateTime firstDate;
   final DateTime lastDate;
 
-  const IconDateField(
-      {Key key,
-      @required this.textEditingController,
-      @required this.onChage,
-      @required this.onValidate,
-      @required this.onSaved,
-      @required this.icon,
-      @required this.type,
-      @required this.title,
-      this.dateMask,
-      this.firstDate,
-      this.lastDate})
-      : super(key: key);
+  const IconDateField({
+    Key key,
+    @required this.textEditingController,
+    @required this.onChage,
+    @required this.onValidate,
+    @required this.onSaved,
+    @required this.icon,
+    @required this.type,
+    @required this.title,
+    this.dateMask,
+    this.firstDate,
+    this.lastDate,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,21 +52,20 @@ class IconDateField extends StatelessWidget {
 
               ///For Text
               Expanded(
-                child: DateTimePicker(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                  ),
-                  type: type,
-                  dateMask: dateMask,
-                  controller: textEditingController,
-                  timeLabelText: title,
-                  onChanged: onChage,
-                  validator: onValidate,
-                  onSaved: onSaved,
-                  firstDate: firstDate,
-                  lastDate: lastDate,
+                  child: DateTimePicker(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
                 ),
-              ),
+                type: type,
+                dateMask: dateMask,
+                controller: textEditingController,
+                timeLabelText: title,
+                onChanged: onChage,
+                validator: onValidate,
+                onSaved: onSaved,
+                firstDate: firstDate,
+                lastDate: lastDate,
+              )),
             ],
           ),
         ),

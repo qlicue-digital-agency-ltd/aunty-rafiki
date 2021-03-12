@@ -90,7 +90,7 @@ class MessageList extends StatelessWidget {
                           },
                     color: _chatProvider.selectedMessages
                             .containsKey(docs[index].id)
-                        ? Colors.pink[50].withOpacity(0.5)
+                        ? Colors.pink[100].withOpacity(0.5)
                         : Colors.transparent),
           ),
         );

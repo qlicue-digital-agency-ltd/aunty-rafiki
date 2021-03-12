@@ -1,5 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
-import 'package:aunty_rafiki/models/profile.dart';
+import 'package:aunty_rafiki/models/view/profile.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/profile_tile.dart';
 import 'package:flutter/material.dart';

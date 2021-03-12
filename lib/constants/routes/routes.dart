@@ -20,6 +20,7 @@ const createTaskPage = "/createTaskPage";
 const babyBumpPage = "/babyBumpPage";
 const onboardingPage = "/onboardingPage";
 const landingPage = "/landingPage";
+const configurationPage = "/configurationPage";
 const termsConditionPage = "/termsConditionPage";
 const choicePage = "/choicePage";
 const stepsPage = "/stepsPage";

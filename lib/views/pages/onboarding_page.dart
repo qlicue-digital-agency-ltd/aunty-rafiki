@@ -49,13 +49,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   icon: "assets/icons/chat.png",
                   title: 'Chat',
                   textContent:
-                      "Aunty Rafiki is connects you to your favorite midwife, 24/7",
+                      "Aunty Rafiki connects you to your favorite midwife, 24/7",
                 ),
                 Walkthrougth(
                     icon: "assets/icons/baby.png",
                     title: 'Health',
                     textContent:
-                        "Aunty Rafiki carters for the health condition for you and your baby"),
+                        "Aunty Rafiki carters for the health condition of you and your baby"),
                 Walkthrougth(
                     icon: "assets/icons/shield.png",
                     title: 'Secure',

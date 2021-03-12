@@ -1,12 +1,12 @@
-import 'dart:io';
-
+import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/models/message.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/pages/media_preview_list_page.dart';
 import 'package:aunty_rafiki/views/pages/media_preview_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 // ignore: must_be_immutable
 class MediaContent extends StatelessWidget {
@@ -25,6 +25,7 @@ class MediaContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formatter = new DateFormat('HH:mm');
+    double _imageHolderHeight = MediaQuery.of(context).size.height * 0.2;
     return Stack(
       children: [
         Column(
@@ -83,28 +84,37 @@ class MediaContent extends StatelessWidget {
                                     child: Stack(
                                       children: [
                                         Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.2,
+                                          height: _imageHolderHeight,
                                           child: Center(
-                                              child: Platform.isIOS
-                                                  ? CupertinoActivityIndicator()
-                                                  : CircularProgressIndicator()),
-                                        ),
-                                        Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.2,
-                                          child: Center(
-                                            child: FadeInImage.memoryNetwork(
-                                              placeholder: kTransparentImage,
-                                              image: media.toString(),
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.2,
+                                            child: CachedNetworkImage(
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                child: Loading(),
+                                                height: _imageHolderHeight,
+                                                padding: EdgeInsets.all(70.0),
+                                                decoration: BoxDecoration(
+                                                  color: greyColor2,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(8.0),
+                                                  ),
+                                                ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Material(
+                                                child: Image.asset(
+                                                  'assets/images/img_not_available.jpeg',
+                                                  height: _imageHolderHeight,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(8.0),
+                                                ),
+                                                clipBehavior: Clip.hardEdge,
+                                              ),
+                                              imageUrl: media.toString(),
+                                              height: _imageHolderHeight,
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -181,9 +191,32 @@ class MediaContent extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(2.0),
-            child: FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
-              image: message.media[i],
+            child: CachedNetworkImage(
+              placeholder: (context, url) => Container(
+                child: Loading(),
+                height: width * 0.3,
+                width: width * 0.3,
+                padding: EdgeInsets.all(70.0),
+                decoration: BoxDecoration(
+                  color: greyColor2,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => Material(
+                child: Image.asset(
+                  'assets/images/img_not_available.jpeg',
+                  height: width * 0.3,
+                  width: width * 0.3,
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8.0),
+                ),
+                clipBehavior: Clip.hardEdge,
+              ),
+              imageUrl: message.media[i],
               height: width * 0.3,
               width: width * 0.3,
               fit: BoxFit.cover,
@@ -193,9 +226,32 @@ class MediaContent extends StatelessWidget {
             padding: const EdgeInsets.all(2.0),
             child: Stack(
               children: [
-                FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  image: message.media[i + 1],
+                CachedNetworkImage(
+                  placeholder: (context, url) => Container(
+                    child: Loading(),
+                    height: width * 0.3,
+                    width: width * 0.3,
+                    padding: EdgeInsets.all(70.0),
+                    decoration: BoxDecoration(
+                      color: greyColor2,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Material(
+                    child: Image.asset(
+                      'assets/images/img_not_available.jpeg',
+                      height: width * 0.3,
+                      width: width * 0.3,
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                    clipBehavior: Clip.hardEdge,
+                  ),
+                  imageUrl: message.media[i + 1],
                   height: width * 0.3,
                   width: width * 0.3,
                   fit: BoxFit.cover,

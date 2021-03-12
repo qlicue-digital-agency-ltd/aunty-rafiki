@@ -178,7 +178,7 @@ class UtilityProvider with ChangeNotifier {
   List<TermModel> get checkBoxList => _checkBoxList;
 
   Future<void> storeTerms(List<TermModel> terms) async {
-    _sharedPref.saveStringleString('terms', terms);
+    _sharedPref.saveStringleString('terms', terms.toString());
   }
 
 //terms and condtiond....

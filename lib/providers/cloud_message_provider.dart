@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CloudMessageProvider with ChangeNotifier {
-  ///constructor..
-  CloudMessageProvider() {}
+
 
   ///variables
   dynamic _data, _notification;
