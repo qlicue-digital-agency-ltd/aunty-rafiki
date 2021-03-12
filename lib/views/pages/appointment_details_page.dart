@@ -40,7 +40,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                                   color: Color.fromRGBO(255, 240, 240, 1)),
                               padding: const EdgeInsets.all(16),
                               child: Icon(
-                                Icons.calendar_today,
+                                Icons.person_outline,
                                 color: Colors.redAccent,
                               ),
                             ),
@@ -61,12 +61,106 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
-                    height: 10,
+                  Column(
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            ///Container for Icon
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color.fromRGBO(255, 240, 240, 1)),
+                              padding: const EdgeInsets.all(16),
+                              child: Icon(
+                                Icons.calendar_today,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+
+                            ///For spacing
+                            SizedBox(
+                              width: 24,
+                            ),
+                            Expanded(child: Text(widget.appointment.date)),
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        indent: 50,
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 10,
                   ),
+                  Column(
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            ///Container for Icon
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color.fromRGBO(255, 240, 240, 1)),
+                              padding: const EdgeInsets.all(16),
+                              child: Icon(
+                                Icons.lock_clock,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+
+                            ///For spacing
+                            SizedBox(
+                              width: 24,
+                            ),
+                            Expanded(child: Text(widget.appointment.time)),
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        indent: 50,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            ///Container for Icon
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Color.fromRGBO(255, 240, 240, 1)),
+                              padding: const EdgeInsets.all(16),
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+
+                            ///For spacing
+                            SizedBox(
+                              width: 24,
+                            ),
+                            Expanded(child: Text(widget.appointment.profession)),
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        indent: 50,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  
                   Row(
                     children: [
                       Text(

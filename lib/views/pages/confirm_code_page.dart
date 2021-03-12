@@ -5,6 +5,7 @@ import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -185,16 +186,19 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                     text: "Didn't receive the code? ",
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                     children: [
-                      TextSpan(
-                          text: " RESEND",
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              print('***************object*************');
-                            },
-                          style: TextStyle(
-                              color: Colors.pink,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16))
+                      _authProvider.isSendingPhone
+                          ? Loading()
+                          : TextSpan(
+                              text: " RESEND",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  _authProvider.resendCode();
+                                  print('***************object*************');
+                                },
+                              style: TextStyle(
+                                  color: Colors.pink,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16))
                     ]),
               ),
               SizedBox(

@@ -1,7 +1,5 @@
 import 'dart:io';
 
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:file_picker/file_picker.dart';
@@ -196,6 +194,31 @@ class AuthProvider with ChangeNotifier {
         verificationCompleted: _verificationCompleted,
         verificationFailed: _verificationFailed,
         codeSent: _codeSent,
+        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
+
+    _isSendingPhone = false;
+
+    notifyListeners();
+
+    return _isSendingPhone;
+  }
+
+  Future<bool> resendCode() async {
+    _isSendingPhone = true;
+    notifyListeners();
+
+    String _phone = _phoneNumber.completeNumber.replaceAll('(', "");
+    _phone = _phone.replaceAll(')', '');
+    _phone = _phone.replaceAll('-', '');
+    _phone = _phone.replaceAll(' ', '');
+
+    print(_phone);
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        timeout: Duration(seconds: 90),
+        phoneNumber: _phone,
+        verificationCompleted: null,
+        verificationFailed: null,
+        codeSent: null,
         codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
 
     _isSendingPhone = false;
