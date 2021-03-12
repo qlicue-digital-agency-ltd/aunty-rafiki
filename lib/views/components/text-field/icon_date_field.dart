@@ -6,32 +6,26 @@ class IconDateField extends StatelessWidget {
   final Function(String) onChage;
   final Function(String) onValidate;
   final Function(String) onSaved;
-  final Function onEdit;
   final IconData icon;
   final DateTimePickerType type;
   final String title;
   final String dateMask;
   final DateTime firstDate;
   final DateTime lastDate;
-  final String date;
-  final bool isEditing;
 
-  const IconDateField(
-      {Key key,
-      @required this.textEditingController,
-      @required this.onChage,
-      @required this.onValidate,
-      @required this.onSaved,
-      @required this.icon,
-      @required this.type,
-      @required this.title,
-      this.dateMask,
-      this.firstDate,
-      this.lastDate,
-      @required this.date,
-      this.isEditing = true,
-      @required this.onEdit})
-      : super(key: key);
+  const IconDateField({
+    Key key,
+    @required this.textEditingController,
+    @required this.onChage,
+    @required this.onValidate,
+    @required this.onSaved,
+    @required this.icon,
+    @required this.type,
+    @required this.title,
+    this.dateMask,
+    this.firstDate,
+    this.lastDate,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -58,34 +52,26 @@ class IconDateField extends StatelessWidget {
 
               ///For Text
               Expanded(
-                child: isEditing
-                    ? DateTimePicker(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        type: type,
-                        dateMask: dateMask,
-                        controller: textEditingController,
-                        timeLabelText: title,
-                        onChanged: onChage,
-                        validator: onValidate,
-                        onSaved: onSaved,
-                        firstDate: firstDate,
-                        lastDate: lastDate,
-                      )
-                    : Text(date),
-              ),
+                  child: DateTimePicker(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                ),
+                type: type,
+                dateMask: dateMask,
+                controller: textEditingController,
+                timeLabelText: title,
+                onChanged: onChage,
+                validator: onValidate,
+                onSaved: onSaved,
+                firstDate: firstDate,
+                lastDate: lastDate,
+              )),
             ],
           ),
         ),
-        date != null
-            ? Divider(
-                indent: 50,
-                color: Colors.pink,
-              )
-            : Divider(
-                indent: 50,
-              ),
+        Divider(
+          indent: 50,
+        ),
       ],
     );
   }

@@ -35,13 +35,6 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
 
   @override
   void initState() {
-    // onTapRecognizer = TapGestureRecognizer()
-    //   ..onTap = () {
-    //     final _authProvider = Provider.of<AuthProvider>(context);
-    //     _authProvider.requestVerificationCode().then((value) {});
-
-    //     ///TODO:resend code.......
-    //   };
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }

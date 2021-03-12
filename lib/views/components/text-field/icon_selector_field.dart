@@ -3,24 +3,18 @@ import 'package:flutter/material.dart';
 class IconSelectorField extends StatelessWidget {
   final String title;
   final Function onTap;
-  final Function onEdit;
   final IconData icon;
-  final String profession;
-  final bool isEditing;
 
-  const IconSelectorField(
-      {Key key,
-      @required this.title,
-      @required this.onTap,
-      @required this.icon,
-      @required this.onEdit,
-      @required this.profession,
-      @required this.isEditing})
-      : super(key: key);
+  const IconSelectorField({
+    Key key,
+    @required this.title,
+    @required this.onTap,
+    @required this.icon,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: isEditing ? onTap : null,
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
@@ -47,24 +41,12 @@ class IconSelectorField extends StatelessWidget {
             SizedBox(
               width: 24,
             ),
-
-            ///For Text
-            isEditing
-                ? Text(
-                    title,
-                  )
-                : Text(profession),
-
+            Text(title),
             Spacer(),
-            profession != null
-                ? IconButton(
-                    color: Colors.pink,
-                    icon: Icon(isEditing ? Icons.save : Icons.edit),
-                    onPressed: onEdit)
-                : IconButton(
-                    icon: Icon(Icons.select_all),
-                    onPressed: onTap,
-                  )
+            IconButton(
+              icon: Icon(Icons.select_all),
+              onPressed: onTap,
+            )
           ],
         ),
       ),

@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 class IconTextField extends StatelessWidget {
   final IconData icon;
   final String title;
-  final String content;
-  final bool isEditing;
+
   final TextEditingController textEditingController;
   final Function onTap;
   final Function(String) validator;
-  final Function onEdit;
+
   final FocusNode focusNode;
   final TextInputType textInputType;
   final String suffix;
@@ -22,9 +21,7 @@ class IconTextField extends StatelessWidget {
       this.focusNode,
       this.textInputType = TextInputType.text,
       this.suffix = '',
-      this.isEditing = true,
-      @required this.content,
-      @required this.onEdit})
+     })
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -50,8 +47,7 @@ class IconTextField extends StatelessWidget {
                 width: 24,
               ),
               Expanded(
-                child: isEditing
-                    ? TextFormField(
+                child: TextFormField(
                         focusNode: focusNode,
                         validator: validator,
                         keyboardType: textInputType,
@@ -62,23 +58,13 @@ class IconTextField extends StatelessWidget {
                             border: InputBorder.none,
                             suffix: Text(suffix)),
                       )
-                    : Text(content),
+                   
               ),
-              content != null
-                  ? IconButton(
-                      color: Colors.pink,
-                      icon: Icon(isEditing ? Icons.save : Icons.edit),
-                      onPressed: onEdit)
-                  : Container()
+             
             ],
           ),
         ),
-        content != null
-            ? Divider(
-                indent: 50,
-                color: Colors.pink,
-              )
-            : Divider(
+       Divider(
                 indent: 50,
               ),
       ],
