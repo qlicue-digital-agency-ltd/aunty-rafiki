@@ -73,7 +73,7 @@ class MotherProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final http.Response response = await http.put(api + "mother",
+      final http.Response response = await http.post(api + "mother",
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 
@@ -101,7 +101,7 @@ class MotherProvider extends ChangeNotifier {
     return hasError;
   }
 
-  //put mother
+  //post mother
   Future<bool> postPregnancy({
     @required String conceptionDate,
   }) async {
