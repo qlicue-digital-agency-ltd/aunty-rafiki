@@ -23,7 +23,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import "package:fluttertoast/fluttertoast.dart";
 import 'package:provider/provider.dart';
 import 'App.dart';
 
@@ -84,7 +84,7 @@ Future<void> main() async {
   // }
 
   const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('app_icon');
+      AndroidInitializationSettings('@mipmap/ic_launcher');
 
   /// Note: permissions aren't requested here just to demonstrate that can be
   /// done later
