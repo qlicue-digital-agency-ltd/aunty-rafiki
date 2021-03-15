@@ -28,7 +28,7 @@ dependencies:
   firebase_performance: "^0.5.0+1"
   flutter_local_notifications: ^4.0.1+1
   
-  intl_phone_field: 1.4.2
+  intl_phone_field: 1.4.4
   provider: 4.3.2+2
   timeline_tile: 1.0.0
   intl: any
