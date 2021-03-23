@@ -63,6 +63,7 @@ dependencies:
   fluttertoast: ^7.0.2
   cached_network_image: ^2.3.1
   photo_view: ^0.10.2
+  
 
 dev_dependencies:
   flutter_test:

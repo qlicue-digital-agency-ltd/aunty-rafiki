@@ -5,7 +5,6 @@ import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
-import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +33,30 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
   bool hasError = false;
   String currentText = "";
 
+  Timer _timer;
+  int _start = 30;
+
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
   @override
   void initState() {
+    startTimer();
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }
@@ -43,7 +64,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
   @override
   void dispose() {
     errorController.close();
-
+    _timer.cancel();
     super.dispose();
   }
 
@@ -172,6 +193,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                   FlatButton(
                     child: Text("Clear"),
                     onPressed: () {
+                      startTimer();
                       textEditingController.clear();
                     },
                   ),
@@ -186,19 +208,36 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                     text: "Didn't receive the code? ",
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                     children: [
-                      _authProvider.isSendingPhone
-                          ? Loading()
-                          : TextSpan(
-                              text: " RESEND",
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  _authProvider.resendCode();
-                                  print('***************object*************');
-                                },
-                              style: TextStyle(
-                                  color: Colors.pink,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16))
+                      TextSpan(
+                          text: " RESEND ",
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // if (_start == 0) {
+                              //   setState(() {
+                              //     _start = 30;
+                              //   });
+                              //   startTimer();
+                              Navigator.pop(context);
+                              _authProvider
+                                  .requestVerificationCode()
+                                  .then((value) {
+                                if (!value) {
+                                  Navigator.pushNamed(
+                                      context, confirmationPage);
+                                }
+                              });
+                              print('***************object*************');
+                            },
+                          style: TextStyle(
+                              color: Colors.pink,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16)),
+                      TextSpan(
+                          text: _start > 0 ? "in $_start" : "now",
+                          style: TextStyle(
+                              color: Colors.pink,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16))
                     ]),
               ),
               SizedBox(
@@ -243,7 +282,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                   _authProvider
                                       .signIn(smsCode: currentText)
                                       .then((credential) {
-                                    if (credential.user != null) {
+                                    if (credential != null) {
                                       _authProvider
                                           .checkUserHasProfile()
                                           .then((value) {
@@ -266,24 +305,13 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                       print("Auth User Phone: " +
                                           credential.user.phoneNumber);
                                     } else {
-                                      _scaffoldKey.currentState
-                                          .showSnackBar(SnackBar(
-                                        content: ListTile(
-                                            leading: Icon(Icons.error,
-                                                color: Colors.red),
-                                            title: Text(
-                                                "Incorrect verification code!!")),
-                                        duration: Duration(seconds: 2),
-                                      ));
+                                      errorController.add(ErrorAnimationType
+                                          .shake); // Triggering error shake animation
+                                      textEditingController.clear();
                                     }
                                   });
                                   setState(() {
                                     hasError = false;
-                                    // _scaffoldKey.currentState
-                                    //     .showSnackBar(SnackBar(
-                                    //   content: Text("Aye!!"),
-                                    //   duration: Duration(seconds: 2),
-                                    // ));
                                   });
                                 }
                               }

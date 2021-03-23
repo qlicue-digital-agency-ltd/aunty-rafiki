@@ -32,6 +32,7 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
           appBar: _utilityProvider.currentIndex == 1
               ? AppBar(
+                leading: Container(),
                   title: Text(
                     "Chats",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),

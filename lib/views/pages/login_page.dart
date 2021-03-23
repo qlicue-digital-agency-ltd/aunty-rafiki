@@ -55,12 +55,12 @@ class LoginPage extends StatelessWidget {
                 onPressed: _authProvider.isSendingPhone
                     ? null
                     : () {
-                 
-                        _authProvider.requestVerificationCode().then((value) {
-                          if (!value) {
-                            Navigator.pushNamed(context, confirmationPage);
-                          }
-                        });
+                        if (_phoneTextEditingController.text.isNotEmpty)
+                          _authProvider.requestVerificationCode().then((value) {
+                            if (!value) {
+                              Navigator.pushNamed(context, confirmationPage);
+                            }
+                          });
                       },
                 color: Colors.pink,
                 shape: RoundedRectangleBorder(

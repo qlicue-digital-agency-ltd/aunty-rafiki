@@ -203,31 +203,6 @@ class AuthProvider with ChangeNotifier {
     return _isSendingPhone;
   }
 
-  Future<bool> resendCode() async {
-    _isSendingPhone = true;
-    notifyListeners();
-
-    String _phone = _phoneNumber.completeNumber.replaceAll('(', "");
-    _phone = _phone.replaceAll(')', '');
-    _phone = _phone.replaceAll('-', '');
-    _phone = _phone.replaceAll(' ', '');
-
-    print(_phone);
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        timeout: Duration(seconds: 90),
-        phoneNumber: _phone,
-        verificationCompleted: null,
-        verificationFailed: null,
-        codeSent: null,
-        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
-
-    _isSendingPhone = false;
-
-    notifyListeners();
-
-    return _isSendingPhone;
-  }
-
   _verificationCompleted(PhoneAuthCredential credential) async {
     _isSendingPhone = false;
     _sendingCode = false;
