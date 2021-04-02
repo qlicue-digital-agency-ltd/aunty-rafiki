@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/image/profile_avatar.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -173,7 +174,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
         SliverList(
           delegate: SliverChildListDelegate([
             _groupProvider.isCreatingGroup
-                ? Center(child: CircularProgressIndicator())
+                ? Center(child: Loading())
                 : Container()
           ]),
         ),

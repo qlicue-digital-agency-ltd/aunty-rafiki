@@ -4,6 +4,7 @@ import 'package:aunty_rafiki/views/cloud-sms/message.dart';
 import 'package:aunty_rafiki/views/cloud-sms/message_list.dart';
 import 'package:aunty_rafiki/views/cloud-sms/permission_page.dart';
 import 'package:aunty_rafiki/views/cloud-sms/token_monitor.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -192,7 +193,7 @@ class _Application extends State<Application> {
           MetaCard('FCM Token', TokenMonitor((token) {
             _token = token;
             return token == null
-                ? const CircularProgressIndicator()
+                ? const Loading()
                 : Text(token, style: const TextStyle(fontSize: 12));
           })),
           MetaCard('Message Stream', MessageList()),

@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/providers/group_provider.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,7 @@ class _GroupChatsState extends State<GroupChats> {
                     child: Text('error: ${snapshot.error.toString()}'));
               }
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: Loading());
               }
               List<Chat> chatList = snapshot.data;
               return chatList.isEmpty

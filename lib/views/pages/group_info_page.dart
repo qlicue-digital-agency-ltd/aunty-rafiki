@@ -1,9 +1,10 @@
-import 'dart:io';
+
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/models/user.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/user_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseUser;
 import 'package:flutter/cupertino.dart';
@@ -226,13 +227,7 @@ class GroupInfoPage extends StatelessWidget {
             ),
             Material(color: Colors.white, child: Divider(indent: 20)),
             Visibility(
-              child: Center(
-                  child: Platform.isAndroid
-                      ? CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.pink),
-                        )
-                      : CupertinoActivityIndicator()),
+              child: Center(child: Loading()),
               visible: _groupProvider.loadingMembers,
             )
           ]),

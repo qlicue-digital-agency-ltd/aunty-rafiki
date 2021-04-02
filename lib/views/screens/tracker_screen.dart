@@ -1,8 +1,9 @@
-import 'dart:io';
+
 
 import 'package:aunty_rafiki/models/tracker.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/components/tiles/tracker_tile.dart';
 import 'package:aunty_rafiki/views/pages/tracker_page.dart';
@@ -57,13 +58,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 2.7,
                       ),
-                      Center(
-                          child: Platform.isAndroid
-                              ? CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.pink),
-                                )
-                              : CupertinoActivityIndicator()),
+                      Center(child: Loading()),
                     ],
                   )
                 : _trackerProvider.availableTrackers.isEmpty

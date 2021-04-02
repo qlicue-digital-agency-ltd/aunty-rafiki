@@ -1,7 +1,8 @@
-import 'dart:io';
+
 
 import 'package:aunty_rafiki/providers/post_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/post_card.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +27,7 @@ class HIVMotherPage extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.only(left: 5, right: 5),
         child: _postProvider.isFetchingData
-            ? Center(
-                child: Platform.isAndroid
-                    ? CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
-                      )
-                    : CupertinoActivityIndicator())
+            ? Center(child: Loading())
             : _postProvider.availablePosts.isEmpty
                 ? RefreshIndicator(
                     onRefresh: _getData,

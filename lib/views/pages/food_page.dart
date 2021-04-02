@@ -1,7 +1,8 @@
-import 'dart:io';
+
 
 import 'package:aunty_rafiki/providers/food_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 
 import 'package:aunty_rafiki/views/pages/recipe_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,12 +23,8 @@ class FoodPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height / 2.7,
                 ),
                 Center(
-                    child: Platform.isAndroid
-                        ? CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.pink),
-                          )
-                        : CupertinoActivityIndicator()),
+                    child: Loading()
+                        ),
               ],
             )
           : GridView.builder(

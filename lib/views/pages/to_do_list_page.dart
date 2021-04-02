@@ -5,6 +5,7 @@ import 'package:aunty_rafiki/views/components/buttons/color_letter_button.dart';
 import 'package:aunty_rafiki/views/components/cards/task/completed_task.dart';
 import 'package:aunty_rafiki/views/components/cards/task/incoming_task.dart';
 import 'package:aunty_rafiki/views/components/cards/task/incomplete_task.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -79,7 +80,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
                         },
                         child: _taskProvider.isFetchingTaskData &&
                                 !_isPullToRefresh
-                            ? Center(child: CircularProgressIndicator())
+                            ? Center(child: Loading())
                             : ListView.separated(
                                 itemBuilder: (context, index) {
                                   return _taskProvider.filteredTasks.isEmpty

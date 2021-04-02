@@ -1,4 +1,4 @@
-import 'dart:io';
+
 
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/models/time_line.dart';
@@ -38,12 +38,9 @@ class _TimeLinePageState extends State<TimeLinePage> {
                           height: MediaQuery.of(context).size.height / 2.7,
                         ),
                         Center(
-                            child: Platform.isAndroid
-                                ? CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.pink),
-                                  )
-                                : CupertinoActivityIndicator()),
+                            child: Loading()
+                                
+                                ),
                       ],
                     )
                   : _Timeline(data: _timelineProvider.availableTimelines),
