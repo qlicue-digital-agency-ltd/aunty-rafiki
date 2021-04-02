@@ -16,6 +16,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 class AuthProvider with ChangeNotifier {
   bool _isSendingPhone = false;
+  bool _hasError = false;
   bool _sendingCode = false;
   bool _isVerifyingCode = false;
   bool _initialized, _error;
@@ -180,6 +181,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> requestVerificationCode() async {
     _isSendingPhone = true;
+    _hasError = true;
     notifyListeners();
 
     String _phone = _phoneNumber.completeNumber.replaceAll('(', "");
@@ -188,19 +190,25 @@ class AuthProvider with ChangeNotifier {
     _phone = _phone.replaceAll(' ', '');
 
     print(_phone);
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        timeout: Duration(seconds: 90),
-        phoneNumber: _phone,
-        verificationCompleted: _verificationCompleted,
-        verificationFailed: _verificationFailed,
-        codeSent: _codeSent,
-        codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
+    try {
+      await FirebaseAuth.instance.verifyPhoneNumber(
+          timeout: Duration(seconds: 90),
+          phoneNumber: _phone,
+          verificationCompleted: _verificationCompleted,
+          verificationFailed: _verificationFailed,
+          codeSent: _codeSent,
+          codeAutoRetrievalTimeout: _codeAutoRetrievalTimeout);
 
-    _isSendingPhone = false;
+      _isSendingPhone = false;
+      _hasError = false;
+      notifyListeners();
+    } catch (e) {
+      _isSendingPhone = false;
+      _hasError = true;
+      notifyListeners();
+    }
 
-    notifyListeners();
-
-    return _isSendingPhone;
+    return _hasError;
   }
 
   _verificationCompleted(PhoneAuthCredential credential) async {

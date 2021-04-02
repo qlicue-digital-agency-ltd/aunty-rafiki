@@ -44,7 +44,7 @@ class LoginPage extends StatelessWidget {
               onChange: (phone) {
                 if (_phoneTextEditingController.text.indexOf('0') == 1)
                   _phoneTextEditingController.clear();
-               
+
                 _authProvider.setPhoneNumber = phone;
               },
             ),
@@ -55,17 +55,16 @@ class LoginPage extends StatelessWidget {
               height: 50,
               width: 300,
               child: ElevatedButton(
-                onPressed: _authProvider.isSendingPhone
-                    ? null
-                    : () {
-                        if (_phoneTextEditingController.text.isNotEmpty)
-                          _authProvider.requestVerificationCode().then((value) {
-                            if (!value) {
-                              Navigator.pushNamed(context, confirmationPage);
-                            }
-                          });
-                      },
-              
+                onPressed: () {
+                  if (!_authProvider.isSendingPhone) {
+                    if (_phoneTextEditingController.text.isNotEmpty)
+                      _authProvider.requestVerificationCode().then((value) {
+                        if (!value) {
+                          Navigator.pushNamed(context, confirmationPage);
+                        }
+                      });
+                  }
+                },
                 child: _authProvider.isSendingPhone
                     ? CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),

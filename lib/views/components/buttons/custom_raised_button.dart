@@ -19,26 +19,27 @@ class CustomRaisedButton extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Container(
-            width: double.infinity,
-            child: FlatButton(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               padding: const EdgeInsets.symmetric(vertical: 16),
-              color: Colors.pink[400],
-              child: _isPressed
-                  ? CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    )
-                  : Text(
-                      _title.toUpperCase(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900),
-                    ),
-              onPressed: _onPressed,
+             
             ),
+
+            
+            child: _isPressed
+                ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  )
+                : Text(
+                    _title.toUpperCase(),
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900),
+                  ),
+            onPressed: _onPressed,
           ),
         ),
       ],
