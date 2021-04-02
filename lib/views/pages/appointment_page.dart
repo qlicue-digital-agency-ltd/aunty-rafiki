@@ -68,7 +68,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           _appointmentProvider
                                       .selectedCalendarAppointments.length >
                                   1
-                              ? FlatButton(
+                              ? TextButton(
                                   onPressed: () {
                                     Navigator.pushNamed(
                                         context, dailyAppointmentsPage);
@@ -118,11 +118,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        color: Colors.pink[400],
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(10)),
+                        // padding: const EdgeInsets.symmetric(vertical: 16),
+                        // color: Colors.pink[400],
                         child: Text(
                           "ADD APPOINTMENT",
                           style: TextStyle(

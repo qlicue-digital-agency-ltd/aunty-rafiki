@@ -30,7 +30,7 @@ class MessageEditBar extends StatefulWidget {
 class _MessageEditBarState extends State<MessageEditBar> {
   FirebaseFirestore db;
   TextEditingController _controller;
-  List<Asset> images = List<Asset>();
+  List<Asset> images = <Asset>[];
   bool _isSending = false;
   bool _isAudio = true;
   bool _showEmojiPicker = false;

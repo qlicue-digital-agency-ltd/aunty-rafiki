@@ -131,7 +131,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
-                      textInputType: TextInputType.number,
+                      keyboardType: TextInputType.number,
                       length: 6,
                       animationType: AnimationType.fade,
                       validator: (v) {
@@ -190,7 +190,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("Clear"),
                     onPressed: () {
                       startTimer();
@@ -253,7 +253,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(100)),
                               color: Theme.of(context).primaryColor),
-                          child: FlatButton(
+                          child: TextButton(
                             child: _authProvider.isVerifyingCode
                                 ? CircularProgressIndicator(
                                     valueColor: AlwaysStoppedAnimation<Color>(

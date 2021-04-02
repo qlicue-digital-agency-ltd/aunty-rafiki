@@ -22,11 +22,11 @@ class ChoicePage extends StatelessWidget {
             padding: const EdgeInsets.only(left: 30, right: 30),
             child: Container(
               width: double.infinity,
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25)),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                color: Colors.pink[400],
+              child: TextButton(
+                // shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(25)),
+                // padding: const EdgeInsets.symmetric(vertical: 16),
+                // color: Colors.pink[400],
                 child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(children: [
@@ -49,8 +49,8 @@ class ChoicePage extends StatelessWidget {
         ]),
       ),
       bottomNavigationBar: BottomAppBar(
-        child: FlatButton(
-            textColor: Colors.pink,
+        child: TextButton(
+            //textColor: Colors.pink,
             onPressed: () {},
             child: Text('Sign In & Restore Data')),
       ),

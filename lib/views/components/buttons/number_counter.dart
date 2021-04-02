@@ -85,11 +85,11 @@ class NumberCounter extends StatelessWidget {
     showDialog<int>(
         context: context,
         builder: (BuildContext context) {
-          return new NumberPickerDialog.integer(
+          return NumberPicker(
             minValue: 0,
             maxValue: 1000,
-            title: new Text(title),
-            initialIntegerValue: counter,
+            onChanged: (int value) {},
+            value: counter,
           );
         }).then((value) {
       print(value);

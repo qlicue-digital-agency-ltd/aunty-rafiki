@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -36,9 +35,8 @@ class CustomNumberPicker extends StatelessWidget {
     final theme = Theme.of(context);
     return Column(
       children: [
-     
         SizedBox(
-          height:10,
+          height: 10,
         ),
         Theme(
           data: theme.copyWith(
@@ -51,20 +49,19 @@ class CustomNumberPicker extends StatelessWidget {
               )),
           child: Container(
             width: double.infinity,
-            child: NumberPicker.integer(
-                listViewWidth: double.infinity,
-                decoration:
-                    BoxDecoration(color: Colors.pink[100].withOpacity(0.5)),
-                // ignore: deprecated_member_use
+            child: NumberPicker(
+              decoration:
+                  BoxDecoration(color: Colors.pink[100].withOpacity(0.5)),
+              // ignore: deprecated_member_use
 
-                selectedTextStyle: theme.textTheme.headline1.copyWith(
-                    color: theme.accentColor,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold),
-                initialValue: _currentValue,
-                minValue: _miniValue,
-                maxValue: _maxValue,
-                onChanged: _onChanged),
+              selectedTextStyle: theme.textTheme.headline1.copyWith(
+                  color: theme.accentColor,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold),
+              minValue: _miniValue,
+              maxValue: _maxValue,
+              onChanged: _onChanged, value: _currentValue,
+            ),
           ),
         ),
       ],

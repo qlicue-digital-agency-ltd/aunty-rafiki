@@ -86,9 +86,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                             fit: BoxFit.cover)),
                                   ),
                                 ),
-                                FlatButton.icon(
+                                TextButton.icon(
                                     icon: Icon(Icons.save),
-                                    textColor: Colors.pink,
+                                   // textColor: Colors.pink,
                                     onPressed: () {
                                       _authProvider.saveProfileImage();
                                     },

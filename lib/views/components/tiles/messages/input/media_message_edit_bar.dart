@@ -26,7 +26,7 @@ class MediaMessageEditBar extends StatefulWidget {
 class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
   FirebaseFirestore db;
   TextEditingController _controller;
-  List<Asset> images = List<Asset>();
+  List<Asset> images = <Asset>[];
   bool _isSending = false;
   final Chat chat;
 

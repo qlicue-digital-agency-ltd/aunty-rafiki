@@ -14,7 +14,7 @@ class PrivateMediaContent extends StatelessWidget {
   final PrivateMessage message;
   final double width;
   final bool byMe;
-  List<Widget> widgetlist = List();
+  List<Widget> widgetlist = [];
   PrivateMediaContent(
       {Key key,
       @required this.message,

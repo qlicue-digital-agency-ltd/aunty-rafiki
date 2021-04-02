@@ -97,13 +97,13 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
               );
             }),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text('OK'),
                 onPressed: () {
                   switch (_character) {
@@ -246,11 +246,11 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        color: Colors.pink[400],
+                      child: TextButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(10)),
+                        // padding: const EdgeInsets.symmetric(vertical: 16),
+                        // color: Colors.pink[400],
                         child: Text(
                           'Save'.toUpperCase(),
                           style: TextStyle(

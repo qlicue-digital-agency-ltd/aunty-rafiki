@@ -14,10 +14,11 @@ class Walkthrougth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-       SizedBox(height: 100,),
+       SizedBox(height: 100),
         Image.asset(icon,
         height: 150,
         ),
+         SizedBox(height: 20,),
         Row(
           children: [
             Expanded(

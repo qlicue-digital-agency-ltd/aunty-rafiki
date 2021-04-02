@@ -486,6 +486,7 @@ class AuthProvider with ChangeNotifier {
 
   //upload profile..
   saveProfileImage() async {
+    FirebaseAuth.instance.currentUser.getIdToken();
     print('may b...');
     final dir = await path_provider.getTemporaryDirectory();
     var targetPath =

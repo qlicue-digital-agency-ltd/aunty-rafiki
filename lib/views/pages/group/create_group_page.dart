@@ -110,9 +110,9 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                   Positioned(
                     right: 0,
                     bottom: 0,
-                    child: FlatButton(
-                        shape: CircleBorder(),
-                        color: Theme.of(context).primaryColor,
+                    child: TextButton(
+                        // shape: CircleBorder(),
+                        // color: Theme.of(context).primaryColor,
                         onPressed: _groupProvider.isCreatingGroup
                             ? null
                             : () {

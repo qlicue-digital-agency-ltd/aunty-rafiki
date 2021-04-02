@@ -18,17 +18,6 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.600606480922-sidjhodtjea8vfem1q9fofvf6rcttoa3</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -41,11 +30,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Aunty Rafiki wants to access your camera</string>
+	<string>Auntie Rafiki wants to access your camera</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Aunty Rafiki wants to access your microphone</string>
+	<string>Auntie Rafiki wants to access your microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Aunty Rafiki wants to access your photo library</string>
+	<string>Auntie Rafiki wants to access your photo library</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

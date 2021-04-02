@@ -36,7 +36,7 @@ class TermModel {
                 text: " Privacy Policy ",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    _launchURL('https://qlicue.co.tz/');
+                    _launchURL('https://auntierafiki.co.tz/privacy-policy');
                   }),
             TextSpan(
                 text: ' and ',
@@ -51,7 +51,7 @@ class TermModel {
                 text: "Terms of Use.",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    _launchURL('https://qlicue.co.tz/');
+                    _launchURL('https://auntierafiki.co.tz/terms-of-use');
                   }),
           ])),
           isCheck: false),
@@ -73,7 +73,7 @@ class TermModel {
                 text: " Privacy Policy ",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    _launchURL('https://qlicue.co.tz/');
+                    _launchURL('https://auntierafiki.co.tz/privacy-policy');
                   }),
           ])),
           isCheck: false),
@@ -94,7 +94,7 @@ class TermModel {
                 text: " my personal data ",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    _launchURL('https://qlicue.co.tz/');
+                    _launchURL('https://auntierafiki.co.tz/personal-data');
                   }),
             TextSpan(
                 style: TextStyle(

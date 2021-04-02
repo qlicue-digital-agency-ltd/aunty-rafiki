@@ -32,7 +32,7 @@ class _VideoMediaContentState extends State<VideoMediaContent> {
     return Container(
         width: 200,
         height: 200,
-        child: _controller.value.initialized
+        child: _controller.value.isInitialized
             ? Stack(
                 children: [
                   VideoPlayer(_controller),

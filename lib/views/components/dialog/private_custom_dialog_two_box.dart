@@ -79,7 +79,7 @@ class _PrivateCustomDialogTwoBoxState extends State<PrivateCustomDialogTwoBox> {
               SizedBox(
                 height: 15,
               ),
-              FlatButton(
+              TextButton(
                   onPressed: widget._onDeleteOne,
                   child: Text(
                     'DELETE FOR ME',
@@ -88,7 +88,7 @@ class _PrivateCustomDialogTwoBoxState extends State<PrivateCustomDialogTwoBox> {
               SizedBox(
                 height: 5,
               ),
-              FlatButton(
+              TextButton(
                   onPressed: widget._onClose,
                   child: Text(
                     'CANCEL',
@@ -102,8 +102,8 @@ class _PrivateCustomDialogTwoBoxState extends State<PrivateCustomDialogTwoBox> {
                   : widget.listMessage[widget.listMessage.keys.elementAt(0)]
                               .idFrom ==
                           FirebaseAuth.instance.currentUser.uid
-                      ? FlatButton(
-                          textColor: Colors.pink,
+                      ? TextButton(
+                         // textColor: Colors.pink,
                           onPressed: widget._onDeleteTwo,
                           child: Text(
                             'DELETE FOR EVERYONE',

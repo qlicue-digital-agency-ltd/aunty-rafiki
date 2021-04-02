@@ -27,45 +27,47 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _confogProvider = Provider.of<ConfigProvider>(context);
+    final _configProvider = Provider.of<ConfigProvider>(context);
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          SizedBox(height: MediaQuery.of(context).size.height * .1),
           Container(
-            
-            height: MediaQuery.of(context).size.height  /1.6,
+            height: 400,
             child: PageView(
               controller: controller,
               pageSnapping: true,
               physics: BouncingScrollPhysics(),
               children: <Widget>[
                 Walkthrougth(
-                    icon: "assets/icons/fast-time.png",
-                    title: "Tracker",
-                    textContent:
-                        "Aunty Rafiki tracks your daily pregancy growth and changes."),
-                Walkthrougth(
                   icon: "assets/icons/chat.png",
                   title: 'Chat',
                   textContent:
-                      "Aunty Rafiki connects you to your favorite midwife, 24/7",
+                      "Auntie Rafiki connects you to your favorite midwife, 24/7",
                 ),
+                Walkthrougth(
+                    icon: "assets/icons/fast-time.png",
+                    title: "Tracker",
+                    textContent:
+                        "Auntie Rafiki tracks your daily pregancy growth and changes."),
                 Walkthrougth(
                     icon: "assets/icons/baby.png",
                     title: 'Health',
                     textContent:
-                        "Aunty Rafiki carters for the health condition of you and your baby"),
+                        "Auntie Rafiki carters for the health condition of you and your baby"),
                 Walkthrougth(
                     icon: "assets/icons/shield.png",
                     title: 'Secure',
                     textContent:
-                        "Aunty Rafiki keeps your information and messages safe from hacker attacks"),
+                        "Auntie Rafiki keeps your information and messages safe from hacker attacks"),
                 Walkthrougth(
                     icon: "assets/icons/cloud-network.png",
                     title: 'Cloud-Based',
                     textContent:
-                        "Aunty Rafiki lets you access your messages from multiple devices"),
+                        "Auntie Rafiki lets you access your messages from multiple devices"),
               ],
               onPageChanged: (value) {
                 setState(() => currentIndexPage = value);
@@ -86,13 +88,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
             height: 100,
           ),
           Container(
+            // color: Colors.pink[400],
             margin: EdgeInsets.only(left: 60, right: 60),
             width: double.infinity / 2,
-            child: FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              color: Colors.pink[400],
+            height: 50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.pink[400],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
               child: Text(
                 currentIndexPage == 4 ? "Get Start" : "Next",
                 style: TextStyle(
@@ -102,15 +107,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
               onPressed: () {
                 if (currentIndexPage == 4) {
-                 _confogProvider.setConfigurationStep = Configuration.Terms;
-                 Navigator.pushNamed(context, termsConditionPage);
-  
+                  _configProvider.setConfigurationStep = Configuration.Terms;
+                  Navigator.pushNamed(context, termsConditionPage);
                 } else {
                   controller.nextPage(
                       duration: Duration(milliseconds: 200),
                       curve: Curves.linear);
-
-                      
                 }
               },
             ),

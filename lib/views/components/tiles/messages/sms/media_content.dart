@@ -13,7 +13,7 @@ class MediaContent extends StatelessWidget {
   final Message message;
   final double width;
   final bool byMe;
-  List<Widget> widgetlist = List();
+  List<Widget> widgetlist = [];
   MediaContent(
       {Key key,
       @required this.message,

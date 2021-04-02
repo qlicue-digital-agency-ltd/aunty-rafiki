@@ -367,6 +367,8 @@ class ChatProvider with ChangeNotifier {
       messageUID,
       @required Chat chat,
       @required userUID}) async {
+
+        
     switch (choice) {
       case 'me_only':
 

@@ -53,7 +53,6 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
               SliverList(
                   delegate: SliverChildBuilderDelegate((_, index) {
                 return ListTile(
-                    
                     leading: Checkbox(
                         value: _utilityProvider.checkBoxList[index].isCheck,
                         onChanged: (bool val) {
@@ -73,7 +72,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Text(
-                      '*You can withdraw your consent anytime by contacting by contacting us at support@auntyrafiki.co.tz',
+                      '* You can withdraw your consent anytime by contacting by contacting us at support@auntierafiki.co.tz',
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -83,11 +82,13 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                   Container(
                     margin: EdgeInsets.only(left: 60, right: 60),
                     width: double.infinity / 2,
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      color: Colors.pink[400],
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.pink[400],
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
                       child: Text(
                         _utilityProvider.configTerms == ConfigTerms.ALL
                             ? "NEXT"
@@ -115,7 +116,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                   ),
                   _utilityProvider.configTerms == ConfigTerms.ALL
                       ? Container()
-                      : FlatButton(
+                      : TextButton(
                           onPressed: _utilityProvider.configTerms ==
                                   ConfigTerms.NON
                               ? null

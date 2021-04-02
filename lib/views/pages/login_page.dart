@@ -51,7 +51,7 @@ class LoginPage extends StatelessWidget {
             Container(
               height: 50,
               width: 300,
-              child: RaisedButton(
+              child: ElevatedButton(
                 onPressed: _authProvider.isSendingPhone
                     ? null
                     : () {
@@ -62,9 +62,11 @@ class LoginPage extends StatelessWidget {
                             }
                           });
                       },
-                color: Colors.pink,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0)),
+                // color: Colors.pink,
+                // shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(50.0)),
+               
+               
                 child: _authProvider.isSendingPhone
                     ? CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),

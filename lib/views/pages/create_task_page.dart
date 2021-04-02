@@ -114,13 +114,13 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
               );
             }),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text('OK'),
                 onPressed: () {
                   switch (_category) {
@@ -284,12 +284,12 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
               ///Button for Create Task
               Container(
                 width: double.infinity,
-                child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  color: Colors.pink,
+                child: TextButton(
+                  // shape: RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.circular(10),
+                  // ),
+                  // padding: const EdgeInsets.symmetric(vertical: 16),
+                  //color: Colors.pink,
                   child: Text(
                     "CREATE TASK",
                     style: TextStyle(

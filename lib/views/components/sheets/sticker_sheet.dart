@@ -8,7 +8,7 @@ class StickerSheet extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   // saveMessage(
                   //     type: 2,
@@ -26,7 +26,7 @@ class StickerSheet extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   // saveMessage(
                   //     type: 2,
@@ -44,7 +44,7 @@ class StickerSheet extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   // saveMessage(
                   //       type: 2,
@@ -67,7 +67,7 @@ class StickerSheet extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   //  saveMessage(
                   //       type: 2,
@@ -85,7 +85,7 @@ class StickerSheet extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   // saveMessage(
                   //     type: 2,
@@ -103,7 +103,7 @@ class StickerSheet extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   // saveMessage(
                   //     type: 2,
@@ -126,7 +126,7 @@ class StickerSheet extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   // saveMessage(
                   //     type: 2,
@@ -144,7 +144,7 @@ class StickerSheet extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   //  saveMessage(
                   //       type: 2,
@@ -162,7 +162,7 @@ class StickerSheet extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   // saveMessage(
                   //       type: 2,
