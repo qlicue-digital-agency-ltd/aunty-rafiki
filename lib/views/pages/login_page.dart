@@ -42,6 +42,9 @@ class LoginPage extends StatelessWidget {
             MobileTextfield(
               phoneTextEditingController: _phoneTextEditingController,
               onChange: (phone) {
+                if (_phoneTextEditingController.text.indexOf('0') == 1)
+                  _phoneTextEditingController.clear();
+               
                 _authProvider.setPhoneNumber = phone;
               },
             ),
@@ -62,11 +65,7 @@ class LoginPage extends StatelessWidget {
                             }
                           });
                       },
-                // color: Colors.pink,
-                // shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(50.0)),
-               
-               
+              
                 child: _authProvider.isSendingPhone
                     ? CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),

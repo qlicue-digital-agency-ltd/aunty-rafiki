@@ -182,7 +182,6 @@ class UtilityProvider with ChangeNotifier {
   }
 
 //terms and condtiond....
-///TODO:terms and condtiond
   Future<List<TermModel>> getTerms() async {
     final List<TermModel> terms = await _sharedPref.readStringleString('terms');
     return terms;
