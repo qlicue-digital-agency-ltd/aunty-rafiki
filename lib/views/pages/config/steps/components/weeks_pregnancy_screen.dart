@@ -199,16 +199,18 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                       .updateConceptionDate(conceptionDate: _date)
                       .then((value) {
                     if (!value) {
-                      widget._changePage(widget._currentPage + 1);
-                      _configProvider.setConfigurationStep =
-                          Configuration.WeeksPregnancyScreenStepDone;
+                      //post pregancy date to server...
+                      _motherProvider
+                          .postPregnancy(conceptionDate: _date)
+                          .then((value) {
+                        widget._changePage(widget._currentPage + 1);
+                        _configProvider.setConfigurationStep =
+                            Configuration.WeeksPregnancyScreenStepDone;
+                      });
                     }
                     setState(() {
                       _isPressed = false;
                     });
-                    _motherProvider
-                        .postPregnancy(conceptionDate: _date)
-                        .then((value) {});
                   });
                 } else {
                   DateTime today = DateTime.now();

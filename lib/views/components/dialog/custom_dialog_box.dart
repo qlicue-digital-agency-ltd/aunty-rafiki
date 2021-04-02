@@ -83,7 +83,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 alignment: Alignment.bottomRight,
                 child: Row(
                   children: [
-                    FlatButton(
+                    TextButton(
                         onPressed: widget._onClose,
                         child: Text(
                           widget._textClose,
@@ -92,8 +92,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                           ),
                         )),
                     Spacer(),
-                    FlatButton(
-                        textColor: Colors.pink,
+                    TextButton(
                         onPressed: widget._onPressed,
                         child: Text(
                           widget._text,

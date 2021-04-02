@@ -43,7 +43,7 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
   TextEditingController _controller;
   List<Asset> images = <Asset>[];
   bool _isSending = false;
-  bool _isAudio = true;
+  // bool _isAudio = true;
   bool _showEmojiPicker = false;
   FocusNode focusNode;
   final userModel.User peer;
@@ -202,11 +202,11 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                                 onChanged: (val) {
                                   if (val.isEmpty) {
                                     setState(() {
-                                      _isAudio = true;
+                                      // _isAudio = true;
                                     });
                                   } else {
                                     setState(() {
-                                      _isAudio = false;
+                                      // _isAudio = false;
                                     });
                                   }
                                 },

@@ -1,8 +1,8 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_date_field.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_selector_field.dart';
-import 'package:aunty_rafiki/views/components/text-field/icon_switch_field.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
@@ -153,19 +153,10 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   else
                     return null;
                 },
-              
               ),
               IconDateField(
-                onChage: (val) {
-                  print("------------------------------------");
-                  print(val);
-                  print("------------------------------------");
-                },
-                onSaved: (val) {
-                  print("------------------+++------------------");
-                  print(val);
-                  print("------------------+++-----------------");
-                },
+                onChage: (val) {},
+                onSaved: (val) {},
                 onValidate: (val) {
                   setState(() => valueToValidate3 = val);
                   return null;
@@ -177,16 +168,10 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 title: 'Date',
                 dateMask: "EEEE, MMMM d, y",
                 type: DateTimePickerType.date,
-             
               ),
               IconDateField(
-                onChage: (val) {
-                  print(val);
-                  print("0000");
-                },
-                onSaved: (val) {
-                  print(val);
-                },
+                onChage: (val) {},
+                onSaved: (val) {},
                 onValidate: (val) {
                   setState(() => valueToValidate4 = val);
                   return null;
@@ -196,7 +181,6 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 title: 'Time',
                 dateMask: 'dd/MM/yyyy',
                 type: DateTimePickerType.time,
-           
               ),
               IconSelectorField(
                 onTap: () {
@@ -204,20 +188,19 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 },
                 title: _selectedProfession,
                 icon: Icons.assignment_ind,
-      
               ),
               SizedBox(
                 height: 10,
               ),
-              IconSwitchField(
-                icon: Icons.alarm_on,
-                onChanged: (val) {
-                  setState(() {
-                    _syncToCalendar = val;
-                  });
-                },
-                syncToCalendar: _syncToCalendar,
-              ),
+              // IconSwitchField(
+              //   icon: Icons.alarm_on,
+              //   onChanged: (val) {
+              //     setState(() {
+              //       _syncToCalendar = val;
+              //     });
+              //   },
+              //   syncToCalendar: _syncToCalendar,
+              // ),
               SizedBox(
                 height: 10,
               ),
@@ -246,18 +229,21 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      child: TextButton(
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(10)),
-                        // padding: const EdgeInsets.symmetric(vertical: 16),
-                        // color: Colors.pink[400],
-                        child: Text(
-                          'Save'.toUpperCase(),
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w900),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
+                        child: _appointmentProvider.isSubmittingData
+                            ? Loading()
+                            : Text(
+                                'Save'.toUpperCase(),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900),
+                              ),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             print('save the data');

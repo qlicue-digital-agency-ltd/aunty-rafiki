@@ -100,13 +100,13 @@ class CustomDatePickerButton extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             'CANCEL',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, color: Colors.red),
                           ),
-                          textColor: Theme.of(context).buttonColor,
+                        
                           onPressed: () {
                             _onChange(null);
                             Navigator.pop(context);
@@ -117,14 +117,18 @@ class CustomDatePickerButton extends StatelessWidget {
                             height: 10,
                           ),
                         ),
-                        FlatButton(
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
                           child: Text(
                             'DONE',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.pink),
                           ),
-                          textColor: Theme.of(context).buttonColor,
                           onPressed: () {
                             if (picked != null && picked != _selectedDate) {
                               _onChange(picked);

@@ -5,9 +5,9 @@ class CustomNumberPicker extends StatelessWidget {
   //current picker value
   final int _currentValue;
   // title
-  final String _title;
+
   // subtitle
-  final String _subtitle;
+  // final String _subtitle;
   //return function
   final Function(int) _onChanged;
   //minimum value
@@ -23,9 +23,7 @@ class CustomNumberPicker extends StatelessWidget {
       @required int currentValue,
       @required int miniValue,
       @required int maxValue})
-      : _title = title,
-        _subtitle = subtitle,
-        _onChanged = onChanged,
+      : _onChanged = onChanged,
         _currentValue = currentValue,
         _maxValue = maxValue,
         _miniValue = miniValue,

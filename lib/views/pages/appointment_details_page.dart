@@ -148,7 +148,8 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                             SizedBox(
                               width: 24,
                             ),
-                            Expanded(child: Text(widget.appointment.profession)),
+                            Expanded(
+                                child: Text(widget.appointment.profession)),
                           ],
                         ),
                       ),
@@ -160,7 +161,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  
+
                   Row(
                     children: [
                       Text(
@@ -170,14 +171,19 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                       ),
                     ],
                   ),
+
                   Row(
                     children: [
                       Text(
-                        widget.appointment.additionalNotes,
+                        widget.appointment.additionalNotes == null
+                            ? ''
+                            : widget.appointment.additionalNotes.toString(),
                         maxLines: 10,
                       ),
                     ],
                   ),
+
+                  ///
                   SizedBox(height: 30),
                 ],
               ),

@@ -32,7 +32,7 @@ class _MessageEditBarState extends State<MessageEditBar> {
   TextEditingController _controller;
   List<Asset> images = <Asset>[];
   bool _isSending = false;
-  bool _isAudio = true;
+  // bool _isAudio = true;
   bool _showEmojiPicker = false;
   FocusNode focusNode;
 
@@ -189,11 +189,11 @@ class _MessageEditBarState extends State<MessageEditBar> {
                                 onChanged: (val) {
                                   if (val.isEmpty) {
                                     setState(() {
-                                      _isAudio = true;
+                                      // _isAudio = true;
                                     });
                                   } else {
                                     setState(() {
-                                      _isAudio = false;
+                                      // _isAudio = false;
                                     });
                                   }
                                 },

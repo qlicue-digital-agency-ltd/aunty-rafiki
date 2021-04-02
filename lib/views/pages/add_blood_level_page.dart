@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_date_field.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -66,7 +67,6 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                   else
                     return null;
                 },
-             
               ),
               IconDateField(
                 onChage: (val) {},
@@ -82,7 +82,6 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                 title: 'Date',
                 dateMask: "EEEE, MMMM d, y",
                 type: DateTimePickerType.date,
-            
               ),
               SizedBox(height: 30),
               Row(
@@ -90,40 +89,38 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      child: TextButton(
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(10)),
-                        // padding: const EdgeInsets.symmetric(vertical: 16),
-                        // color: Colors.pink[400],
-                        child: Text(
-                          _bloodLevelProvider.isSubmittingData
-                              ? CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white),
-                                )
-                              : 'Save'.toUpperCase(),
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w900),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        onPressed: _bloodLevelProvider.isSubmittingData
-                            ? null
-                            : () {
-                                if (_formKey.currentState.validate()) {
-                                  _bloodLevelProvider
-                                      .postBloodLevel(
-                                    quantity: double.parse(
-                                        _valueEditingController.text),
-                                    date: _dateEditingController.text,
-                                  )
-                                      .then((value) {
-                                    if (!value) {
-                                      Navigator.pop(context);
-                                    } else {}
-                                  });
-                                } else {}
-                              },
+                        child: _bloodLevelProvider.isSubmittingData
+                            ? Loading()
+                            : Text(
+                                'Save'.toUpperCase(),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900),
+                              ),
+                        onPressed: () {
+                          if (!_bloodLevelProvider.isSubmittingData) if (_formKey
+                              .currentState
+                              .validate()) {
+                            _bloodLevelProvider
+                                .postBloodLevel(
+                              quantity:
+                                  double.parse(_valueEditingController.text),
+                              date: _dateEditingController.text,
+                            )
+                                .then((value) {
+                              if (!value) {
+                                Navigator.pop(context);
+                              } else {}
+                            });
+                          } else {}
+                        },
                       ),
                     ),
                   ),
