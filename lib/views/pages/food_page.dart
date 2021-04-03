@@ -1,5 +1,3 @@
-
-
 import 'package:aunty_rafiki/providers/food_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
@@ -22,9 +20,7 @@ class FoodPage extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 2.7,
                 ),
-                Center(
-                    child: Loading()
-                        ),
+                Center(child: Loading()),
               ],
             )
           : GridView.builder(
@@ -39,14 +35,15 @@ class FoodPage extends StatelessWidget {
                 return MoreMenuCard(
                   isLocal: false,
                   title: _foodProvider.availableFoods[index].title,
-                  image: _foodProvider.availableFoods[index].cover,
+                  image: _foodProvider.availableFoods[index].images.isNotEmpty
+                      ? _foodProvider.availableFoods[index].images.last.url
+                      : null,
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (_) => RecipePage(
-                                  recipes: _foodProvider
-                                      .availableFoods[index].recipes,
+                                  food: _foodProvider.availableFoods[index],
                                   title:
                                       _foodProvider.availableFoods[index].title,
                                 )));

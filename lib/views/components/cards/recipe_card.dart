@@ -49,7 +49,7 @@ class RecipeCard extends StatelessWidget {
                       ),
                       clipBehavior: Clip.hardEdge,
                     ),
-                    imageUrl: recipe.cover,
+                    imageUrl: recipe.images.last.url,
                     fit: BoxFit.fill,
                   ),
                 ),

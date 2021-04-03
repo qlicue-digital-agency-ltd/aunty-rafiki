@@ -7,14 +7,16 @@ class NoItemTile extends StatelessWidget {
   final String title;
   final double height;
   final Function onTap;
+  final bool isLocal;
 
-  const NoItemTile({
-    Key key,
-    @required this.icon,
-    @required this.title,
-    this.height = 40,
-    this.onTap,
-  }) : super(key: key);
+  const NoItemTile(
+      {Key key,
+      @required this.icon,
+      @required this.title,
+      this.height = 40,
+      this.onTap,
+      this.isLocal = true})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -24,10 +26,15 @@ class NoItemTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.asset(icon, height: height),
+            isLocal
+                ? Image.asset(icon, height: height)
+                : Image.network(icon, height: height),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text(title, textAlign: TextAlign.center,),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),

@@ -47,7 +47,7 @@ class RecipeDetailsPage extends StatelessWidget {
                 ),
                 clipBehavior: Clip.hardEdge,
               ),
-              imageUrl: recipe.cover,
+              imageUrl: recipe.images.last.url,
               height: size.height / 3,
               width: size.width,
               fit: BoxFit.fill,

@@ -30,12 +30,12 @@ class FoodProvider with ChangeNotifier {
     final List<Food> _fetchedFoods = [];
     try {
       final http.Response response = await http
-          .get(api + "foods", headers: {'Content-Type': 'application/json'});
+          .get(productionApi + "foods", headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        data['foods'].forEach((foodData) {
+        data['data'].forEach((foodData) {
           final _food = Food.fromMap(foodData);
           _fetchedFoods.add(_food);
         });

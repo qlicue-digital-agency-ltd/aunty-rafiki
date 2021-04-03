@@ -39,30 +39,35 @@ class MoreMenuCard extends StatelessWidget {
                     child: isLocal
                         ? Image.asset(image,
                             height: MediaQuery.of(context).size.height / 16)
-                        : CachedNetworkImage(
-                            placeholder: (context, url) => Container(
-                                  child: Loading(),
-                                  padding: EdgeInsets.all(70.0),
-                                  decoration: BoxDecoration(
-                                    color: greyColor2,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8.0),
+                        : image != null
+                            ? CachedNetworkImage(
+                                placeholder: (context, url) => Container(
+                                      child: Loading(),
+                                      padding: EdgeInsets.all(70.0),
+                                      decoration: BoxDecoration(
+                                        color: greyColor2,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                            errorWidget: (context, url, error) => Material(
-                                  child: Image.asset(
-                                    'assets/images/img_not_available.jpeg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8.0),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                ),
-                            imageUrl: image,
-                            fit: BoxFit.fill,
-                            height: MediaQuery.of(context).size.height / 16),
+                                errorWidget: (context, url, error) => Material(
+                                      child: Image.asset(
+                                        'assets/images/img_not_available.jpeg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(8.0),
+                                      ),
+                                      clipBehavior: Clip.hardEdge,
+                                    ),
+                                imageUrl: image,
+                                fit: BoxFit.fill,
+                                height: MediaQuery.of(context).size.height / 16)
+                            : Image.asset(
+                                'assets/images/img_not_available.jpeg',
+                                fit: BoxFit.cover,
+                              ),
                   )),
               Padding(
                 padding: const EdgeInsets.all(8.0),
