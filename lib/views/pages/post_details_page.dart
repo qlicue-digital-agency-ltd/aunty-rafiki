@@ -54,7 +54,7 @@ class PostDetailsPage extends StatelessWidget {
                 ),
                 clipBehavior: Clip.hardEdge,
               ),
-              imageUrl: post.image,
+              imageUrl: post.images.last.url,
               height: size.height / 3,
               width: size.width,
               fit: BoxFit.fill,
@@ -65,7 +65,8 @@ class PostDetailsPage extends StatelessWidget {
             ListTile(
               title: Text('BY: Auntie Rafiki'),
               subtitle: Text(post.time),
-              leading: CircleAvatar(backgroundImage: NetworkImage(post.image)),
+              leading: CircleAvatar(
+                  backgroundImage: NetworkImage(post.images.last.url)),
             ),
             Container(
               padding: EdgeInsets.only(

@@ -1,4 +1,7 @@
+import 'package:aunty_rafiki/models/author.dart';
 import 'package:flutter/material.dart';
+
+import 'img.dart';
 
 class Post {
   int id;
@@ -8,7 +11,8 @@ class Post {
   int authorId;
   int likeCount;
   bool likedByMe;
-  String image;
+  List<Img> images;
+  Author author;
 
   Post(
       {@required this.id,
@@ -18,7 +22,7 @@ class Post {
       @required this.authorId,
       @required this.likeCount,
       @required this.likedByMe,
-      this.image});
+      this.images});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -34,14 +38,14 @@ class Post {
   }
 
   Post.fromMap(Map<String, dynamic> map)
-      : assert(map['id'] != null),
-        assert(map['body'] != null),
-        id = map['id'],
-        title = map['title'],
-        body = map['body'],
+      : assert(map['post_id'] != null),
+        assert(map['post_title'] != null),
+        id = map['post_id'],
+        title = map['post_title'],
+        body = map['post_content'],
         time = map['time'],
-        image = map['image'],
-        likeCount = map['likes_count'],
-        likedByMe = map['liked_by_me'],
-        authorId = map['user_id'];
+        author = Author.fromMap(map['author']),
+        images = map['images'] != null
+            ? (map['images'] as List).map((i) => Img.fromMap(i)).toList()
+            : null;
 }

@@ -4,10 +4,8 @@ import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/pages/post_details_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 import 'package:share/share.dart';
-
 
 class PostCard extends StatefulWidget {
   final Post post;
@@ -19,12 +17,6 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  final FocusNode _bodyFocusNode = FocusNode();
-
-  final _formKey = GlobalKey<FormState>();
-
-  TextEditingController _bodyController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,19 +33,21 @@ class _PostCardState extends State<PostCard> {
               children: <Widget>[
                 CircleAvatar(
                   backgroundImage: NetworkImage(
-                    widget.post.image,
+                    widget.post.author.avatar,
                   ),
                 ),
                 SizedBox(
                   width: 20,
                 ),
-                Text('Auntie Rafiki')
+                Text(widget.post.author.firstName +
+                    '\t' +
+                    widget.post.author.lastName)
               ],
             ),
             SizedBox(
               height: 10,
             ),
-            widget.post.image != null
+            widget.post.images.isNotEmpty
                 ? InkWell(
                     onTap: () {
                       Navigator.push(
@@ -84,7 +78,7 @@ class _PostCardState extends State<PostCard> {
                         ),
                         clipBehavior: Clip.hardEdge,
                       ),
-                      imageUrl: widget.post.image,
+                      imageUrl: widget.post.images.last.url,
                       fit: BoxFit.cover,
                     ),
                   )
@@ -107,17 +101,17 @@ class _PostCardState extends State<PostCard> {
             SizedBox(height: 10),
             Row(
               children: <Widget>[
-                InkWell(
-                    child: Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.rotationY(math.pi),
-                      child: Icon(
-                        Icons.chat,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    onTap: () {}),
-                SizedBox(width: 10),
+                // InkWell(
+                //     child: Transform(
+                //       alignment: Alignment.center,
+                //       transform: Matrix4.rotationY(math.pi),
+                //       child: Icon(
+                //         Icons.chat,
+                //         color: Colors.grey,
+                //       ),
+                //     ),
+                //     onTap: () {}),
+                // SizedBox(width: 10),
                 InkWell(
                     child: Icon(
                       Icons.share,
@@ -132,36 +126,36 @@ class _PostCardState extends State<PostCard> {
               ],
             ),
             SizedBox(height: 10),
-            Divider(),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      focusNode: _bodyFocusNode,
-                      controller: _bodyController,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please add text';
-                        } else
-                          return null;
-                      },
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'Add a comment'),
-                    ),
-                  ),
-                ),
-                IconButton(
-                    icon: Icon(
-                      Icons.send,
-                      color: Colors.orange,
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {}
-                    })
-              ],
-            )
+            // Divider(),
+            // Row(
+            //   children: <Widget>[
+            //     Expanded(
+            //       child: Form(
+            //         key: _formKey,
+            //         child: TextFormField(
+            //           focusNode: _bodyFocusNode,
+            //           controller: _bodyController,
+            //           validator: (value) {
+            //             if (value.isEmpty) {
+            //               return 'Please add text';
+            //             } else
+            //               return null;
+            //           },
+            //           decoration: InputDecoration(
+            //               border: InputBorder.none, hintText: 'Add a comment'),
+            //         ),
+            //       ),
+            //     ),
+            //     IconButton(
+            //         icon: Icon(
+            //           Icons.send,
+            //           color: Colors.orange,
+            //         ),
+            //         onPressed: () {
+            //           if (_formKey.currentState.validate()) {}
+            //         })
+            //   ],
+            // )
           ]),
         ),
       ),

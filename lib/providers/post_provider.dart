@@ -40,12 +40,12 @@ class PostProvider with ChangeNotifier {
 
     try {
       final http.Response response =
-          await http.post(api + "posts", body: json.encode(_data));
+          await http.post(productionApi + "posts", body: json.encode(_data));
 
       final Map<String, dynamic> data = json.decode(response.body);
       print(data);
       if (response.statusCode == 200) {
-        data['posts'].forEach((data) {
+        data['data'].forEach((data) {
           final post = Post.fromMap(data);
           _fetchedPosts.add(post);
         });

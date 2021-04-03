@@ -1,28 +1,29 @@
-import 'package:aunty_rafiki/models/profile.dart';
 import 'package:meta/meta.dart';
 
 class Author {
   int id;
   final String email;
-  final String name;
+  final String firstName;
+  final String lastName;
   String token;
-  Profile profile;
+  String avatar;
 
   Author({
     this.id,
     this.token,
     @required this.email,
-    @required this.name,
-    this.profile,
-    uid,
+    @required this.firstName,
+    @required this.lastName,
+    @required this.avatar,
   });
 
   Author.fromMap(Map<String, dynamic> map)
-      : assert(map['id'] != null),
-        assert(map['email'] != null),
-        id = map['id'],
-        token = map['token'].toString(),
-        email = map['email'].toString(),
-        name = map['name'].toString(),
-        profile = Profile.fromMap(map['profile']);
+      : assert(map['author_id'] != null),
+        assert(map['author_email'] != null),
+        id = map['author_id'],
+        firstName = map['first_name'],
+        lastName = map['last_name'],
+        email = map['author_email'],
+        avatar = map['avatar'],
+        token = map['token'];
 }

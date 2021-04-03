@@ -21,7 +21,7 @@ class HIVMotherPage extends StatelessWidget {
       appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.white),
           title: Text(
-            'HIV Mothers',
+            'Mothers Living with HIV',
             style: TextStyle(color: Colors.white),
           )),
       body: Container(
