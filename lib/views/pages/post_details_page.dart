@@ -63,10 +63,13 @@ class PostDetailsPage extends StatelessWidget {
               height: 10,
             ),
             ListTile(
-              title: Text('BY: Auntie Rafiki'),
-              subtitle: Text(post.time),
+              title: Text(
+                  'BY: ' + post.author.firstName + '\t' + post.author.lastName),
+              subtitle: Text(post.time.toString()),
               leading: CircleAvatar(
-                  backgroundImage: NetworkImage(post.images.last.url)),
+                  backgroundImage: post.author.avatar != null
+                      ? NetworkImage(post.author.avatar)
+                      : AssetImage('assets/images/img_not_available.jpeg')),
             ),
             Container(
               padding: EdgeInsets.only(

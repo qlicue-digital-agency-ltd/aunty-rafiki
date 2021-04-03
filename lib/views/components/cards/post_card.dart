@@ -32,9 +32,11 @@ class _PostCardState extends State<PostCard> {
             Row(
               children: <Widget>[
                 CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    widget.post.author.avatar,
-                  ),
+                  backgroundImage: widget.post.author.avatar != null
+                      ? NetworkImage(
+                          widget.post.author.avatar,
+                        )
+                      : AssetImage('assets/images/img_not_available.jpeg'),
                 ),
                 SizedBox(
                   width: 20,

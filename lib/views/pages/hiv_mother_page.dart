@@ -32,14 +32,20 @@ class HIVMotherPage extends StatelessWidget {
                 ? RefreshIndicator(
                     onRefresh: _getData,
                     child: Center(
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: <Widget>[
-                          NoItemTile(
-                            title: 'No Content',
-                            icon: 'assets/access/red-ribbon.png',
-                          ),
-                        ],
+                      child: RefreshIndicator(
+                                              onRefresh: _getData,
+                                              child: ListView(
+                          
+                          children: <Widget>[
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.4,
+                            ),
+                            NoItemTile(
+                              title: 'No Content',
+                              icon: 'assets/access/red-ribbon.png',
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   )

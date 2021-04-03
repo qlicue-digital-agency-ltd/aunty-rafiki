@@ -34,16 +34,14 @@ class PostProvider with ChangeNotifier {
     _isFetchingData = true;
     notifyListeners();
     List<Post> _fetchedPosts = [];
-    final Map<String, dynamic> _data = {
-     // 'user_id': userId,
-    };
 
     try {
-      final http.Response response =
-          await http.post(productionApi + "posts", body: json.encode(_data));
+      final http.Response response = await http.get(productionApi + "posts");
 
       final Map<String, dynamic> data = json.decode(response.body);
+      print('---------------------------------------------');
       print(data);
+      print('---------------------------------------------');
       if (response.statusCode == 200) {
         data['data'].forEach((data) {
           final post = Post.fromMap(data);
