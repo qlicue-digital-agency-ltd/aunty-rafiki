@@ -26,41 +26,44 @@ class RecipeCard extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Container(
-                
                   height: MediaQuery.of(context).size.height / 6,
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) => Container(
-                      child: Loading(),
-                      padding: EdgeInsets.all(70.0),
-                      decoration: BoxDecoration(
-                        color: greyColor2,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
+                  child: recipe.images.isEmpty
+                      ? Image.asset(
+                          'assets/images/img_not_available.jpeg',
+                          fit: BoxFit.cover,
+                        )
+                      : CachedNetworkImage(
+                          placeholder: (context, url) => Container(
+                            child: Loading(),
+                            padding: EdgeInsets.all(70.0),
+                            decoration: BoxDecoration(
+                              color: greyColor2,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Material(
+                            child: Image.asset(
+                              'assets/images/img_not_available.jpeg',
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            clipBehavior: Clip.hardEdge,
+                          ),
+                          imageUrl: recipe.images.last.url,
+                          fit: BoxFit.fill,
                         ),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Material(
-                      child: Image.asset(
-                        'assets/images/img_not_available.jpeg',
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8.0),
-                      ),
-                      clipBehavior: Clip.hardEdge,
-                    ),
-                    imageUrl: recipe.images.last.url,
-                    fit: BoxFit.fill,
-                  ),
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                                      child: Text(
+                    child: Text(
                       '${recipe.title}',
-                      
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

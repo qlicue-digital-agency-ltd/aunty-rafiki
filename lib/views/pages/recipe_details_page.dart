@@ -22,36 +22,41 @@ class RecipeDetailsPage extends StatelessWidget {
         body: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            CachedNetworkImage(
-              placeholder: (context, url) => Container(
-                child: Loading(),
-                height: size.height / 3,
-                width: size.width,
-                padding: EdgeInsets.all(70.0),
-                decoration: BoxDecoration(
-                  color: greyColor2,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
+            recipe.images.isEmpty
+                ? Image.asset(
+                    'assets/images/img_not_available.jpeg',
+                    fit: BoxFit.cover,
+                  )
+                : CachedNetworkImage(
+                    placeholder: (context, url) => Container(
+                      child: Loading(),
+                      height: size.height / 3,
+                      width: size.width,
+                      padding: EdgeInsets.all(70.0),
+                      decoration: BoxDecoration(
+                        color: greyColor2,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Material(
+                      child: Image.asset(
+                        'assets/images/img_not_available.jpeg',
+                        height: size.height / 3,
+                        width: size.width,
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                    ),
+                    imageUrl: recipe.images.last.url,
+                    height: size.height / 3,
+                    width: size.width,
+                    fit: BoxFit.fill,
                   ),
-                ),
-              ),
-              errorWidget: (context, url, error) => Material(
-                child: Image.asset(
-                  'assets/images/img_not_available.jpeg',
-                  height: size.height / 3,
-                  width: size.width,
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8.0),
-                ),
-                clipBehavior: Clip.hardEdge,
-              ),
-              imageUrl: recipe.images.last.url,
-              height: size.height / 3,
-              width: size.width,
-              fit: BoxFit.fill,
-            ),
             SizedBox(
               height: 10,
             ),
