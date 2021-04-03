@@ -1,4 +1,4 @@
-import 'package:aunty_rafiki/constants/enums/enums.dart';
+
 import 'package:aunty_rafiki/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +64,7 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
                         children: [
                           Expanded(
                             child: Text(
-                              "online",
+                              "",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               textAlign: TextAlign.left,
@@ -80,35 +80,37 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
                   ),
                 ),
               ),
-              PopupMenuButton<ChatGroupPopMenu>(
-                icon: Icon(
-                  Icons.more_vert,
-                  color: Colors.white,
-                ),
-                onSelected: (ChatGroupPopMenu result) {
-                  if (result == ChatGroupPopMenu.GroupInfo) {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (_) => GroupInfoPage(chat: chat)));
-                  }
-                },
-                itemBuilder: (BuildContext context) =>
-                    <PopupMenuEntry<ChatGroupPopMenu>>[
-                  const PopupMenuItem<ChatGroupPopMenu>(
-                    value: ChatGroupPopMenu.GroupInfo,
-                    child: Text('Group Info'),
-                  ),
-                  const PopupMenuItem<ChatGroupPopMenu>(
-                    value: ChatGroupPopMenu.MuteNotification,
-                    child: Text('Mute Notifications'),
-                  ),
-                  const PopupMenuItem<ChatGroupPopMenu>(
-                    value: ChatGroupPopMenu.ClearChat,
-                    child: Text('Clear Chat'),
-                  ),
-                ],
-              )
+              // PopupMenuButton<ChatGroupPopMenu>(
+              //   icon: Icon(
+              //     Icons.more_vert,
+              //     color: Colors.white,
+              //   ),
+              //   onSelected: (ChatGroupPopMenu result) {
+              //     if (result == ChatGroupPopMenu.GroupInfo) {
+              //       // Navigator.push(
+              //       //     context,
+              //       //     MaterialPageRoute(
+              //       //         builder: (_) => GroupInfoPage(chat: chat)));
+              //     }
+              //   },
+              //   itemBuilder: (BuildContext context) =>
+              //       <PopupMenuEntry<ChatGroupPopMenu>>[
+              //     const PopupMenuItem<ChatGroupPopMenu>(
+              //       value: ChatGroupPopMenu.GroupInfo,
+              //       child: Text('Group Info'),
+              //     ),
+              //     const PopupMenuItem<ChatGroupPopMenu>(
+              //       value: ChatGroupPopMenu.MuteNotification,
+              //       child: Text('Mute Notifications'),
+              //     ),
+              //     const PopupMenuItem<ChatGroupPopMenu>(
+              //       value: ChatGroupPopMenu.ClearChat,
+              //       child: Text('Clear Chat'),
+              //     ),
+              //   ],
+              // )
+          
+          
             ],
           ),
         ),

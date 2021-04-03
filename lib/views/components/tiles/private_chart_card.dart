@@ -1,10 +1,9 @@
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/models/user.dart';
-import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/pages/private_chat_room_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 
 class PrivateChartcard extends StatelessWidget {
   final User peer;
@@ -12,7 +11,7 @@ class PrivateChartcard extends StatelessWidget {
   const PrivateChartcard({Key key, @required this.peer}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _utilityProvider = Provider.of<UtilityProvider>(context);
+   
     return InkWell(
       child: Material(
         color: Colors.white,
@@ -67,9 +66,9 @@ class PrivateChartcard extends StatelessWidget {
                                   height: 6,
                                 ),
                                 Text(
-                                  '${peer.isAdmin ?? 'offline'}',
+                                  '${peer.startedClinic.toUpperCase() == "YES" ? '🤩' : '😤'}',
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 20,
                                       color: Colors.grey.shade500),
                                 ),
                               ],
@@ -81,8 +80,7 @@ class PrivateChartcard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    _utilityProvider
-                        .formatDate(DateTime.parse(DateTime.now().toString())),
+                    '',
                     style: TextStyle(
                         fontSize: 12,
                         color: peer.isAdmin == null
@@ -97,7 +95,6 @@ class PrivateChartcard extends StatelessWidget {
         ),
       ),
       onTap: () {
-      
         Navigator.push(
             context,
             MaterialPageRoute(

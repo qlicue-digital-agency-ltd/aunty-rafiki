@@ -1,8 +1,7 @@
-import 'package:aunty_rafiki/providers/utility_provider.dart';
 
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 
 class ChatUserTile extends StatelessWidget {
   final Chat chat;
@@ -15,7 +14,7 @@ class ChatUserTile extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _utilityProvider = Provider.of<UtilityProvider>(context);
+   
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -61,7 +60,7 @@ class ChatUserTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  _utilityProvider.formatDate(DateTime.parse(chat.time)),
+                  '',
                   style: TextStyle(
                       fontSize: 12,
                       color: chat.isMessageRead
