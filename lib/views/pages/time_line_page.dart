@@ -1,5 +1,3 @@
-
-
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/models/time_line.dart';
 import 'package:aunty_rafiki/providers/timeline_provider.dart';
@@ -37,10 +35,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 2.7,
                         ),
-                        Center(
-                            child: Loading()
-                                
-                                ),
+                        Center(child: Loading()),
                       ],
                     )
                   : _Timeline(data: _timelineProvider.availableTimelines),
@@ -79,6 +74,9 @@ class _Timeline extends StatelessWidget {
                       NoItemTile(
                         icon: 'assets/access/timeline.png',
                         title: 'No Timeline Levels',
+                        onTap: () {
+                          _timelineProvider.fetchTimelines();
+                        },
                       ),
                     ],
                   ),
@@ -187,33 +185,39 @@ class _TimelineChild extends StatelessWidget {
           children: <Widget>[
             Column(
               children: [
-                CachedNetworkImage(
-                  placeholder: (context, url) => Container(
-                    child: Loading(),
-                    padding: EdgeInsets.all(70.0),
-                    decoration: BoxDecoration(
-                      color: greyColor2,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8.0),
+                timeline.images.isEmpty
+                    ? Container()
+                    : CachedNetworkImage(
+                        placeholder: (context, url) => Container(
+                          child: Loading(),
+                          padding: EdgeInsets.all(70.0),
+                          decoration: BoxDecoration(
+                            color: greyColor2,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Material(
+                          child: Image.asset(
+                            'assets/images/img_not_available.jpeg',
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8.0),
+                          ),
+                          clipBehavior: Clip.hardEdge,
+                        ),
+                        imageUrl: timeline.images.last.url,
+                        width: MediaQuery.of(context).size.width / 2,
+                        fit: BoxFit.fill,
                       ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Material(
-                    child: Image.asset(
-                      'assets/images/img_not_available.jpeg',
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.0),
-                    ),
-                    clipBehavior: Clip.hardEdge,
-                  ),
-                  imageUrl: timeline.image,
-                  width: MediaQuery.of(context).size.width / 2,
-                  fit: BoxFit.fill,
-                ),
                 Row(
-                  children: [Expanded(child: Text(timeline.body))],
+                  children: [
+                    Expanded(
+                        child: Text(timeline.body,
+                            maxLines: 10, overflow: TextOverflow.ellipsis))
+                  ],
                 ),
               ],
             ),

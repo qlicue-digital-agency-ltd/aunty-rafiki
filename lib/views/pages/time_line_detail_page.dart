@@ -20,31 +20,36 @@ class TimelineDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              placeholder: (context, url) => Container(
-                child: Loading(),
-                padding: EdgeInsets.all(70.0),
-                decoration: BoxDecoration(
-                  color: greyColor2,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
+            timeline.images.isEmpty
+                ? Image.asset(
+                    'assets/images/img_not_available.jpeg',
+                    fit: BoxFit.cover,
+                  )
+                : CachedNetworkImage(
+                    placeholder: (context, url) => Container(
+                      child: Loading(),
+                      padding: EdgeInsets.all(70.0),
+                      decoration: BoxDecoration(
+                        color: greyColor2,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Material(
+                      child: Image.asset(
+                        'assets/images/img_not_available.jpeg',
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                    ),
+                    imageUrl: timeline.images.last.url,
+                    width: screenWidth,
+                    fit: BoxFit.fill,
                   ),
-                ),
-              ),
-              errorWidget: (context, url, error) => Material(
-                child: Image.asset(
-                  'assets/images/img_not_available.jpeg',
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8.0),
-                ),
-                clipBehavior: Clip.hardEdge,
-              ),
-              imageUrl: timeline.image,
-              width: screenWidth,
-              fit: BoxFit.fill,
-            ),
             Container(
               padding: EdgeInsets.only(
                   top: 8.0, right: 16.0, bottom: 8.0, left: 16.0),
