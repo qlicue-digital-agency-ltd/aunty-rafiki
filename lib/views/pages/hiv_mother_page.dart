@@ -43,6 +43,9 @@ class HIVMotherPage extends StatelessWidget {
                             NoItemTile(
                               title: 'No Content',
                               icon: 'assets/access/red-ribbon.png',
+                              onTap: (){
+                                _postProvider.fetchPosts(userId: 1);
+                              },
                             ),
                           ],
                         ),

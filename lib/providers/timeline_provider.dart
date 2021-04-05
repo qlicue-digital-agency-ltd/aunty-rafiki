@@ -34,7 +34,7 @@ class TimelineProvider extends ChangeNotifier {
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        data['timelines'].forEach((timelineData) {
+        data['data'].forEach((timelineData) {
           final timeline = Timeline.fromMap(timelineData);
           _fetchedTimelines.add(timeline);
         });
