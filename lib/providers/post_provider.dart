@@ -36,7 +36,7 @@ class PostProvider with ChangeNotifier {
     List<Post> _fetchedPosts = [];
 
     try {
-      final http.Response response = await http.get(productionApi + "posts");
+      final http.Response response = await http.get(api + "posts");
 
       final Map<String, dynamic> data = json.decode(response.body);
       print('---------------------------------------------');
