@@ -151,7 +151,7 @@ class HostipalBagProvider with ChangeNotifier {
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        data['bagItems'].forEach((bagItemData) {
+        data['data'].forEach((bagItemData) {
           final bagItem = BagItem.fromMap(bagItemData);
           _fetchedBagItems.add(bagItem);
         });

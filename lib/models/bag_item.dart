@@ -33,12 +33,12 @@ class BagItem {
   }
 
   BagItem.fromMap(Map<String, dynamic> map)
-      : assert(map['id'] != null),
-        assert(map['name'] != null),
-        id = map['id'],
-        owner = map['owner'],
-        name = map['name'],
-        type = map['type'],
-        uid = map['uid'],
-        isPacked = map['is_packed'] == 1 ? true : false;
+      : assert(map['bagItem_id'] != null),
+        assert(map['bagItem_name'] != null),
+        id = map['bagItem_id'],
+        owner = map['bagItem_owner'],
+        name = map['bagItem_name'],
+        type = map['bagItem_type'],
+        uid = map['bagItem_uid'],
+        isPacked = map['bagItem_is_packed'] == 1 ? true : false;
 }
