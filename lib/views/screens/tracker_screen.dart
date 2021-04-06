@@ -4,6 +4,7 @@ import 'package:aunty_rafiki/providers/tracker_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/components/tiles/tracker_tile.dart';
+import 'package:aunty_rafiki/views/pages/tracker_blog_page.dart';
 import 'package:aunty_rafiki/views/pages/tracker_page.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -109,7 +110,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
                                     children: [
                                       Text('My last period: ' + _selectedDate,
                                           style: TextStyle(fontSize: 20)),
-                                          SizedBox(height:10),
+                                      SizedBox(height: 10),
                                       Row(
                                         children: [
                                           Expanded(
@@ -317,9 +318,13 @@ class _RightChildTimeline extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return TrackerPage(
-                          tracker: tracker,
-                        );
+                        return tracker.content == null  
+                            ? TrackerPage(
+                                tracker: tracker,
+                              )
+                            : TrackerBlogPage(
+                                tracker: tracker,
+                              );
                       },
                     ),
                   );
