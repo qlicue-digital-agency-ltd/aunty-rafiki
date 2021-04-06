@@ -18,12 +18,17 @@ class TrackerPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              tracker.media,
-              width: screenWidth,
-              // height: screenHeight * 0.5,
-              fit: BoxFit.fitWidth,
-            ),
+            tracker.images.isEmpty
+                ? Image.asset(
+                    'assets/images/img_not_available.jpeg',
+                    fit: BoxFit.cover,
+                  )
+                : Image.network(
+                    tracker.images.last.url,
+                    width: screenWidth,
+                    // height: screenHeight * 0.5,
+                    fit: BoxFit.fitWidth,
+                  ),
             ListTile(
               title: Text('${tracker.title}'),
               subtitle: Text('${tracker.subtitle}'),
@@ -64,7 +69,7 @@ class TrackerPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${tracker.body}',
+                    '${tracker.normal}',
                     style: TextStyle(fontSize: 16.0),
                   )
                 ],
@@ -89,7 +94,7 @@ class TrackerPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${tracker.body}',
+                    '${tracker.abnormal}',
                     style: TextStyle(fontSize: 16.0),
                   )
                 ],

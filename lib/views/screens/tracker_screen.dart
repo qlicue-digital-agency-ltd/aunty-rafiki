@@ -1,5 +1,3 @@
-
-
 import 'package:aunty_rafiki/models/tracker.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
@@ -23,7 +21,7 @@ class TrackerScreen extends StatefulWidget {
 
 class _TrackerScreenState extends State<TrackerScreen> {
   TextEditingController _dateEditingController = TextEditingController();
-
+  String _selectedDate = '';
   @override
   Widget build(BuildContext context) {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
@@ -67,46 +65,108 @@ class _TrackerScreenState extends State<TrackerScreen> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height / 2.7,
                           ),
-                          Center(
-                              child: Stack(
-                            children: [
-                              NoItemTile(
-                                icon: 'assets/access/mother.png',
-                                title:
-                                    'Tap to add your first day of your last period',
-                              ),
-                              DateTimePicker(
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
+                          _selectedDate.isEmpty
+                              ? Center(
+                                  child: Stack(
+                                  children: [
+                                    NoItemTile(
+                                      icon: 'assets/access/mother.png',
+                                      title:
+                                          'Tap to add your first day of your last period',
+                                    ),
+                                    DateTimePicker(
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                      ),
+                                      style:
+                                          TextStyle(color: Colors.transparent),
+                                      type: DateTimePickerType.date,
+                                      dateMask: "MMMM d, y",
+                                      controller: _dateEditingController,
+                                      timeLabelText: 'Date',
+                                      confirmText: 'SAVE',
+                                      onChanged: (val) {
+                                        setState(() {
+                                          _selectedDate = val;
+                                        });
+                                      },
+                                      validator: (val) {
+                                        return null;
+                                      },
+                                      onSaved: (val) {
+                                        return print(val);
+                                      },
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2100),
+                                    ),
+                                  ],
+                                ))
+                              : Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('My last period: ' + _selectedDate,
+                                          style: TextStyle(fontSize: 20)),
+                                          SizedBox(height:10),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              height: 50,
+                                              width: 300,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _selectedDate = '';
+                                                  });
+                                                },
+                                                child: Text(
+                                                  'CANCEL',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              height: 50,
+                                              width: 300,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  _motherProvider
+                                                      .postPregnancy(
+                                                          conceptionDate:
+                                                              _selectedDate)
+                                                      .then((value) {
+                                                    _trackerProvider
+                                                        .fetchTrackers();
+                                                  });
+                                                },
+                                                child: _motherProvider
+                                                        .isSubmittingData
+                                                    ? Loading()
+                                                    : Text(
+                                                        'SAVE MY DATE',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16),
+                                                      ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                style: TextStyle(color: Colors.transparent),
-                                type: DateTimePickerType.date,
-                                dateMask: "MMMM d, y",
-                                controller: _dateEditingController,
-                                timeLabelText: 'Date',
-                                onChanged: (val) {
-                                  print('---------------------');
-                                  print(val);
-                                  print('---------------------');
-                                  _motherProvider
-                                      .postPregnancy(conceptionDate: val)
-                                      .then((value) {
-                                    _trackerProvider.fetchTrackers();
-                                  });
-                                },
-                                validator: (val) {
-                                  return null;
-                                },
-                                onSaved: (val) {
-                                  print('+++++++++++++++++++++');
-                                  print(val);
-                                  print('+++++++++++++++++++++');
-                                },
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2100),
-                              ),
-                            ],
-                          )),
                         ],
                       )
                     : ListView.builder(

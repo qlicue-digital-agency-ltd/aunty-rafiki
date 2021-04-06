@@ -2,36 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:intl/intl.dart';
 
+import 'img.dart';
+
 class Tracker {
   Tracker(
       {@required this.id,
       @required this.title,
       @required this.subtitle,
       @required this.body,
-      this.media,
+      @required this.normal,
+      @required this.abnormal,
+      @required this.content,
+      @required this.images,
       @required this.type,
       @required this.day,
-       @required this.days,
+      @required this.days,
       @required this.color,
       @required this.week,
       this.time,
       @required this.show});
 
   Tracker.fromMap(Map<String, dynamic> map)
-      : assert(map['id'] != null),
-        id = map['id'],
-        title = map['title'],
-        subtitle = map['subtitle'],
-        body = map['body'],
-        media = map['media'],
-        time = DateTime.parse(map['time']),
-        type = map['type'] == "line" ? Type.line : Type.checkpoint,
-        day = format.format(DateTime.parse(map['time'])),
-        week = map['week'],
-        days = map['days'],
+      : assert(map['tracker_id'] != null),
+        id = map['tracker_id'],
+        title = map['tracker_title'],
+        subtitle = map['tracker_subtitle'],
+        body = map['tracker_body'],
+        content = map['tracker_content'],
+        normal = map['tracker_normal'],
+        abnormal = map['tracker_abnormal'],
+        time = DateTime.parse(map['tracker_time']),
+        type = map['tracker_type'] == "line" ? Type.line : Type.checkpoint,
+        day = format.format(DateTime.parse(map['tracker_time'])),
+        week = map['tracker_week'],
+        days = map['tracker_days'],
         show = true,
-        color =
-            map['type'] == "checkpoint" ? Colors.pink : colors[map['id'] % 7];
+        color = map['tracker_type'] == "checkpoint"
+            ? Colors.pink
+            : colors[map['tracker_id'] % 7],
+        images = map['images'] != null
+            ? (map['images'] as List).map((i) => Img.fromMap(i)).toList()
+            : null;
 
   //color List
   static final colors = <Color>[
@@ -44,22 +55,24 @@ class Tracker {
     Colors.teal
   ];
 
-
-  final String body;
-  final Color color;
-  final String day;
-  final int id;
-  final int days;
-  final String media;
+  String body;
+  Color color;
+  String day;
+  int id;
+  int days;
+  String normal;
+  String abnormal;
+  String content;
   bool show;
-  final String subtitle;
-  final DateTime time;
-  final String title;
-  final Type type;
-  final int week;
+  String subtitle;
+  DateTime time;
+  String title;
+  Type type;
+  int week;
+  List<Img> images;
 
   bool get isCheckpoint => type == Type.checkpoint;
 
   bool get hasDay => day != null && day.isNotEmpty;
-  static final DateFormat format = DateFormat("EE");
+  static DateFormat format = DateFormat("EE");
 }

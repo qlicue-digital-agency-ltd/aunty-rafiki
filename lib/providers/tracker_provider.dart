@@ -38,7 +38,7 @@ class TrackerProvider extends ChangeNotifier {
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        data['trackers'].forEach((trackerData) {
+        data['data'].forEach((trackerData) {
           final tracker = Tracker.fromMap(trackerData);
           _fetchedTrackers.add(tracker);
         });

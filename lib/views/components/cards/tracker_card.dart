@@ -69,30 +69,32 @@ class TrackerCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    CachedNetworkImage(
-                      placeholder: (context, url) => Container(
-                        child: Loading(),
-                        padding: EdgeInsets.all(70.0),
-                        decoration: BoxDecoration(
-                          color: greyColor2,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(8.0),
+                    tracker.images.isEmpty
+                        ? Container()
+                        : CachedNetworkImage(
+                            placeholder: (context, url) => Container(
+                              child: Loading(),
+                              padding: EdgeInsets.all(70.0),
+                              decoration: BoxDecoration(
+                                color: greyColor2,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8.0),
+                                ),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Material(
+                              child: Image.asset(
+                                'assets/images/img_not_available.jpeg',
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              clipBehavior: Clip.hardEdge,
+                            ),
+                            imageUrl: tracker.images.last.url,
+                            fit: BoxFit.fill,
                           ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Material(
-                        child: Image.asset(
-                          'assets/images/img_not_available.jpeg',
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                      ),
-                      imageUrl: tracker.media,
-                      fit: BoxFit.fill,
-                    ),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 18.0, vertical: 14.0),

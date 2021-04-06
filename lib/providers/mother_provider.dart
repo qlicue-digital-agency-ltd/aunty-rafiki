@@ -116,26 +116,29 @@ class MotherProvider extends ChangeNotifier {
     };
 
     notifyListeners();
+    final http.Response response = await http.post(api + "pregnancy",
+        body: json.encode(_data),
+        headers: {'Content-Type': 'application/json'});
+    print(response.body);
+    // try {
+    //   final http.Response response = await http.post(api + "pregnancy",
+    //       body: json.encode(_data),
+    //       headers: {'Content-Type': 'application/json'});
 
-    try {
-      final http.Response response = await http.post(api + "pregnancy",
-          body: json.encode(_data),
-          headers: {'Content-Type': 'application/json'});
+    //   if (response.statusCode == 201) {
+    //     print('---------------------------');
+    //     print('ayeeeee');
+    //     print(response);
+    //     print('---------------------------');
+    //     hasError = false;
+    //   }
+    // } catch (error) {
+    //   print('-----------+++++----------------');
+    //   print(error);
+    //   print('-----------+++++----------------');
 
-      if (response.statusCode == 201) {
-        print('---------------------------');
-        print('ayeeeee');
-        print(response);
-        print('---------------------------');
-        hasError = false;
-      }
-    } catch (error) {
-      print('-----------+++++----------------');
-      print(error);
-      print('-----------+++++----------------');
-
-      hasError = true;
-    }
+    //   hasError = true;
+    // }
 
     _isSubmittingData = false;
     notifyListeners();
