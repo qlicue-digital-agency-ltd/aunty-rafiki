@@ -21,12 +21,12 @@ class Appointment {
      static final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   Appointment.fromMap(Map<String, dynamic> map)
-      : assert(map['id'] != null),
-        id = map['id'],
-        name = map['name'],
-        profession = map['profession'],
-        date = formatter.format(DateTime.parse(map['date'])) ,
-        time = map['time'],
-        additionalNotes = map['additional_notes'],
-        syncToCalendar = map['sync_to_calendar'];
+      : assert(map['appointment_id'] != null),
+        id = map['appointment_id'],
+        name = map['appointment_name'],
+        profession = map['appointment_profession'],
+        date = formatter.format(DateTime.parse(map['appointment_date'])) ,
+        time = map['appointment_time'],
+        additionalNotes = map['appointment_additional_notes'],
+        syncToCalendar = map['appointment_sync_to_calendar'];
 }

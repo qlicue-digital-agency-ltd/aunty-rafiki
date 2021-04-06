@@ -31,13 +31,13 @@ class BloodLevelProvider extends ChangeNotifier {
     final List<Blood> _fetchedBloodLevels = [];
     try {
       final http.Response response = await http.get(
-          api + "bloodlevels/" + FirebaseAuth.instance.currentUser.uid,
+          api + "bloodLevels/" + FirebaseAuth.instance.currentUser.uid,
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        data['bloodlevels'].forEach((bloodData) {
+        data['data'].forEach((bloodData) {
           final blood = Blood.fromMap(bloodData);
           _fetchedBloodLevels.add(blood);
         });
@@ -89,14 +89,14 @@ class BloodLevelProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final http.Response response = await http.post(api + "bloodlevel",
+      final http.Response response = await http.post(api + "bloodLevel",
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 201) {
-        final _bloodLevel = Blood.fromMap(data['bloodlevel']);
+        final _bloodLevel = Blood.fromMap(data['data']);
         _availableBloodLevels.add(_bloodLevel);
 
         hasError = false;

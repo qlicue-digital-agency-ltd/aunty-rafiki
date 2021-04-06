@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aunty_rafiki/api/api.dart';
 import 'package:aunty_rafiki/models/appointment.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -56,7 +57,9 @@ class AppointmentProvider with ChangeNotifier {
     bool hasError = true;
     _isFetchingAppointmentData = true;
     notifyListeners();
-    final Map<String, dynamic> _data = {"user_id": 1};
+    final Map<String, dynamic> _data = {
+      "uid": FirebaseAuth.instance.currentUser.uid
+    };
 
     final List<Appointment> _fetchedAppointments = [];
     try {
@@ -67,7 +70,7 @@ class AppointmentProvider with ChangeNotifier {
       final Map<String, dynamic> data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        data['appointments'].forEach((appointmentData) {
+        data['data'].forEach((appointmentData) {
           final _appointment = Appointment.fromMap(appointmentData);
           _fetchedAppointments.add(_appointment);
         });
@@ -84,9 +87,9 @@ class AppointmentProvider with ChangeNotifier {
     _availableAppointments = _fetchedAppointments;
     _isFetchingAppointmentData = false;
 
- _availableAppointments.forEach((appointment) {
-   _updateCalenderAppointments(appointment.date);
-  });
+    _availableAppointments.forEach((appointment) {
+      _updateCalenderAppointments(appointment.date);
+    });
     notifyListeners();
 
     return hasError;
@@ -108,13 +111,15 @@ class AppointmentProvider with ChangeNotifier {
       "name": name,
       "profession": profession,
       "sync_to_calendar": syncToCalendar,
-      "date": date,
-      "time": time,
-      "user_id": 1,
+      "date": DateFormat('yyyy-MM-dd').format(DateTime.parse(date)),
+      "time": "00:00:00",
+      "uid": FirebaseAuth.instance.currentUser.uid,
       "additional_notes": additionalNotes
     };
-
-    notifyListeners();
+    final http.Response response = await http.post(api + "appointment",
+        body: json.encode(_data),
+        headers: {'Content-Type': 'application/json'});
+    print(response.body);
 
     try {
       final http.Response response = await http.post(api + "appointment",
@@ -122,9 +127,9 @@ class AppointmentProvider with ChangeNotifier {
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
-      
+
       if (response.statusCode == 201) {
-        final _appointment = Appointment.fromMap(data['appointment']);
+        final _appointment = Appointment.fromMap(data['data']);
         _availableAppointments.add(_appointment);
 
         _selectedCalendarAppointments.add(_appointment);
@@ -132,16 +137,8 @@ class AppointmentProvider with ChangeNotifier {
         hasError = false;
       }
     } catch (error) {
-      print('-----------+++++----------------');
-      print(error);
-
       hasError = true;
     }
-
-    print(_availableAppointments.length);
-    print("-----------------------------------");
-    print(availableAppointments.length);
-    print("-----------------------------------");
     _isSubmittingData = false;
     notifyListeners();
     return hasError;
@@ -149,12 +146,12 @@ class AppointmentProvider with ChangeNotifier {
 
   //update appointment
   _updateCalenderAppointments(date) {
-
     final DateFormat _formatter = DateFormat('yyyy-MM-dd');
 
     _calendarAppointments[DateTime.parse(date)] = _availableAppointments
         .where((appointment) =>
-           _formatter.format(DateTime.parse(appointment.date))  == _formatter.format(DateTime.parse(date)) )
+            _formatter.format(DateTime.parse(appointment.date)) ==
+            _formatter.format(DateTime.parse(date)))
         .toList();
     notifyListeners();
   }
