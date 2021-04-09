@@ -35,6 +35,8 @@ class _PrivateChatsState extends State<PrivateChats> {
     _listScrollController.addListener(scrollListener);
   }
 
+
+
   void scrollListener() {
     if (_listScrollController.offset >=
             _listScrollController.position.maxScrollExtent &&
@@ -49,6 +51,7 @@ class _PrivateChatsState extends State<PrivateChats> {
     return Future.value(false);
   }
 
+ 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

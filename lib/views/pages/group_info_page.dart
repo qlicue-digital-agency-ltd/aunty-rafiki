@@ -1,4 +1,3 @@
-
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/models/user.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
@@ -6,6 +5,7 @@ import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/user_tile.dart';
+import 'package:aunty_rafiki/views/pages/private_chat_room_page.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebaseUser;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +34,13 @@ class GroupInfoPage extends StatelessWidget {
                 children: <Widget>[
                   ListTile(
                     onTap: () {
-                      print('message');
                       Navigator.of(context).pop();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrivateChatRoomPage(
+                                    peer: user,
+                                  )));
                     },
                     title: Text('Message ${user.displayName}'),
                   ),
@@ -108,13 +113,13 @@ class GroupInfoPage extends StatelessWidget {
             expandedHeight: 300,
             stretch: true,
             actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.pink,
-                ),
-                onPressed: () {},
-              )
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.edit,
+              //     color: Colors.white,
+              //   ),
+              //   onPressed: () {},
+             // )
             ],
             onStretchTrigger: () {
               return;
@@ -142,7 +147,7 @@ class GroupInfoPage extends StatelessWidget {
                       fit: BoxFit.cover,
                     )
                   : Image.asset(
-                      'assets/icons/female.png',
+                      'assets/icons/aunty_rafiki.png',
                       fit: BoxFit.cover,
                     ),
             )),

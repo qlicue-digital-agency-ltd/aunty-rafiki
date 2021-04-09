@@ -1,4 +1,3 @@
-import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/views/screens/blood_level_screen.dart';
 
@@ -38,28 +37,30 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                   actions: [
-                    PopupMenuButton<ChatPopMenu>(
-                      icon: Icon(Icons.more_vert),
-                      onSelected: (ChatPopMenu result) {
-                        if (result == ChatPopMenu.NewGroup)
-                          Navigator.pushNamed(context, selectContactsPage);
-                      },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<ChatPopMenu>>[
-                        const PopupMenuItem<ChatPopMenu>(
-                          value: ChatPopMenu.NewGroup,
-                          child: Text('New Group'),
-                        ),
-                        const PopupMenuItem<ChatPopMenu>(
-                          value: ChatPopMenu.NewBroadcast,
-                          child: Text('New Chat'),
-                        ),
-                        const PopupMenuItem<ChatPopMenu>(
-                          value: ChatPopMenu.Settings,
-                          child: Text('Settings'),
-                        ),
-                      ],
-                    )
+                    // PopupMenuButton<ChatPopMenu>(
+                    //   icon: Icon(Icons.more_vert),
+                    //   onSelected: (ChatPopMenu result) {
+                    //     if (result == ChatPopMenu.NewGroup)
+                    //       Navigator.pushNamed(context, selectContactsPage);
+                    //   },
+                    //   itemBuilder: (BuildContext context) =>
+                    //       <PopupMenuEntry<ChatPopMenu>>[
+                    //     const PopupMenuItem<ChatPopMenu>(
+                    //       value: ChatPopMenu.NewGroup,
+                    //       child: Text('New Group'),
+                    //     ),
+                    //     const PopupMenuItem<ChatPopMenu>(
+                    //       value: ChatPopMenu.NewBroadcast,
+                    //       child: Text('New Chat'),
+                    //     ),
+                    //     const PopupMenuItem<ChatPopMenu>(
+                    //       value: ChatPopMenu.Settings,
+                    //       child: Text('Settings'),
+                    //     ),
+                    //   ],
+                    // )
+                 
+                 
                   ],
                   bottom: TabBar(
                     onTap: (index) {

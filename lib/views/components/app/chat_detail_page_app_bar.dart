@@ -11,6 +11,25 @@ class ChatDetailPageAppBar extends StatelessWidget
   const ChatDetailPageAppBar({Key key, @required this.chat}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Hero(
+              tag: chat.id,
+              child: Container(
+                child: chat.avatar.isNotEmpty
+                    ? Image.network(chat.avatar)
+                    : Image.asset('assets/icons/aunty_rafiki.png'),
+              ),
+            ),
+          );
+        },
+      );
+    }
+
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -31,11 +50,20 @@ class ChatDetailPageAppBar extends StatelessWidget
               SizedBox(
                 width: 2,
               ),
-              CircleAvatar(
-                backgroundImage: chat.avatar.isNotEmpty
-                    ? NetworkImage(chat.avatar)
-                    : AssetImage('assets/icons/female.png'),
-                maxRadius: 20,
+              GestureDetector(
+                onTap: () {
+                  _showMyDialog();
+                },
+                child: Hero(
+                  tag: chat.id,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: chat.avatar.isNotEmpty
+                        ? NetworkImage(chat.avatar)
+                        : AssetImage('assets/icons/aunty_rafiki.png'),
+                    maxRadius: 20,
+                  ),
+                ),
               ),
               SizedBox(
                 width: 12,

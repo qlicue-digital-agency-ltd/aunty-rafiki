@@ -66,9 +66,9 @@ class PrivateChartcard extends StatelessWidget {
                                   height: 6,
                                 ),
                                 Text(
-                                  '${peer.startedClinic.toUpperCase() == "YES" ? '🤩' : '😤'}',
+                                  '',
                                   style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 15,
                                       color: Colors.grey.shade500),
                                 ),
                               ],

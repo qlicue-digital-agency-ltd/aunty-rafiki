@@ -19,6 +19,7 @@ class PrivateSelectedChatAppBar extends StatelessWidget
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    
     final _chatProvider = Provider.of<ChatProvider>(context);
     return AppBar(
       elevation: 0,

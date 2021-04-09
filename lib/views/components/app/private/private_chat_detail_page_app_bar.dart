@@ -1,4 +1,3 @@
-
 import 'package:aunty_rafiki/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,29 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
   final User peer;
   const PrivateChatDetailPageAppBar({Key key, @required this.peer})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Hero(
+              tag: peer.uid,
+              child: Container(
+                child: peer.photoUrl != null
+                    ? Image.network(peer.photoUrl)
+                    : Image.asset('assets/icons/female.png'),
+              ),
+            ),
+         
+          );
+        },
+      );
+    }
+
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -30,11 +50,19 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
               SizedBox(
                 width: 2,
               ),
-              CircleAvatar(
-                backgroundImage: peer.photoUrl != null
-                    ? NetworkImage(peer.photoUrl)
-                    : AssetImage('assets/icons/female.png'),
-                maxRadius: 20,
+              GestureDetector(
+                onTap: () {
+                  _showMyDialog();
+                },
+                child: Hero(
+                  tag: peer.uid,
+                  child: CircleAvatar(
+                    backgroundImage: peer.photoUrl != null
+                        ? NetworkImage(peer.photoUrl)
+                        : AssetImage('assets/icons/female.png'),
+                    maxRadius: 20,
+                  ),
+                ),
               ),
               SizedBox(
                 width: 12,
@@ -109,8 +137,6 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
               //     ),
               //   ],
               // )
-          
-          
             ],
           ),
         ),
