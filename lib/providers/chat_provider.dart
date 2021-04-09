@@ -71,7 +71,7 @@ class ChatProvider with ChangeNotifier {
       _selectedPrivateMessages[uid] = message;
       print('added');
     }
-    print(_selectedMessages.length);
+
     notifyListeners();
   }
 

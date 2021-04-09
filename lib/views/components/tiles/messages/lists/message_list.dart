@@ -57,14 +57,12 @@ class MessageList extends StatelessWidget {
                     onLongPress: _chatProvider.selectedMessages.isNotEmpty
                         ? null
                         : () {
-                            print('okay...');
                             _chatProvider.setMessage(
                                 message: docs[index], uid: docs[index].id);
                           },
                     onTap: _chatProvider.selectedMessages.isEmpty
                         ? null
                         : () {
-                            print('we good...');
                             _chatProvider.setMessage(
                                 message: docs[index], uid: docs[index].id);
                           },
@@ -77,7 +75,6 @@ class MessageList extends StatelessWidget {
                     onLongPress: _chatProvider.selectedMessages.isNotEmpty
                         ? null
                         : () {
-                            print('okay...');
                             _chatProvider.setMessage(
                                 message: docs[index], uid: docs[index].id);
                           },

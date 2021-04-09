@@ -225,14 +225,18 @@ class GroupProvider with ChangeNotifier {
     _loadingMembers = true;
     notifyListeners();
     await groupMembers.first.then((users) {
+      print("-------------------------------");
+      print(users.length);
+      print("-------------------------------");
       users.forEach((user) {
-        print(user.displayName);
-        print(user.isAdmin);
         _members.add(user);
       });
     });
     _loadingMembers = false;
     _currentGroupMembers = _members;
+    print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+    print(_currentGroupMembers.length);
+    print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
     notifyListeners();
   }
 }

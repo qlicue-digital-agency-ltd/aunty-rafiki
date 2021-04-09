@@ -3,6 +3,7 @@ import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/views/components/image/profile_avatar.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -119,6 +120,14 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                             ? null
                             : () {
                                 if (_formKey.currentState.validate()) {
+                                  //selecte users.
+                                  //
+                                  _userProvider.selectedUser.add(_userProvider
+                                      .originalAvailableUsers
+                                      .firstWhere((user) =>
+                                          user.uid ==
+                                          FirebaseAuth
+                                              .instance.currentUser.uid));
                                   _groupProvider
                                       .createUserGroup(
                                     name: _controller.text,

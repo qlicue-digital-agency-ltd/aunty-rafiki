@@ -120,7 +120,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             Column(
               children: <Widget>[
                 MessageList(),
-                //Spacer(),
+               
                 MessageEditBar(
                   onPressed: () {
                     showModal(chat);

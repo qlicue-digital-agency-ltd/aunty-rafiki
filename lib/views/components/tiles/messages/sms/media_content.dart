@@ -1,12 +1,15 @@
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/models/message.dart';
+import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/pages/media_preview_list_page.dart';
 import 'package:aunty_rafiki/views/pages/media_preview_page.dart';
+import 'package:aunty_rafiki/views/pages/private_chat_room_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class MediaContent extends StatelessWidget {
@@ -24,8 +27,56 @@ class MediaContent extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    final _groupProvider = Provider.of<GroupProvider>(context);
     final formatter = new DateFormat('HH:mm');
     double _imageHolderHeight = MediaQuery.of(context).size.height * 0.2;
+
+    Future<void> _showMyDialog({@required Message message}) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    leading: Icon(Icons.message, color: Colors.pink),
+                    title: Text('Message ${message.senderName}'),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Send'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PrivateChatRoomPage(
+                                peer: _groupProvider.currentGroupMembers
+                                    .where((user) => user.uid == message.sender)
+                                    .first,
+                              )));
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Stack(
       children: [
         Column(
@@ -33,18 +84,24 @@ class MediaContent extends StatelessWidget {
           children: [
             byMe
                 ? Container()
-                : Padding(
-                    padding:
-                        const EdgeInsets.only(left: 6.0, top: 8.0, right: 6.0),
-                    child: RichText(
-                        text: TextSpan(
-                      text: '${message.senderName}',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                      ),
-                    )),
+                : GestureDetector(
+                    onTap: () {
+                      print('-------------------');
+                      _showMyDialog(message: message);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 6.0, top: 8.0, right: 6.0),
+                      child: RichText(
+                          text: TextSpan(
+                        text: '${message.senderName}',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      )),
+                    ),
                   ),
             message.media.length < 4
                 ? InkWell(
