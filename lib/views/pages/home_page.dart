@@ -1,4 +1,3 @@
-
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/views/screens/blood_level_screen.dart';
 
@@ -32,7 +31,7 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
           appBar: _utilityProvider.currentIndex == 1
               ? AppBar(
-                leading: Container(),
+                  leading: Container(),
                   title: Text(
                     "Chats",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -60,8 +59,6 @@ class HomePage extends StatelessWidget {
                     //     ),
                     //   ],
                     // )
-                 
-                 
                   ],
                   bottom: TabBar(
                     onTap: (index) {
@@ -84,7 +81,7 @@ class HomePage extends StatelessWidget {
             type: BottomNavigationBarType.fixed,
             items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.track_changes),
+                icon: Image.asset('assets/icons/tracker.png'),
                 label: 'Tracker',
               ),
               BottomNavigationBarItem(
