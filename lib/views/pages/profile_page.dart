@@ -36,14 +36,21 @@ class ProfilePage extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            CircleAvatar(
-                              radius: 50,
-                              backgroundImage:
-                                  _authProvider.currentUser.photoUrl == null
-                                      ? AssetImage('assets/icons/female.png')
-                                      : NetworkImage(
-                                          _authProvider.currentUser.photoUrl),
-                            ),
+                            _authProvider.currentUser != null
+                                ? CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage: _authProvider
+                                                .currentUser.photoUrl ==
+                                            null
+                                        ? AssetImage('assets/icons/female.png')
+                                        : NetworkImage(
+                                            _authProvider.currentUser.photoUrl),
+                                  )
+                                : CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage:
+                                        AssetImage('assets/icons/female.png'),
+                                  ),
                             SizedBox(
                               width: 10,
                             ),

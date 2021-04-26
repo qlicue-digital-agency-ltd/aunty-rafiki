@@ -27,8 +27,7 @@ class MoreScreen extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, profilePage);
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (_) => ImageCapture()));
+                      
                     },
                     child: Container(
                       decoration: BoxDecoration(
