@@ -62,8 +62,8 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
     final List<Task> _fetchedTasks = [];
     try {
-      final http.Response response = await http
-          .get(api + "tasks/1", headers: {'Content-Type': 'application/json'});
+      final http.Response response = await http.get(Uri.parse(api + "tasks/1"),
+          headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
@@ -121,7 +121,7 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final http.Response response = await http.post(api + "task",
+      final http.Response response = await http.post( Uri.parse(api + "task"),
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 

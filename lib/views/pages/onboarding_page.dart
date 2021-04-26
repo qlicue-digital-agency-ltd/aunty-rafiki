@@ -45,11 +45,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 Walkthrougth(
                   icon: "assets/icons/chat.png",
                   title: 'Chat',
-                  textContent:
-                      "Auntie Rafiki connects you to your favorite midwife, 24/7",
+                  textContent: "Auntie Rafiki connects you to a midwife, 24/7",
                 ),
                 Walkthrougth(
-                    icon: "assets/icons/fast-time.png",
+                    icon: "assets/icons/tracker.png",
                     title: "Tracker",
                     textContent:
                         "Auntie Rafiki tracks your daily pregancy growth and changes."),
@@ -57,12 +56,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     icon: "assets/icons/baby.png",
                     title: 'Health',
                     textContent:
-                        "Auntie Rafiki carters for the health condition of you and your baby"),
+                        "Auntie Rafiki carters for the health of you and your baby"),
                 Walkthrougth(
                     icon: "assets/icons/shield.png",
                     title: 'Secure',
                     textContent:
-                        "Auntie Rafiki keeps your information and messages safe from hacker attacks"),
+                        "Auntie Rafiki keeps your information and messages private and safe from attacks"),
                 Walkthrougth(
                     icon: "assets/icons/cloud-network.png",
                     title: 'Cloud-Based',
@@ -106,8 +105,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     fontWeight: FontWeight.w900),
               ),
               onPressed: () {
+                print(_configProvider.currentConfigurationStep);
                 if (currentIndexPage == 4) {
                   _configProvider.setConfigurationStep = Configuration.Terms;
+
                   Navigator.pushNamed(context, termsConditionPage);
                 } else {
                   controller.nextPage(

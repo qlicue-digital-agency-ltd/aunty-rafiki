@@ -5,7 +5,6 @@ import 'package:aunty_rafiki/views/components/tiles/private_chart_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class PrivateChats extends StatefulWidget {
   final String currentUserId;
@@ -20,8 +19,7 @@ class _PrivateChatsState extends State<PrivateChats> {
   _PrivateChatsState({@required this.currentUserId});
   final String currentUserId;
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+
   final ScrollController _listScrollController = ScrollController();
 
   int _limit = 20;

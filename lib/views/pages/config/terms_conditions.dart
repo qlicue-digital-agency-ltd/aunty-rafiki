@@ -3,8 +3,11 @@ import 'package:aunty_rafiki/constants/routes/routes.dart';
 
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
+import 'package:aunty_rafiki/views/components/logo.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TermsConditionPage extends StatefulWidget {
   @override
@@ -14,6 +17,7 @@ class TermsConditionPage extends StatefulWidget {
 class _TermsConditionPageState extends State<TermsConditionPage> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final _utilityProvider = Provider.of<UtilityProvider>(context);
 
     final _configProvider = Provider.of<ConfigProvider>(context);
@@ -30,20 +34,17 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
               SliverList(
                 delegate: SliverChildListDelegate([
                   SizedBox(
-                    height: 100,
+                    height: size.height * 0.12,
                   ),
                   Center(
-                    child: Image.asset(
-                      'assets/icons/aunty_rafiki.png',
-                      height: 100.0,
-                    ),
+                    child: AppLogo(),
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Center(
                     child: Text(
-                      'Aunty Rafiki',
+                      'Auntie Rafiki',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -71,13 +72,30 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Text(
-                      '* You can withdraw your consent anytime by contacting by contacting us at support@auntierafiki.co.tz',
-                      textAlign: TextAlign.center,
-                    ),
+                    child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(children: [
+                          TextSpan(
+                              style: TextStyle(
+                                color: Colors.black54,
+                              ),
+                              text:
+                                  '* You can withdraw your consent anytime by contacting by contacting us at '),
+                          TextSpan(
+                              style: TextStyle(
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
+                              text: " support@auntierafiki.co.tz ",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  _launchURL(
+                                      'https://auntierafiki.co.tz/personal-data');
+                                }),
+                        ])),
                   ),
                   SizedBox(
-                    height: 100,
+                    height: size.height * 0.08,
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 60, right: 60),
@@ -139,5 +157,13 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
             ]),
       ),
     );
+  }
+
+  _launchURL(url) async {
+    final Uri _emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: 'support@auntierafiki.co.tz',
+        queryParameters: {'subject': ''});
+    launch(_emailLaunchUri.toString());
   }
 }

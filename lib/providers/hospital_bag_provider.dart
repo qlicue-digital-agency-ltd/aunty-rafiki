@@ -67,7 +67,7 @@ class HostipalBagProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final http.Response response = await http.post(api + "bagItem",
+      final http.Response response = await http.post(Uri.parse(api + "bagItem"),
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 
@@ -97,7 +97,7 @@ class HostipalBagProvider with ChangeNotifier {
 
     try {
       final http.Response response = await http.put(
-          api + "bagItem/${bagItem.id}",
+          Uri.parse(api + "bagItem/${bagItem.id}"),
           body: json.encode(bagItem.toMap()),
           headers: {'Content-Type': 'application/json'});
 
@@ -121,7 +121,8 @@ class HostipalBagProvider with ChangeNotifier {
     notifyListeners();
     try {
       final http.Response response = await http.get(
-          api + "createBagItems/" + FirebaseAuth.instance.currentUser.uid,
+          Uri.parse(
+              api + "createBagItems/" + FirebaseAuth.instance.currentUser.uid),
           headers: {'Content-Type': 'application/json'});
 
       if (response.statusCode == 201) {
@@ -145,7 +146,7 @@ class HostipalBagProvider with ChangeNotifier {
     final List<BagItem> _fetchedBagItems = [];
     try {
       final http.Response response = await http.get(
-          api + "bagItems/" + FirebaseAuth.instance.currentUser.uid,
+          Uri.parse(api + "bagItems/" + FirebaseAuth.instance.currentUser.uid),
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);

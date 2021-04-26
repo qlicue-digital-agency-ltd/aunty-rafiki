@@ -4,19 +4,18 @@ import 'package:aunty_rafiki/views/pages/private_chat_room_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-
 class PrivateChartcard extends StatelessWidget {
   final User peer;
 
   const PrivateChartcard({Key key, @required this.peer}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-   
+    final size = MediaQuery.of(context).size;
     return InkWell(
       child: Material(
         color: Colors.white,
         child: Container(
-          padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+          padding: EdgeInsets.only(left: 16, right: 16, bottom: 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -26,7 +25,8 @@ class PrivateChartcard extends StatelessWidget {
                     child: Row(
                       children: <Widget>[
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(30.0),
+                          borderRadius:
+                              BorderRadius.circular(size.height * 0.04),
                           child: peer.photoUrl != null
                               ? CachedNetworkImage(
                                   placeholder: (context, url) => Container(
@@ -47,7 +47,7 @@ class PrivateChartcard extends StatelessWidget {
                               : CircleAvatar(
                                   backgroundImage:
                                       AssetImage('assets/icons/female.png'),
-                                  maxRadius: 30,
+                                  maxRadius: size.height * 0.04,
                                 ),
                         ),
                         SizedBox(
@@ -61,6 +61,7 @@ class PrivateChartcard extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                   '${peer.displayName}',
+                                    style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
                                   height: 6,

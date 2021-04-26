@@ -14,7 +14,7 @@ class FoodProvider with ChangeNotifier {
   bool _isFetchingFoodData = false;
 
   List<Food> _availableFoods = [];
- 
+
   //setters
 
   //getters
@@ -29,8 +29,8 @@ class FoodProvider with ChangeNotifier {
 
     final List<Food> _fetchedFoods = [];
     try {
-      final http.Response response = await http
-          .get(api + "foods", headers: {'Content-Type': 'application/json'});
+      final http.Response response = await http.get(Uri.parse(api + "foods"),
+          headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
 
@@ -54,6 +54,4 @@ class FoodProvider with ChangeNotifier {
     notifyListeners();
     return hasError;
   }
-
-
 }

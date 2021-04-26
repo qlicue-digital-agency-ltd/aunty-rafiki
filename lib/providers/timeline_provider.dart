@@ -23,12 +23,11 @@ class TimelineProvider extends ChangeNotifier {
     bool hasError = true;
     _isFetchingTimelineData = true;
     notifyListeners();
-    
 
     final List<Timeline> _fetchedTimelines = [];
     try {
-      final http.Response response = await http.get(api + "timelines",
-         
+      final http.Response response = await http.get(
+          Uri.parse(api + "timelines"),
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);

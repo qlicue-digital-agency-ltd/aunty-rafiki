@@ -7,12 +7,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:aunty_rafiki/models/user.dart' as customUser;
-import 'package:path_provider/path_provider.dart' as path_provider;
+
 
 class AuthProvider with ChangeNotifier {
   bool _isSendingPhone = false;
@@ -473,32 +472,9 @@ class AuthProvider with ChangeNotifier {
     cleaeSelectedImage();
   }
 
-  ///Compress a single file..
-  Future<File> _compressAndGetFile(File file, String targetPath) async {
-    int bytes = await file.length();
-    print("bytes:=> $bytes");
-    var result = await FlutterImageCompress.compressAndGetFile(
-      file.absolute.path,
-      targetPath,
-      quality: 100,
-      rotate: 0,
-    );
-
-    _uploadProleImageTask(result);
-
-    print(file.lengthSync());
-    print(result.lengthSync());
-
-    return result;
-  }
-
   //upload profile..
   saveProfileImage() async {
     FirebaseAuth.instance.currentUser.getIdToken();
-    print('may b...');
-    final dir = await path_provider.getTemporaryDirectory();
-    var targetPath =
-        dir.absolute.path + "/temp" + DateTime.now().toString() + ".jpg";
-    _compressAndGetFile(files[0], targetPath);
+    _uploadProleImageTask(files[0]);
   }
 }

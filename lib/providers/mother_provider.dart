@@ -30,7 +30,7 @@ class MotherProvider extends ChangeNotifier {
     final List<Mother> _fetchedMothers = [];
     try {
       final http.Response response = await http.get(
-          api + "mothers/" + FirebaseAuth.instance.currentUser.uid,
+          Uri.parse(api + "mothers/" + FirebaseAuth.instance.currentUser.uid),
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
@@ -73,7 +73,7 @@ class MotherProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final http.Response response = await http.post(api + "mother",
+      final http.Response response = await http.post(Uri.parse(api + "mother"),
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 
@@ -116,7 +116,7 @@ class MotherProvider extends ChangeNotifier {
     };
 
     notifyListeners();
-    final http.Response response = await http.post(api + "pregnancy",
+    final http.Response response = await http.post(Uri.parse(api + "pregnancy"),
         body: json.encode(_data),
         headers: {'Content-Type': 'application/json'});
     print(response.body);

@@ -18,35 +18,20 @@ class MobileTextfield extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 2,
-      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.pink, width: 2),
-          borderRadius: BorderRadius.circular(50.0),
-          // borderSide: BorderSide(width: 50.0),
-        ),
-        width: 300,
-        //height: 50,
-        child: IntlPhoneField(
-          countryCodeTextColor: Colors.black,
-          inputFormatters: <TextInputFormatter>[
-            LengthLimitingTextInputFormatter(13),
-            FilteringTextInputFormatter.digitsOnly,
-            FilteringTextInputFormatter.singleLineFormatter,
-            _phoneNumberFormatter,
-          ],
-          controller: phoneTextEditingController,
-          style: TextStyle(color: Colors.black),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            labelText: 'Phone Number',
-            labelStyle: TextStyle(color: Colors.black),
-          ),
-          initialCountryCode: 'TZ',
-          onChanged: onChange,
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      child: IntlPhoneField(
+        countryCodeTextColor: Colors.black,
+        inputFormatters: <TextInputFormatter>[
+          LengthLimitingTextInputFormatter(13),
+          FilteringTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.singleLineFormatter,
+          _phoneNumberFormatter,
+        ],
+        controller: phoneTextEditingController,
+        style: TextStyle(color: Colors.black),
+        initialCountryCode: 'TZ',
+        onChanged: onChange,
       ),
     );
   }

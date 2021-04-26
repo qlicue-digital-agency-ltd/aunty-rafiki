@@ -41,7 +41,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           counter: _gravida,
           onTap: (val) {
             setState(() {
-              if (val != null) _gravida = val;
+              if (val != null) _gravida  += val;
             });
           },
           title: 'Gravida',
@@ -71,7 +71,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
                 counter: _miscarriageAge,
                 onTap: (val) {
                   setState(() {
-                    if (val != null) _miscarriageAge = val;
+                    if (val != null) _miscarriageAge += val;
                   });
                 },
                 title: 'How many weeks was the pregnancy upon miscarriage?',
@@ -87,7 +87,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           counter: _births,
           onTap: (val) {
             setState(() {
-              if (val != null) _births = val;
+              if (val != null) _births += val;
             });
           },
           title: 'How many times have you given birth?',
@@ -101,7 +101,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
                 counter: _operationBirths,
                 onTap: (val) {
                   setState(() {
-                    if (val != null) _operationBirths = val;
+                    if (val != null) _operationBirths += val;
                   });
                 },
                 title: 'How many times did you give birth by operation?',

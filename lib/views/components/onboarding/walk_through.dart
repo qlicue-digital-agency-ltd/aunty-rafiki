@@ -12,13 +12,14 @@ class Walkthrougth extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Column(
       children: [
-       SizedBox(height: 100),
+       SizedBox(height: size.height * 0.15),
         Image.asset(icon,
-        height: 150,
+        height: size.height * 0.12,
         ),
-         SizedBox(height: 20,),
+         SizedBox(height: size.height * 0.08,),
         Row(
           children: [
             Expanded(

@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/models/tracker.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
+import 'package:aunty_rafiki/views/components/headers/home_screen_header.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/components/tiles/tracker_tile.dart';
@@ -27,6 +28,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
   Widget build(BuildContext context) {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
     final _motherProvider = Provider.of<MotherProvider>(context);
+    
     return RefreshIndicator(
       onRefresh: () {
         return _trackerProvider.fetchTrackers();
@@ -37,18 +39,8 @@ class _TrackerScreenState extends State<TrackerScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SafeArea(
-              child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "Tracker",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+              child: HomeScreenHeader(
+                title: 'Tracker',
               ),
             ),
             _trackerProvider.isFetchingTrackerData
@@ -318,7 +310,7 @@ class _RightChildTimeline extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return tracker.content == null  
+                        return tracker.content == null
                             ? TrackerPage(
                                 tracker: tracker,
                               )

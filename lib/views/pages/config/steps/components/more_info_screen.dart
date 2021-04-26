@@ -51,7 +51,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
           counter: _haemoglobinLevel,
           onTap: (val) {
             setState(() {
-              if (val != null) _haemoglobinLevel = val;
+              if (val != null) _haemoglobinLevel += val;
             });
           },
           title: 'Haemoglobin Level',
@@ -143,7 +143,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                 counter: _tetanasiVaccineNumber,
                 onTap: (val) {
                   setState(() {
-                    if (val != null) _tetanasiVaccineNumber = val;
+                    if (val != null) _tetanasiVaccineNumber += val;
                   });
                 },
                 title: 'How many times have you had the Tetanasi vaccincation?',

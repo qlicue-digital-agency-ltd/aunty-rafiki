@@ -63,7 +63,7 @@ class AppointmentProvider with ChangeNotifier {
 
     final List<Appointment> _fetchedAppointments = [];
     try {
-      final http.Response response = await http.post(api + "appointments",
+      final http.Response response = await http.post(Uri.parse(api + "appointments"),
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 
@@ -116,13 +116,13 @@ class AppointmentProvider with ChangeNotifier {
       "uid": FirebaseAuth.instance.currentUser.uid,
       "additional_notes": additionalNotes
     };
-    final http.Response response = await http.post(api + "appointment",
+    final http.Response response = await http.post(Uri.parse(api + "appointment"),
         body: json.encode(_data),
         headers: {'Content-Type': 'application/json'});
     print(response.body);
 
     try {
-      final http.Response response = await http.post(api + "appointment",
+      final http.Response response = await http.post(Uri.parse(api + "appointment"),
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 

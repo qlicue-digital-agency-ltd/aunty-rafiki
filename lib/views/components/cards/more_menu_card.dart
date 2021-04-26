@@ -20,25 +20,25 @@ class MoreMenuCard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       child: Material(
         elevation: 2,
         child: Container(
-          height: MediaQuery.of(context).size.height / 4,
+          height: size.height / 4,
           child: Stack(
             children: <Widget>[
               Container(
                   padding: const EdgeInsets.all(8.0),
-                  height: MediaQuery.of(context).size.height / 4,
+                  height: size.height / 4,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4.0),
                     color: Colors.white,
                   ),
                   child: Center(
                     child: isLocal
-                        ? Image.asset(image,
-                            height: MediaQuery.of(context).size.height / 16)
+                        ? Image.asset(image, height: size.height / 16)
                         : image != null
                             ? CachedNetworkImage(
                                 placeholder: (context, url) => Container(
@@ -63,7 +63,7 @@ class MoreMenuCard extends StatelessWidget {
                                     ),
                                 imageUrl: image,
                                 fit: BoxFit.fill,
-                                height: MediaQuery.of(context).size.height / 16)
+                                height: size.height / 16)
                             : Image.asset(
                                 'assets/images/img_not_available.jpeg',
                                 fit: BoxFit.cover,
@@ -78,7 +78,7 @@ class MoreMenuCard extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Theme.of(context).primaryColor,
-                        fontSize: 20,
+                        fontSize: size.height * 0.02,
                         fontWeight: FontWeight.bold),
                   ),
                 ),

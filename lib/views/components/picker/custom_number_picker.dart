@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+
 class CustomNumberPicker extends StatelessWidget {
   //current picker value
   final int _currentValue;
@@ -47,7 +48,8 @@ class CustomNumberPicker extends StatelessWidget {
               )),
           child: Container(
             width: double.infinity,
-            child: NumberPicker(
+            child:
+             NumberPicker(
               decoration:
                   BoxDecoration(color: Colors.pink[100].withOpacity(0.5)),
               // ignore: deprecated_member_use

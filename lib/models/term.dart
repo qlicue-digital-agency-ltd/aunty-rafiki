@@ -64,7 +64,7 @@ class TermModel {
                   color: Colors.black54,
                 ),
                 text:
-                    'I agree to the processing of my personal health data for providing me the Aunty Rafiki app functions. See more in our'),
+                    'I agree to the processing of my personal health data for providing me the Auntie Rafiki app functions. See more in our'),
             TextSpan(
                 style: TextStyle(
                   color: Colors.blue,
@@ -85,7 +85,7 @@ class TermModel {
                 style: TextStyle(
                   color: Colors.black54,
                 ),
-                text: 'I agree that Aunty Rafiki may use'),
+                text: 'I agree that Auntie Rafiki may use'),
             TextSpan(
                 style: TextStyle(
                   color: Colors.blue,
@@ -101,8 +101,10 @@ class TermModel {
                   color: Colors.black54,
                 ),
                 text:
-                    '(except health data) to send me product or services offerings via email, Aunty Rafiki app or marketing partners.'),
+                    '(except health data) to send me product or services offerings via email, Auntie Rafiki app or marketing partners.'),
           ])),
+          
+          
           isCheck: false),
     ];
   }
