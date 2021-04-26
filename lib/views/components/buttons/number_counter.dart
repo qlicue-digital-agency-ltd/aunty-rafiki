@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 typedef NumberCounterOnTap = Function(int);
 
 class NumberCounter extends StatelessWidget {
@@ -9,7 +10,7 @@ class NumberCounter extends StatelessWidget {
   final bool isRequired;
   final BuildContext context;
 
-  const NumberCounter(
+  NumberCounter(
       {Key key,
       @required this.counter,
       @required this.onTap,
@@ -49,28 +50,29 @@ class NumberCounter extends StatelessWidget {
                     )),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text(
+           SizedBox(width: 10,),
+            Text(
                     counter.toString(),
                     style: TextStyle(fontSize: 20, color: Colors.black),
                   ),
-                  SizedBox(
-                    width: 50,
-                  ),
-                ],
-              ),
-            ),
             IconButton(
                 icon: Icon(
-                  Icons.arrow_drop_down_circle,
+                  Icons.arrow_drop_up,
                   color: Theme.of(context).primaryColor,
                   size: 40,
                 ),
-                onPressed: () => _showDialog()),
+                onPressed: () {
+                  return onTap(1);
+                }),
+            IconButton(
+                icon: Icon(
+                  Icons.arrow_drop_down,
+                  color: Theme.of(context).primaryColor,
+                  size: 40,
+                ),
+                onPressed: () {
+                  return onTap(-1);
+                }),
             SizedBox(
               width: 20,
             ),
@@ -78,22 +80,5 @@ class NumberCounter extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _showDialog() {
-    showDialog<int>(
-        context: context,
-        builder: (BuildContext context) {
-          return Container();
-          //  NumberPicker(
-          //   minValue: 0,
-          //   maxValue: 1000,
-          //   onChanged: (int value) {},
-          //   value: counter,
-          // );
-        }).then((value) {
-      print(value);
-      onTap(value);
-    });
   }
 }

@@ -17,7 +17,7 @@ class _CalendarCardState extends State<CalendarCard>
   void initState() {
     super.initState();
 
-  //  _calendarController = CalendarController();
+    //  _calendarController = CalendarController();
 
     _animationController = AnimationController(
       vsync: this,
@@ -30,7 +30,7 @@ class _CalendarCardState extends State<CalendarCard>
   @override
   void dispose() {
     _animationController.dispose();
-   // _calendarController.dispose();
+    // _calendarController.dispose();
     super.dispose();
   }
 
@@ -39,8 +39,7 @@ class _CalendarCardState extends State<CalendarCard>
     print('CALLBACK: _onVisibleDaysChanged');
   }
 
-  void _onCalendarCreated(
-      DateTime first, DateTime last, CalendarFormat format) {
+  void _onCalendarCreated(PageController pageController) {
     print('CALLBACK: _onCalendarCreated');
   }
 
@@ -48,14 +47,24 @@ class _CalendarCardState extends State<CalendarCard>
   Widget build(BuildContext context) {
     final _appointmentProvider = Provider.of<AppointmentProvider>(context);
 
-    void _onDaySelected(DateTime day, List events,List holiday) {
+    void _onDaySelected(DateTime day, DateTime focusedDay) {
       print('CALLBACK: _onDaySelected');
       _appointmentProvider.setCalendarDate = day;
-      _appointmentProvider.selectCalendarAppointments = events;
+      // _appointmentProvider.selectCalendarAppointments = events;
+      // _selectedEvents.value = _getEventsForDay(selectedDay);
       //_selectedEvents = events;
     }
 
     return TableCalendar(
+      // eventLoader: _getEventsForDay,
+      firstDay: DateTime.now(),
+      lastDay: DateTime.now(),
+      focusedDay: DateTime.now(),
+      calendarStyle: CalendarStyle(
+        // Use `CalendarStyle` to customize the UI
+        outsideDaysVisible: false,
+        // selectedColor: Theme.of(context).primaryColor
+      ),
       // events: _appointmentProvider.calendarAppointments,
       // //holidays: _holidays,
       // calendarController: _calendarController,
@@ -65,9 +74,9 @@ class _CalendarCardState extends State<CalendarCard>
       //   markersColor: Colors.brown[700],
       //   outsideDaysVisible: false,
       // ),
-      // onDaySelected: _onDaySelected,
-      // onVisibleDaysChanged: _onVisibleDaysChanged,
-      // onCalendarCreated: _onCalendarCreated,
+      onDaySelected: _onDaySelected,
+
+      onCalendarCreated: _onCalendarCreated,
     );
   }
 }

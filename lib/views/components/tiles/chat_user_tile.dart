@@ -1,7 +1,5 @@
-
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:flutter/material.dart';
-
 
 class ChatUserTile extends StatelessWidget {
   final Chat chat;
@@ -14,11 +12,11 @@ class ChatUserTile extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-   
+    final size = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+        padding: EdgeInsets.only(left: 16, right: 16, top: 5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -32,7 +30,7 @@ class ChatUserTile extends StatelessWidget {
                         backgroundImage: chat.avatar.isNotEmpty
                             ? NetworkImage(chat.avatar)
                             : AssetImage('assets/icons/aunty_rafiki.png'),
-                        maxRadius: 30,
+                        maxRadius: size.height * 0.04,
                       ),
                       SizedBox(
                         width: 16,
@@ -43,7 +41,10 @@ class ChatUserTile extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(chat.name),
+                              Text(
+                                chat.name,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               SizedBox(
                                 height: 6,
                               ),
