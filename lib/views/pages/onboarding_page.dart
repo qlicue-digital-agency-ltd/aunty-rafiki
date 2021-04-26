@@ -45,8 +45,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 Walkthrougth(
                   icon: "assets/icons/chat.png",
                   title: 'Chat',
-                  textContent:
-                      "Auntie Rafiki connects you to a midwife, 24/7",
+                  textContent: "Auntie Rafiki connects you to a midwife, 24/7",
                 ),
                 Walkthrougth(
                     icon: "assets/icons/tracker.png",
@@ -106,8 +105,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     fontWeight: FontWeight.w900),
               ),
               onPressed: () {
+                print(_configProvider.currentConfigurationStep);
                 if (currentIndexPage == 4) {
                   _configProvider.setConfigurationStep = Configuration.Terms;
+
                   Navigator.pushNamed(context, termsConditionPage);
                 } else {
                   controller.nextPage(
