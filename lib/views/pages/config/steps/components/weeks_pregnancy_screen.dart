@@ -6,6 +6,7 @@ import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart'
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
 
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

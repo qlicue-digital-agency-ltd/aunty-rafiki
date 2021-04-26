@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 typedef NumberCounterOnTap = Function(int);
 
@@ -85,12 +84,13 @@ class NumberCounter extends StatelessWidget {
     showDialog<int>(
         context: context,
         builder: (BuildContext context) {
-          return NumberPicker(
-            minValue: 0,
-            maxValue: 1000,
-            onChanged: (int value) {},
-            value: counter,
-          );
+          return Container();
+          //  NumberPicker(
+          //   minValue: 0,
+          //   maxValue: 1000,
+          //   onChanged: (int value) {},
+          //   value: counter,
+          // );
         }).then((value) {
       print(value);
       onTap(value);

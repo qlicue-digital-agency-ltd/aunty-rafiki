@@ -31,7 +31,8 @@ class BloodLevelProvider extends ChangeNotifier {
     final List<Blood> _fetchedBloodLevels = [];
     try {
       final http.Response response = await http.get(
-          api + "bloodLevels/" + FirebaseAuth.instance.currentUser.uid,
+          Uri.parse(
+              api + "bloodLevels/" + FirebaseAuth.instance.currentUser.uid),
           headers: {'Content-Type': 'application/json'});
 
       final Map<String, dynamic> data = json.decode(response.body);
@@ -89,7 +90,8 @@ class BloodLevelProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final http.Response response = await http.post(api + "bloodLevel",
+      final http.Response response = await http.post(
+          Uri.parse(api + "bloodLevel"),
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 

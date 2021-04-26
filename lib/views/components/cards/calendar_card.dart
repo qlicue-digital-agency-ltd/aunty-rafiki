@@ -11,13 +11,13 @@ class CalendarCard extends StatefulWidget {
 class _CalendarCardState extends State<CalendarCard>
     with TickerProviderStateMixin {
   AnimationController _animationController;
-  CalendarController _calendarController;
+  //CalendarController _calendarController;
 
   @override
   void initState() {
     super.initState();
 
-    _calendarController = CalendarController();
+  //  _calendarController = CalendarController();
 
     _animationController = AnimationController(
       vsync: this,
@@ -30,7 +30,7 @@ class _CalendarCardState extends State<CalendarCard>
   @override
   void dispose() {
     _animationController.dispose();
-    _calendarController.dispose();
+   // _calendarController.dispose();
     super.dispose();
   }
 
@@ -56,18 +56,18 @@ class _CalendarCardState extends State<CalendarCard>
     }
 
     return TableCalendar(
-      events: _appointmentProvider.calendarAppointments,
-      //holidays: _holidays,
-      calendarController: _calendarController,
-      calendarStyle: CalendarStyle(
-        selectedColor: Theme.of(context).primaryColor,
-        todayColor: Colors.pink[200],
-        markersColor: Colors.brown[700],
-        outsideDaysVisible: false,
-      ),
-      onDaySelected: _onDaySelected,
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-      onCalendarCreated: _onCalendarCreated,
+      // events: _appointmentProvider.calendarAppointments,
+      // //holidays: _holidays,
+      // calendarController: _calendarController,
+      // calendarStyle: CalendarStyle(
+      //   selectedColor: Theme.of(context).primaryColor,
+      //   todayColor: Colors.pink[200],
+      //   markersColor: Colors.brown[700],
+      //   outsideDaysVisible: false,
+      // ),
+      // onDaySelected: _onDaySelected,
+      // onVisibleDaysChanged: _onVisibleDaysChanged,
+      // onCalendarCreated: _onCalendarCreated,
     );
   }
 }

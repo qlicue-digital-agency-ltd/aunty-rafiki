@@ -15,6 +15,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final _authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
@@ -31,9 +32,14 @@ class LoginPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Verify your phone number',
-                  style: TextStyle(color: Colors.pink, fontSize: 24),
+                Expanded(
+                  child: Text(
+                    
+                    'Verify your phone number',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.pink, fontSize: size.width * 0.05),
+                  ),
                 ),
               ],
             ),

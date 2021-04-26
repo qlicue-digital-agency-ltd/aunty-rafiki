@@ -31,7 +31,8 @@ class TrackerProvider extends ChangeNotifier {
 
     final List<Tracker> _fetchedTrackers = [];
     try {
-      final http.Response response = await http.post(api + "trackers",
+      final http.Response response = await http.post(
+          Uri.parse(api + "trackers"),
           body: json.encode(_data),
           headers: {'Content-Type': 'application/json'});
 
