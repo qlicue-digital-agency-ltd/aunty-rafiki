@@ -2,6 +2,7 @@ import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/onboarding/walk_through.dart';
+import 'package:aunty_rafiki/views/components/onboarding/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   void initState() {
     currentIndexPage = 0;
-    pageLength = 5;
+    pageLength = 6;
     super.initState();
   }
 
@@ -42,6 +43,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               pageSnapping: true,
               physics: BouncingScrollPhysics(),
               children: <Widget>[
+                Welcome(),
                 Walkthrougth(
                     icon: "assets/icons/tracker.png",
                     title: "Tracker",
@@ -99,7 +101,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     borderRadius: BorderRadius.circular(10)),
               ),
               child: Text(
-                currentIndexPage == 4 ? "Get Start" : "Next",
+                currentIndexPage == 5 ? "Get Start" : "Next",
                 style: TextStyle(
                     fontSize: 15,
                     color: Colors.white,
