@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/onboarding/walk_through.dart';
 import 'package:aunty_rafiki/views/components/onboarding/welcome.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,7 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   int currentIndexPage;
   int pageLength;
+  bool _loading = false;
   final controller = PageController(
     initialPage: 0,
   );
@@ -96,20 +100,29 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
               ),
-              child: Text(
-                currentIndexPage == 5
-                    ? Languages.of(context).labelGetStartedButton
-                    : Languages.of(context).labelNextButton,
-                style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w900),
-              ),
+              child: _loading
+                  ? Loading()
+                  : Text(
+                      currentIndexPage == 5
+                          ? Languages.of(context).labelGetStartedButton
+                          : Languages.of(context).labelNextButton,
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900),
+                    ),
               onPressed: () {
-                if (currentIndexPage == 4) {
-                  _configProvider.setConfigurationStep = Configuration.Terms;
-
-                  Navigator.pushNamed(context, termsConditionPage);
+                if (currentIndexPage == 5) {
+                  setState(() {
+                    _loading = true;
+                  });
+                  Timer(Duration(milliseconds: 2000), () {
+                    _configProvider.setConfigurationStep = Configuration.Terms;
+                    Navigator.pushNamed(context, termsConditionPage);
+                    setState(() {
+                      _loading = false;
+                    });
+                  });
                 } else {
                   controller.nextPage(
                       duration: Duration(milliseconds: 200),

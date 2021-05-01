@@ -13,9 +13,11 @@ class Loading extends StatelessWidget {
       child: Center(
         child: Platform.isAndroid
             ? CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               )
-            : CupertinoActivityIndicator(),
+            : CupertinoActivityIndicator(
+              
+            ),
       ),
     );
   }
