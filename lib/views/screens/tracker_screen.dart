@@ -28,7 +28,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
   Widget build(BuildContext context) {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
     final _motherProvider = Provider.of<MotherProvider>(context);
-    final size = MediaQuery.of(context).size;
+    
     return RefreshIndicator(
       onRefresh: () {
         return _trackerProvider.fetchTrackers();

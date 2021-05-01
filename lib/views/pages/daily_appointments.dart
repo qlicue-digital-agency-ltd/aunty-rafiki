@@ -11,7 +11,13 @@ class DailyAppointment extends StatelessWidget {
     final _appointmentProvider = Provider.of<AppointmentProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daily Appointments'),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title:
+            Text('Daily Appointments', style: TextStyle(color: Colors.black)),
       ),
       body: ListView.builder(
           itemCount: _appointmentProvider.selectedCalendarAppointments.length,

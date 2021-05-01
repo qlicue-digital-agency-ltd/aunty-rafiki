@@ -267,12 +267,12 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
               if (!value) {
                 //send data to af server...
 
+                _configProvider.setConfigurationStep = Configuration.Done;
                 _bloodLevelProvider.postBloodLevel(
                   quantity: _haemoglobinLevel.toDouble(),
                   date: _haemoglobinLevelDate.toString(),
                 );
 
-                _configProvider.setConfigurationStep = Configuration.Done;
                 Navigator.pushNamed(context, landingPage);
               }
             });

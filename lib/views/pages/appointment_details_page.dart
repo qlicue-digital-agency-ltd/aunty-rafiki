@@ -16,7 +16,13 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Appointment Details'),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title:
+            Text('Appointment Details', style: TextStyle(color: Colors.black)),
         actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
       ),
       body: SingleChildScrollView(

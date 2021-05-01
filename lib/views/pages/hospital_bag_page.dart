@@ -1,5 +1,3 @@
-
-
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/hospital_bag_tile.dart';
@@ -18,7 +16,15 @@ class HospitalBagPage extends StatelessWidget {
     final _hospitalBagProvider = Provider.of<HostipalBagProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hospital Bag'),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        title: Text(
+          'Hospital Bag',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: _hospitalBagProvider.isFetchingBagItemsData
@@ -27,8 +33,7 @@ class HospitalBagPage extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2.7,
                   ),
-                  Center(
-                      child: Loading()),
+                  Center(child: Loading()),
                 ],
               )
             : Column(children: [

@@ -47,7 +47,14 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
     _dateEditingController = TextEditingController(
         text: _appointmentProvider.selectedCalendarDay.toString());
     return Scaffold(
-      appBar: AppBar(title: Text('Add Blood Level')),
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Add Blood Level', style: TextStyle(color: Colors.black)),
+      ),
       body: SingleChildScrollView(
           child: Form(
         key: _formKey,

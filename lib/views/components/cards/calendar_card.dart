@@ -34,10 +34,10 @@ class _CalendarCardState extends State<CalendarCard>
     super.dispose();
   }
 
-  void _onVisibleDaysChanged(
-      DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onVisibleDaysChanged');
-  }
+  // void _onVisibleDaysChanged(
+  //     DateTime first, DateTime last, CalendarFormat format) {
+  //   print('CALLBACK: _onVisibleDaysChanged');
+  // }
 
   void _onCalendarCreated(PageController pageController) {
     print('CALLBACK: _onCalendarCreated');

@@ -287,19 +287,17 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                           .checkUserHasProfile()
                                           .then((value) {
                                         if (value) {
-                                          Navigator.pushReplacementNamed(
-                                              context, landingPage);
-
                                           _confogProvider.setConfigurationStep =
                                               Configuration.Done;
-                                        } else {
                                           Navigator.pushReplacementNamed(
-                                              context, createProfilePage);
-
+                                              context, landingPage);
+                                        } else {
                                           _confogProvider.setConfigurationStep =
                                               Configuration.Profile;
 
                                           _motherProvider.postMother();
+                                          Navigator.pushReplacementNamed(
+                                              context, createProfilePage);
                                         }
                                       });
                                       print("Auth User Phone: " +

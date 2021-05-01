@@ -21,6 +21,7 @@ class ChatScreen extends StatelessWidget {
                 TabBar(
                   labelColor: Colors.pink,
                   indicatorColor: Colors.pink,
+                              unselectedLabelColor: Colors.black38,
                   onTap: (index) {
                     // Tab index when user select it, it start from zero
                   },

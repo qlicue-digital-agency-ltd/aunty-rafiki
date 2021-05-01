@@ -14,7 +14,13 @@ class TimelineDetailPage extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('${timeline.time} month of your pregnancy'),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('${timeline.time} month of your pregnancy',
+            style: TextStyle(color: Colors.black)),
       ),
       body: SingleChildScrollView(
         child: Column(

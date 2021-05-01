@@ -22,8 +22,16 @@ class _TimeLinePageState extends State<TimeLinePage> {
     final _timelineProvider = Provider.of<TimelineProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Time Line'),
-      ),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          title: Text(
+            'Time Line',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          ),
       body: Center(
         child: Column(
           children: <Widget>[

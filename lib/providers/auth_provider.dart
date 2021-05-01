@@ -11,7 +11,7 @@ import 'package:intl_phone_field/phone_number.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:aunty_rafiki/models/user.dart' as customUser;
-import 'package:path_provider/path_provider.dart' as path_provider;
+
 
 class AuthProvider with ChangeNotifier {
   bool _isSendingPhone = false;

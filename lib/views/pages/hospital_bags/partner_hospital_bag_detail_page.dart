@@ -18,8 +18,16 @@ class PartnerHospitalBagDetailPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(title),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(title, style: TextStyle(color: Colors.black)),
           bottom: TabBar(
+            labelColor: Colors.pink,
+            indicatorColor: Colors.pink,
+            unselectedLabelColor: Colors.black38,
             onTap: (index) {
               // Tab index when user select it, it start from zero
             },

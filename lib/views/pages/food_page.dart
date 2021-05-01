@@ -14,7 +14,14 @@ class FoodPage extends StatelessWidget {
     final _foodProvider = Provider.of<FoodProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Food')),
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        title: Text('Food',style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: _foodProvider.isFetchingFoodData
           ? Column(
               children: [
@@ -29,13 +36,12 @@ class FoodPage extends StatelessWidget {
                   child: NoItemTile(
                   icon: 'assets/access/diet.png',
                   title: 'NO food posts yet',
-                  onTap: (){
+                  onTap: () {
                     _foodProvider.fetchFoods();
                   },
                 ))
               : RefreshIndicator(
                   onRefresh: () {
-                 
                     return _foodProvider.fetchFoods();
                   },
                   child: GridView.builder(

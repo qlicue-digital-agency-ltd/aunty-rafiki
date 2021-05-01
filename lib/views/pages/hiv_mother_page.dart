@@ -1,5 +1,3 @@
-
-
 import 'package:aunty_rafiki/providers/post_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/post_card.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
@@ -19,11 +17,16 @@ class HIVMotherPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white),
-          title: Text(
-            'Mothers Living with HIV',
-            style: TextStyle(color: Colors.white),
-          )),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        title: Text(
+          'Mothers Living with HIV',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Container(
         padding: EdgeInsets.only(left: 5, right: 5),
         child: _postProvider.isFetchingData
@@ -33,9 +36,8 @@ class HIVMotherPage extends StatelessWidget {
                     onRefresh: _getData,
                     child: Center(
                       child: RefreshIndicator(
-                                              onRefresh: _getData,
-                                              child: ListView(
-                          
+                        onRefresh: _getData,
+                        child: ListView(
                           children: <Widget>[
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.4,
@@ -43,7 +45,7 @@ class HIVMotherPage extends StatelessWidget {
                             NoItemTile(
                               title: 'No Content',
                               icon: 'assets/access/red-ribbon.png',
-                              onTap: (){
+                              onTap: () {
                                 _postProvider.fetchPosts(userId: 1);
                               },
                             ),

@@ -22,7 +22,13 @@ class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
     final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Blood Level'),
+              iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text('Blood Level', style: TextStyle(color: Colors.black)),
+        
       ),
       body: Center(
         child: Column(

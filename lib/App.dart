@@ -41,47 +41,51 @@ class App extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Aunty Rafiki',
+      title: 'Auntie Rafiki',
       theme: ThemeData(
           primarySwatch: Colors.pink,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: GoogleFonts.poppinsTextTheme()),
       home: AnimatedSplashScreen(),
       routes: {
-        landingPage: (_) => _configProvider.currentConfigurationStep ==
-                Configuration.Terms
-            ? TermsConditionPage()
-            : _configProvider.currentConfigurationStep == Configuration.SignUp
-                ? LoginPage()
-                : (_configProvider.currentConfigurationStep ==
-                        Configuration.Profile
-                    ? StepsPage()
-                    : _configProvider.currentConfigurationStep ==
-                            Configuration.NameScreenStepDone
-                        ? StepsPage()
-                        : _configProvider.currentConfigurationStep ==
-                                Configuration.WeeksPregnancyScreenStepDone
-                            ? StepsPage()
-                            : _configProvider.currentConfigurationStep ==
-                                    Configuration.YearOfBirthScreenStepDone
-                                ? StepsPage()
-                                : _configProvider.currentConfigurationStep ==
-                                        Configuration
-                                            .MotherhoodInfoScreenStepDone
-                                    ? StepsPage()
-                                    : _configProvider
-                                                .currentConfigurationStep ==
-                                            Configuration.MoreInfoScreenStepDone
-                                        ? StepsPage()
-                                        : _configProvider
-                                                    .currentConfigurationStep ==
-                                                Configuration.Done
-                                            ? (FirebaseAuth
-                                                        .instance.currentUser ==
-                                                    null
-                                                ? LoginPage()
-                                                : HomePage())
-                                            : OnboardingPage()),
+        landingPage: (_) =>
+            _getLandingPage(_configProvider.currentConfigurationStep)
+
+        //  _configProvider.currentConfigurationStep ==
+        //         Configuration.Terms
+        //     ? TermsConditionPage()
+        //     : _configProvider.currentConfigurationStep == Configuration.SignUp
+        //         ? LoginPage()
+        //         : (_configProvider.currentConfigurationStep ==
+        //                 Configuration.Profile
+        //             ? StepsPage()
+        //             : _configProvider.currentConfigurationStep ==
+        //                     Configuration.NameScreenStepDone
+        //                 ? StepsPage()
+        //                 : _configProvider.currentConfigurationStep ==
+        //                         Configuration.WeeksPregnancyScreenStepDone
+        //                     ? StepsPage()
+        //                     : _configProvider.currentConfigurationStep ==
+        //                             Configuration.YearOfBirthScreenStepDone
+        //                         ? StepsPage()
+        //                         : _configProvider.currentConfigurationStep ==
+        //                                 Configuration
+        //                                     .MotherhoodInfoScreenStepDone
+        //                             ? StepsPage()
+        //                             : _configProvider
+        //                                         .currentConfigurationStep ==
+        //                                     Configuration.MoreInfoScreenStepDone
+        //                                 ? StepsPage()
+        //                                 : _configProvider
+        //                                             .currentConfigurationStep ==
+        //                                         Configuration.Done
+        //                                     ? (FirebaseAuth
+        //                                                 .instance.currentUser ==
+        //                                             null
+        //                                         ? LoginPage()
+        //                                         : HomePage())
+        //                                     : OnboardingPage()),
+        ,
         onboardingPage: (_) => OnboardingPage(),
         loginPage: (_) => LoginPage(),
         homePage: (_) => HomePage(),
@@ -108,5 +112,26 @@ class App extends StatelessWidget {
         stepsPage: (_) => StepsPage(),
       },
     );
+  }
+
+  Widget _getLandingPage(config) {
+    switch (config) {
+      case Configuration.Terms:
+        return TermsConditionPage();
+      case Configuration.SignUp:
+        return LoginPage();
+      case Configuration.Profile:
+      case Configuration.NameScreenStepDone:
+      case Configuration.WeeksPregnancyScreenStepDone:
+      case Configuration.YearOfBirthScreenStepDone:
+      case Configuration.MotherhoodInfoScreenStepDone:
+      case Configuration.MoreInfoScreenStepDone:
+        return StepsPage();
+      case Configuration.Done:
+        if (FirebaseAuth.instance.currentUser == null) return LoginPage();
+        return HomePage();
+      default:
+        return OnboardingPage();
+    }
   }
 }

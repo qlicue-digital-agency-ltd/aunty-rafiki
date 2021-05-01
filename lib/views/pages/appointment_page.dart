@@ -20,7 +20,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
     final _appointmentProvider = Provider.of<AppointmentProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Appointments'),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        title: Text(
+          'Appointments',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
           IconButton(
               tooltip: _calendarView ? 'List view' : 'Calendar view',

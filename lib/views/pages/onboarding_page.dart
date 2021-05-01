@@ -43,30 +43,31 @@ class _OnboardingPageState extends State<OnboardingPage> {
               physics: BouncingScrollPhysics(),
               children: <Widget>[
                 Walkthrougth(
-                  icon: "assets/icons/chat.png",
-                  title: 'Chat',
-                  textContent: "Auntie Rafiki connects you to a midwife, 24/7",
-                ),
-                Walkthrougth(
                     icon: "assets/icons/tracker.png",
                     title: "Tracker",
                     textContent:
-                        "Auntie Rafiki tracks your daily pregancy growth and changes."),
+                        "Auntie Rafiki tunafatilia ukuwaji wa kila siku wa ujauzito wako."),
+                Walkthrougth(
+                  icon: "assets/icons/chat.png",
+                  title: 'Chati',
+                  textContent:
+                      "Auntie Rafiki ina kuunganisha na mkunga wa kukusaidia masaa 24 kila siku.",
+                ),
                 Walkthrougth(
                     icon: "assets/icons/baby.png",
-                    title: 'Health',
+                    title: 'Afya',
                     textContent:
-                        "Auntie Rafiki carters for the health of you and your baby"),
+                        "Auntie Rafiki inachuka jukumu la kushauli juu ya afya ya mama na mtoto."),
                 Walkthrougth(
                     icon: "assets/icons/shield.png",
-                    title: 'Secure',
+                    title: 'Ulinzi',
                     textContent:
-                        "Auntie Rafiki keeps your information and messages private and safe from attacks"),
+                        "Auntie Rafiki ina hakikisha faragha ya meseji na taarifa zako."),
                 Walkthrougth(
                     icon: "assets/icons/cloud-network.png",
                     title: 'Cloud-Based',
                     textContent:
-                        "Auntie Rafiki lets you access your messages from multiple devices"),
+                        "Auntie Rafiki ina kuruhusu kupata taarifa zako kwa kutumia vifaa tofauti vya tehama."),
               ],
               onPageChanged: (value) {
                 setState(() => currentIndexPage = value);
@@ -105,7 +106,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     fontWeight: FontWeight.w900),
               ),
               onPressed: () {
-                print(_configProvider.currentConfigurationStep);
                 if (currentIndexPage == 4) {
                   _configProvider.setConfigurationStep = Configuration.Terms;
 

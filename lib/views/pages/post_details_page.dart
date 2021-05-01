@@ -16,7 +16,13 @@ class PostDetailsPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          title: Text(post.title),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(post.title, style: TextStyle(color: Colors.black)
+          ),
           actions: [
             IconButton(
                 icon: Icon(Icons.share),

@@ -1,6 +1,5 @@
 import 'package:aunty_rafiki/models/food.dart';
 
-
 import 'package:aunty_rafiki/views/components/cards/recipe_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/pages/recipe_details_page.dart';
@@ -16,7 +15,13 @@ class RecipePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(title, style: TextStyle(color: Colors.black))),
       body: food.recipes.isEmpty
           ? Column(
               children: [

@@ -12,7 +12,13 @@ class TrackerPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${tracker.subtitle}'),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title:
+            Text('${tracker.subtitle}', style: TextStyle(color: Colors.black)),
       ),
       body: SingleChildScrollView(
         child: Column(

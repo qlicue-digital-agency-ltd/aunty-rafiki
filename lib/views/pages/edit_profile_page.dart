@@ -27,7 +27,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final _authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(_title),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(_title, style: TextStyle(color: Colors.black)),
       ),
       body: SingleChildScrollView(
           child: Form(
@@ -88,7 +93,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                                 TextButton.icon(
                                     icon: Icon(Icons.save),
-                                   // textColor: Colors.pink,
+                                    // textColor: Colors.pink,
                                     onPressed: () {
                                       _authProvider.saveProfileImage();
                                     },

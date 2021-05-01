@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/baby_bump_provider.dart';
@@ -15,14 +14,11 @@ import 'package:aunty_rafiki/providers/timeline_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
 import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 import 'package:provider/provider.dart';
 import 'App.dart';
 
@@ -130,30 +126,24 @@ Future<void> main() async {
 
   // ///
 
-  runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => ChatProvider()),
-        ChangeNotifierProvider(create: (_) => UtilityProvider()),
-        ChangeNotifierProvider(create: (_) => TaskProvider()),
-        ChangeNotifierProvider(create: (_) => AppointmentProvider()),
-        ChangeNotifierProvider(create: (_) => BloodLevelProvider()),
-        ChangeNotifierProvider(create: (_) => TimelineProvider()),
-        ChangeNotifierProvider(create: (_) => BabyBumpProvider()),
-        ChangeNotifierProvider(create: (_) => TrackerProvider()),
-        ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => GroupProvider()),
-        ChangeNotifierProvider(create: (_) => FoodProvider()),
-        ChangeNotifierProvider(create: (_) => HostipalBagProvider()),
-        ChangeNotifierProvider(create: (_) => ConfigProvider()),
-        ChangeNotifierProvider(create: (_) => PostProvider()),
-        ChangeNotifierProvider(create: (_) => MotherProvider()),
-      ],
-      child:
-
-          //MessagingExampleApp()
-
-          App()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => AuthProvider()),
+    ChangeNotifierProvider(create: (_) => ChatProvider()),
+    ChangeNotifierProvider(create: (_) => UtilityProvider()),
+    ChangeNotifierProvider(create: (_) => TaskProvider()),
+    ChangeNotifierProvider(create: (_) => AppointmentProvider()),
+    ChangeNotifierProvider(create: (_) => BloodLevelProvider()),
+    ChangeNotifierProvider(create: (_) => TimelineProvider()),
+    ChangeNotifierProvider(create: (_) => BabyBumpProvider()),
+    ChangeNotifierProvider(create: (_) => TrackerProvider()),
+    ChangeNotifierProvider(create: (_) => UserProvider()),
+    ChangeNotifierProvider(create: (_) => GroupProvider()),
+    ChangeNotifierProvider(create: (_) => FoodProvider()),
+    ChangeNotifierProvider(create: (_) => HostipalBagProvider()),
+    ChangeNotifierProvider(create: (_) => ConfigProvider()),
+    ChangeNotifierProvider(create: (_) => PostProvider()),
+    ChangeNotifierProvider(create: (_) => MotherProvider()),
+  ], child: App()));
 }
 
 // Future<void> _configureLocalTimeZone() async {

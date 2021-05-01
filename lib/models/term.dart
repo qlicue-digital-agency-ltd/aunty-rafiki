@@ -36,7 +36,7 @@ class TermModel {
                 text: " Privacy Policy ",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    _launchURL('https://auntierafiki.co.tz/privacy-policy');
+                    _launchURL('https://auntierafiki.co.tz/legal/update/privacy-policy');
                   }),
             TextSpan(
                 text: ' and ',
@@ -51,7 +51,7 @@ class TermModel {
                 text: "Terms of Use.",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    _launchURL('https://auntierafiki.co.tz/terms-of-use');
+                    _launchURL('https://auntierafiki.co.tz/legal/update/terms-of-use');
                   }),
           ])),
           isCheck: false),
@@ -73,7 +73,7 @@ class TermModel {
                 text: " Privacy Policy ",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    _launchURL('https://auntierafiki.co.tz/privacy-policy');
+                    _launchURL('https://auntierafiki.co.tz/legal/update/privacy-policy');
                   }),
           ])),
           isCheck: false),
@@ -94,7 +94,7 @@ class TermModel {
                 text: " my personal data ",
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    _launchURL('https://auntierafiki.co.tz/personal-data');
+                    _launchURL('https://auntierafiki.co.tz/legal/update/personal-data');
                   }),
             TextSpan(
                 style: TextStyle(

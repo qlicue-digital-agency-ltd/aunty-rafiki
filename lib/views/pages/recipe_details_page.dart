@@ -17,7 +17,13 @@ class RecipeDetailsPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          title: Text(recipe.title),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(recipe.title, style: TextStyle(color: Colors.black)),
+      
         ),
         body: SingleChildScrollView(
           child:

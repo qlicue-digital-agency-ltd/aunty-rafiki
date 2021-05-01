@@ -90,7 +90,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   _launchURL(
-                                      'https://auntierafiki.co.tz/personal-data');
+                                      'https://auntierafiki.co.tz/legal/update/personal-data');
                                 }),
                         ])),
                   ),
@@ -139,13 +139,13 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                                   ConfigTerms.NON
                               ? null
                               : () {
+                                  _configProvider.setConfigurationStep =
+                                      Configuration.SignUp;
                                   _utilityProvider
                                       .storeTerms(_utilityProvider.checkBoxList)
                                       .then((value) {
                                     Navigator.of(context)
                                         .pushReplacementNamed(loginPage);
-                                    _configProvider.setConfigurationStep =
-                                        Configuration.SignUp;
                                   });
                                 },
                           child: Text('NEXT')),

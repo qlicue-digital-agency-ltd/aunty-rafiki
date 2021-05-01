@@ -109,21 +109,23 @@ class ProfilePage extends StatelessWidget {
             child: Text('Account', style: TextStyle(fontSize: 18)),
           ),
         ])),
-        SliverList(
-            delegate: SliverChildBuilderDelegate((_, index) {
-          return ProfileTile(
-            profileItem: accountList[index],
-            onTap: () {
-              print(accountList[index].title);
-              if (accountList[index].title == 'Logout') {
-                _authProvider.signOut().then((value) {
-                  Navigator.pushNamed(context, landingPage);
-                  // _authProvider.setConfigurationStep = Configuration.Terms;
-                });
-              }
-            },
-          );
-        }, childCount: accountList.length)),
+        _authProvider.currentUser != null
+            ? SliverList(
+                delegate: SliverChildBuilderDelegate((_, index) {
+                return ProfileTile(
+                  profileItem: accountList[index],
+                  onTap: () {
+                    print(accountList[index].title);
+                    if (accountList[index].title == 'Logout') {
+                      _authProvider.signOut().then((value) {
+                        Navigator.pushNamed(context, landingPage);
+                        // _authProvider.setConfigurationStep = Configuration.Terms;
+                      });
+                    }
+                  },
+                );
+              }, childCount: accountList.length))
+            : SliverList(delegate: SliverChildListDelegate([])),
       ]),
     );
   }

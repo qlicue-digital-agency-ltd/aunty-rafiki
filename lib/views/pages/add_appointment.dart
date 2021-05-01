@@ -132,7 +132,14 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Add Appointment')),
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Add Appointment', style: TextStyle(color: Colors.black)),
+      ),
       body: SingleChildScrollView(
           child: Form(
         key: _formKey,
