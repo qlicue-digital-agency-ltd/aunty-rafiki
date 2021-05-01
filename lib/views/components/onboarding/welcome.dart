@@ -28,11 +28,16 @@ class WelcomeState extends State<Welcome> {
                     color: Colors.black),
               ),
               SizedBox(
-                height: 30,
+                height: 10,
+              ),
+              Text(
+                Languages.of(context).appName,
+                style: TextStyle(fontSize: 20, color: Colors.grey),
+                textAlign: TextAlign.center,
               ),
               Text(
                 Languages.of(context).labelInfo,
-                style: TextStyle(fontSize: 20, color: Colors.grey),
+                style: TextStyle(fontSize: 10, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
               SizedBox(

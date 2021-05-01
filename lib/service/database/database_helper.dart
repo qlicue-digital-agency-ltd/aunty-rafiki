@@ -1,16 +1,12 @@
 import 'dart:io';
 
-import 'package:aunty_rafiki/service/database/migrations/bag_items_migrations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  static final _databaseName = "aunty_rafiki_pro.db";
+  static final _databaseName = "auntie_rafiki_pro.db";
   static final _databaseVersion = 1;
-
-  ///migrations
-  BagItemMigration _bagItemMigration = BagItemMigration();
 
   // make this a singleton class
   DatabaseHelper.privateConstructor();
@@ -22,6 +18,7 @@ class DatabaseHelper {
     if (_database != null) return _database;
     // lazily instantiate the db the first time it is accessed
     _database = await _initDatabase();
+
     return _database;
   }
 
@@ -36,7 +33,7 @@ class DatabaseHelper {
   // SQL code to create the database table
   Future _onCreate(Database db, int version) async {
     ///create product table
-    await _bagItemMigration.createBagItemsTable(db);
+    // await _productMigration.createProductTable(db);
   }
 
   Future<bool> deleteDataBase(path) async {

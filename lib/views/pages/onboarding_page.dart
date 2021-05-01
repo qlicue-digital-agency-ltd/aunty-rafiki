@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/onboarding/walk_through.dart';
 import 'package:aunty_rafiki/views/components/onboarding/welcome.dart';
@@ -46,30 +47,25 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 Welcome(),
                 Walkthrougth(
                     icon: "assets/icons/tracker.png",
-                    title: "Tracker",
-                    textContent:
-                        "Auntie Rafiki tunafatilia ukuwaji wa kila siku wa ujauzito wako."),
+                    title: Languages.of(context).labelTracker,
+                    textContent: Languages.of(context).labelTrackerInfo),
                 Walkthrougth(
                   icon: "assets/icons/chat.png",
-                  title: 'Chati',
-                  textContent:
-                      "Auntie Rafiki ina kuunganisha na mkunga wa kukusaidia masaa 24 kila siku.",
+                  title: Languages.of(context).labelChat,
+                  textContent: Languages.of(context).labelChatInfo,
                 ),
                 Walkthrougth(
                     icon: "assets/icons/baby.png",
-                    title: 'Afya',
-                    textContent:
-                        "Auntie Rafiki inachuka jukumu la kushauli juu ya afya ya mama na mtoto."),
+                    title: Languages.of(context).labelHealth,
+                    textContent: Languages.of(context).labelHealthInfo),
                 Walkthrougth(
                     icon: "assets/icons/shield.png",
-                    title: 'Ulinzi',
-                    textContent:
-                        "Auntie Rafiki ina hakikisha faragha ya meseji na taarifa zako."),
+                    title: Languages.of(context).labelSecurity,
+                    textContent: Languages.of(context).labelSecurityInfo),
                 Walkthrougth(
                     icon: "assets/icons/cloud-network.png",
-                    title: 'Cloud-Based',
-                    textContent:
-                        "Auntie Rafiki ina kuruhusu kupata taarifa zako kwa kutumia vifaa tofauti vya tehama."),
+                    title: Languages.of(context).labelCloudBased,
+                    textContent: Languages.of(context).labelCloudBasedInfo),
               ],
               onPageChanged: (value) {
                 setState(() => currentIndexPage = value);
@@ -101,7 +97,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     borderRadius: BorderRadius.circular(10)),
               ),
               child: Text(
-                currentIndexPage == 5 ? "Get Start" : "Next",
+                currentIndexPage == 5
+                    ? Languages.of(context).labelGetStartedButton
+                    : Languages.of(context).labelNextButton,
                 style: TextStyle(
                     fontSize: 15,
                     color: Colors.white,

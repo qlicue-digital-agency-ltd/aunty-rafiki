@@ -14,6 +14,7 @@ import 'package:aunty_rafiki/providers/timeline_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
 import 'package:aunty_rafiki/providers/user_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
+ 
 
 import 'package:firebase_core/firebase_core.dart';
 
@@ -53,6 +54,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+
   // await _configureLocalTimeZone();
 
   // // Set the background messaging handler early on, as a named top-level function

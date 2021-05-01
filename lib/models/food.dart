@@ -17,6 +17,7 @@ class Food {
     @required this.recipes,
     @required this.images,
   });
+  
 
   Food.fromMap(Map<String, dynamic> map)
       : assert(map['food_id'] != null),

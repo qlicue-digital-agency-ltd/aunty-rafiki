@@ -80,7 +80,7 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       title: 'Auntie Rafiki',
       locale: _locale,
-      supportedLocales: [Locale('en', ''), Locale('ar', ''), Locale('sw', '')],
+      supportedLocales: [Locale('en', ''), Locale('sw', '')],
       localizationsDelegates: [
         AppLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
