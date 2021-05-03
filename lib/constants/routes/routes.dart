@@ -24,4 +24,4 @@ const configurationPage = "/configurationPage";
 const termsConditionPage = "/termsConditionPage";
 const choicePage = "/choicePage";
 const stepsPage = "/stepsPage";
-const loginPage = "/loginPage";
+

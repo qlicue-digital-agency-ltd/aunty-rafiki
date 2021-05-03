@@ -141,7 +141,7 @@ class _AppState extends State<App> {
         //                                     : OnboardingPage()),
         ,
         onboardingPage: (_) => OnboardingPage(),
-        loginPage: (_) => LoginPage(),
+       
         homePage: (_) => HomePage(),
         chatRoomPage: (_) => ChatRoomPage(),
         appointmentPage: (_) => AppointmentPage(),
@@ -173,7 +173,8 @@ class _AppState extends State<App> {
       case Configuration.Terms:
         return TermsConditionPage();
       case Configuration.SignUp:
-        return LoginPage();
+        if (FirebaseAuth.instance.currentUser == null) return LoginPage();
+        return StepsPage();
       case Configuration.Profile:
       case Configuration.NameScreenStepDone:
       case Configuration.WeeksPregnancyScreenStepDone:

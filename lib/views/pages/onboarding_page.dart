@@ -117,7 +117,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     _loading = true;
                   });
                   Timer(Duration(milliseconds: 2000), () {
-                    _configProvider.setConfigurationStep = Configuration.Terms;
+                   // _configProvider.setConfigurationStep = Configuration.Terms;
                     Navigator.pushNamed(context, termsConditionPage);
                     setState(() {
                       _loading = false;

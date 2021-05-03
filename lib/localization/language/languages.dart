@@ -5,6 +5,7 @@ abstract class Languages {
     return Localizations.of<Languages>(context, Languages);
   }
 
+//labels
   String get appName;
 
   String get labelWelcome;
@@ -12,11 +13,17 @@ abstract class Languages {
   String get labelInfo;
 
   String get labelSelectLanguage;
+  String get labelNow;
 
-//onboarding
+//Buttons
   String get labelNextButton;
   String get labelGetStartedButton;
+  String get labelSelectAllButton;
+  String get labelClearButton;
+  String get labelResendButton;
+   String get labelVerifyButton;
 
+//onboarding
   String get labelTracker;
 
   String get labelTrackerInfo;
@@ -36,4 +43,24 @@ abstract class Languages {
   String get labelCloudBased;
 
   String get labelCloudBasedInfo;
+
+  //Terms and condition..
+
+  String get labelTermsAgreeInfo;
+  String get labelTermsPrivacyInfo;
+  String get labelTermsAndInfo;
+  String get labelTermsUseInfo;
+
+  //Declaration...
+  String get labelDeclarationOne;
+  String get labelDeclarationTwo;
+  String get labelDeclarationThree;
+  String get labelDeclarationFour;
+  String get labelDisclaimer;
+
+  //titles..
+  String get labelVerifyYourPhoneNumber;
+  String get labelConfirmationCode;
+  String get labelEnterTheCodeSentTo;
+  String get labelDidNotReceiveTheCode;
 }

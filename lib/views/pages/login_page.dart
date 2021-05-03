@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
@@ -34,8 +35,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    
-                    'Verify your phone number',
+                    Languages.of(context).labelVerifyYourPhoneNumber,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.pink, fontSize: size.width * 0.05),
@@ -75,7 +75,7 @@ class LoginPage extends StatelessWidget {
                 child: _authProvider.isSendingPhone
                     ? Loading()
                     : Text(
-                        'NEXT',
+                        Languages.of(context).labelNextButton,
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
               ),

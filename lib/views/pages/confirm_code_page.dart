@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
@@ -76,17 +77,10 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        child: Container(
-          width: double.infinity,
-          height: 50,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Theme.of(context).primaryColor,
-            Theme.of(context).accentColor
-          ])),
-        ),
-        preferredSize: Size(double.infinity, 50),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black54),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: GestureDetector(
         onTap: () {
@@ -102,8 +96,12 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  'Confirmation Code',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  Languages.of(context).labelConfirmationCode,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                    color: Colors.black54,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -112,12 +110,12 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                     const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                 child: RichText(
                   text: TextSpan(
-                      text: "Enter the code sent to ",
+                      text: Languages.of(context).labelEnterTheCodeSentTo,
                       children: [
                         TextSpan(
                             text: _authProvider.phoneNumber.completeNumber,
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.black54,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15)),
                       ],
@@ -136,7 +134,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                       animationType: AnimationType.fade,
                       validator: (v) {
                         if (v.length < 3) {
-                          return "I'm from validator";
+                          return Languages.of(context).labelEnterTheCodeSentTo;
                         } else {
                           return null;
                         }
@@ -191,7 +189,13 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   TextButton(
-                    child: Text("Clear"),
+                    child: Text(
+                      Languages.of(context).labelClearButton,
+                      style: TextStyle(
+                          color: textEditingController.text.isEmpty
+                              ? Colors.black26
+                              : Colors.pink),
+                    ),
                     onPressed: () {
                       startTimer();
                       textEditingController.clear();
@@ -205,18 +209,16 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    text: "Didn't receive the code? ",
+                    text: Languages.of(context).labelDidNotReceiveTheCode,
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                     children: [
                       TextSpan(
-                          text: " RESEND ",
+                          text: Languages.of(context).labelResendButton +
+                              (_start > 0
+                                  ? "'\t'in $_start"
+                                  : '\t' + Languages.of(context).labelNow),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              // if (_start == 0) {
-                              //   setState(() {
-                              //     _start = 30;
-                              //   });
-                              //   startTimer();
                               Navigator.pop(context);
                               _authProvider
                                   .requestVerificationCode()
@@ -233,7 +235,7 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                               fontWeight: FontWeight.bold,
                               fontSize: 16)),
                       TextSpan(
-                          text: _start > 0 ? "in $_start" : "now",
+                          text: "",
                           style: TextStyle(
                               color: Colors.pink,
                               fontWeight: FontWeight.bold,
@@ -260,7 +262,9 @@ class _ConfirmResetCodePageState extends State<ConfirmResetCodePage> {
                                         Colors.white),
                                   )
                                 : Text(
-                                    "VERIFY".toUpperCase(),
+                                    Languages.of(context)
+                                        .labelVerifyButton
+                                        .toUpperCase(),
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,

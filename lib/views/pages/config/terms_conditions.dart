@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
+import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +21,7 @@ class TermsConditionPage extends StatefulWidget {
 class _TermsConditionPageState extends State<TermsConditionPage> {
   @override
   Widget build(BuildContext context) {
+    bool _loading = false;
     final size = MediaQuery.of(context).size;
     final _utilityProvider = Provider.of<UtilityProvider>(context);
 
@@ -25,6 +30,86 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
       _utilityProvider.setItemChange = index;
     }
 
+    List<Widget> _listBody = [
+      RichText(
+          text: TextSpan(children: [
+        TextSpan(
+            text: Languages.of(context).labelTermsAgreeInfo,
+            style: TextStyle(
+              color: Colors.black54,
+            )),
+        TextSpan(
+            style: TextStyle(
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+            ),
+            text: Languages.of(context).labelTermsPrivacyInfo,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _launchURL(
+                    'https://auntierafiki.co.tz/legal/update/privacy-policy');
+              }),
+        TextSpan(
+            text: Languages.of(context).labelTermsAndInfo,
+            style: TextStyle(
+              color: Colors.black54,
+            )),
+        TextSpan(
+            style: TextStyle(
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+            ),
+            text: Languages.of(context).labelTermsUseInfo,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _launchURL(
+                    'https://auntierafiki.co.tz/legal/update/terms-of-use');
+              }),
+      ])),
+      RichText(
+          text: TextSpan(children: [
+        TextSpan(
+            style: TextStyle(
+              color: Colors.black54,
+            ),
+            text: Languages.of(context).labelDeclarationOne),
+        TextSpan(
+            style: TextStyle(
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+            ),
+            text: Languages.of(context).labelTermsPrivacyInfo,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _launchURL(
+                    'https://auntierafiki.co.tz/legal/update/privacy-policy');
+              }),
+      ])),
+      RichText(
+          text: TextSpan(children: [
+        TextSpan(
+            style: TextStyle(
+              color: Colors.black54,
+            ),
+            text: Languages.of(context).labelDeclarationTwo),
+        TextSpan(
+            style: TextStyle(
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+            ),
+            text: Languages.of(context).labelDeclarationThree,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                _launchURL(
+                    'https://auntierafiki.co.tz/legal/update/personal-data');
+              }),
+        TextSpan(
+            style: TextStyle(
+              color: Colors.black54,
+            ),
+            text: Languages.of(context).labelDeclarationFour),
+      ])),
+    ];
     return Scaffold(
       body: SingleChildScrollView(
         child: CustomScrollView(
@@ -59,7 +144,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                         onChanged: (bool val) {
                           itemChange(val, index);
                         }),
-                    title: _utilityProvider.checkBoxList[index].body);
+                    title: _listBody[index]);
               }, childCount: _utilityProvider.checkBoxList.length)),
               SliverList(
                 delegate: SliverChildListDelegate([
@@ -79,8 +164,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                               style: TextStyle(
                                 color: Colors.black54,
                               ),
-                              text:
-                                  '* You can withdraw your consent anytime by contacting by contacting us at '),
+                              text: Languages.of(context).labelDisclaimer),
                           TextSpan(
                               style: TextStyle(
                                 color: Colors.blue,
@@ -107,24 +191,34 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
-                      child: Text(
-                        _utilityProvider.configTerms == ConfigTerms.ALL
-                            ? "NEXT"
-                            : "Select All",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900),
-                      ),
+                      child: _loading
+                          ? Loading()
+                          : Text(
+                              _utilityProvider.configTerms == ConfigTerms.ALL
+                                  ? Languages.of(context).labelNextButton
+                                  : Languages.of(context).labelSelectAllButton,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w900),
+                            ),
                       onPressed: () {
                         if (_utilityProvider.configTerms == ConfigTerms.ALL) {
-                          _utilityProvider
-                              .storeTerms(_utilityProvider.checkBoxList)
-                              .then((value) {
-                            Navigator.of(context)
-                                .pushReplacementNamed(loginPage);
+                          setState(() {
+                            _loading = true;
+                          });
+                          Timer(Duration(milliseconds: 2000), () {
                             _configProvider.setConfigurationStep =
                                 Configuration.SignUp;
+                            _utilityProvider
+                                .storeTerms(_utilityProvider.checkBoxList)
+                                .then((value) {
+                              Navigator.of(context)
+                                  .pushReplacementNamed(landingPage);
+                            });
+                            setState(() {
+                              _loading = false;
+                            });
                           });
                         } else {
                           _utilityProvider.selectAllTerms();
@@ -139,16 +233,29 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                                   ConfigTerms.NON
                               ? null
                               : () {
-                                  _configProvider.setConfigurationStep =
-                                      Configuration.SignUp;
-                                  _utilityProvider
-                                      .storeTerms(_utilityProvider.checkBoxList)
-                                      .then((value) {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed(loginPage);
+                                  setState(() {
+                                    _loading = true;
+                                  });
+                                  Timer(Duration(milliseconds: 2000), () {
+                                    _configProvider.setConfigurationStep =
+                                        Configuration.SignUp;
+                                    _utilityProvider
+                                        .storeTerms(
+                                            _utilityProvider.checkBoxList)
+                                        .then((value) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(landingPage);
+                                    });
+                                    setState(() {
+                                      _loading = false;
+                                    });
                                   });
                                 },
-                          child: Text('NEXT')),
+                          child: _loading
+                              ? Loading(
+                                  color: Colors.pink,
+                                )
+                              : Text(Languages.of(context).labelNextButton)),
                   SizedBox(
                     height: 40,
                   ),
