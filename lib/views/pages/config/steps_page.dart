@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:aunty_rafiki/localization/language/languages.dart';
+import 'package:aunty_rafiki/localization/locale_constant.dart';
+import 'package:aunty_rafiki/models/language_data.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/components/steps/step_progress_view.dart';
@@ -63,9 +66,33 @@ class _StepsPageState extends State<StepsPage> {
       ),
     ];
 
+    List<String> _titles = [
+      Languages.of(context).labelMotherName,
+      Languages.of(context).labelPregnancyWeeksTitle,
+      Languages.of(context).labelMotherBirthdayTitle,
+      Languages.of(context).labelMotherhoodInformationTitle,
+      Languages.of(context).labelMoreInformationTitle
+    ];
+
+//  if (index == 0) {
+//       _title = "Mother's Name";
+//     }
+//     if (index == 1) {
+//       _title = "Weeks of Pregnancy";
+//     }
+//     if (index == 2) {
+//       _title = "Mother's Birthday";
+//     }
+//     if (index == 3) {
+//       _title = "Motherhood Information";
+//     }
+//     if (index == 4) {
+//       _title = "More Information";
+//     }
     return Scaffold(
       key: _scafoldKey,
       appBar: AppBar(
+        elevation: 0,
         leading: _configProvider.currentPregPage == 1
             ? Container()
             : IconButton(
@@ -76,10 +103,39 @@ class _StepsPageState extends State<StepsPage> {
                     _configProvider.backPage();
                   } else {}
                 }),
-        title: Text('Profile'),
+        title: Text(
+          Languages.of(context).labelProfileTitle,
+          style: TextStyle(color: Colors.black54),
+        ),
+        actions: [
+          PopupMenuButton<LanguageData>(
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.black54,
+              ),
+              onSelected: (LanguageData language) {
+                changeLanguage(context, language.languageCode);
+              },
+              itemBuilder: (BuildContext context) => LanguageData.languageList()
+                  .map<PopupMenuEntry<LanguageData>>(
+                    (e) => PopupMenuItem<LanguageData>(
+                      value: e,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            e.flag,
+                            style: TextStyle(),
+                          ),
+                          Text(e.name)
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList())
+        ],
       ),
       body: CustomScrollView(
-        
         slivers: [
           SliverList(
             delegate: SliverChildListDelegate(
@@ -102,7 +158,7 @@ class _StepsPageState extends State<StepsPage> {
                       left: 24.0,
                       right: 24.0,
                     ),
-                    title: _configProvider.title,
+                    title: _titles[_configProvider.currentPregPage - 1],
                   ),
                 ),
                 Padding(

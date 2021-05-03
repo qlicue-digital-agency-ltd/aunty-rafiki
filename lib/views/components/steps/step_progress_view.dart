@@ -85,44 +85,47 @@ class StepProgressView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: padding,
-        height: this._height,
-        width: this._width,
-        decoration: this.decoration,
-        child: Column(
-          children: <Widget>[
-            Container(
-                child: Center(
-                    child: RichText(
-                        text: TextSpan(children: [
-              TextSpan(
-                text: (_curStep).toString(),
-                style: _headerStyle.copyWith(
-                  color: _activeColor, //this is always going to be active
+    return Card(
+      clipBehavior: Clip.antiAlias,
+          child: Container(
+          padding: padding,
+          height: this._height,
+          width: this._width,
+          decoration: this.decoration,
+          child: Column(
+            children: <Widget>[
+              Container(
+                  child: Center(
+                      child: RichText(
+                          text: TextSpan(children: [
+                TextSpan(
+                  text: (_curStep).toString(),
+                  style: _headerStyle.copyWith(
+                    color: _activeColor, //this is always going to be active
+                  ),
                 ),
-              ),
-              TextSpan(
-                text: " / " + _steps.toString(),
-                style: _headerStyle.copyWith(
-                  color: _curStep == _steps ? _activeColor : _inactiveColor,
+                TextSpan(
+                  text: " / " + _steps.toString(),
+                  style: _headerStyle.copyWith(
+                    color: _curStep == _steps ? _activeColor : _inactiveColor,
+                  ),
                 ),
+              ])))),
+              Row(
+                children: _buildDots(),
               ),
-            ])))),
-            Row(
-              children: _buildDots(),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              _title,
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-          ],
-        ));
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                _title,
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          )),
+    );
   }
 }

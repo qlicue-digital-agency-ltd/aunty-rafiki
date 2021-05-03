@@ -92,4 +92,30 @@ class LanguageEn extends Languages {
   String get labelEnterTheCodeSentTo => "Enter the code sent to\t";
   @override
   String get labelDidNotReceiveTheCode => "Didn't receive the code?\t";
+
+//Profile
+  @override
+  String get labelProfileTitle => "Profile";
+  @override
+  String get labelFullName => "Full Name";
+  @override
+  String get labelMotherName => "Mother's Name";
+  @override
+  String get labelMotherNameQuestion => "What is your name?";
+
+  // Pregnancy Weeks
+  @override
+  String get labelPregnancyWeeksTitle => "Weeks of Pregnancy";
+
+  // More Information
+  @override
+  String get labelMoreInformationTitle => "More Information";
+
+  //Mother Birthday
+  @override
+  String get labelMotherBirthdayTitle => "Mother's Birthday";
+
+  // Motherhood Information
+  @override
+  String get labelMotherhoodInformationTitle => "Motherhood Information";
 }

@@ -89,4 +89,30 @@ class LanguageSw extends Languages {
   String get labelEnterTheCodeSentTo => "Ingiza nambari iliyotumwa kwa\t";
   @override
   String get labelDidNotReceiveTheCode => "Hukupokea nambari hiyo?\t";
+
+  //Profile
+  @override
+  String get labelProfileTitle => "Wasifu";
+  @override
+  String get labelFullName => "Jina Kamili";
+  @override
+  String get labelMotherName => "Jina La Mama";
+  @override
+  String get labelMotherNameQuestion => "Unaitwa nani?";
+
+  // Pregnancy Weeks
+  @override
+  String get labelPregnancyWeeksTitle => "Wiki za Ujauzito";
+
+  // More Information
+  @override
+  String get labelMoreInformationTitle => "Taarifa za Ziada";
+
+  //Mother Birthday
+  @override
+  String get labelMotherBirthdayTitle => "Siku ya Kuzaliwa ya Mama";
+
+  // Motherhood Information
+  @override
+  String get labelMotherhoodInformationTitle => "Taarifa za Uzazi";
 }

@@ -15,7 +15,6 @@ class ConfigProvider with ChangeNotifier {
     });
   }
 
-  String _title = "Mother's Name";
   int _currentPregPage = 1;
   int _currentUnknownPregPage = 1;
 
@@ -50,7 +49,7 @@ class ConfigProvider with ChangeNotifier {
   }
 
   Configuration get currentConfigurationStep => _appConfigurationStep;
-  String get title => _title;
+
   int get currentPregPage => _currentPregPage;
   int get currentUnknownPregPage => _currentUnknownPregPage;
   // PageController get pageController => _pageController;
@@ -69,34 +68,6 @@ class ConfigProvider with ChangeNotifier {
 
   void changePage(int index) {
     _currentPregPage = index + 1;
-
-    if (index == 0) {
-      _title = "Mother's Name";
-    }
-    if (index == 1) {
-      _title = "Weeks of Pregnancy";
-    }
-    if (index == 2) {
-      _title = "Mother's Birthday";
-    }
-    if (index == 3) {
-      _title = "Motherhood Information";
-    }
-    if (index == 4) {
-      _title = "More Information";
-    }
-
-    notifyListeners();
-  }
-
-  void changeUnknownPregnancyPage(int index) {
-    _currentUnknownPregPage = index + 1;
-    if (index == 0) {
-      _title = "Detect your week";
-    }
-    if (index == 1) {
-      _title = "Calender";
-    }
     notifyListeners();
   }
 

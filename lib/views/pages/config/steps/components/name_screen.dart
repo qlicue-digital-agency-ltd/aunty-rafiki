@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
@@ -36,7 +37,7 @@ class _NameScreenState extends State<NameScreen> {
               height: 10,
             ),
             Text(
-              'What is your name?',
+              Languages.of(context).labelMotherNameQuestion,
               style: TextStyle(color: Colors.black, fontSize: 18),
             ),
             SizedBox(
@@ -45,7 +46,7 @@ class _NameScreenState extends State<NameScreen> {
             IconTextField(
               icon: Icons.person,
               textEditingController: _nameEditingController,
-              title: 'Full Name',
+              title: Languages.of(context).labelFullName,
               validator: (val) {
                 if (val.isEmpty)
                   return 'Enter the your name';
@@ -57,7 +58,7 @@ class _NameScreenState extends State<NameScreen> {
               height: 10,
             ),
             CustomRaisedButton(
-              title: 'Next',
+              title: Languages.of(context).labelNextButton,
               onPressed: () {
                 setState(() {
                   _isPressed = true;

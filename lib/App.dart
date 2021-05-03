@@ -97,8 +97,12 @@ class _AppState extends State<App> {
         return supportedLocales?.first;
       },
       theme: ThemeData(
+          appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
           primarySwatch: Colors.pink,
+          primaryColor: Colors.pink,
+          accentColor: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          iconTheme: const IconThemeData().copyWith(color: Colors.black54),
           textTheme: GoogleFonts.poppinsTextTheme()),
       home: AnimatedSplashScreen(),
       routes: {
@@ -141,7 +145,6 @@ class _AppState extends State<App> {
         //                                     : OnboardingPage()),
         ,
         onboardingPage: (_) => OnboardingPage(),
-       
         homePage: (_) => HomePage(),
         chatRoomPage: (_) => ChatRoomPage(),
         appointmentPage: (_) => AppointmentPage(),
