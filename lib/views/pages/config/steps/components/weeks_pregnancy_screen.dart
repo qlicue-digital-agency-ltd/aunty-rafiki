@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
@@ -56,7 +57,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                       child: Column(
                         children: [
                           Text(
-                            'WEEKS',
+                            Languages.of(context).labelWeeks,
                             style: TextStyle(fontSize: 20),
                           ),
                           CustomNumberPicker(
@@ -80,7 +81,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                       child: Column(
                         children: [
                           Text(
-                            'DAYS',
+                            Languages.of(context).labelDays,
                             style: TextStyle(fontSize: 20),
                           ),
                           CustomNumberPicker(
@@ -110,7 +111,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                   child: Column(
                     children: [
                       Text(
-                        "Don't worry Auntie Rafiki will help you determine the pregnancy week in another way ",
+                        Languages.of(context).labelNoPregnancyWeeksTitle,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.black,
@@ -119,7 +120,7 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                       ),
                       SizedBox(height: 25),
                       Text(
-                        "Select the date of the first day of your last menstrual period ",
+                        Languages.of(context).labelNoPregnancyWeeksSubtitle,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.pink,
@@ -184,13 +185,13 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                       onChanged: (bool val) {
                         itemChange(val);
                       }),
-                  title: Text("I don't remember")),
+                  title: Text(Languages.of(context).labelCheckButtonIDontRember)),
             ),
             SizedBox(
               height: 5,
             ),
             CustomRaisedButton(
-              title: 'Next',
+              title: Languages.of(context).labelNextButton,
               onPressed: () {
                 setState(() {
                   _isPressed = true;

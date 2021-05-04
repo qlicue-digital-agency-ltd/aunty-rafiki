@@ -16,12 +16,9 @@ class LanguageEn extends Languages {
 
   //onboarding
   @override
-  String get labelTracker => "Tracker";
-  @override
   String get labelTrackerInfo =>
       "Auntie Rafiki tracks your daily pregancy growth and changes";
-  @override
-  String get labelChat => "Chat";
+
   @override
   String get labelChatInfo => "Auntie Rafiki connects you to a midwife, 24/7";
   @override
@@ -106,16 +103,83 @@ class LanguageEn extends Languages {
   // Pregnancy Weeks
   @override
   String get labelPregnancyWeeksTitle => "Weeks of Pregnancy";
-
-  // More Information
   @override
-  String get labelMoreInformationTitle => "More Information";
+  String get labelWeeks => "WEEKS";
+  @override
+  String get labelDays => "DAYS";
+  @override
+  String get labelCheckButtonIDontRember => "I don't remember";
+  @override
+  String get labelNoPregnancyWeeksTitle =>
+      "Don't worry Auntie Rafiki will help you determine the pregnancy week in another way";
+  @override
+  String get labelNoPregnancyWeeksSubtitle =>
+      "Select the date of the first day of your last menstrual period";
+  @override
+  String get labelDateTitle => "Date";
 
   //Mother Birthday
   @override
   String get labelMotherBirthdayTitle => "Mother's Birthday";
+  @override
+  String get labelGravida => "Gravida";
+  @override
+  String get labelEverHadAMiscarriage => "Ever had a miscarriage?";
+  @override
+  String get labelWeeksOfMiscarriage =>
+      "How many weeks was the pregnancy upon miscarriage?";
+  @override
+  String get labelBirthByOperation => "How many times have you given birth?";
+  @override
+  String get labelNumberOfTimesYouGaveBirth =>
+      "How many times did you give birth by operation?";
+
+  // More Information
+  @override
+  String get labelMoreInformationTitle => "More Information";
+  @override
+  String get labelHaemoglobinLevel => "Haemoglobin level";
+  @override
+  String get labelLastCheckHaemoglobinLevel =>
+      "Last time you checked haemoglobin level";
+
+  @override
+  String get labelStartedClinic => "Have you started clinic?";
+
+  @override
+  String get labelUsingMedication => "Are you using any medication?";
+
+  @override
+  String get labelTetanusVacination => "Have you taken a tetanus vaccination?";
+
+  @override
+  String get labelNumberTetanusVacination =>
+      "How many times have you had the tetanus vaccination?";
+  @override
+  String get labelDateLastTetanusVacination =>
+      "Last time you had the tetanus vaccination";
+
+  @override
+  String get labelDateNextTetanusVacination =>
+      "When is your next tetanus vaccination";
 
   // Motherhood Information
   @override
   String get labelMotherhoodInformationTitle => "Motherhood Information";
+
+//LEBELS
+  @override
+  String get labelNo => "NO";
+  @override
+  String get labelYes => "YES";
+
+  //mainAPP
+  @override
+  String get labelTracker => "Tracker";
+  @override
+  String get labelChat => "Chat";
+  @override
+  String get labelBloodLevel => "Blood Level";
+  @override
+  String get labelMore => "More";
 }

@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
@@ -23,7 +24,7 @@ class MotherhoodInfoScreen extends StatefulWidget {
 
 class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
   int _gravida = 1;
-  String _miscarriage = "NO";
+  String _miscarriage = "";
   int _miscarriageAge = 1;
   int _births = 0;
   int _operationBirths = 0;
@@ -32,6 +33,11 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
     final _configProvider = Provider.of<ConfigProvider>(context);
+
+    List<String> _boolStrings = [
+      Languages.of(context).labelYes,
+      Languages.of(context).labelNo
+    ];
     return Column(
       children: [
         SizedBox(
@@ -41,23 +47,29 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           counter: _gravida,
           onTap: (val) {
             setState(() {
-              if (val != null) _gravida  += val;
+              if (_gravida > 0) {
+                if (val != null) _gravida += val;
+              } else if (val > 0) {
+                if (val != null) _gravida += val;
+              }
             });
           },
-          title: 'Gravida',
+          title: Languages.of(context).labelGravida,
           context: context,
         ),
         SizedBox(
           height: 10,
         ),
         CustomStringDropdown(
-          title: 'Ever had a miscarriage?',
-          value: _miscarriage,
-          items: ["NO", "YES"],
+          title: Languages.of(context).labelEverHadAMiscarriage,
+          value: _boolStrings.contains(_miscarriage)
+              ? _miscarriage
+              : Languages.of(context).labelNo,
+          items: [_boolStrings[1], _boolStrings[0]],
           onChange: (value) {
             setState(() {
               if (value != null) _miscarriage = value;
-              if (_miscarriage == "NO") {
+              if (_miscarriage == _boolStrings[1]) {
                 _miscarriageAge = 0;
               }
             });
@@ -66,19 +78,23 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
         SizedBox(
           height: 10,
         ),
-        _miscarriage == "YES"
+        _miscarriage == _boolStrings[0]
             ? NumberCounter(
                 counter: _miscarriageAge,
                 onTap: (val) {
                   setState(() {
-                    if (val != null) _miscarriageAge += val;
+                    if (_miscarriageAge > 0) {
+                      if (val != null) _miscarriageAge += val;
+                    } else if (val > 0) {
+                      if (val != null) _miscarriageAge += val;
+                    }
                   });
                 },
-                title: 'How many weeks was the pregnancy upon miscarriage?',
+                title: Languages.of(context).labelWeeksOfMiscarriage,
                 context: context,
               )
             : Container(),
-        _miscarriage == "YES"
+        _miscarriage == _boolStrings[0]
             ? SizedBox(
                 height: 10,
               )
@@ -87,10 +103,14 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           counter: _births,
           onTap: (val) {
             setState(() {
-              if (val != null) _births += val;
+              if (_births > 0) {
+                if (val != null) _births += val;
+              } else if (val > 0) {
+                if (val != null) _births += val;
+              }
             });
           },
-          title: 'How many times have you given birth?',
+          title: Languages.of(context).labelNumberOfTimesYouGaveBirth,
           context: context,
         ),
         SizedBox(
@@ -101,10 +121,14 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
                 counter: _operationBirths,
                 onTap: (val) {
                   setState(() {
-                    if (val != null) _operationBirths += val;
+                    if (_operationBirths > 0) {
+                      if (val != null) _operationBirths += val;
+                    } else if (val > 0) {
+                      if (val != null) _operationBirths += val;
+                    }
                   });
                 },
-                title: 'How many times did you give birth by operation?',
+                title: Languages.of(context).labelBirthByOperation,
                 context: context,
               )
             : Container(),
@@ -117,7 +141,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           height: 20,
         ),
         CustomRaisedButton(
-          title: 'Next',
+          title: Languages.of(context).labelNextButton,
           onPressed: () {
             setState(() {
               _isPressed = true;
@@ -143,7 +167,7 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
           },
           isPressed: _isPressed,
         ),
-         SizedBox(
+        SizedBox(
           height: 100,
         ),
       ],

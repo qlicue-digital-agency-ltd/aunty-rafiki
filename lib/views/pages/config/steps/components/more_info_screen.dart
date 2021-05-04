@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
@@ -12,24 +13,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MoreInfoScreen extends StatefulWidget {
-
-
   const MoreInfoScreen(
       {Key key,
       @required int currentPage,
       @required Function changePage,
       @required GlobalKey<ScaffoldState> scaffoldKey})
-     :
-        super(key: key);
+      : super(key: key);
   @override
   _MoreInfoScreenState createState() => _MoreInfoScreenState();
 }
 
 class _MoreInfoScreenState extends State<MoreInfoScreen> {
   int _haemoglobinLevel = 12;
-  String _clinic = "NO";
-  String _medication = "NO";
-  String _tetanasiVaccination = "NO";
+  String _clinic = "";
+  String _medication = "";
+  String _tetanasiVaccination = "";
   int _tetanasiVaccineNumber = 1;
   DateTime _nextTetanusDate;
   DateTime _lastTetanusDate;
@@ -42,6 +40,22 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
     final _authProvider = Provider.of<AuthProvider>(context);
     final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
     final _configProvider = Provider.of<ConfigProvider>(context);
+
+    List<String> _boolClinic = [
+      Languages.of(context).labelYes,
+      Languages.of(context).labelNo
+    ];
+
+    List<String> _boolMedication = [
+      Languages.of(context).labelYes,
+      Languages.of(context).labelNo
+    ];
+
+    List<String> _boolVaccination = [
+      Languages.of(context).labelYes,
+      Languages.of(context).labelNo
+    ];
+
     return Column(
       children: [
         SizedBox(
@@ -51,16 +65,20 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
           counter: _haemoglobinLevel,
           onTap: (val) {
             setState(() {
-              if (val != null) _haemoglobinLevel += val;
+              if (_haemoglobinLevel > 0) {
+                if (val != null) _haemoglobinLevel += val;
+              } else if (val > 0) {
+                if (val != null) _haemoglobinLevel += val;
+              }
             });
           },
-          title: 'Haemoglobin Level',
+          title: Languages.of(context).labelHaemoglobinLevel,
           context: context,
         ),
         SizedBox(
           height: 15,
         ),
-        Text('Last Time you checked Haemoglobin Level'),
+        Text(Languages.of(context).labelLastCheckHaemoglobinLevel),
         Container(
           decoration: BoxDecoration(
             color: Color.fromRGBO(255, 240, 240, 1),
@@ -75,7 +93,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                   initialValue: '',
                   firstDate: DateTime(2000),
                   lastDate: DateTime(2100),
-                  dateLabelText: 'Date',
+                  dateLabelText: Languages.of(context).labelDateTitle,
                   dateMask: 'd MMM, yyyy',
                   onChanged: (val) => print(val),
                   validator: (val) {
@@ -100,9 +118,11 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
           height: 10,
         ),
         CustomStringDropdown(
-          title: 'Have you started Clinic?',
-          value: _clinic,
-          items: ["NO", "YES"],
+          title: Languages.of(context).labelStartedClinic,
+          value: _boolClinic.contains(_clinic)
+              ? _clinic
+              : Languages.of(context).labelNo,
+          items: _boolClinic.toList(),
           onChange: (value) {
             setState(() {
               if (value != null) _clinic = value;
@@ -113,9 +133,11 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
           height: 10,
         ),
         CustomStringDropdown(
-          title: 'Are you using any medication?',
-          value: _medication,
-          items: ["NO", "YES"],
+          title: Languages.of(context).labelUsingMedication,
+          value: _boolMedication.contains(_medication)
+              ? _medication
+              : Languages.of(context).labelNo,
+          items: _boolMedication.toList(),
           onChange: (value) {
             setState(() {
               if (value != null) _medication = value;
@@ -126,9 +148,11 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
           height: 10,
         ),
         CustomStringDropdown(
-          title: 'Have you taken a Tetanasi vaccination?',
-          value: _tetanasiVaccination,
-          items: ["NO", "YES"],
+          title: Languages.of(context).labelTetanusVacination,
+          value: _boolVaccination.contains(_tetanasiVaccination)
+              ? _tetanasiVaccination
+              : Languages.of(context).labelNo,
+          items: _boolVaccination.toList(),
           onChange: (value) {
             setState(() {
               if (value != null) _tetanasiVaccination = value;
@@ -138,26 +162,30 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
         SizedBox(
           height: 10,
         ),
-        _tetanasiVaccination == "YES"
+        _tetanasiVaccination == Languages.of(context).labelYes
             ? NumberCounter(
                 counter: _tetanasiVaccineNumber,
                 onTap: (val) {
                   setState(() {
-                    if (val != null) _tetanasiVaccineNumber += val;
+                    if (_tetanasiVaccineNumber > 0) {
+                      if (val != null) _tetanasiVaccineNumber += val;
+                    } else if (val > 0) {
+                      if (val != null) _tetanasiVaccineNumber += val;
+                    }
                   });
                 },
-                title: 'How many times have you had the Tetanasi vaccincation?',
+                title: Languages.of(context).labelNumberTetanusVacination,
                 context: context,
               )
             : Container(),
         SizedBox(
           height: 15,
         ),
-        _tetanasiVaccination == "YES"
+        _tetanasiVaccination == Languages.of(context).labelYes
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Last Time you had the Tetanasi vaccincation'),
+                  Text(Languages.of(context).labelDateLastTetanusVacination),
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 240, 240, 1),
@@ -172,7 +200,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                             initialValue: '',
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2100),
-                            dateLabelText: 'Date',
+                            dateLabelText: Languages.of(context).labelDateTitle,
                             dateMask: 'd MMM, yyyy',
                             onChanged: (val) => print(val),
                             validator: (val) {
@@ -199,11 +227,11 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
         SizedBox(
           height: 15,
         ),
-        _tetanasiVaccination == "YES"
+        _tetanasiVaccination == Languages.of(context).labelYes
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('When is your next Tetanasi vaccincation'),
+                  Text(Languages.of(context).labelDateNextTetanusVacination),
                   Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 240, 240, 1),
@@ -218,7 +246,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                             initialValue: '',
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2100),
-                            dateLabelText: 'Date',
+                            dateLabelText: Languages.of(context).labelDateTitle,
                             dateMask: 'd MMM, yyyy',
                             onChanged: (val) => print(val),
                             validator: (val) {
@@ -246,7 +274,7 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
           height: 20,
         ),
         CustomRaisedButton(
-          title: 'Next',
+          title: Languages.of(context).labelNextButton,
           onPressed: () {
             setState(() {
               _isPressed = true;

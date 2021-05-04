@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
@@ -49,7 +50,7 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen> {
         ),
        
         CustomRaisedButton(
-          title: 'Next',
+          title: Languages.of(context).labelNextButton,
           onPressed: () {
             setState(() {
               _isPressed = true;
