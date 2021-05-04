@@ -253,4 +253,40 @@ class LanguageSw extends Languages {
   String get labelEnterBloodLevel => "Weka kiwango cha damu";
   @override
   String get labelBloodLevelTitle => "kiwango cha damu";
+
+  //Menu
+  @override
+  String get labelMenuTitle => "Menyu";
+  @override
+  String get labelSettings => "Mipangilio";
+  @override
+  String get labelAboutUs => "Kuhusu sisi";
+  @override
+  String get labelContactUs => "Wasiliana nasi";
+  @override
+  String get labelPrivacyPolicy => "Sera ya faragha";
+
+  //Pregnancy
+  @override
+  String get labelPreganancyTitle => "Ujauzito";
+  @override
+  String get labelBabySex => "Jinsia ya mtoto";
+  @override
+  String get labelBabyName => "Jina la mtoto";
+  @override
+  String get labelDueDate => "Tarehe ya kujifungua";
+  @override
+  String get labelDueDateCalculator => "kikokotoo cha tarehe ya kujifungua";
+
+  //Account
+  @override
+  String get labelAccountTitle => "Akaunti";
+  @override
+  String get labelFullname => "Jina kamili";
+  @override
+  String get labelNickname => "Jina la utani";
+  @override
+  String get labelYearOfBirth => "Mwaka wa kuzaliwa";
+  @override
+  String get labelLogout => "Ondoka";
 }

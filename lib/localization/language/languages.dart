@@ -136,5 +136,26 @@ abstract class Languages {
   //Blood level
   String get labelEnterBloodLevel;
   String get labelAddBloodLevel;
-   String get labelBloodLevelTitle;
+  String get labelBloodLevelTitle;
+
+  //menu
+  String get labelMenuTitle;
+  String get labelSettings;
+  String get labelAboutUs;
+  String get labelContactUs;
+  String get labelPrivacyPolicy;
+
+  //Preganancy
+  String get labelPreganancyTitle;
+  String get labelBabySex;
+  String get labelBabyName;
+  String get labelDueDate;
+  String get labelDueDateCalculator;
+
+  //Account
+  String get labelAccountTitle;
+  String get labelFullname;
+  String get labelNickname;
+  String get labelYearOfBirth;
+  String get labelLogout;
 }

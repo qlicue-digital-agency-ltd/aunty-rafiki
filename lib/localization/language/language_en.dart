@@ -261,4 +261,40 @@ class LanguageEn extends Languages {
   String get labelEnterBloodLevel => "Enter blood level";
   @override
   String get labelBloodLevelTitle => "Blood Level";
+
+//Menu
+  @override
+  String get labelMenuTitle => "Menu";
+  @override
+  String get labelSettings => "Settings";
+  @override
+  String get labelAboutUs => "About Us";
+  @override
+  String get labelContactUs => "Contact Us";
+  @override
+  String get labelPrivacyPolicy => "Privancy Policy";
+
+  //Pregnancy
+  @override
+  String get labelPreganancyTitle => "Pregnancy";
+  @override
+  String get labelBabySex => "Baby's gender";
+  @override
+  String get labelBabyName => "Baby's Name";
+  @override
+  String get labelDueDate => "Due Date";
+  @override
+  String get labelDueDateCalculator => "Due Date Calculator";
+
+  //Account
+  @override
+  String get labelAccountTitle => "Account";
+  @override
+  String get labelFullname => "Fullname";
+  @override
+  String get labelNickname => "Nickname";
+  @override
+  String get labelYearOfBirth => "Year of Birth";
+  @override
+  String get labelLogout => "Logout";
 }

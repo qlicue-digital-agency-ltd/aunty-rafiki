@@ -13,28 +13,39 @@ class ProfilePage extends StatelessWidget {
     List<Profile> accountList = <Profile>[
       Profile(
           icon: Icons.person,
-          title: 'Firstaname:  ${_authProvider.currentUser.displayName}'),
+          title: Languages.of(context).labelFullName +
+              ':  ${_authProvider.currentUser.displayName}'),
       Profile(
           icon: Icons.person,
-          title: 'Nickname:  ${_authProvider.currentUser.nameInitials}'),
+          title: Languages.of(context).labelNickname +
+              ':  ${_authProvider.currentUser.nameInitials}'),
       Profile(
           icon: Icons.calendar_today,
-          title: 'Year of Birth: ${_authProvider.currentUser.yearOfBirth}'),
-      Profile(icon: Icons.exit_to_app, title: 'Logout')
+          title: Languages.of(context).labelYearOfBirth +
+              ': ${_authProvider.currentUser.yearOfBirth}'),
+      Profile(icon: Icons.exit_to_app, title: Languages.of(context).labelLogout)
     ];
 
     List<Profile> menuList = <Profile>[
-      Profile(icon: Icons.settings, title: 'Settings'),
-      Profile(icon: Icons.info, title: 'About Us'),
-      Profile(icon: Icons.contact_phone, title: 'Contant Us'),
-      Profile(icon: Icons.lock, title: 'privacy Policy')
+      Profile(icon: Icons.settings, title: Languages.of(context).labelSettings),
+      Profile(icon: Icons.info, title: Languages.of(context).labelAboutUs),
+      Profile(
+          icon: Icons.contact_phone,
+          title: Languages.of(context).labelContactUs),
+      Profile(icon: Icons.lock, title: Languages.of(context).labelPrivacyPolicy)
     ];
 
     List<Profile> pregnancyList = <Profile>[
-      Profile(icon: Icons.face, title: 'Baby Sex'),
-      Profile(icon: Icons.library_books, title: 'Baby Name'),
-      Profile(icon: Icons.calendar_today, title: 'Due Date'),
-      Profile(icon: Icons.calculate, title: 'Due Date Calculator')
+      Profile(icon: Icons.face, title: Languages.of(context).labelBabySex),
+      Profile(
+          icon: Icons.library_books,
+          title: Languages.of(context).labelBabyName),
+      Profile(
+          icon: Icons.calendar_today,
+          title: Languages.of(context).labelDueDate),
+      Profile(
+          icon: Icons.calculate,
+          title: Languages.of(context).labelDueDateCalculator)
     ];
     return Scaffold(
       appBar: AppBar(
@@ -73,15 +84,17 @@ class ProfilePage extends StatelessWidget {
                                   ? '${_authProvider.currentUser.displayName}'
                                   : "No Name",
                               style: TextStyle(
-                                color: Colors.black54,
-                                  fontWeight: FontWeight.bold, fontSize: 18),
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
                             )
                           ]))
                   : Container(),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text('Menu', style: TextStyle(fontSize: 18)),
+              child: Text(Languages.of(context).labelMenuTitle,
+                  style: TextStyle(fontSize: 18)),
             ),
           ]),
         ),
@@ -105,7 +118,8 @@ class ProfilePage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Text('Pregnancy', style: TextStyle(fontSize: 18)),
+            child: Text(Languages.of(context).labelPreganancyTitle,
+                style: TextStyle(fontSize: 18)),
           ),
         ])),
         SliverList(
@@ -128,7 +142,8 @@ class ProfilePage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Text('Account', style: TextStyle(fontSize: 18)),
+            child: Text(Languages.of(context).labelAccountTitle,
+                style: TextStyle(fontSize: 18)),
           ),
         ])),
         _authProvider.currentUser != null
@@ -138,10 +153,10 @@ class ProfilePage extends StatelessWidget {
                   profileItem: accountList[index],
                   onTap: () {
                     print(accountList[index].title);
-                    if (accountList[index].title == 'Logout') {
+                    if (accountList[index].title ==
+                        Languages.of(context).labelLogout) {
                       _authProvider.signOut().then((value) {
                         Navigator.pushNamed(context, landingPage);
-                        // _authProvider.setConfigurationStep = Configuration.Terms;
                       });
                     }
                   },
