@@ -173,7 +173,7 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                               text: " support@auntierafiki.co.tz ",
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  _launchURL(
+                                  _launchURLEmail(
                                       'https://auntierafiki.co.tz/legal/update/personal-data');
                                 }),
                         ])),
@@ -266,11 +266,19 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
     );
   }
 
-  _launchURL(url) async {
+  _launchURLEmail(url) async {
     final Uri _emailLaunchUri = Uri(
         scheme: 'mailto',
         path: 'support@auntierafiki.co.tz',
         queryParameters: {'subject': ''});
     launch(_emailLaunchUri.toString());
+  }
+    void _launchURL(String uri) async {
+    String url = uri;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'could not launch';
+    }
   }
 }

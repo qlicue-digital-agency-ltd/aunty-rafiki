@@ -74,21 +74,7 @@ class _StepsPageState extends State<StepsPage> {
       Languages.of(context).labelMoreInformationTitle
     ];
 
-//  if (index == 0) {
-//       _title = "Mother's Name";
-//     }
-//     if (index == 1) {
-//       _title = "Weeks of Pregnancy";
-//     }
-//     if (index == 2) {
-//       _title = "Mother's Birthday";
-//     }
-//     if (index == 3) {
-//       _title = "Motherhood Information";
-//     }
-//     if (index == 4) {
-//       _title = "More Information";
-//     }
+
     return Scaffold(
       key: _scafoldKey,
       appBar: AppBar(

@@ -1,10 +1,14 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
+import 'package:aunty_rafiki/localization/locale_constant.dart';
+import 'package:aunty_rafiki/models/language_data.dart';
 import 'package:aunty_rafiki/models/view/profile.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/profile_tile.dart';
+import 'package:aunty_rafiki/views/pages/help_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'app_info_page.dart';
 
@@ -56,7 +60,36 @@ class ProfilePage extends StatelessWidget {
           title: Text(
             Languages.of(context).labelProfileTitle,
             style: TextStyle(color: Colors.black54),
-          )),
+          ),
+            actions: [
+          PopupMenuButton<LanguageData>(
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.black54,
+              ),
+              onSelected: (LanguageData language) {
+                changeLanguage(context, language.languageCode);
+              },
+              itemBuilder: (BuildContext context) => LanguageData.languageList()
+                  .map<PopupMenuEntry<LanguageData>>(
+                    (e) => PopupMenuItem<LanguageData>(
+                      value: e,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            e.flag,
+                            style: TextStyle(),
+                          ),
+                          Text(e.name)
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList())
+        ],
+      
+          ),
       body: CustomScrollView(slivers: [
         SliverList(
           delegate: SliverChildListDelegate([
@@ -109,6 +142,16 @@ class ProfilePage extends StatelessWidget {
               if (menuList[index].title == Languages.of(context).labelAboutUs) {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (_) => AppInfoPage()));
+              }
+              if (menuList[index].title ==
+                  Languages.of(context).labelContactUs) {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => HelpPage()));
+              }
+              if (menuList[index].title ==
+                  Languages.of(context).labelPrivacyPolicy) {
+                _launchURL(
+                    'https://auntierafiki.co.tz/legal/update/privacy-policy');
               }
             },
           );
@@ -171,5 +214,13 @@ class ProfilePage extends StatelessWidget {
             : SliverList(delegate: SliverChildListDelegate([])),
       ]),
     );
+  }
+  void _launchURL(String uri) async {
+    String url = uri;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'could not launch';
+    }
   }
 }
