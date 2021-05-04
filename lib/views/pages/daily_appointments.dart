@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/appointment_tile.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class DailyAppointment extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title:
-            Text('Daily Appointments', style: TextStyle(color: Colors.black)),
+            Text(Languages.of(context).labelAppointments, style: TextStyle(color: Colors.black)),
       ),
       body: ListView.builder(
           itemCount: _appointmentProvider.selectedCalendarAppointments.length,

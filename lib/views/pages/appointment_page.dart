@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/calendar_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/appointment_tile.dart';
@@ -24,7 +25,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           color: Colors.black,
         ),
         title: Text(
-          'Appointments',
+          Languages.of(context).labelAppointments,
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.transparent,
@@ -81,7 +82,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                     Navigator.pushNamed(
                                         context, dailyAppointmentsPage);
                                   },
-                                  child: Text('View All'))
+                                  child: Text(Languages.of(context).labelViewAllButton))
                               : Container()
                         ],
                       )
@@ -91,7 +92,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
               ? Center(
                   child: NoItemTile(
                     icon: 'assets/icons/calendar.png',
-                    title: 'No appointments to display',
+                    title: Languages.of(context).labelNoItemTileAppointments,
                   ),
                 )
               : ListView.builder(
@@ -133,7 +134,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
                         child: Text(
-                          "ADD APPOINTMENT",
+                          Languages.of(context).labelAddAppointmentButton.toUpperCase(),
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,

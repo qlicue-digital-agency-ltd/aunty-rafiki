@@ -32,6 +32,7 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
 
     return AppBar(
       elevation: 0,
+      backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       flexibleSpace: SafeArea(
         child: Container(
@@ -44,7 +45,7 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
                 },
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Colors.white,
+                  color: Colors.black54,
                 ),
               ),
               SizedBox(
@@ -82,7 +83,7 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
                       Text(
                         '${peer.displayName}',
                         style: TextStyle(
-                            fontWeight: FontWeight.w600, color: Colors.white),
+                            fontWeight: FontWeight.w600, color: Colors.black54),
                       ),
                       SizedBox(
                         height: 6,
@@ -97,7 +98,7 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
                               maxLines: 1,
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black54,
                                 fontSize: 12,
                               ),
                             ),
@@ -111,7 +112,7 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
               // PopupMenuButton<ChatGroupPopMenu>(
               //   icon: Icon(
               //     Icons.more_vert,
-              //     color: Colors.white,
+              //     color: Colors.black54,
               //   ),
               //   onSelected: (ChatGroupPopMenu result) {
               //     if (result == ChatGroupPopMenu.GroupInfo) {

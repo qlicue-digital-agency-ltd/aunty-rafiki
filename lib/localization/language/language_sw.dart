@@ -76,7 +76,13 @@ class LanguageSw extends Languages {
   String get labelResendButton => "Tuma";
   @override
   String get labelVerifyButton => "Hakiki";
+  @override
+  String get labelAddAppointmentButton => "Ongeza Miadi";
+  @override
+  String get labelSaveButton => "Ifadhi";
 
+  @override
+  String get labelViewAllButton => "Ona zote";
   //titles..
   @override
   String get labelVerifyYourPhoneNumber => "Hakiki namba yako ya simu";
@@ -178,4 +184,73 @@ class LanguageSw extends Languages {
   String get labelBloodLevel => "Damu";
   @override
   String get labelMore => "Zaidi";
+
+  //more
+
+  @override
+  String get labelFood => "Chakula";
+  @override
+  String get labelAppointments => "Miadi";
+  @override
+  String get labelHospitalBag => "Mfuko wa hospitali";
+  @override
+  String get labelTimeline => "Ratiba ya nyakati";
+  @override
+  String get labelHivMOthers => "Mama wenye HIV";
+
+  //Hospital bags
+  @override
+  String get labelBabyBag => "Mfuko wa mtoto";
+  @override
+  String get labelMotherBag => "Mfuko wa mama";
+  @override
+  String get labelPartnerBag => "Mfuko wa mwenza";
+  @override
+  String get labelItemsPacked => "vitu vimefungwa";
+
+  //Tabs
+  @override
+  String get labelChatsTab => "Mazungumzo";
+  @override
+  String get labelGroupTab => "vikundi";
+  @override
+  String get labelItemsTab => "Vitu Vangu";
+  @override
+  String get labelSuggesitionTab => "Ushauri";
+  @override
+  String get labelCongratulationsItemsPacked => "Hongera una vitu vyote";
+
+  //No Items Tile
+  @override
+  String get labelNoItemTileGroup =>
+      "Bado hauko katika kikundi chochote cha soga";
+  @override
+  String get labelNoItemTileBloodLevel => "Hakuna viwango vya damu";
+  @override
+  String get labelNoItemTileTracker =>
+      "Bofya ili kuongeza siku ya kwanza ya hedhi yako ya mwisho";
+  @override
+  String get labelNoItemTileAppointments => "Hakuna miadi ya kuonyesha";
+  @override
+  String get labelNoItemTileContent => "Hakuna Maudhui";
+
+  //search
+  @override
+  String get labelSearch => "Tafuta...";
+
+//Appointments...
+  @override
+  String get labelAddAppointmentNotes => "Ongeza maelezo";
+  @override
+  String get labelAppointmentName => "Kichwa cha miadi";
+  @override
+  String get labelEnterAppointmentName => "Weka kichwa cha miadi";
+
+  //Blood Level
+  @override
+  String get labelAddBloodLevel => "Ongenza kiwango cha damu";
+  @override
+  String get labelEnterBloodLevel => "Weka kiwango cha damu";
+  @override
+  String get labelBloodLevelTitle => "kiwango cha damu";
 }

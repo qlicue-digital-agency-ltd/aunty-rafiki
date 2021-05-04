@@ -65,8 +65,8 @@ class _TrackerScreenState extends State<TrackerScreen> {
                                   children: [
                                     NoItemTile(
                                       icon: 'assets/access/mother.png',
-                                      title:
-                                          'Tap to add your first day of your last period',
+                                      title: Languages.of(context)
+                                          .labelNoItemTileTracker,
                                     ),
                                     DateTimePicker(
                                       decoration: InputDecoration(

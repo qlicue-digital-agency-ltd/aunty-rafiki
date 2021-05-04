@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/hospital_bag_tile.dart';
@@ -20,7 +21,7 @@ class HospitalBagPage extends StatelessWidget {
           color: Colors.black,
         ),
         title: Text(
-          'Hospital Bag',
+          Languages.of(context).labelHospitalBag,
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.transparent,
@@ -45,12 +46,12 @@ class HospitalBagPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (_) => MotherHospitalBagDetailPage(
-                                  title: "Mother's Bag",
-                                )));
+                                title: Languages.of(context).labelMotherBag)));
                   },
                   subtitle:
-                      "${_hospitalBagProvider.packedMotherBagList.length}  items packed",
-                  title: "Mother's Bag",
+                      "${_hospitalBagProvider.packedMotherBagList.length}\t" +
+                          Languages.of(context).labelItemsPacked,
+                  title: Languages.of(context).labelMotherBag,
                 ),
                 HospitalBagTile(
                   icon: FontAwesomeIcons.shoppingBag,
@@ -59,12 +60,13 @@ class HospitalBagPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (_) => PartnerHospitalBagDetailPage(
-                                  title: "Birth partner's Bag",
+                                  title: Languages.of(context).labelPartnerBag,
                                 )));
                   },
                   subtitle:
-                      "${_hospitalBagProvider.packedPartnerBagList.length}  items packed",
-                  title: "Birth partner's Bag",
+                      "${_hospitalBagProvider.packedPartnerBagList.length}\t" +
+                          Languages.of(context).labelItemsPacked,
+                  title: Languages.of(context).labelPartnerBag,
                 ),
                 HospitalBagTile(
                   icon: FontAwesomeIcons.shoppingBag,
@@ -73,12 +75,13 @@ class HospitalBagPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (_) => BabyHospitalBagDetailPage(
-                                  title: "Baby's Bag",
+                                  title: Languages.of(context).labelBabyBag,
                                 )));
                   },
                   subtitle:
-                      "${_hospitalBagProvider.packedBabyBagList.length}  items packed",
-                  title: "Baby's Bag",
+                      "${_hospitalBagProvider.packedBabyBagList.length}\t" +
+                          Languages.of(context).labelItemsPacked,
+                  title: Languages.of(context).labelBabyBag,
                 ),
               ]),
       ),

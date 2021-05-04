@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:badges/badges.dart';
@@ -18,15 +19,14 @@ class MotherHospitalBagDetailPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-                iconTheme: IconThemeData(
+          iconTheme: IconThemeData(
             color: Colors.black,
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(title, style: TextStyle(color: Colors.black)),
-           
           bottom: TabBar(
-              labelColor: Colors.pink,
+            labelColor: Colors.pink,
             indicatorColor: Colors.pink,
             unselectedLabelColor: Colors.black38,
             onTap: (index) {
@@ -35,7 +35,7 @@ class MotherHospitalBagDetailPage extends StatelessWidget {
             tabs: [
               Tab(
                 icon: Icon(Icons.card_travel),
-                text: 'Suggestion',
+                text: Languages.of(context).labelSuggesitionTab,
               ),
               Tab(
                 icon: Badge(
@@ -49,7 +49,7 @@ class MotherHospitalBagDetailPage extends StatelessWidget {
                       style: TextStyle(color: Colors.pink),
                     ),
                     child: Icon(Icons.card_travel)),
-                text: 'My Items',
+                text: Languages.of(context).labelItemsTab,
               ),
             ],
           ),
@@ -60,7 +60,7 @@ class MotherHospitalBagDetailPage extends StatelessWidget {
                 ? Center(
                     child: NoItemTile(
                         icon: 'assets/icons/aunty_rafiki.png',
-                        title: "Congraturations you have packed all items"),
+                        title: Languages.of(context).labelCongratulationsItemsPacked),
                   )
                 : ListView.builder(
                     itemBuilder: (_, index) {

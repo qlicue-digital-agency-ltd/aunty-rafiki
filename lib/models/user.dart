@@ -20,7 +20,8 @@ class User {
   String startedClinic;
   String takenTetanusVaccine;
   int yearOfBirth;
-  bool isAdmin=false;
+  bool isAdmin = false;
+  bool hasProfile = false;
 
   User(
       {@required this.phoneNumber,
@@ -40,7 +41,8 @@ class User {
       this.startedClinic,
       this.takenTetanusVaccine,
       this.yearOfBirth,
-      this.isAdmin ,
+      this.isAdmin,
+      this.hasProfile = false,
       @required this.uid});
 
   Map<String, dynamic> toMap() {
@@ -73,6 +75,7 @@ class User {
         startedClinic = map['startedClinic'],
         takenTetanusVaccine = map['takenTetanusVaccine'],
         yearOfBirth = map['yearOfBirth'],
+        hasProfile = map['hasProfile'],
         groups = map['groups'];
 
   User.fromFirestore(DocumentSnapshot doc)
@@ -94,6 +97,7 @@ class User {
         startedClinic = doc.data()['startedClinic'],
         takenTetanusVaccine = doc.data()['takenTetanusVaccine'],
         yearOfBirth = doc.data()['yearOfBirth'],
+        hasProfile = doc.data()['hasProfile'],
         groups = doc.data()['groups'];
 }
 

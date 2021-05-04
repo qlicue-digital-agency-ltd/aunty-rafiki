@@ -71,7 +71,7 @@ class _BloodLevel extends StatelessWidget {
                     },
                     child: NoItemTile(
                       icon: 'assets/access/to-do-list.png',
-                      title: 'No Blood Levels',
+                      title: Languages.of(context).labelNoItemTileBloodLevel,
                     ),
                   ),
                 ],

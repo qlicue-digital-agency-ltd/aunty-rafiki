@@ -18,13 +18,13 @@ class MoreScreen extends StatelessWidget {
         children: <Widget>[
           SafeArea(
             child: Padding(
-              padding: EdgeInsets.only( right: 16),
+              padding: EdgeInsets.only(right: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   HomeScreenHeader(
-                title: Languages.of(context).labelMore,
-              ),
+                    title: Languages.of(context).labelMore,
+                  ),
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, profilePage);
@@ -62,7 +62,7 @@ class MoreScreen extends StatelessWidget {
                 Expanded(
                   child: MoreMenuCard(
                     image: 'assets/access/diet.png',
-                    title: 'Food',
+                    title: Languages.of(context).labelFood,
                     onTap: () {
                       Navigator.pushNamed(context, foodPage);
                     },
@@ -70,14 +70,14 @@ class MoreScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
-                  child: MoreMenuCard(
-                    image: 'assets/access/appointment.png',
-                    title: 'Appointments',
-                    onTap: () {
-                      Navigator.pushNamed(context, appointmentPage);
-                    },
-                  ),
-                )
+                    child: MoreMenuCard(
+                  image: 'assets/access/red-ribbon.png',
+                  title: Languages.of(context).labelHivMOthers,
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => HIVMotherPage()));
+                  },
+                )),
               ],
             ),
           ),
@@ -91,7 +91,7 @@ class MoreScreen extends StatelessWidget {
                 Expanded(
                     child: MoreMenuCard(
                   image: 'assets/access/baby-bag.png',
-                  title: 'Hospital Bag',
+                  title: Languages.of(context).labelHospitalBag,
                   onTap: () {
                     Navigator.pushNamed(context, hospitalBagPage);
                   },
@@ -100,7 +100,7 @@ class MoreScreen extends StatelessWidget {
                 Expanded(
                   child: MoreMenuCard(
                     image: 'assets/access/timeline.png',
-                    title: 'Timeline',
+                    title: Languages.of(context).labelTimeline,
                     onTap: () {
                       Navigator.pushNamed(context, timeLinePage);
                     },
@@ -117,15 +117,14 @@ class MoreScreen extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Expanded(
-                    child: MoreMenuCard(
-                  image: 'assets/access/red-ribbon.png',
-                  title: 'HIV Mothers',
-                  onTap: () {
- 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => HIVMotherPage()));
-                  },
-                )),
+                  child: MoreMenuCard(
+                    image: 'assets/access/appointment.png',
+                    title: Languages.of(context).labelAppointments,
+                    onTap: () {
+                      Navigator.pushNamed(context, appointmentPage);
+                    },
+                  ),
+                ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Container(),

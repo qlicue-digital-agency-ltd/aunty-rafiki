@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/config_provider.dart';
 
 import 'package:aunty_rafiki/views/pages/add_appointment.dart';
@@ -69,6 +70,30 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     final _configProvider = Provider.of<ConfigProvider>(context);
+    final _authProvider = Provider.of<AuthProvider>(context);
+
+    Widget _getLandingPage(config) {
+      switch (config) {
+        case Configuration.Terms:
+          return TermsConditionPage();
+        case Configuration.SignUp:
+          if (FirebaseAuth.instance.currentUser == null) return LoginPage();
+          if (_authProvider.currentUser.hasProfile) return HomePage();
+          return StepsPage();
+        case Configuration.Profile:
+        case Configuration.NameScreenStepDone:
+        case Configuration.WeeksPregnancyScreenStepDone:
+        case Configuration.YearOfBirthScreenStepDone:
+        case Configuration.MotherhoodInfoScreenStepDone:
+        case Configuration.MoreInfoScreenStepDone:
+          return StepsPage();
+        case Configuration.Done:
+          if (FirebaseAuth.instance.currentUser == null) return LoginPage();
+          return HomePage();
+        default:
+          return OnboardingPage();
+      }
+    }
 
     return MaterialApp(
       builder: (context, child) {
@@ -100,50 +125,14 @@ class _AppState extends State<App> {
           appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
           primarySwatch: Colors.pink,
           primaryColor: Colors.pink,
-          accentColor: Colors.blue,
+          
           visualDensity: VisualDensity.adaptivePlatformDensity,
           iconTheme: const IconThemeData().copyWith(color: Colors.black54),
           textTheme: GoogleFonts.poppinsTextTheme()),
       home: AnimatedSplashScreen(),
       routes: {
         landingPage: (_) =>
-            _getLandingPage(_configProvider.currentConfigurationStep)
-
-        //  _configProvider.currentConfigurationStep ==
-        //         Configuration.Terms
-        //     ? TermsConditionPage()
-        //     : _configProvider.currentConfigurationStep == Configuration.SignUp
-        //         ? LoginPage()
-        //         : (_configProvider.currentConfigurationStep ==
-        //                 Configuration.Profile
-        //             ? StepsPage()
-        //             : _configProvider.currentConfigurationStep ==
-        //                     Configuration.NameScreenStepDone
-        //                 ? StepsPage()
-        //                 : _configProvider.currentConfigurationStep ==
-        //                         Configuration.WeeksPregnancyScreenStepDone
-        //                     ? StepsPage()
-        //                     : _configProvider.currentConfigurationStep ==
-        //                             Configuration.YearOfBirthScreenStepDone
-        //                         ? StepsPage()
-        //                         : _configProvider.currentConfigurationStep ==
-        //                                 Configuration
-        //                                     .MotherhoodInfoScreenStepDone
-        //                             ? StepsPage()
-        //                             : _configProvider
-        //                                         .currentConfigurationStep ==
-        //                                     Configuration.MoreInfoScreenStepDone
-        //                                 ? StepsPage()
-        //                                 : _configProvider
-        //                                             .currentConfigurationStep ==
-        //                                         Configuration.Done
-        //                                     ? (FirebaseAuth
-        //                                                 .instance.currentUser ==
-        //                                             null
-        //                                         ? LoginPage()
-        //                                         : HomePage())
-        //                                     : OnboardingPage()),
-        ,
+            _getLandingPage(_configProvider.currentConfigurationStep),
         onboardingPage: (_) => OnboardingPage(),
         homePage: (_) => HomePage(),
         chatRoomPage: (_) => ChatRoomPage(),
@@ -169,27 +158,5 @@ class _AppState extends State<App> {
         stepsPage: (_) => StepsPage(),
       },
     );
-  }
-
-  Widget _getLandingPage(config) {
-    switch (config) {
-      case Configuration.Terms:
-        return TermsConditionPage();
-      case Configuration.SignUp:
-        if (FirebaseAuth.instance.currentUser == null) return LoginPage();
-        return StepsPage();
-      case Configuration.Profile:
-      case Configuration.NameScreenStepDone:
-      case Configuration.WeeksPregnancyScreenStepDone:
-      case Configuration.YearOfBirthScreenStepDone:
-      case Configuration.MotherhoodInfoScreenStepDone:
-      case Configuration.MoreInfoScreenStepDone:
-        return StepsPage();
-      case Configuration.Done:
-        if (FirebaseAuth.instance.currentUser == null) return LoginPage();
-        return HomePage();
-      default:
-        return OnboardingPage();
-    }
   }
 }

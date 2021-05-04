@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
@@ -33,7 +34,7 @@ class _GroupChatsState extends State<GroupChats> {
             padding: EdgeInsets.only(top: 16, left: 16, right: 16),
             child: TextField(
               decoration: InputDecoration(
-                hintText: "Search...",
+                hintText: Languages.of(context).labelSearch,
                 hintStyle: TextStyle(color: Colors.grey.shade400),
                 prefixIcon: Icon(
                   Icons.search,
@@ -89,7 +90,7 @@ class _GroupChatsState extends State<GroupChats> {
                         ),
                         NoItemTile(
                           icon: 'assets/icons/chat.png',
-                          title: 'You are not in any chat group yet',
+                          title: Languages.of(context).labelNoItemTileGroup,
                         ),
                       ],
                     ))

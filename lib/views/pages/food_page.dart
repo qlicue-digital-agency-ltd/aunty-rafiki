@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/food_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
@@ -18,7 +19,7 @@ class FoodPage extends StatelessWidget {
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
-        title: Text('Food',style: TextStyle(color: Colors.black),),
+        title: Text(Languages.of(context).labelFood,style: TextStyle(color: Colors.black),),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -35,7 +36,7 @@ class FoodPage extends StatelessWidget {
               ? Center(
                   child: NoItemTile(
                   icon: 'assets/access/diet.png',
-                  title: 'NO food posts yet',
+                  title: Languages.of(context).labelNoItemTileContent,
                   onTap: () {
                     _foodProvider.fetchFoods();
                   },

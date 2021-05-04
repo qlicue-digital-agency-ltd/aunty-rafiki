@@ -79,6 +79,12 @@ class LanguageEn extends Languages {
   String get labelResendButton => "Resend";
   @override
   String get labelVerifyButton => "Verify";
+  @override
+  String get labelAddAppointmentButton => "Add Appointment";
+  @override
+  String get labelSaveButton => "Save";
+  @override
+  String get labelViewAllButton => "View All";
 
   //titles..
   @override
@@ -182,4 +188,77 @@ class LanguageEn extends Languages {
   String get labelBloodLevel => "Blood Level";
   @override
   String get labelMore => "More";
+
+  //more
+  @override
+  String get labelAppointments => "Appointments";
+  @override
+  String get labelFood => "Food";
+  @override
+  String get labelHivMOthers => "HIV Mothers";
+  @override
+  String get labelHospitalBag => "Hospital Bag";
+  @override
+  String get labelTimeline => "Timeline";
+
+  //Hospital bags
+  @override
+  String get labelBabyBag => "Baby's Bag";
+
+  @override
+  String get labelMotherBag => "Mother's Bag";
+
+  @override
+  String get labelPartnerBag => "Birth partner's Bag";
+
+  @override
+  String get labelItemsPacked => "items packed";
+
+  //Tabs
+  @override
+  String get labelChatsTab => "Chats";
+  @override
+  String get labelGroupTab => "Groups";
+  @override
+  String get labelItemsTab => "My Items";
+  @override
+  String get labelSuggesitionTab => "Suggestions";
+  @override
+  String get labelCongratulationsItemsPacked =>
+      "Congratulations you have packed all items";
+
+  //No Items Tile
+  @override
+  String get labelNoItemTileGroup => "You are not in any chat group yet";
+
+  @override
+  String get labelNoItemTileBloodLevel => "No blood levels";
+  @override
+  String get labelNoItemTileContent => "No Content";
+
+  @override
+  String get labelNoItemTileTracker =>
+      "Tap to add the first day of your last menstrual period";
+  @override
+  String get labelNoItemTileAppointments => "No appointments to display";
+
+//search
+  @override
+  String get labelSearch => "Search...";
+
+  //Appointments...
+  @override
+  String get labelAddAppointmentNotes => "Add Notes";
+  @override
+  String get labelAppointmentName => "Appointment Title";
+  @override
+  String get labelEnterAppointmentName => "Enter Appointment Title";
+
+//Blood Level
+  @override
+  String get labelAddBloodLevel => "Add blood level";
+  @override
+  String get labelEnterBloodLevel => "Enter blood level";
+  @override
+  String get labelBloodLevelTitle => "Blood Level";
 }

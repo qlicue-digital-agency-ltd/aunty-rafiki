@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/time_line.dart';
 import 'package:aunty_rafiki/providers/timeline_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
@@ -26,7 +27,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
             color: Colors.black,
           ),
           title: Text(
-            'Time Line',
+            Languages.of(context).labelTimeline,
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.transparent,
@@ -81,7 +82,7 @@ class _Timeline extends StatelessWidget {
                       ),
                       NoItemTile(
                         icon: 'assets/access/timeline.png',
-                        title: 'No Timeline Levels',
+                        title:  Languages.of(context).labelNoItemTileContent,
                         onTap: () {
                           _timelineProvider.fetchTimelines();
                         },

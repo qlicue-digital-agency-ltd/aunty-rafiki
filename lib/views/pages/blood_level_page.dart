@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/blood.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/charts/chart_board.dart';
@@ -27,7 +28,7 @@ class _BloodLevelTimelineState extends State<BloodLevelTimeline> {
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Text('Blood Level', style: TextStyle(color: Colors.black)),
+          title: Text(Languages.of(context).labelBloodLevel, style: TextStyle(color: Colors.black)),
         
       ),
       body: Center(

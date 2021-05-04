@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/post_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/post_card.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
@@ -21,7 +22,7 @@ class HIVMotherPage extends StatelessWidget {
           color: Colors.black,
         ),
         title: Text(
-          'Mothers Living with HIV',
+          Languages.of(context).labelHivMOthers,
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.transparent,
@@ -43,7 +44,8 @@ class HIVMotherPage extends StatelessWidget {
                               height: MediaQuery.of(context).size.height * 0.4,
                             ),
                             NoItemTile(
-                              title: 'No Content',
+                              title: Languages.of(context)
+                                  .labelNoItemTileContent,
                               icon: 'assets/access/red-ribbon.png',
                               onTap: () {
                                 _postProvider.fetchPosts(userId: 1);

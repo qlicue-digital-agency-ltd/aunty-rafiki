@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
@@ -53,7 +54,8 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Add Blood Level', style: TextStyle(color: Colors.black)),
+        title: Text(Languages.of(context).labelAddBloodLevel,
+            style: TextStyle(color: Colors.black)),
       ),
       body: SingleChildScrollView(
           child: Form(
@@ -66,11 +68,11 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                 icon: Icons.local_hospital,
                 textEditingController: _valueEditingController,
                 textInputType: TextInputType.number,
-                title: 'Blood Level',
+                title: Languages.of(context).labelBloodLevelTitle,
                 suffix: 'g/dl',
                 validator: (val) {
                   if (val.isEmpty)
-                    return 'Enter the blood level';
+                    return Languages.of(context).labelEnterBloodLevel;
                   else
                     return null;
                 },
@@ -105,7 +107,9 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                         child: _bloodLevelProvider.isSubmittingData
                             ? Loading()
                             : Text(
-                                'Save'.toUpperCase(),
+                                Languages.of(context)
+                                    .labelSaveButton
+                                    .toUpperCase(),
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,

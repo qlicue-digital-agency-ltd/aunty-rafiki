@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_date_field.dart';
@@ -138,7 +139,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Add Appointment', style: TextStyle(color: Colors.black)),
+        title: Text(Languages.of(context).labelAddAppointmentButton, style: TextStyle(color: Colors.black)),
       ),
       body: SingleChildScrollView(
           child: Form(
@@ -153,10 +154,10 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
               IconTextField(
                 icon: Icons.assignment,
                 textEditingController: _descriptionEditingController,
-                title: 'Appointment Name',
+                title: Languages.of(context).labelAppointmentName,
                 validator: (val) {
                   if (val.isEmpty)
-                    return 'Enter the appointment name';
+                    return Languages.of(context).labelEnterAppointmentName;
                   else
                     return null;
                 },
@@ -172,7 +173,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                 lastDate: DateTime(2100),
                 textEditingController: _dateEditingController,
                 icon: Icons.calendar_today,
-                title: 'Date',
+                title: Languages.of(context).labelDateTitle,
                 dateMask: "EEEE, MMMM d, y",
                 type: DateTimePickerType.date,
               ),
@@ -213,7 +214,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
               ),
               Row(
                 children: [
-                  Text('Add Notes'),
+                  Text(Languages.of(context).labelAddAppointmentNotes),
                 ],
               ),
               Container(
@@ -245,7 +246,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                         child: _appointmentProvider.isSubmittingData
                             ? Loading()
                             : Text(
-                                'Save'.toUpperCase(),
+                                Languages.of(context).labelSaveButton.toUpperCase(),
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -277,6 +278,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   ),
                 ],
               ),
+              SizedBox(height:20)
             ],
           ),
         ),

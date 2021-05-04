@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/appointment.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title:
-            Text('Appointment Details', style: TextStyle(color: Colors.black)),
+            Text(Languages.of(context).labelAppointments, style: TextStyle(color: Colors.black)),
         actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
       ),
       body: SingleChildScrollView(

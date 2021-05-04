@@ -17,20 +17,20 @@ class ChatScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 HomeScreenHeader(
-                title: Languages.of(context).labelChat,
-              ),
+                  title: Languages.of(context).labelChat,
+                ),
                 TabBar(
                   labelColor: Colors.pink,
                   indicatorColor: Colors.pink,
-                              unselectedLabelColor: Colors.black38,
+                  unselectedLabelColor: Colors.black38,
                   onTap: (index) {
                     // Tab index when user select it, it start from zero
                   },
                   tabs: [
                     Tab(
-                      text: 'Group',
+                      text: Languages.of(context).labelGroupTab,
                     ),
-                    Tab(text: 'Chats'),
+                    Tab(text: Languages.of(context).labelChatsTab),
                   ],
                 ),
                 Container(

@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class  SelectContactPageAppBar extends StatelessWidget
+class SelectContactPageAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
+      backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       flexibleSpace: SafeArea(
         child: Container(
@@ -22,7 +23,7 @@ class  SelectContactPageAppBar extends StatelessWidget
                 },
                 icon: Icon(
                   Platform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios,
-                  color: Colors.white,
+                  color: Colors.black54,
                 ),
               ),
               SizedBox(
@@ -43,14 +44,14 @@ class  SelectContactPageAppBar extends StatelessWidget
                     Text(
                       "New Group",
                       style: TextStyle(
-                          fontWeight: FontWeight.w600, color: Colors.white),
+                          fontWeight: FontWeight.w600, color: Colors.black54),
                     ),
                     SizedBox(
                       height: 6,
                     ),
                     Text(
                       "Add participants",
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      style: TextStyle(color: Colors.black54, fontSize: 12),
                     ),
                   ],
                 ),

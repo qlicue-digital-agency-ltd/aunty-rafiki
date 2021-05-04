@@ -19,6 +19,9 @@ abstract class Languages {
   String get labelClearButton;
   String get labelResendButton;
   String get labelVerifyButton;
+  String get labelAddAppointmentButton;
+  String get labelSaveButton;
+  String get labelViewAllButton;
 
 //onboarding
 
@@ -90,10 +93,48 @@ abstract class Languages {
   //LEBELS
   String get labelYes;
   String get labelNo;
+  String get labelSearch;
 
   //Main App
   String get labelTracker;
   String get labelChat;
   String get labelBloodLevel;
   String get labelMore;
+
+  //more
+  String get labelFood;
+  String get labelAppointments;
+  String get labelHospitalBag;
+  String get labelTimeline;
+  String get labelHivMOthers;
+
+  //hospital bags
+  String get labelMotherBag;
+  String get labelBabyBag;
+  String get labelPartnerBag;
+  String get labelItemsPacked;
+
+  //Tabs
+  String get labelSuggesitionTab;
+  String get labelItemsTab;
+  String get labelGroupTab;
+  String get labelChatsTab;
+  String get labelCongratulationsItemsPacked;
+
+  //No Items Tile
+  String get labelNoItemTileGroup;
+  String get labelNoItemTileTracker;
+  String get labelNoItemTileBloodLevel;
+  String get labelNoItemTileAppointments;
+  String get labelNoItemTileContent;
+
+  //Appointments
+  String get labelAppointmentName;
+  String get labelEnterAppointmentName;
+  String get labelAddAppointmentNotes;
+
+  //Blood level
+  String get labelEnterBloodLevel;
+  String get labelAddBloodLevel;
+   String get labelBloodLevelTitle;
 }

@@ -25,11 +25,15 @@ class SelectedChatAppBar extends StatelessWidget
     final _chatProvider = Provider.of<ChatProvider>(context);
     return AppBar(
       elevation: 0,
-      title: Text('${listMessage.length}'),
+      backgroundColor: Colors.transparent,
+      title: Text(
+        '${listMessage.length}',
+        style: TextStyle(color: Colors.black54),
+      ),
       actions: [
         listMessage.length == 1
             ? IconButton(
-                icon: FaIcon(FontAwesomeIcons.reply, color: Colors.white),
+                icon: FaIcon(FontAwesomeIcons.reply, color: Colors.black54),
                 onPressed: () {
                   String key = listMessage.keys.elementAt(0);
                   _chatProvider.setMessageToReply = listMessage[key];
@@ -37,11 +41,11 @@ class SelectedChatAppBar extends StatelessWidget
                 })
             : Container(),
         IconButton(
-            icon: Icon(Icons.star, color: Colors.white), onPressed: () {}),
+            icon: Icon(Icons.star, color: Colors.black54), onPressed: () {}),
         IconButton(
             icon: Icon(
               Icons.delete,
-              color: Colors.white,
+              color: Colors.black54,
             ),
             onPressed: () {
               showDialog(
@@ -79,12 +83,12 @@ class SelectedChatAppBar extends StatelessWidget
                   });
             }),
         IconButton(
-            icon: FaIcon(FontAwesomeIcons.share, color: Colors.white),
+            icon: FaIcon(FontAwesomeIcons.share, color: Colors.black54),
             onPressed: () {}),
         PopupMenuButton<ChatGroupPopMenu>(
           icon: Icon(
             Icons.more_vert,
-            color: Colors.white,
+            color: Colors.black54,
           ),
           onSelected: (ChatGroupPopMenu result) {
             if (result == ChatGroupPopMenu.ExitGroup) {

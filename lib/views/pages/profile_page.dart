@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/view/profile.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/profile_tile.dart';
@@ -18,11 +19,31 @@ class ProfilePage extends StatelessWidget {
           title: 'Nickname:  ${_authProvider.currentUser.nameInitials}'),
       Profile(
           icon: Icons.calendar_today,
-          title: 'Age: ${_authProvider.currentUser.yearOfBirth}'),
+          title: 'Year of Birth: ${_authProvider.currentUser.yearOfBirth}'),
       Profile(icon: Icons.exit_to_app, title: 'Logout')
     ];
+
+    List<Profile> menuList = <Profile>[
+      Profile(icon: Icons.settings, title: 'Settings'),
+      Profile(icon: Icons.info, title: 'About Us'),
+      Profile(icon: Icons.contact_phone, title: 'Contant Us'),
+      Profile(icon: Icons.lock, title: 'privacy Policy')
+    ];
+
+    List<Profile> pregnancyList = <Profile>[
+      Profile(icon: Icons.face, title: 'Baby Sex'),
+      Profile(icon: Icons.library_books, title: 'Baby Name'),
+      Profile(icon: Icons.calendar_today, title: 'Due Date'),
+      Profile(icon: Icons.calculate, title: 'Due Date Calculator')
+    ];
     return Scaffold(
-      appBar: AppBar(title: Text('Profile')),
+      appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black54),
+          elevation: 0,
+          title: Text(
+            Languages.of(context).labelProfileTitle,
+            style: TextStyle(color: Colors.black54),
+          )),
       body: CustomScrollView(slivers: [
         SliverList(
           delegate: SliverChildListDelegate([
@@ -52,6 +73,7 @@ class ProfilePage extends StatelessWidget {
                                   ? '${_authProvider.currentUser.displayName}'
                                   : "No Name",
                               style: TextStyle(
+                                color: Colors.black54,
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             )
                           ]))

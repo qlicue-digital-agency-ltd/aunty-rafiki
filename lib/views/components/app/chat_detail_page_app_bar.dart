@@ -32,6 +32,7 @@ class ChatDetailPageAppBar extends StatelessWidget
 
     return AppBar(
       elevation: 0,
+      backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       flexibleSpace: SafeArea(
         child: Container(
@@ -44,7 +45,7 @@ class ChatDetailPageAppBar extends StatelessWidget
                 },
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Colors.white,
+                  color: Colors.black54,
                 ),
               ),
               SizedBox(
@@ -57,7 +58,7 @@ class ChatDetailPageAppBar extends StatelessWidget
                 child: Hero(
                   tag: chat.id,
                   child: CircleAvatar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.black54,
                     backgroundImage: chat.avatar.isNotEmpty
                         ? NetworkImage(chat.avatar)
                         : AssetImage('assets/icons/aunty_rafiki.png'),
@@ -83,7 +84,7 @@ class ChatDetailPageAppBar extends StatelessWidget
                       Text(
                         chat.name,
                         style: TextStyle(
-                            fontWeight: FontWeight.w600, color: Colors.white),
+                            fontWeight: FontWeight.w600, color: Colors.black54),
                       ),
                       SizedBox(
                         height: 6,
@@ -98,7 +99,7 @@ class ChatDetailPageAppBar extends StatelessWidget
                               maxLines: 1,
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black54,
                                 fontSize: 12,
                               ),
                             ),
@@ -112,7 +113,7 @@ class ChatDetailPageAppBar extends StatelessWidget
               PopupMenuButton<ChatGroupPopMenu>(
                 icon: Icon(
                   Icons.more_vert,
-                  color: Colors.white,
+                  color: Colors.black54,
                 ),
                 onSelected: (ChatGroupPopMenu result) {
                   if (result == ChatGroupPopMenu.GroupInfo) {
