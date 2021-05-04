@@ -47,9 +47,7 @@ class AuthProvider with ChangeNotifier {
   AuthProvider() {
     initializeFlutterFire();
 
-    if (FirebaseAuth.instance.currentUser != null) {
-      getUserProfile();
-    }
+    getUserProfile();
   }
 
   void initializeFlutterFire() async {

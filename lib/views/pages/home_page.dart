@@ -1,5 +1,6 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/screens/blood_level_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _utilityProvider = Provider.of<UtilityProvider>(context);
+     Provider.of<AuthProvider>(context);
     return Scaffold(
         body: SafeArea(child: _screens[_utilityProvider.currentIndex]),
         bottomNavigationBar: BottomNavigationBar(

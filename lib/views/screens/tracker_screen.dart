@@ -50,7 +50,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 2.7,
                       ),
-                      Center(child: Loading()),
+                      Center(child: Loading(color: Colors.pink,)),
                     ],
                   )
                 : _trackerProvider.availableTrackers.isEmpty

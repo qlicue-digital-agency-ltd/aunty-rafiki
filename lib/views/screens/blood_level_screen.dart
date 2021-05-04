@@ -16,30 +16,38 @@ class BloodLevelScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _bloodLevelProvider = Provider.of<BloodLevelProvider>(context);
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SafeArea(
-            child: HomeScreenHeader(
-              title: Languages.of(context).labelBloodLevel,
+    return RefreshIndicator(
+      onRefresh: () {
+        return _bloodLevelProvider.fetchBloodLevels();
+      },
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SafeArea(
+              child: HomeScreenHeader(
+                title: Languages.of(context).labelBloodLevel,
+              ),
             ),
-          ),
-          // Chartboard(),
-          Container(
-            child: _bloodLevelProvider.isFetchingBloodLevelData
-                ? Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 2.7,
-                      ),
-                      Center(child: Loading()),
-                    ],
-                  )
-                : _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
-          )
-        ],
+            // Chartboard(),
+            Container(
+              child: _bloodLevelProvider.isFetchingBloodLevelData
+                  ? Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 2.7,
+                        ),
+                        Center(
+                            child: Loading(
+                          color: Colors.pink,
+                        )),
+                      ],
+                    )
+                  : _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
+            )
+          ],
+        ),
       ),
     );
   }

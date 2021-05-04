@@ -34,7 +34,7 @@ class HospitalBagPage extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2.7,
                   ),
-                  Center(child: Loading()),
+                  Center(child: Loading(color: Colors.pink,)),
                 ],
               )
             : Column(children: [

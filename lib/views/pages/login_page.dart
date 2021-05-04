@@ -5,14 +5,20 @@ import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
-import 'package:aunty_rafiki/views/components/text-field/mobile_text_field.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
-  final TextEditingController _phoneTextEditingController =
-      TextEditingController();
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String _phoneNumber = "";
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +52,25 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            MobileTextfield(
-              phoneTextEditingController: _phoneTextEditingController,
-              onChange: (phone) {
-                if (_phoneTextEditingController.text.indexOf('0') == 1)
-                  _phoneTextEditingController.clear();
-
-                _authProvider.setPhoneNumber = phone;
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: IntlPhoneField(
+                countryCodeTextColor: Colors.black,
+                inputFormatters: <TextInputFormatter>[
+                  LengthLimitingTextInputFormatter(13),
+                  FilteringTextInputFormatter.digitsOnly,
+                  FilteringTextInputFormatter.singleLineFormatter,
+                  //_phoneNumberFormatter,
+                ],
+                style: TextStyle(color: Colors.black),
+                initialCountryCode: 'TZ',
+                onChanged: (phone) {
+                  _authProvider.setPhoneNumber = phone;
+                  setState(() {
+                    _phoneNumber = phone.number;
+                  });
+                },
+              ),
             ),
             SizedBox(
               height: 20.0,
@@ -64,7 +81,7 @@ class LoginPage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   if (!_authProvider.isSendingPhone) {
-                    if (_phoneTextEditingController.text.isNotEmpty)
+                    if (_phoneNumber.isNotEmpty)
                       _authProvider.requestVerificationCode().then((value) {
                         if (!value) {
                           Navigator.pushNamed(context, confirmationPage);

@@ -31,7 +31,7 @@ class HIVMotherPage extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.only(left: 5, right: 5),
         child: _postProvider.isFetchingData
-            ? Center(child: Loading())
+            ? Center(child: Loading(color: Colors.pink,))
             : _postProvider.availablePosts.isEmpty
                 ? RefreshIndicator(
                     onRefresh: _getData,

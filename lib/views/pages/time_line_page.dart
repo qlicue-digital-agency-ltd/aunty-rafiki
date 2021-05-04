@@ -198,7 +198,7 @@ class _TimelineChild extends StatelessWidget {
                     ? Container()
                     : CachedNetworkImage(
                         placeholder: (context, url) => Container(
-                          child: Loading(),
+                          child: Loading(color: Colors.pink,),
                           padding: EdgeInsets.all(70.0),
                           decoration: BoxDecoration(
                             color: greyColor2,

@@ -20,15 +20,15 @@ class ProfilePage extends StatelessWidget {
       Profile(
           icon: Icons.person,
           title: Languages.of(context).labelFullName +
-              ':  ${_authProvider.currentUser.displayName}'),
+              ':  ${_authProvider.currentUser != null ? _authProvider.currentUser.displayName : ''}'),
       Profile(
           icon: Icons.person,
           title: Languages.of(context).labelNickname +
-              ':  ${_authProvider.currentUser.nameInitials}'),
+              ':  ${_authProvider.currentUser != null ? _authProvider.currentUser.nameInitials : ''}'),
       Profile(
           icon: Icons.calendar_today,
           title: Languages.of(context).labelYearOfBirth +
-              ': ${_authProvider.currentUser.yearOfBirth}'),
+              ': ${_authProvider.currentUser != null ? _authProvider.currentUser.yearOfBirth : ''}'),
       Profile(icon: Icons.exit_to_app, title: Languages.of(context).labelLogout)
     ];
 
@@ -55,13 +55,13 @@ class ProfilePage extends StatelessWidget {
     ];
     return Scaffold(
       appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black54),
-          elevation: 0,
-          title: Text(
-            Languages.of(context).labelProfileTitle,
-            style: TextStyle(color: Colors.black54),
-          ),
-            actions: [
+        iconTheme: IconThemeData(color: Colors.black54),
+        elevation: 0,
+        title: Text(
+          Languages.of(context).labelProfileTitle,
+          style: TextStyle(color: Colors.black54),
+        ),
+        actions: [
           PopupMenuButton<LanguageData>(
               icon: Icon(
                 Icons.more_vert,
@@ -88,133 +88,138 @@ class ProfilePage extends StatelessWidget {
                   )
                   .toList())
         ],
-      
+      ),
+      body: RefreshIndicator(
+         onRefresh: () {
+        return _authProvider.getUserProfile();
+      },
+              child: CustomScrollView(slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: _authProvider.currentUser != null
+                    ? InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, editProfilePage);
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                radius: 50,
+                                backgroundImage:
+                                    _authProvider.currentUser.photoUrl == null
+                                        ? AssetImage('assets/icons/female.png')
+                                        : NetworkImage(
+                                            _authProvider.currentUser.photoUrl),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                _authProvider.currentUser != null
+                                    ? '${_authProvider.currentUser.displayName}'
+                                    : "No Name",
+                                style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              )
+                            ]))
+                    : Container(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Text(Languages.of(context).labelMenuTitle,
+                    style: TextStyle(fontSize: 18)),
+              ),
+            ]),
           ),
-      body: CustomScrollView(slivers: [
-        SliverList(
-          delegate: SliverChildListDelegate([
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: _authProvider.currentUser != null
-                  ? InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, editProfilePage);
-                      },
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              radius: 50,
-                              backgroundImage:
-                                  _authProvider.currentUser.photoUrl == null
-                                      ? AssetImage('assets/icons/female.png')
-                                      : NetworkImage(
-                                          _authProvider.currentUser.photoUrl),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              _authProvider.currentUser.displayName != null
-                                  ? '${_authProvider.currentUser.displayName}'
-                                  : "No Name",
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18),
-                            )
-                          ]))
-                  : Container(),
+          SliverList(
+              delegate: SliverChildBuilderDelegate((_, index) {
+            return ProfileTile(
+              profileItem: menuList[index],
+              onTap: () {
+                print(menuList[index].title);
+                if (menuList[index].title == Languages.of(context).labelAboutUs) {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => AppInfoPage()));
+                }
+                if (menuList[index].title ==
+                    Languages.of(context).labelContactUs) {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => HelpPage()));
+                }
+                if (menuList[index].title ==
+                    Languages.of(context).labelPrivacyPolicy) {
+                  _launchURL(
+                      'https://auntierafiki.co.tz/legal/update/privacy-policy');
+                }
+              },
+            );
+          }, childCount: menuList.length)),
+          SliverList(
+              delegate: SliverChildListDelegate([
+            SizedBox(
+              height: 10,
+            ),
+            Divider(),
+            SizedBox(
+              height: 20,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(Languages.of(context).labelMenuTitle,
+              child: Text(Languages.of(context).labelPreganancyTitle,
                   style: TextStyle(fontSize: 18)),
             ),
-          ]),
-        ),
-        SliverList(
-            delegate: SliverChildBuilderDelegate((_, index) {
-          return ProfileTile(
-            profileItem: menuList[index],
-            onTap: () {
-              print(menuList[index].title);
-              if (menuList[index].title == Languages.of(context).labelAboutUs) {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => AppInfoPage()));
-              }
-              if (menuList[index].title ==
-                  Languages.of(context).labelContactUs) {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => HelpPage()));
-              }
-              if (menuList[index].title ==
-                  Languages.of(context).labelPrivacyPolicy) {
-                _launchURL(
-                    'https://auntierafiki.co.tz/legal/update/privacy-policy');
-              }
-            },
-          );
-        }, childCount: menuList.length)),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          SizedBox(
-            height: 10,
-          ),
-          Divider(),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Text(Languages.of(context).labelPreganancyTitle,
-                style: TextStyle(fontSize: 18)),
-          ),
-        ])),
-        SliverList(
-            delegate: SliverChildBuilderDelegate((_, index) {
-          return ProfileTile(
-            profileItem: pregnancyList[index],
-            onTap: () {
-              print(pregnancyList[index].title);
-            },
-          );
-        }, childCount: pregnancyList.length)),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          SizedBox(
-            height: 10,
-          ),
-          Divider(),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Text(Languages.of(context).labelAccountTitle,
-                style: TextStyle(fontSize: 18)),
-          ),
-        ])),
-        _authProvider.currentUser != null
-            ? SliverList(
-                delegate: SliverChildBuilderDelegate((_, index) {
-                return ProfileTile(
-                  profileItem: accountList[index],
-                  onTap: () {
-                    print(accountList[index].title);
-                    if (accountList[index].title ==
-                        Languages.of(context).labelLogout) {
-                      _authProvider.signOut().then((value) {
-                        Navigator.pushNamed(context, landingPage);
-                      });
-                    }
-                  },
-                );
-              }, childCount: accountList.length))
-            : SliverList(delegate: SliverChildListDelegate([])),
-      ]),
+          ])),
+          SliverList(
+              delegate: SliverChildBuilderDelegate((_, index) {
+            return ProfileTile(
+              profileItem: pregnancyList[index],
+              onTap: () {
+                print(pregnancyList[index].title);
+              },
+            );
+          }, childCount: pregnancyList.length)),
+          SliverList(
+              delegate: SliverChildListDelegate([
+            SizedBox(
+              height: 10,
+            ),
+            Divider(),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(Languages.of(context).labelAccountTitle,
+                  style: TextStyle(fontSize: 18)),
+            ),
+          ])),
+          _authProvider.currentUser != null
+              ? SliverList(
+                  delegate: SliverChildBuilderDelegate((_, index) {
+                  return ProfileTile(
+                    profileItem: accountList[index],
+                    onTap: () {
+                      print(accountList[index].title);
+                      if (accountList[index].title ==
+                          Languages.of(context).labelLogout) {
+                        _authProvider.signOut().then((value) {
+                          Navigator.pushNamed(context, landingPage);
+                        });
+                      }
+                    },
+                  );
+                }, childCount: accountList.length))
+              : SliverList(delegate: SliverChildListDelegate([])),
+        ]),
+      ),
     );
   }
+
   void _launchURL(String uri) async {
     String url = uri;
     if (await canLaunch(url)) {

@@ -29,7 +29,7 @@ class FoodPage extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 2.7,
                 ),
-                Center(child: Loading()),
+                Center(child: Loading(color: Colors.pink,)),
               ],
             )
           : _foodProvider.availableFoods.isEmpty

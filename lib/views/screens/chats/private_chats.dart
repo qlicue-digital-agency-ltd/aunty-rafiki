@@ -70,7 +70,7 @@ class _PrivateChatsState extends State<PrivateChats> {
                 }
 
                 if (!snapshot.hasData) {
-                  return Loading();
+                  return Loading(color: Colors.pink,);
                 } else {
                   List<User> userList = snapshot.data;
                   return ListView.builder(
@@ -86,7 +86,7 @@ class _PrivateChatsState extends State<PrivateChats> {
 
           // Loading
           Positioned(
-            child: isLoading ? const Loading() : Container(),
+            child: isLoading ? const Loading(color: Colors.pink,) : Container(),
           )
         ],
       ),

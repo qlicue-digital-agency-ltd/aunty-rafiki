@@ -78,7 +78,7 @@ class _GroupChatsState extends State<GroupChats> {
                     child: Text('error: ${snapshot.error.toString()}'));
               }
               if (!snapshot.hasData) {
-                return Center(child: Loading());
+                return Center(child: Loading(color: Colors.pink,));
               }
               List<Chat> chatList = snapshot.data;
               return chatList.isEmpty

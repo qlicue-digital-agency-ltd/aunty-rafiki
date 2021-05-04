@@ -77,6 +77,7 @@ class _AppState extends State<App> {
         case Configuration.Terms:
           return TermsConditionPage();
         case Configuration.SignUp:
+           print('POOOOO');
           if (FirebaseAuth.instance.currentUser == null) return LoginPage();
           if (_authProvider.currentUser.hasProfile) return HomePage();
           return StepsPage();
@@ -122,12 +123,9 @@ class _AppState extends State<App> {
         return supportedLocales?.first;
       },
       theme: ThemeData(
-          appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
           primarySwatch: Colors.pink,
           primaryColor: Colors.pink,
-          
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          iconTheme: const IconThemeData().copyWith(color: Colors.black54),
           textTheme: GoogleFonts.poppinsTextTheme()),
       home: AnimatedSplashScreen(),
       routes: {
