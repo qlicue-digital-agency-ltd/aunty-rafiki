@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/enums/enums.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/blood.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/headers/home_screen_header.dart';
@@ -22,7 +23,7 @@ class BloodLevelScreen extends StatelessWidget {
         children: <Widget>[
           SafeArea(
             child: HomeScreenHeader(
-              title: 'Blood Level',
+              title: Languages.of(context).labelBloodLevel,
             ),
           ),
           // Chartboard(),

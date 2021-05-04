@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/views/screens/blood_level_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -37,19 +38,19 @@ class HomePage extends StatelessWidget {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.track_changes_sharp),
-              label: 'Tracker',
+              label: Languages.of(context).labelTracker,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.chat),
-              label: 'Chat',
+              label: Languages.of(context).labelChat,
             ),
             BottomNavigationBarItem(
               icon: Icon(FontAwesomeIcons.chartLine),
-              label: 'Blood Level',
+              label: Languages.of(context).labelBloodLevel,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.more_horiz),
-              label: 'More',
+              label: Languages.of(context).labelMore,
             ),
           ],
           onTap: _utilityProvider.selectTab,

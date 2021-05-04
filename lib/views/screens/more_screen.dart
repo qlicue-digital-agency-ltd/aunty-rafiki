@@ -1,4 +1,5 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
 import 'package:aunty_rafiki/views/components/headers/home_screen_header.dart';
@@ -22,7 +23,7 @@ class MoreScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   HomeScreenHeader(
-                title: 'More',
+                title: Languages.of(context).labelMore,
               ),
                   InkWell(
                     onTap: () {

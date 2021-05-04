@@ -12,7 +12,6 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:aunty_rafiki/models/user.dart' as customUser;
 
-
 class AuthProvider with ChangeNotifier {
   bool _isSendingPhone = false;
   bool _hasError = false;
@@ -21,6 +20,7 @@ class AuthProvider with ChangeNotifier {
   bool _initialized, _error;
   bool _isLoggedIn = false;
   bool _isCodeSent = false;
+  bool _isGettingUserProfile = false;
   String _verificationId;
   PhoneNumber _phoneNumber;
 
@@ -41,6 +41,7 @@ class AuthProvider with ChangeNotifier {
 
   ///current user profile getter..
   customUser.User get currentUser => _currentUser;
+  bool get isGettingUserProfile => _isGettingUserProfile;
   List<customUser.User> get groupUsers => _groupUsers;
 
   AuthProvider() {
@@ -437,12 +438,15 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> getUserProfile() async {
+    _isGettingUserProfile = true;
+    notifyListeners();
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     final user = users.doc(FirebaseAuth.instance.currentUser.uid).get();
     await user.then((doc) {
       _currentUser = customUser.User.fromFirestore(doc);
     });
 
+    _isGettingUserProfile = false;
     notifyListeners();
   }
 

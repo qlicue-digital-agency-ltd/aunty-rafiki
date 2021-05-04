@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/views/components/headers/home_screen_header.dart';
 import 'package:aunty_rafiki/views/screens/chats/group_chats.dart';
 import 'package:aunty_rafiki/views/screens/chats/private_chats.dart';
@@ -16,7 +17,7 @@ class ChatScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 HomeScreenHeader(
-                title: 'Chats',
+                title: Languages.of(context).labelChat,
               ),
                 TabBar(
                   labelColor: Colors.pink,

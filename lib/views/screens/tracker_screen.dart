@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/tracker.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
@@ -28,7 +29,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
   Widget build(BuildContext context) {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
     final _motherProvider = Provider.of<MotherProvider>(context);
-    
+
     return RefreshIndicator(
       onRefresh: () {
         return _trackerProvider.fetchTrackers();
@@ -40,7 +41,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
           children: [
             SafeArea(
               child: HomeScreenHeader(
-                title: 'Tracker',
+                title: Languages.of(context).labelTracker,
               ),
             ),
             _trackerProvider.isFetchingTrackerData

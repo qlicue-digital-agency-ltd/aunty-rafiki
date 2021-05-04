@@ -20,7 +20,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<Languages> {
       case 'sw':
         return LanguageSw();
       default:
-        return LanguageEn();
+        return LanguageSw();
     }
   }
 
