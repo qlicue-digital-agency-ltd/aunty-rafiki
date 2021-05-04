@@ -6,6 +6,8 @@ import 'package:aunty_rafiki/views/components/tiles/profile_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'app_info_page.dart';
+
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -104,6 +106,10 @@ class ProfilePage extends StatelessWidget {
             profileItem: menuList[index],
             onTap: () {
               print(menuList[index].title);
+              if (menuList[index].title == Languages.of(context).labelAboutUs) {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => AppInfoPage()));
+              }
             },
           );
         }, childCount: menuList.length)),
