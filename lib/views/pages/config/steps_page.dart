@@ -78,6 +78,7 @@ class _StepsPageState extends State<StepsPage> {
     return Scaffold(
       key: _scafoldKey,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: _configProvider.currentPregPage == 1
             ? Container()

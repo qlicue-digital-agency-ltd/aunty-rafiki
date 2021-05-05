@@ -38,7 +38,6 @@ class PostDetailsPage extends StatelessWidget {
             CachedNetworkImage(
               placeholder: (context, url) => Container(
                 child: Loading(),
-                height: size.height / 3,
                 width: size.width,
                 padding: EdgeInsets.all(70.0),
                 decoration: BoxDecoration(
@@ -51,7 +50,7 @@ class PostDetailsPage extends StatelessWidget {
               errorWidget: (context, url, error) => Material(
                 child: Image.asset(
                   'assets/images/img_not_available.jpeg',
-                  height: size.height / 3,
+                  
                   width: size.width,
                   fit: BoxFit.cover,
                 ),
@@ -61,9 +60,9 @@ class PostDetailsPage extends StatelessWidget {
                 clipBehavior: Clip.hardEdge,
               ),
               imageUrl: post.images.last.url,
-              height: size.height / 3,
+            
               width: size.width,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
             SizedBox(
               height: 10,

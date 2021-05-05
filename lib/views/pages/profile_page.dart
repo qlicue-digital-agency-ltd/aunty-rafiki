@@ -57,6 +57,7 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black54),
         elevation: 0,
+          backgroundColor: Colors.transparent,
         title: Text(
           Languages.of(context).labelProfileTitle,
           style: TextStyle(color: Colors.black54),

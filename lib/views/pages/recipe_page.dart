@@ -1,3 +1,4 @@
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/food.dart';
 
 import 'package:aunty_rafiki/views/components/cards/recipe_card.dart';
@@ -19,7 +20,7 @@ class RecipePage extends StatelessWidget {
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
-          backgroundColor: Colors.transparent,
+         
           elevation: 0,
           title: Text(title, style: TextStyle(color: Colors.black))),
       body: food.recipes.isEmpty
@@ -34,7 +35,7 @@ class RecipePage extends StatelessWidget {
                         icon: food.images.isNotEmpty
                             ? food.images.last.url
                             : 'assets/access/diet.png',
-                        title: 'No recipes of yet')),
+                        title: Languages.of(context).labelNoItemTileContent)),
               ],
             )
           : GridView.builder(

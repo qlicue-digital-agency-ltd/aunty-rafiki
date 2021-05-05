@@ -124,7 +124,8 @@ class _AppState extends State<App> {
       },
       theme: ThemeData(
           primarySwatch: Colors.pink,
-          primaryColor: Colors.pink,
+          appBarTheme: AppBarTheme(  backgroundColor: Colors.transparent,),
+
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: GoogleFonts.poppinsTextTheme()),
       home: AnimatedSplashScreen(),

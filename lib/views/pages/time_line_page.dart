@@ -44,7 +44,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 2.7,
                         ),
-                        Center(child: Loading()),
+                        Center(child: Loading(color: Colors.pink,)),
                       ],
                     )
                   : _Timeline(data: _timelineProvider.availableTimelines),
