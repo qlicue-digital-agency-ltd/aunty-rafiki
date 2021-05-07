@@ -9,8 +9,10 @@ import 'package:share/share.dart';
 
 class PostCard extends StatefulWidget {
   final Post post;
+  final Function onTap;
 
-  PostCard({Key key, @required this.post}) : super(key: key);
+  PostCard({Key key, @required this.post, @required this.onTap})
+      : super(key: key);
 
   @override
   _PostCardState createState() => _PostCardState();
@@ -51,14 +53,7 @@ class _PostCardState extends State<PostCard> {
             ),
             widget.post.images.isNotEmpty
                 ? InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => PostDetailsPage(
-                                    post: widget.post,
-                                  )));
-                    },
+                    onTap: widget.onTap,
                     child: CachedNetworkImage(
                       placeholder: (context, url) => Container(
                         child: Loading(),

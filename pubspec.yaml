@@ -58,6 +58,7 @@ dependencies:
   cached_network_image: ^3.0.0
   numberpicker: ^2.1.1
   sqflite: ^2.0.0+3
+  animations: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +68,7 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/icons/aunty_rafiki.png"
+  image_path: "assets/icons/logo.jpg"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

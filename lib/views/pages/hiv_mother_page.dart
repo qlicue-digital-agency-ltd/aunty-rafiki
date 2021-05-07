@@ -1,8 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/post_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/post_card.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
+import 'package:aunty_rafiki/views/pages/post_details_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,10 @@ class HIVMotherPage extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.only(left: 5, right: 5),
         child: _postProvider.isFetchingData
-            ? Center(child: Loading(color: Colors.pink,))
+            ? Center(
+                child: Loading(
+                color: Colors.pink,
+              ))
             : _postProvider.availablePosts.isEmpty
                 ? RefreshIndicator(
                     onRefresh: _getData,
@@ -44,8 +49,8 @@ class HIVMotherPage extends StatelessWidget {
                               height: MediaQuery.of(context).size.height * 0.4,
                             ),
                             NoItemTile(
-                              title: Languages.of(context)
-                                  .labelNoItemTileContent,
+                              title:
+                                  Languages.of(context).labelNoItemTileContent,
                               icon: 'assets/access/red-ribbon.png',
                               onTap: () {
                                 _postProvider.fetchPosts(userId: 1);
@@ -63,11 +68,25 @@ class HIVMotherPage extends StatelessWidget {
                           delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                             return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: PostCard(
-                                post: _postProvider.availablePosts[index],
-                              ),
-                            );
+                                padding: const EdgeInsets.all(8.0),
+                                child: OpenContainer(
+                                    transitionType:
+                                        ContainerTransitionType.fadeThrough,
+                                    closedBuilder: (BuildContext _,
+                                        VoidCallback openContainer) {
+                                      return PostCard(
+                                        post:
+                                            _postProvider.availablePosts[index],
+                                        onTap: openContainer,
+                                      );
+                                    },
+                                    openBuilder:
+                                        (BuildContext _, VoidCallback __) {
+                                      return PostDetailsPage(
+                                        post:
+                                            _postProvider.availablePosts[index],
+                                      );
+                                    }));
                           }, childCount: _postProvider.availablePosts.length),
                         ),
                       ],

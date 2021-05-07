@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
@@ -42,75 +43,86 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   Icon(_calendarView ? Icons.view_list : Icons.calendar_today))
         ],
       ),
-      body: _calendarView
-          ? SingleChildScrollView(
-              child: Column(
-              children: [
-                CalendarCard(),
-                SizedBox(height: 100),
-                _appointmentProvider.selectedCalendarAppointments.isEmpty
-                    ? NoItemTile(
-                        icon: 'assets/icons/calendar.png',
-                        title: 'No appointments to display',
-                      )
-                    : Column(
-                        // mainAxisAlignment: MainAxisAlignment.,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Text('Recent'),
-                          ),
-                          AppointmentTile(
-                            appointment: _appointmentProvider
-                                .selectedCalendarAppointments.last,
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => AppointmentDetailsPage(
-                                          appointment: _appointmentProvider
-                                              .availableAppointments.last)));
-                            },
-                          ),
-                          _appointmentProvider
-                                      .selectedCalendarAppointments.length >
-                                  1
-                              ? TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, dailyAppointmentsPage);
-                                  },
-                                  child: Text(Languages.of(context).labelViewAllButton))
-                              : Container()
-                        ],
-                      )
-              ],
-            ))
-          : _appointmentProvider.availableAppointments.isEmpty
-              ? Center(
-                  child: NoItemTile(
-                    icon: 'assets/icons/calendar.png',
-                    title: Languages.of(context).labelNoItemTileAppointments,
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: _appointmentProvider.availableAppointments.length,
-                  itemBuilder: (_, index) {
-                    return AppointmentTile(
-                      appointment:
-                          _appointmentProvider.availableAppointments[index],
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => AppointmentDetailsPage(
-                                    appointment: _appointmentProvider
-                                        .availableAppointments[index])));
-                      },
-                    );
-                  }),
+      body: PageTransitionSwitcher(
+        transitionBuilder: (Widget child, Animation<double> primaryAnimation,
+            Animation<double> secondaryAnimation) {
+          return FadeThroughTransition(
+              animation: primaryAnimation,
+              secondaryAnimation: secondaryAnimation,
+              child: child);
+        },
+        child: _calendarView
+            ? SingleChildScrollView(
+                child: Column(
+                children: [
+                  CalendarCard(),
+                  SizedBox(height: 100),
+                  _appointmentProvider.selectedCalendarAppointments.isEmpty
+                      ? NoItemTile(
+                          icon: 'assets/icons/calendar.png',
+                          title: 'No appointments to display',
+                        )
+                      : Column(
+                          // mainAxisAlignment: MainAxisAlignment.,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Text('Recent'),
+                            ),
+                            AppointmentTile(
+                              appointment: _appointmentProvider
+                                  .selectedCalendarAppointments.last,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => AppointmentDetailsPage(
+                                            appointment: _appointmentProvider
+                                                .availableAppointments.last)));
+                              },
+                            ),
+                            _appointmentProvider
+                                        .selectedCalendarAppointments.length >
+                                    1
+                                ? TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, dailyAppointmentsPage);
+                                    },
+                                    child: Text(Languages.of(context)
+                                        .labelViewAllButton))
+                                : Container()
+                          ],
+                        )
+                ],
+              ))
+            : _appointmentProvider.availableAppointments.isEmpty
+                ? Center(
+                    child: NoItemTile(
+                      icon: 'assets/icons/calendar.png',
+                      title: Languages.of(context).labelNoItemTileAppointments,
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount:
+                        _appointmentProvider.availableAppointments.length,
+                    itemBuilder: (_, index) {
+                      return AppointmentTile(
+                        appointment:
+                            _appointmentProvider.availableAppointments[index],
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => AppointmentDetailsPage(
+                                      appointment: _appointmentProvider
+                                          .availableAppointments[index])));
+                        },
+                      );
+                    }),
+      ),
       bottomNavigationBar: BottomAppBar(
           child: Container(
         height: 80,
@@ -134,7 +146,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
                         child: Text(
-                          Languages.of(context).labelAddAppointmentButton.toUpperCase(),
+                          Languages.of(context)
+                              .labelAddAppointmentButton
+                              .toUpperCase(),
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,
