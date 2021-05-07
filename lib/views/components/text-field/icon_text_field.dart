@@ -48,6 +48,7 @@ class IconTextField extends StatelessWidget {
               ),
               Expanded(
                 child: TextFormField(
+                  
                         focusNode: focusNode,
                         validator: validator,
                         keyboardType: textInputType,
