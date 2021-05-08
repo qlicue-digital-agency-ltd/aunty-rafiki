@@ -2,10 +2,13 @@ import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/tracker.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
 import 'package:aunty_rafiki/providers/tracker_provider.dart';
+import 'package:aunty_rafiki/views/components/cards/tracker/loader_tracker_card.dart';
 import 'package:aunty_rafiki/views/components/headers/home_screen_header.dart';
+import 'package:aunty_rafiki/views/components/headers/loading_home_screen_header.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
-import 'package:aunty_rafiki/views/components/tiles/tracker_tile.dart';
+import 'package:aunty_rafiki/views/components/tiles/tracker/loader_tracker_tile.dart';
+import 'package:aunty_rafiki/views/components/tiles/tracker/tracker_tile.dart';
 import 'package:aunty_rafiki/views/pages/tracker_blog_page.dart';
 import 'package:aunty_rafiki/views/pages/tracker_page.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -13,9 +16,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-import '../components/cards/tracker_card.dart';
+import '../components/cards/tracker/tracker_card.dart';
 
 class TrackerScreen extends StatefulWidget {
   @override
@@ -40,18 +44,42 @@ class _TrackerScreenState extends State<TrackerScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SafeArea(
-              child: HomeScreenHeader(
-                title: Languages.of(context).labelTracker,
-              ),
+              child: _trackerProvider.isFetchingTrackerData
+                  ? LoadingHomeScreenHeader()
+                  : HomeScreenHeader(
+                      title: Languages.of(context).labelTracker,
+                    ),
             ),
             _trackerProvider.isFetchingTrackerData
-                ? Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 2.7,
-                      ),
-                      Center(child: Loading(color: Colors.pink,)),
-                    ],
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 10,
+                    itemBuilder: (BuildContext context, int index) {
+                      final IndicatorStyle indicator = index % 2 != 0
+                          ? _loaderIndicatorStyleCheckpoint()
+                          : const IndicatorStyle(width: 0);
+
+                      return TimelineTile(
+                        alignment: TimelineAlign.manual,
+                        lineXY: 0.15,
+                        isFirst: index == 1,
+                        isLast: index ==
+                            10 - 1,
+                        startChild: _LoadingLeftChildTimeline(
+                          isCheckpoint: index % 2 == 0,
+                        ),
+                        endChild: _LoadingRightChildTimeline(
+                          isCheckpoint: index % 2 != 0,
+                        ),
+                        indicatorStyle: indicator,
+                        hasIndicator: index % 2 != 0,
+                        beforeLineStyle: LineStyle(
+                          color: Colors.grey[300],
+                          thickness: 8,
+                        ),
+                      );
+                    },
                   )
                 : _trackerProvider.availableTrackers.isEmpty
                     ? Column(
@@ -255,6 +283,25 @@ class _TrackerScreenState extends State<TrackerScreen> {
       ),
     );
   }
+
+  IndicatorStyle _loaderIndicatorStyleCheckpoint() {
+    return IndicatorStyle(
+      width: 46,
+      height: 100,
+      indicator: Shimmer.fromColors(
+        baseColor: Colors.grey[300],
+        highlightColor: Colors.grey[100],
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: const BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _LeftChildTimeline extends StatelessWidget {
@@ -285,6 +332,35 @@ class _LeftChildTimeline extends StatelessWidget {
                 ],
               )
             : Container();
+  }
+}
+
+///loading...
+///
+class _LoadingLeftChildTimeline extends StatelessWidget {
+  const _LoadingLeftChildTimeline({Key key, @required this.isCheckpoint})
+      : super(key: key);
+
+  final bool isCheckpoint;
+
+  @override
+  Widget build(BuildContext context) {
+    return isCheckpoint
+        ? Container()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(right: isCheckpoint ? 5 : 5),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                  child: Container(
+                      height: 32.0, width: 180.0, color: Colors.grey[300]),
+                ),
+              )
+            ],
+          );
   }
 }
 
@@ -324,5 +400,17 @@ class _RightChildTimeline extends StatelessWidget {
                 },
               )
             : Container();
+  }
+}
+
+class _LoadingRightChildTimeline extends StatelessWidget {
+  final bool isCheckpoint;
+
+  const _LoadingRightChildTimeline({Key key, @required this.isCheckpoint})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return isCheckpoint ? LoaderTrackerTile() : LoaderTrackerCard();
   }
 }

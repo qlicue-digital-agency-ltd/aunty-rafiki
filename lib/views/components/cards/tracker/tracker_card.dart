@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../models/tracker.dart';
+import '../../../../models/tracker.dart';
 
 class TrackerCard extends StatelessWidget {
   final Tracker tracker;

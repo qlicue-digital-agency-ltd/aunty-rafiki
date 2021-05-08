@@ -59,6 +59,7 @@ dependencies:
   numberpicker: ^2.1.1
   sqflite: ^2.0.0+3
   animations: ^2.0.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:
