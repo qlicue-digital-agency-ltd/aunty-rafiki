@@ -3,13 +3,11 @@ import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-typedef QuickMenuCardTap = Function();
-
 class MoreMenuCard extends StatelessWidget {
   final String image;
   final String title;
   final bool isLocal;
-  final QuickMenuCardTap onTap;
+  final Function onTap;
 
   const MoreMenuCard(
       {Key key,

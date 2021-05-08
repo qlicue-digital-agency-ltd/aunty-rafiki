@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/food_provider.dart';
-import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
+import 'package:aunty_rafiki/views/components/cards/menu/load_more_menu_card.dart';
+import 'package:aunty_rafiki/views/components/cards/menu/more_menu_card.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 
@@ -19,19 +20,25 @@ class FoodPage extends StatelessWidget {
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
-        title: Text(Languages.of(context).labelFood,style: TextStyle(color: Colors.black),),
+        title: Text(
+          Languages.of(context).labelFood,
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: _foodProvider.isFetchingFoodData
-          ? Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 2.7,
-                ),
-                Center(child: Loading(color: Colors.pink,)),
-              ],
-            )
+          ? GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+              ),
+              itemCount: 10,
+              padding: EdgeInsets.all(8),
+              itemBuilder: (BuildContext ctx, index) {
+                return LoaderMoreMenuCard();
+              })
           : _foodProvider.availableFoods.isEmpty
               ? Center(
                   child: NoItemTile(

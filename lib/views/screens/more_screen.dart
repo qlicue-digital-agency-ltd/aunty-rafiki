@@ -1,7 +1,7 @@
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
-import 'package:aunty_rafiki/views/components/cards/more_menu_card.dart';
+import 'package:aunty_rafiki/views/components/cards/menu/more_menu_card.dart';
 import 'package:aunty_rafiki/views/components/headers/home_screen_header.dart';
 import 'package:aunty_rafiki/views/pages/hiv_mother_page.dart';
 import 'package:flutter/material.dart';
