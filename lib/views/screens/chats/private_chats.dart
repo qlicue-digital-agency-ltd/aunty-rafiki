@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/models/user.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
-import 'package:aunty_rafiki/views/components/tiles/private_chart_card.dart';
+import 'package:aunty_rafiki/views/components/tiles/chat/loader_chart_card.dart';
+import 'package:aunty_rafiki/views/components/tiles/chat/private_chart_card.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,7 +20,6 @@ class _PrivateChatsState extends State<PrivateChats> {
   _PrivateChatsState({@required this.currentUserId});
   final String currentUserId;
 
-
   final ScrollController _listScrollController = ScrollController();
 
   int _limit = 20;
@@ -32,8 +32,6 @@ class _PrivateChatsState extends State<PrivateChats> {
 
     _listScrollController.addListener(scrollListener);
   }
-
-
 
   void scrollListener() {
     if (_listScrollController.offset >=
@@ -49,7 +47,6 @@ class _PrivateChatsState extends State<PrivateChats> {
     return Future.value(false);
   }
 
- 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -70,7 +67,10 @@ class _PrivateChatsState extends State<PrivateChats> {
                 }
 
                 if (!snapshot.hasData) {
-                  return Loading(color: Colors.pink,);
+                  return ListView.builder(
+                    itemBuilder: (context, index) => LoaderChartcard(),
+                    itemCount: 20,
+                  );
                 } else {
                   List<User> userList = snapshot.data;
                   return ListView.builder(
@@ -83,11 +83,6 @@ class _PrivateChatsState extends State<PrivateChats> {
               },
             ),
           ),
-
-          // Loading
-          Positioned(
-            child: isLoading ? const Loading(color: Colors.pink,) : Container(),
-          )
         ],
       ),
       onWillPop: onBackPress,

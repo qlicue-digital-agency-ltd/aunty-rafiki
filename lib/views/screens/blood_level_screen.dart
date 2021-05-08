@@ -3,6 +3,7 @@ import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/blood.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/headers/home_screen_header.dart';
+import 'package:aunty_rafiki/views/components/headers/loading_home_screen_header.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class BloodLevelScreen extends StatelessWidget {
@@ -26,24 +28,15 @@ class BloodLevelScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SafeArea(
-              child: HomeScreenHeader(
-                title: Languages.of(context).labelBloodLevel,
-              ),
+              child: _bloodLevelProvider.isFetchingBloodLevelData
+                  ? LoadingHomeScreenHeader()
+                  : HomeScreenHeader(
+                      title: Languages.of(context).labelBloodLevel,
+                    ),
             ),
-            // Chartboard(),
             Container(
               child: _bloodLevelProvider.isFetchingBloodLevelData
-                  ? Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 2.7,
-                        ),
-                        Center(
-                            child: Loading(
-                          color: Colors.pink,
-                        )),
-                      ],
-                    )
+                  ? _LoadingBloodLevel()
                   : _BloodLevel(data: _bloodLevelProvider.availableBloodLevels),
             )
           ],
@@ -204,6 +197,125 @@ class _BloodLevelIndicator extends StatelessWidget {
             color: Colors.pink,
             fontWeight: FontWeight.bold,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+//loader........
+
+class _LoadingBloodLevel extends StatelessWidget {
+  //bool _isPullToRefresh = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        final isLeftChild = index % 2 == 0;
+
+        final child = _LoaderBloodLevelChild(
+          isLeftChild: isLeftChild,
+        );
+
+        return TimelineTile(
+          alignment: TimelineAlign.center,
+          endChild: isLeftChild ? null : child,
+          startChild: isLeftChild ? child : null,
+          indicatorStyle: IndicatorStyle(
+            width: 40,
+            height: 40,
+            indicator: _LoaderBloodLevelIndicator(),
+            drawGap: true,
+          ),
+          beforeLineStyle: LineStyle(
+            color: Colors.grey[300],
+            thickness: 3,
+          ),
+        );
+      },
+      itemCount: 10,
+    );
+  }
+}
+
+class _LoaderBloodLevelChild extends StatelessWidget {
+  _LoaderBloodLevelChild({
+    Key key,
+    this.isLeftChild,
+  }) : super(key: key);
+
+  final bool isLeftChild;
+
+  @override
+  Widget build(BuildContext context) {
+    final rowChildren = <Widget>[
+      Shimmer.fromColors(
+        baseColor: Colors.grey[300],
+        highlightColor: Colors.grey[100],
+        child: Container(
+          height: 20,
+          width: 70,
+          color: Colors.grey[300],
+        ),
+      ),
+      const SizedBox(width: 8),
+
+      Expanded(
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey[300],
+          highlightColor: Colors.grey[100],
+          child: Container(
+            height: 20,
+            width: 180,
+            color: Colors.grey[300],
+          ),
+        ),
+      ),
+    ];
+
+    return Padding(
+      padding: isLeftChild
+          ? const EdgeInsets.only(left: 16, top: 10, bottom: 10, right: 10)
+          : const EdgeInsets.only(right: 16, top: 10, bottom: 10, left: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
+            children: isLeftChild ? rowChildren.reversed.toList() : rowChildren,
+          ),
+          SizedBox(height: 5,),
+          Flexible(
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300],
+              highlightColor: Colors.grey[100],
+              child: Container(
+                height: 100,
+                color: Colors.grey[300],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LoaderBloodLevelIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300],
+      highlightColor: Colors.grey[100],
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey[300],
+            width: 3,
+          ),
+          shape: BoxShape.circle,
         ),
       ),
     );

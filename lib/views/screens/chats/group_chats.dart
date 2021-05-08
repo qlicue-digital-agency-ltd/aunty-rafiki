@@ -1,6 +1,7 @@
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
-import 'package:aunty_rafiki/views/components/loader/loading.dart';
+
+import 'package:aunty_rafiki/views/components/tiles/chat/loader_chart_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ import 'package:aunty_rafiki/constants/routes/routes.dart';
 
 import 'package:aunty_rafiki/models/chat.dart';
 
-import 'package:aunty_rafiki/views/components/tiles/chat_user_tile.dart';
+import 'package:aunty_rafiki/views/components/tiles/chat/chat_user_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
@@ -78,7 +79,14 @@ class _GroupChatsState extends State<GroupChats> {
                     child: Text('error: ${snapshot.error.toString()}'));
               }
               if (!snapshot.hasData) {
-                return Center(child: Loading(color: Colors.pink,));
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return LoaderChartcard();
+                  },
+                );
               }
               List<Chat> chatList = snapshot.data;
               return chatList.isEmpty
