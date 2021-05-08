@@ -1,8 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/post_provider.dart';
-import 'package:aunty_rafiki/views/components/cards/post_card.dart';
-import 'package:aunty_rafiki/views/components/loader/loading.dart';
+import 'package:aunty_rafiki/views/components/cards/post/loader_post_card.dart';
+import 'package:aunty_rafiki/views/components/cards/post/post_card.dart';
+
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/pages/post_details_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,10 +34,18 @@ class HIVMotherPage extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.only(left: 5, right: 5),
         child: _postProvider.isFetchingData
-            ? Center(
-                child: Loading(
-                color: Colors.pink,
-              ))
+            ? CustomScrollView(
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: LoaderPostCard());
+                    }, childCount: 10),
+                  ),
+                ],
+              )
             : _postProvider.availablePosts.isEmpty
                 ? RefreshIndicator(
                     onRefresh: _getData,
