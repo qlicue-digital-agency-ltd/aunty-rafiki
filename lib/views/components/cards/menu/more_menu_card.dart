@@ -21,8 +21,9 @@ class MoreMenuCard extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
-      child: Material(
-        elevation: 2,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+       
         child: Container(
           height: size.height / 4,
           child: Stack(

@@ -5,8 +5,9 @@ class LoaderMoreMenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Material(
-      elevation: 2,
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      
       child: Container(
         height: size.height / 4,
         child: Stack(
@@ -16,7 +17,7 @@ class LoaderMoreMenuCard extends StatelessWidget {
                 height: size.height / 4,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4.0),
-                  color: Colors.white,
+                  color: Colors.white10,
                 ),
                 child: Center(
                     child: Shimmer.fromColors(
