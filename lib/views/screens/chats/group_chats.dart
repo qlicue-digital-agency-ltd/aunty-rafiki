@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/group_provider.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/chat/loader_chart_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +15,7 @@ import 'package:aunty_rafiki/models/chat.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/chat/chat_user_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class GroupChats extends StatefulWidget {
@@ -21,6 +25,55 @@ class GroupChats extends StatefulWidget {
 
 class _GroupChatsState extends State<GroupChats> {
   String _searchText = "";
+
+  ///chech for internet connection
+  String _connectionStatus = 'unknown';
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,17 +144,36 @@ class _GroupChatsState extends State<GroupChats> {
               List<Chat> chatList = snapshot.data;
               return chatList.isEmpty
                   ? Center(
-                      child: Column(
+                      child: (Column(
                       children: [
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 3.5,
                         ),
-                        NoItemTile(
-                          icon: 'assets/icons/chat.png',
-                          title: Languages.of(context).labelNoItemTileGroup,
-                        ),
+                        _connectionStatus == 'unkwon'
+                            ? NoItemTile(
+                                icon: 'assets/icons/no-wifi.png',
+                                title: Languages.of(context)
+                                    .labelNoItemTileInternet,
+                                onTap: () {
+                                  // _trackerProvider.fetchTrackers();
+                                },
+                              )
+                            : _connectionStatus == 'ConnectivityResult.none'
+                                ? NoItemTile(
+                                    icon: 'assets/icons/no-wifi.png',
+                                    title: Languages.of(context)
+                                        .labelNoItemTileInternet,
+                                    onTap: () {
+                                      // _trackerProvider.fetchTrackers();
+                                    },
+                                  )
+                                : NoItemTile(
+                                    icon: 'assets/icons/chat.png',
+                                    title: Languages.of(context)
+                                        .labelNoItemTileGroup,
+                                  ),
                       ],
-                    ))
+                    )))
                   : ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),

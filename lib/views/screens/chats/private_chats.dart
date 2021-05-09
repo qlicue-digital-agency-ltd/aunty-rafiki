@@ -1,11 +1,16 @@
+import 'dart:async';
+
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/user.dart';
-import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/chat/loader_chart_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/chat/private_chart_card.dart';
+import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PrivateChats extends StatefulWidget {
   final String currentUserId;
@@ -26,11 +31,54 @@ class _PrivateChatsState extends State<PrivateChats> {
   int _limitIncrement = 20;
   bool isLoading = false;
 
+  ///chech for internet connection
+  String _connectionStatus = 'unknown';
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   @override
   void initState() {
     super.initState();
-
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     _listScrollController.addListener(scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
   }
 
   void scrollListener() {
@@ -73,12 +121,44 @@ class _PrivateChatsState extends State<PrivateChats> {
                   );
                 } else {
                   List<User> userList = snapshot.data;
-                  return ListView.builder(
-                    itemBuilder: (context, index) =>
-                        buildItem(context, userList[index]),
-                    itemCount: userList.length,
-                    controller: _listScrollController,
-                  );
+                  return userList.isEmpty
+                      ? Center(
+                          child: (Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 3.5,
+                            ),
+                            _connectionStatus == 'unkwon'
+                                ? NoItemTile(
+                                    icon: 'assets/icons/no-wifi.png',
+                                    title: Languages.of(context)
+                                        .labelNoItemTileInternet,
+                                    onTap: () {
+                                      // _trackerProvider.fetchTrackers();
+                                    },
+                                  )
+                                : _connectionStatus == 'ConnectivityResult.none'
+                                    ? NoItemTile(
+                                        icon: 'assets/icons/no-wifi.png',
+                                        title: Languages.of(context)
+                                            .labelNoItemTileInternet,
+                                        onTap: () {
+                                          // _trackerProvider.fetchTrackers();
+                                        },
+                                      )
+                                    : NoItemTile(
+                                        icon: 'assets/icons/chat.png',
+                                        title: Languages.of(context)
+                                            .labelNoItemTilePeers,
+                                      ),
+                          ],
+                        )))
+                      : ListView.builder(
+                          itemBuilder: (context, index) =>
+                              buildItem(context, userList[index]),
+                          itemCount: userList.length,
+                          controller: _listScrollController,
+                        );
                 }
               },
             ),

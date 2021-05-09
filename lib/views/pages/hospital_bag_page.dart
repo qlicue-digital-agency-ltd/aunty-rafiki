@@ -1,6 +1,6 @@
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
-import 'package:aunty_rafiki/views/components/loader/loading.dart';
+
 import 'package:aunty_rafiki/views/components/tiles/hospital/hospital_bag_tile.dart';
 import 'package:aunty_rafiki/views/components/tiles/hospital/loader_hospital_bag_tile.dart';
 import 'package:aunty_rafiki/views/pages/hospital_bags/baby_hospital_bag_detail_page.dart';

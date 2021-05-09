@@ -230,17 +230,25 @@ class LanguageEn extends Languages {
   //No Items Tile
   @override
   String get labelNoItemTileGroup => "You are not in any chat group yet";
-
+  @override
+  String get labelNoItemTilePeers => "No peers";
+  @override
+  String get labelNoItemTileInternet => "No internet connection";
   @override
   String get labelNoItemTileBloodLevel => "No blood levels";
   @override
   String get labelNoItemTileContent => "No Content";
-
   @override
   String get labelNoItemTileTracker =>
       "Tap to add the first day of your last menstrual period";
   @override
   String get labelNoItemTileAppointments => "No appointments to display";
+  @override
+  String get labelNoItemTileBabyItems => "Baby's Items not packed";
+  @override
+  String get labelNoItemTileMotherItems => "Mother's Items not packed";
+  @override
+  String get labelNoItemTilePartnerItems => "Partner's Items not packed";
 
 //search
   @override

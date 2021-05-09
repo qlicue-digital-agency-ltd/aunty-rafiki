@@ -123,10 +123,15 @@ abstract class Languages {
 
   //No Items Tile
   String get labelNoItemTileGroup;
+  String get labelNoItemTilePeers;
   String get labelNoItemTileTracker;
   String get labelNoItemTileBloodLevel;
   String get labelNoItemTileAppointments;
   String get labelNoItemTileContent;
+  String get labelNoItemTileInternet;
+  String get labelNoItemTileBabyItems;
+  String get labelNoItemTileMotherItems;
+  String get labelNoItemTilePartnerItems;
 
   //Appointments
   String get labelAppointmentName;

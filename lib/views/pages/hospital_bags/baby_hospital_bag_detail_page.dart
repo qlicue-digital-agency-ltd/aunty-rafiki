@@ -1,17 +1,78 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/hospital_bag_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:badges/badges.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class BabyHospitalBagDetailPage extends StatelessWidget {
+class BabyHospitalBagDetailPage extends StatefulWidget {
   final String title;
 
   const BabyHospitalBagDetailPage({
     Key key,
     @required this.title,
   }) : super(key: key);
+
+  @override
+  _BabyHospitalBagDetailPageState createState() =>
+      _BabyHospitalBagDetailPageState();
+}
+
+class _BabyHospitalBagDetailPageState extends State<BabyHospitalBagDetailPage> {
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _hospitalBagProvider = Provider.of<HostipalBagProvider>(context);
@@ -24,7 +85,7 @@ class BabyHospitalBagDetailPage extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Text(title, style: TextStyle(color: Colors.black)),
+          title: Text(widget.title, style: TextStyle(color: Colors.black)),
           bottom: TabBar(
             labelColor: Colors.pink,
             indicatorColor: Colors.pink,
@@ -57,11 +118,32 @@ class BabyHospitalBagDetailPage extends StatelessWidget {
           children: [
             _hospitalBagProvider.availableBabyBagList.isEmpty
                 ? Center(
-                    child: NoItemTile(
-                        icon: 'assets/icons/aunty_rafiki.png',
-                        title:_hospitalBagProvider.packedBabyBagList.isEmpty
-                            ? Languages.of(context)
-                                .labelNoItemTileContent: Languages.of(context).labelCongratulationsItemsPacked),
+                    child: _connectionStatus == 'unkwon'
+                        ? NoItemTile(
+                            icon: 'assets/icons/no-wifi.png',
+                            title:
+                                Languages.of(context).labelNoItemTileInternet,
+                            onTap: () {
+                              _hospitalBagProvider.fetchBagItems();
+                            },
+                          )
+                        : _connectionStatus == 'ConnectivityResult.none'
+                            ? NoItemTile(
+                                icon: 'assets/icons/no-wifi.png',
+                                title: Languages.of(context)
+                                    .labelNoItemTileInternet,
+                                onTap: () {
+                                  _hospitalBagProvider.fetchBagItems();
+                                },
+                              )
+                            : NoItemTile(
+                                icon: 'assets/icons/aunty_rafiki.png',
+                                title: _hospitalBagProvider
+                                        .packedBabyBagList.isEmpty
+                                    ? Languages.of(context)
+                                        .labelNoItemTileContent
+                                    : Languages.of(context)
+                                        .labelCongratulationsItemsPacked),
                   )
                 : ListView.builder(
                     itemBuilder: (_, index) {
@@ -69,11 +151,11 @@ class BabyHospitalBagDetailPage extends StatelessWidget {
                         children: [
                           ListTile(
                             onTap: () {
-                                 _hospitalBagProvider.packItem(
-                                    item: _hospitalBagProvider
-                                        .availableBabyBagList[index],
-                                    status: true,
-                                  );
+                              _hospitalBagProvider.packItem(
+                                item: _hospitalBagProvider
+                                    .availableBabyBagList[index],
+                                status: true,
+                              );
                             },
                             leading: IconButton(
                                 tooltip: 'add',
@@ -99,9 +181,28 @@ class BabyHospitalBagDetailPage extends StatelessWidget {
                   ),
             _hospitalBagProvider.packedBabyBagList.isEmpty
                 ? Center(
-                    child: NoItemTile(
-                        icon: 'assets/icons/aunty_rafiki.png',
-                        title: "Baby Items not packed"),
+                    child: _connectionStatus == 'unkwon'
+                        ? NoItemTile(
+                            icon: 'assets/icons/no-wifi.png',
+                            title:
+                                Languages.of(context).labelNoItemTileInternet,
+                            onTap: () {
+                              _hospitalBagProvider.fetchBagItems();
+                            },
+                          )
+                        : _connectionStatus == 'ConnectivityResult.none'
+                            ? NoItemTile(
+                                icon: 'assets/icons/no-wifi.png',
+                                title: Languages.of(context)
+                                    .labelNoItemTileInternet,
+                                onTap: () {
+                                  _hospitalBagProvider.fetchBagItems();
+                                },
+                              )
+                            : NoItemTile(
+                                icon: 'assets/icons/aunty_rafiki.png',
+                                title: Languages.of(context)
+                                    .labelNoItemTileBabyItems),
                   )
                 : ListView.builder(
                     itemBuilder: (_, index) {

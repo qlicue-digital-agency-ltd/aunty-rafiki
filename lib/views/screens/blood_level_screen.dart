@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/blood.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/headers/home_screen_header.dart';
 import 'package:aunty_rafiki/views/components/headers/loading_home_screen_header.dart';
-import 'package:aunty_rafiki/views/components/loader/loading.dart';
+
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -46,11 +50,65 @@ class BloodLevelScreen extends StatelessWidget {
   }
 }
 
-class _BloodLevel extends StatelessWidget {
+class _BloodLevel extends StatefulWidget {
   _BloodLevel({Key key, this.data}) : super(key: key);
 
   final List<Blood> data;
-  //bool _isPullToRefresh = false;
+
+  @override
+  __BloodLevelState createState() => __BloodLevelState();
+}
+
+class __BloodLevelState extends State<_BloodLevel> {
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,22 +117,38 @@ class _BloodLevel extends StatelessWidget {
       onRefresh: () {
         return _bloodLevelProvider.fetchBloodLevels();
       },
-      child: data.isEmpty
+      child: widget.data.isEmpty
           ? Center(
               child: Column(
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 3,
                   ),
-                  InkWell(
-                    onTap: () {
-                      _bloodLevelProvider.fetchBloodLevels();
-                    },
-                    child: NoItemTile(
-                      icon: 'assets/access/to-do-list.png',
-                      title: Languages.of(context).labelNoItemTileBloodLevel,
-                    ),
-                  ),
+                  _connectionStatus == 'unkwon'
+                      ? NoItemTile(
+                          icon: 'assets/icons/no-wifi.png',
+                          title: Languages.of(context).labelNoItemTileInternet,
+                          onTap: () {
+                            _bloodLevelProvider.fetchBloodLevels();
+                          },
+                        )
+                      : _connectionStatus == 'ConnectivityResult.none'
+                          ? NoItemTile(
+                              icon: 'assets/icons/no-wifi.png',
+                              title:
+                                  Languages.of(context).labelNoItemTileInternet,
+                              onTap: () {
+                                _bloodLevelProvider.fetchBloodLevels();
+                              },
+                            )
+                          : NoItemTile(
+                              onTap: () {
+                                _bloodLevelProvider.fetchBloodLevels();
+                              },
+                              icon: 'assets/access/to-do-list.png',
+                              title: Languages.of(context)
+                                  .labelNoItemTileBloodLevel,
+                            ),
                 ],
               ),
             )
@@ -82,7 +156,7 @@ class _BloodLevel extends StatelessWidget {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                final Blood event = data[index];
+                final Blood event = widget.data[index];
 
                 final isLeftChild = event.level == Level.low;
 
@@ -107,7 +181,7 @@ class _BloodLevel extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: data.length,
+              itemCount: widget.data.length,
             ),
     );
   }
@@ -262,7 +336,6 @@ class _LoaderBloodLevelChild extends StatelessWidget {
         ),
       ),
       const SizedBox(width: 8),
-
       Expanded(
         child: Shimmer.fromColors(
           baseColor: Colors.grey[300],
@@ -286,7 +359,9 @@ class _LoaderBloodLevelChild extends StatelessWidget {
           Row(
             children: isLeftChild ? rowChildren.reversed.toList() : rowChildren,
           ),
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
           Flexible(
             child: Shimmer.fromColors(
               baseColor: Colors.grey[300],

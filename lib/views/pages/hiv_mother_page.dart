@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animations/animations.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/post_provider.dart';
@@ -6,17 +8,74 @@ import 'package:aunty_rafiki/views/components/cards/post/post_card.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/pages/post_details_page.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class HIVMotherPage extends StatelessWidget {
+class HIVMotherPage extends StatefulWidget {
+  @override
+  _HIVMotherPageState createState() => _HIVMotherPageState();
+}
+
+class _HIVMotherPageState extends State<HIVMotherPage> {
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _postProvider = Provider.of<PostProvider>(context);
 
     Future<void> _getData() async {
-      _postProvider.fetchPosts(userId: 1);
+      _postProvider.fetchPosts();
     }
 
     return Scaffold(
@@ -57,14 +116,32 @@ class HIVMotherPage extends StatelessWidget {
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.4,
                             ),
-                            NoItemTile(
-                              title:
-                                  Languages.of(context).labelNoItemTileContent,
-                              icon: 'assets/access/red-ribbon.png',
-                              onTap: () {
-                                _postProvider.fetchPosts(userId: 1);
-                              },
-                            ),
+                            _connectionStatus == 'unkwon'
+                                ? NoItemTile(
+                                    icon: 'assets/icons/no-wifi.png',
+                                    title: Languages.of(context)
+                                        .labelNoItemTileInternet,
+                                    onTap: () {
+                                      _postProvider.fetchPosts();
+                                    },
+                                  )
+                                : _connectionStatus == 'ConnectivityResult.none'
+                                    ? NoItemTile(
+                                        icon: 'assets/icons/no-wifi.png',
+                                        title: Languages.of(context)
+                                            .labelNoItemTileInternet,
+                                        onTap: () {
+                                          _postProvider.fetchPosts();
+                                        },
+                                      )
+                                    : NoItemTile(
+                                        title: Languages.of(context)
+                                            .labelNoItemTileContent,
+                                        icon: 'assets/access/red-ribbon.png',
+                                        onTap: () {
+                                          _postProvider.fetchPosts();
+                                        },
+                                      ),
                           ],
                         ),
                       ),

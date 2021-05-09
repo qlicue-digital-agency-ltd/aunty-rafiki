@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animations/animations.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
@@ -6,7 +8,9 @@ import 'package:aunty_rafiki/views/components/cards/calendar_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/appointment_tile.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/pages/appointment_details_page.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AppointmentPage extends StatefulWidget {
@@ -16,6 +20,56 @@ class AppointmentPage extends StatefulWidget {
 
 class _AppointmentPageState extends State<AppointmentPage> {
   bool _calendarView = true;
+
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,10 +154,29 @@ class _AppointmentPageState extends State<AppointmentPage> {
               ))
             : _appointmentProvider.availableAppointments.isEmpty
                 ? Center(
-                    child: NoItemTile(
-                      icon: 'assets/icons/calendar.png',
-                      title: Languages.of(context).labelNoItemTileAppointments,
-                    ),
+                    child: _connectionStatus == 'unkwon'
+                        ? NoItemTile(
+                            icon: 'assets/icons/no-wifi.png',
+                            title:
+                                Languages.of(context).labelNoItemTileInternet,
+                            onTap: () {
+                              _appointmentProvider.fetchAppointments();
+                            },
+                          )
+                        : _connectionStatus == 'ConnectivityResult.none'
+                            ? NoItemTile(
+                                icon: 'assets/icons/no-wifi.png',
+                                title: Languages.of(context)
+                                    .labelNoItemTileInternet,
+                                onTap: () {
+                                  _appointmentProvider.fetchAppointments();
+                                },
+                              )
+                            : NoItemTile(
+                                icon: 'assets/icons/calendar.png',
+                                title: Languages.of(context)
+                                    .labelNoItemTileAppointments,
+                              ),
                   )
                 : ListView.builder(
                     itemCount:

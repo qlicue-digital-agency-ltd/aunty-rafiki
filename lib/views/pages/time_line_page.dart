@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/time_line.dart';
@@ -6,8 +8,10 @@ import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 import 'package:aunty_rafiki/views/pages/time_line_detail_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -50,11 +54,65 @@ class _TimeLinePageState extends State<TimeLinePage> {
   }
 }
 
-class _Timeline extends StatelessWidget {
+class _Timeline extends StatefulWidget {
   _Timeline({Key key, this.data}) : super(key: key);
 
   final List<Timeline> data;
-  //bool _isPullToRefresh = false;
+
+  @override
+  __TimelineState createState() => __TimelineState();
+}
+
+class __TimelineState extends State<_Timeline> {
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,20 +125,39 @@ class _Timeline extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final isLeftChild = index.isEven;
 
-          return data.isEmpty
+          return widget.data.isEmpty
               ? Center(
                   child: Column(
                     children: [
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 3,
                       ),
-                      NoItemTile(
-                        icon: 'assets/access/timeline.png',
-                        title: Languages.of(context).labelNoItemTileContent,
-                        onTap: () {
-                          _timelineProvider.fetchTimelines();
-                        },
-                      ),
+                      _connectionStatus == 'unkwon'
+                          ? NoItemTile(
+                              icon: 'assets/icons/no-wifi.png',
+                              title:
+                                  Languages.of(context).labelNoItemTileInternet,
+                              onTap: () {
+                                _timelineProvider.fetchTimelines();
+                              },
+                            )
+                          : _connectionStatus == 'ConnectivityResult.none'
+                              ? NoItemTile(
+                                  icon: 'assets/icons/no-wifi.png',
+                                  title: Languages.of(context)
+                                      .labelNoItemTileInternet,
+                                  onTap: () {
+                                    _timelineProvider.fetchTimelines();
+                                  },
+                                )
+                              : NoItemTile(
+                                  icon: 'assets/access/timeline.png',
+                                  title: Languages.of(context)
+                                      .labelNoItemTileContent,
+                                  onTap: () {
+                                    _timelineProvider.fetchTimelines();
+                                  },
+                                ),
                     ],
                   ),
                 )
@@ -89,12 +166,12 @@ class _Timeline extends StatelessWidget {
                   endChild: isLeftChild
                       ? null
                       : _TimelineChild(
-                          timeline: data[index],
+                          timeline: widget.data[index],
                           isLeftChild: isLeftChild,
                         ),
                   startChild: isLeftChild
                       ? _TimelineChild(
-                          timeline: data[index],
+                          timeline: widget.data[index],
                           isLeftChild: isLeftChild,
                         )
                       : null,
@@ -123,7 +200,7 @@ class _Timeline extends StatelessWidget {
                                   left: 12,
                                   top: 6,
                                   child: Text(
-                                    "${data[index].time}",
+                                    "${widget.data[index].time}",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.patrickHand(
                                       fontSize: 20,
@@ -152,7 +229,7 @@ class _Timeline extends StatelessWidget {
                   ),
                 );
         },
-        itemCount: data.isEmpty ? 1 : data.length,
+        itemCount: widget.data.isEmpty ? 1 : widget.data.length,
       ),
     );
   }

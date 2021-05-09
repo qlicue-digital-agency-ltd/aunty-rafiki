@@ -225,6 +225,8 @@ class LanguageSw extends Languages {
   String get labelNoItemTileGroup =>
       "Bado hauko katika kikundi chochote cha soga";
   @override
+  String get labelNoItemTilePeers => "Akuna watu";
+  @override
   String get labelNoItemTileBloodLevel => "Hakuna viwango vya damu";
   @override
   String get labelNoItemTileTracker =>
@@ -233,6 +235,14 @@ class LanguageSw extends Languages {
   String get labelNoItemTileAppointments => "Hakuna miadi ya kuonyesha";
   @override
   String get labelNoItemTileContent => "Hakuna Maudhui";
+  @override
+  String get labelNoItemTileInternet => "Hakuna muunganisho wa mtandao";
+  @override
+  String get labelNoItemTileBabyItems => "Vitu vya mtoto havija taarishwa";
+  @override
+  String get labelNoItemTileMotherItems => "Vitu vya mama havija taarishwa";
+  @override
+  String get labelNoItemTilePartnerItems => "Vitu vya mweza havija taarishwa";
 
   //search
   @override

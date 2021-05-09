@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/tracker.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
@@ -11,9 +13,11 @@ import 'package:aunty_rafiki/views/components/tiles/tracker/loader_tracker_tile.
 import 'package:aunty_rafiki/views/components/tiles/tracker/tracker_tile.dart';
 import 'package:aunty_rafiki/views/pages/tracker_blog_page.dart';
 import 'package:aunty_rafiki/views/pages/tracker_page.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -29,6 +33,56 @@ class TrackerScreen extends StatefulWidget {
 class _TrackerScreenState extends State<TrackerScreen> {
   TextEditingController _dateEditingController = TextEditingController();
   String _selectedDate = '';
+
+  ///chech for internet connection
+  String _connectionStatus = 'unknown';
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _trackerProvider = Provider.of<TrackerProvider>(context);
@@ -64,8 +118,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
                         alignment: TimelineAlign.manual,
                         lineXY: 0.15,
                         isFirst: index == 1,
-                        isLast: index ==
-                            10 - 1,
+                        isLast: index == 10 - 1,
                         startChild: _LoadingLeftChildTimeline(
                           isCheckpoint: index % 2 == 0,
                         ),
@@ -82,7 +135,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
                     },
                   )
                 : _trackerProvider.availableTrackers.isEmpty
-                    ? Column(
+                    ? (Column(
                         children: [
                           SizedBox(
                             height: MediaQuery.of(context).size.height / 2.7,
@@ -91,11 +144,33 @@ class _TrackerScreenState extends State<TrackerScreen> {
                               ? Center(
                                   child: Stack(
                                   children: [
-                                    NoItemTile(
-                                      icon: 'assets/access/mother.png',
-                                      title: Languages.of(context)
-                                          .labelNoItemTileTracker,
-                                    ),
+                                    _connectionStatus == 'unkwon'
+                                        ? NoItemTile(
+                                            icon: 'assets/icons/no-wifi.png',
+                                            title: Languages.of(context)
+                                                .labelNoItemTileInternet,
+                                            onTap: () {
+                                              _trackerProvider.fetchTrackers();
+                                            },
+                                          )
+                                        : _connectionStatus ==
+                                                'ConnectivityResult.none'
+                                            ? NoItemTile(
+                                                icon:
+                                                    'assets/icons/no-wifi.png',
+                                                title: Languages.of(context)
+                                                    .labelNoItemTileInternet,
+                                                onTap: () {
+                                                  _trackerProvider
+                                                      .fetchTrackers();
+                                                },
+                                              )
+                                            : NoItemTile(
+                                                icon:
+                                                    'assets/access/mother.png',
+                                                title: Languages.of(context)
+                                                    .labelNoItemTileTracker,
+                                              ),
                                     DateTimePicker(
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -190,7 +265,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
                                   ),
                                 ),
                         ],
-                      )
+                      ))
                     : ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),

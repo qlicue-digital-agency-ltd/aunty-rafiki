@@ -117,7 +117,7 @@ class HostipalBagProvider with ChangeNotifier {
 //laod Item bags
   Future<bool> seedBagItems() async {
     bool hasError = true;
-    _isFetchingBagItemsData = true;
+  
     notifyListeners();
     try {
       final http.Response response = await http.get(

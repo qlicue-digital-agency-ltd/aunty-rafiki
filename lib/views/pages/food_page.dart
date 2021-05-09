@@ -1,16 +1,74 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/food_provider.dart';
 import 'package:aunty_rafiki/views/components/cards/menu/load_more_menu_card.dart';
 import 'package:aunty_rafiki/views/components/cards/menu/more_menu_card.dart';
-import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
 
 import 'package:aunty_rafiki/views/pages/recipe_page.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class FoodPage extends StatelessWidget {
+class FoodPage extends StatefulWidget {
+  @override
+  _FoodPageState createState() => _FoodPageState();
+}
+
+class _FoodPageState extends State<FoodPage> {
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _foodProvider = Provider.of<FoodProvider>(context);
@@ -41,13 +99,31 @@ class FoodPage extends StatelessWidget {
               })
           : _foodProvider.availableFoods.isEmpty
               ? Center(
-                  child: NoItemTile(
-                  icon: 'assets/access/diet.png',
-                  title: Languages.of(context).labelNoItemTileContent,
-                  onTap: () {
-                    _foodProvider.fetchFoods();
-                  },
-                ))
+                  child: _connectionStatus == 'unkwon'
+                      ? NoItemTile(
+                          icon: 'assets/icons/no-wifi.png',
+                          title: Languages.of(context).labelNoItemTileInternet,
+                          onTap: () {
+                            _foodProvider.fetchFoods();
+                          },
+                        )
+                      : _connectionStatus == 'ConnectivityResult.none'
+                          ? NoItemTile(
+                              icon: 'assets/icons/no-wifi.png',
+                              title:
+                                  Languages.of(context).labelNoItemTileInternet,
+                              onTap: () {
+                                _foodProvider.fetchFoods();
+                              },
+                            )
+                          : NoItemTile(
+                              icon: 'assets/access/diet.png',
+                              title:
+                                  Languages.of(context).labelNoItemTileContent,
+                              onTap: () {
+                                _foodProvider.fetchFoods();
+                              },
+                            ))
               : RefreshIndicator(
                   onRefresh: () {
                     return _foodProvider.fetchFoods();

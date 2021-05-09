@@ -13,7 +13,7 @@ class PostProvider with ChangeNotifier {
   List<DropdownMenuItem> _categoryList = [];
 
   PostProvider() {
-    fetchPosts(userId: 1);
+    fetchPosts();
   }
 
 //getters
@@ -30,7 +30,7 @@ class PostProvider with ChangeNotifier {
   }
 
 //http requests
-  Future<void> fetchPosts({@required int userId}) async {
+  Future<void> fetchPosts() async {
     _isFetchingData = true;
     notifyListeners();
     List<Post> _fetchedPosts = [];
