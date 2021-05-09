@@ -60,14 +60,24 @@ class MotherHospitalBagDetailPage extends StatelessWidget {
                 ? Center(
                     child: NoItemTile(
                         icon: 'assets/icons/aunty_rafiki.png',
-                        title: Languages.of(context).labelCongratulationsItemsPacked),
+                        title: _hospitalBagProvider.packedMotherBagList.isEmpty
+                            ? Languages.of(context)
+                                .labelNoItemTileContent
+                            : Languages.of(context)
+                                .labelCongratulationsItemsPacked),
                   )
                 : ListView.builder(
                     itemBuilder: (_, index) {
                       return Column(
                         children: [
                           ListTile(
-                            onTap: () {},
+                            onTap: () {
+                               _hospitalBagProvider.packItem(
+                                    item: _hospitalBagProvider
+                                        .availableMotherBagList[index],
+                                    status: true,
+                                  );
+                            },
                             leading: IconButton(
                                 tooltip: 'add',
                                 icon: Icon(
@@ -102,7 +112,7 @@ class MotherHospitalBagDetailPage extends StatelessWidget {
                       return Column(
                         children: [
                           ListTile(
-                            leading: IconButton(
+                            trailing: IconButton(
                                 tooltip: 'delete',
                                 icon: Icon(
                                   Icons.delete,

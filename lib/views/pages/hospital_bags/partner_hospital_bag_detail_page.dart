@@ -60,15 +60,23 @@ class PartnerHospitalBagDetailPage extends StatelessWidget {
                 ? Center(
                     child: NoItemTile(
                         icon: 'assets/icons/aunty_rafiki.png',
-                        title: Languages.of(context).labelCongratulationsItemsPacked),
+                        title: _hospitalBagProvider.packedPartnerBagList.isEmpty
+                            ? Languages.of(context)
+                                .labelNoItemTileContent: Languages.of(context).labelCongratulationsItemsPacked),
                   )
                 : ListView.builder(
                     itemBuilder: (_, index) {
                       return Column(
                         children: [
                           ListTile(
-                            onTap: () {},
-                            leading: IconButton(
+                            onTap: () {
+                              _hospitalBagProvider.packItem(
+                                    item: _hospitalBagProvider
+                                        .availablePartnerBagList[index],
+                                    status: true,
+                                  );
+                            },
+                            trailing: IconButton(
                                 tooltip: 'add',
                                 icon: Icon(
                                   Icons.add,

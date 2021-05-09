@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class TimeLinePage extends StatefulWidget {
@@ -23,30 +24,23 @@ class _TimeLinePageState extends State<TimeLinePage> {
     final _timelineProvider = Provider.of<TimelineProvider>(context);
     return Scaffold(
       appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Colors.black,
-          ),
-          title: Text(
-            Languages.of(context).labelTimeline,
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          ),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        title: Text(
+          Languages.of(context).labelTimeline,
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Center(
         child: Column(
           children: <Widget>[
             const SizedBox(height: 16),
             Expanded(
               child: _timelineProvider.isFetchingTimelineData
-                  ? Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 2.7,
-                        ),
-                        Center(child: Loading(color: Colors.pink,)),
-                      ],
-                    )
+                  ? _LoadingTimeline()
                   : _Timeline(data: _timelineProvider.availableTimelines),
             )
           ],
@@ -82,7 +76,7 @@ class _Timeline extends StatelessWidget {
                       ),
                       NoItemTile(
                         icon: 'assets/access/timeline.png',
-                        title:  Languages.of(context).labelNoItemTileContent,
+                        title: Languages.of(context).labelNoItemTileContent,
                         onTap: () {
                           _timelineProvider.fetchTimelines();
                         },
@@ -198,7 +192,9 @@ class _TimelineChild extends StatelessWidget {
                     ? Container()
                     : CachedNetworkImage(
                         placeholder: (context, url) => Container(
-                          child: Loading(color: Colors.pink,),
+                          child: Loading(
+                            color: Colors.pink,
+                          ),
                           padding: EdgeInsets.all(70.0),
                           decoration: BoxDecoration(
                             color: greyColor2,
@@ -232,6 +228,139 @@ class _TimelineChild extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+///loading
+
+class _LoadingTimeline extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        final isLeftChild = index.isEven;
+
+        return TimelineTile(
+          alignment: TimelineAlign.center,
+          endChild: isLeftChild
+              ? null
+              : _LoaderTimelineChild(
+                  isLeftChild: isLeftChild,
+                ),
+          startChild: isLeftChild
+              ? _LoaderTimelineChild(
+                  isLeftChild: isLeftChild,
+                )
+              : null,
+          indicatorStyle: IndicatorStyle(
+            width: 46,
+            height: 100,
+            indicator: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            color: Colors.grey[300],
+                          ),
+                        ),
+                        Positioned(
+                          left: 12,
+                          top: 6,
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey[300],
+                            highlightColor: Colors.grey[100],
+                            child: Container(
+                              height: 10,
+                              width: 10,
+                              color: Colors.grey[300],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey[300],
+                      highlightColor: Colors.grey[100],
+                      child: Container(
+                        height: 10,
+                        width: 30,
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          beforeLineStyle: LineStyle(
+            color: Colors.grey[300],
+            thickness: 3,
+          ),
+        );
+      },
+      itemCount: 10,
+    );
+  }
+}
+
+class _LoaderTimelineChild extends StatelessWidget {
+  _LoaderTimelineChild({
+    Key key,
+    this.isLeftChild,
+  }) : super(key: key);
+
+  final bool isLeftChild;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: isLeftChild
+          ? const EdgeInsets.only(left: 16, top: 10, bottom: 10, right: 10)
+          : const EdgeInsets.only(right: 16, top: 10, bottom: 10, left: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Column(
+            children: [
+              Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.grey[100],
+                  child: Container(
+                      color: Colors.grey[300],
+                      height: 100,
+                      width: MediaQuery.of(context).size.width / 2)),
+              Row(
+                children: [
+                  Expanded(
+                      child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.grey[100],
+                    child: Container(
+                      color: Colors.grey[300],
+                      height: 20,
+                    ),
+                  ))
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
