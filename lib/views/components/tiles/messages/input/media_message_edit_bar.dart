@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -31,11 +34,58 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
   final Chat chat;
 
   _MediaMessageEditBarState({@required this.chat});
+
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   @override
   void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     db = FirebaseFirestore.instance;
     _controller = TextEditingController();
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
   }
 
   @override

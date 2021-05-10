@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
@@ -5,10 +7,13 @@ import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/mother_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
+import 'package:connectivity/connectivity.dart';
 
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class WeeksPregnancyScreen extends StatefulWidget {
@@ -36,6 +41,56 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
     setState(() {
       _isSelected = val;
     });
+  }
+
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
   }
 
   @override
@@ -185,7 +240,8 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
                       onChanged: (bool val) {
                         itemChange(val);
                       }),
-                  title: Text(Languages.of(context).labelCheckButtonIDontRember)),
+                  title:
+                      Text(Languages.of(context).labelCheckButtonIDontRember)),
             ),
             SizedBox(
               height: 5,
@@ -193,50 +249,62 @@ class _WeeksPregnancyScreenState extends State<WeeksPregnancyScreen> {
             CustomRaisedButton(
               title: Languages.of(context).labelNextButton,
               onPressed: () {
-                setState(() {
-                  _isPressed = true;
-                });
-                if (_isSelected) {
-                  _authProvider
-                      .updateConceptionDate(conceptionDate: _date)
-                      .then((value) {
-                    if (!value) {
-                      //post pregancy date to server...
-                      _motherProvider
-                          .postPregnancy(conceptionDate: _date)
-                          .then((value) {
+                if (_connectionStatus == 'ConnectivityResult.none' ||
+                    _connectionStatus == 'unknown') {
+                  Fluttertoast.showToast(
+                      msg: Languages.of(context).labelNoItemTileInternet,
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black54,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                } else {
+                  setState(() {
+                    _isPressed = true;
+                  });
+                  if (_isSelected) {
+                    _authProvider
+                        .updateConceptionDate(conceptionDate: _date)
+                        .then((value) {
+                      if (!value) {
+                        //post pregancy date to server...
+                        _motherProvider
+                            .postPregnancy(conceptionDate: _date)
+                            .then((value) {
+                          widget._changePage(widget._currentPage + 1);
+                          _configProvider.setConfigurationStep =
+                              Configuration.WeeksPregnancyScreenStepDone;
+                        });
+                      }
+                      setState(() {
+                        _isPressed = false;
+                      });
+                    });
+                  } else {
+                    DateTime today = DateTime.now();
+                    DateTime daysAgo = today.subtract(Duration(
+                        days: (_weeksOfPregnancy * 7 + _daysOfPregnancy)));
+                    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                    final String _formatted = formatter.format(daysAgo);
+                    print(_formatted);
+                    _motherProvider
+                        .postPregnancy(conceptionDate: _formatted)
+                        .then((value) {});
+
+                    _authProvider
+                        .updateConceptionDate(conceptionDate: _formatted)
+                        .then((value) {
+                      if (!value) {
                         widget._changePage(widget._currentPage + 1);
                         _configProvider.setConfigurationStep =
                             Configuration.WeeksPregnancyScreenStepDone;
+                      }
+                      setState(() {
+                        _isPressed = false;
                       });
-                    }
-                    setState(() {
-                      _isPressed = false;
                     });
-                  });
-                } else {
-                  DateTime today = DateTime.now();
-                  DateTime daysAgo = today.subtract(Duration(
-                      days: (_weeksOfPregnancy * 7 + _daysOfPregnancy)));
-                  final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                  final String _formatted = formatter.format(daysAgo);
-                  print(_formatted);
-                  _motherProvider
-                      .postPregnancy(conceptionDate: _formatted)
-                      .then((value) {});
-
-                  _authProvider
-                      .updateConceptionDate(conceptionDate: _formatted)
-                      .then((value) {
-                    if (!value) {
-                      widget._changePage(widget._currentPage + 1);
-                      _configProvider.setConfigurationStep =
-                          Configuration.WeeksPregnancyScreenStepDone;
-                    }
-                    setState(() {
-                      _isPressed = false;
-                    });
-                  });
+                  }
                 }
               },
               isPressed: _isPressed,

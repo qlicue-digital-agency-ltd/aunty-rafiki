@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
@@ -5,8 +7,10 @@ import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_date_field.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_selector_field.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AddAppointmentPage extends StatefulWidget {
@@ -42,7 +46,10 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
     String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
     String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
     _timeEditingController = TextEditingController(text: '$lsHour:$lsMinute');
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     _getValue();
+    initConnectivity();
     super.initState();
   }
 
@@ -54,6 +61,48 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
         _timeEditingController.text = '17:01';
       });
     });
+  }
+
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
   }
 
   @override
@@ -139,7 +188,8 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(Languages.of(context).labelAddAppointmentButton, style: TextStyle(color: Colors.black)),
+        title: Text(Languages.of(context).labelAddAppointmentButton,
+            style: TextStyle(color: Colors.black)),
       ),
       body: SingleChildScrollView(
           child: Form(
@@ -246,7 +296,9 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                         child: _appointmentProvider.isSubmittingData
                             ? Loading()
                             : Text(
-                                Languages.of(context).labelSaveButton.toUpperCase(),
+                                Languages.of(context)
+                                    .labelSaveButton
+                                    .toUpperCase(),
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -278,7 +330,7 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                   ),
                 ],
               ),
-              SizedBox(height:20)
+              SizedBox(height: 20)
             ],
           ),
         ),

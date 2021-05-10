@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
@@ -5,7 +7,10 @@ import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/dialog/custom_dialog_box.dart';
 import 'package:aunty_rafiki/views/components/picker/custom_number_picker.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class YearOfBirthScreen extends StatefulWidget {
@@ -26,10 +31,60 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen> {
   int _yearOfBirth = 1988;
   bool _isPressed = false;
 
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
-     final _configProvider = Provider.of<ConfigProvider>(context);
+    final _configProvider = Provider.of<ConfigProvider>(context);
     return Column(
       children: [
         SizedBox(
@@ -48,41 +103,52 @@ class _YearOfBirthScreenState extends State<YearOfBirthScreen> {
           miniValue: 1931,
           maxValue: 2008,
         ),
-       
         CustomRaisedButton(
           title: Languages.of(context).labelNextButton,
           onPressed: () {
-            setState(() {
-              _isPressed = true;
-            });
-            if (DateTime.now().year - _yearOfBirth >= 18) {
-              _authProvider
-                  .updateYearOfBirth(yearOfBirth: _yearOfBirth)
-                  .then((value) {
-                setState(() {
-                  _isPressed = false;
-                });
-                if (!value) {
-                  widget._changePage(widget._currentPage + 1);
-                  _configProvider.setConfigurationStep =
-                      Configuration.YearOfBirthScreenStepDone;
-                }
-              });
+            if (_connectionStatus == 'ConnectivityResult.none' ||
+                _connectionStatus == 'unknown') {
+              Fluttertoast.showToast(
+                  msg: Languages.of(context).labelNoItemTileInternet,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.black54,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
             } else {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CustomDialogBox(
-                      title: "NOT OF AGE",
-                      descriptions:
-                          "This App is to be used by people above the age of 18+",
-                      text: "CLOSE",
-                      textClose: "",
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    );
+              setState(() {
+                _isPressed = true;
+              });
+              if (DateTime.now().year - _yearOfBirth >= 18) {
+                _authProvider
+                    .updateYearOfBirth(yearOfBirth: _yearOfBirth)
+                    .then((value) {
+                  setState(() {
+                    _isPressed = false;
                   });
+                  if (!value) {
+                    widget._changePage(widget._currentPage + 1);
+                    _configProvider.setConfigurationStep =
+                        Configuration.YearOfBirthScreenStepDone;
+                  }
+                });
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CustomDialogBox(
+                        title: "NOT OF AGE",
+                        descriptions:
+                            "This App is to be used by people above the age of 18+",
+                        text: "CLOSE",
+                        textClose: "",
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    });
+              }
             }
           },
           isPressed: _isPressed,

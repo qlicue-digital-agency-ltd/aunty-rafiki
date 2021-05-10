@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
@@ -5,8 +7,11 @@ import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_string_dropdown.dart';
 import 'package:aunty_rafiki/views/components/buttons/number_counter.dart';
+import 'package:connectivity/connectivity.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class MotherhoodInfoScreen extends StatefulWidget {
@@ -29,6 +34,57 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
   int _births = 0;
   int _operationBirths = 0;
   bool _isPressed = false;
+
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _authProvider = Provider.of<AuthProvider>(context);
@@ -143,27 +199,39 @@ class _MotherhoodInfoScreenState extends State<MotherhoodInfoScreen> {
         CustomRaisedButton(
           title: Languages.of(context).labelNextButton,
           onPressed: () {
-            setState(() {
-              _isPressed = true;
-            });
-            _authProvider
-                .updateMotherhoodInfo(
-                    gravida: _gravida,
-                    miscarriage: _miscarriage,
-                    miscarriageWeeks: _miscarriageAge,
-                    numberOfDeliveries: _births,
-                    numberOfNormalDeliveries: _operationBirths,
-                    numberOfOperationDeliveries: _births - _operationBirths)
-                .then((value) {
+            if (_connectionStatus == 'ConnectivityResult.none' ||
+                _connectionStatus == 'unknown') {
+              Fluttertoast.showToast(
+                  msg: Languages.of(context).labelNoItemTileInternet,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.black54,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            } else {
               setState(() {
-                _isPressed = false;
+                _isPressed = true;
               });
-              if (!value) {
-                widget._changePage(widget._currentPage + 1);
-                _configProvider.setConfigurationStep =
-                    Configuration.MotherhoodInfoScreenStepDone;
-              }
-            });
+              _authProvider
+                  .updateMotherhoodInfo(
+                      gravida: _gravida,
+                      miscarriage: _miscarriage,
+                      miscarriageWeeks: _miscarriageAge,
+                      numberOfDeliveries: _births,
+                      numberOfNormalDeliveries: _operationBirths,
+                      numberOfOperationDeliveries: _births - _operationBirths)
+                  .then((value) {
+                setState(() {
+                  _isPressed = false;
+                });
+                if (!value) {
+                  widget._changePage(widget._currentPage + 1);
+                  _configProvider.setConfigurationStep =
+                      Configuration.MotherhoodInfoScreenStepDone;
+                }
+              });
+            }
           },
           isPressed: _isPressed,
         ),

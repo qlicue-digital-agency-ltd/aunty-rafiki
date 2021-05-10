@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/constants/enums/enums.dart';
 import 'package:aunty_rafiki/constants/routes/routes.dart';
 import 'package:aunty_rafiki/localization/language/languages.dart';
@@ -7,9 +9,12 @@ import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_raised_button.dart';
 import 'package:aunty_rafiki/views/components/buttons/custom_string_dropdown.dart';
 import 'package:aunty_rafiki/views/components/buttons/number_counter.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class MoreInfoScreen extends StatefulWidget {
@@ -34,6 +39,56 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
   DateTime _haemoglobinLevelDate;
 
   bool _isPressed = false;
+
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -276,34 +331,47 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
         CustomRaisedButton(
           title: Languages.of(context).labelNextButton,
           onPressed: () {
-            setState(() {
-              _isPressed = true;
-            });
-            _authProvider
-                .updateAdditionalInfo(
-                    haemoLevel: _haemoglobinLevel,
-                    haemoLevelDate: _haemoglobinLevelDate,
-                    lastDateTetanusVaccine: _lastTetanusDate,
-                    nextDateTetanusVaccine: _nextTetanusDate,
-                    onMedication: _medication,
-                    startedClinic: _clinic,
-                    takenTetanusVaccine: _tetanasiVaccination)
-                .then((value) {
+            if (_connectionStatus == 'ConnectivityResult.none' ||
+                _connectionStatus == 'unknown') {
+              Fluttertoast.showToast(
+                  msg: Languages.of(context).labelNoItemTileInternet,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.black54,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            } else {
               setState(() {
-                _isPressed = false;
+                _isPressed = true;
               });
-              if (!value) {
-                //send data to af server...
 
-                _configProvider.setConfigurationStep = Configuration.Done;
-                _bloodLevelProvider.postBloodLevel(
-                  quantity: _haemoglobinLevel.toDouble(),
-                  date: _haemoglobinLevelDate.toString(),
-                );
+              _authProvider
+                  .updateAdditionalInfo(
+                      haemoLevel: _haemoglobinLevel,
+                      haemoLevelDate: _haemoglobinLevelDate,
+                      lastDateTetanusVaccine: _lastTetanusDate,
+                      nextDateTetanusVaccine: _nextTetanusDate,
+                      onMedication: _medication,
+                      startedClinic: _clinic,
+                      takenTetanusVaccine: _tetanasiVaccination)
+                  .then((value) {
+                setState(() {
+                  _isPressed = false;
+                });
+                if (!value) {
+                  //send data to af server...
 
-                Navigator.pushNamed(context, landingPage);
-              }
-            });
+                  _configProvider.setConfigurationStep = Configuration.Done;
+                  _bloodLevelProvider.postBloodLevel(
+                    quantity: _haemoglobinLevel.toDouble(),
+                    date: _haemoglobinLevelDate.toString(),
+                  );
+
+                  Navigator.pushNamed(context, landingPage);
+                }
+              });
+            }
           },
           isPressed: _isPressed,
         ),

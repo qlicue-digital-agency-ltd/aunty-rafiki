@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/appointment_provider.dart';
 import 'package:aunty_rafiki/providers/blood_level_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_date_field.dart';
 import 'package:aunty_rafiki/views/components/text-field/icon_text_field.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class AddBloodLevelPage extends StatefulWidget {
@@ -29,6 +34,10 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
   @override
   void initState() {
     _getValue();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+
     super.initState();
   }
 
@@ -39,6 +48,48 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
         _dateEditingController.text = '22-11-2020';
       });
     });
+  }
+
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
   }
 
   @override
@@ -116,21 +167,34 @@ class _AddBloodLevelPageState extends State<AddBloodLevelPage> {
                                     fontWeight: FontWeight.w900),
                               ),
                         onPressed: () {
-                          if (!_bloodLevelProvider.isSubmittingData) if (_formKey
-                              .currentState
-                              .validate()) {
-                            _bloodLevelProvider
-                                .postBloodLevel(
-                              quantity:
-                                  double.parse(_valueEditingController.text),
-                              date: _dateEditingController.text,
-                            )
-                                .then((value) {
-                              if (!value) {
-                                Navigator.pop(context);
-                              } else {}
-                            });
-                          } else {}
+                          if (_connectionStatus == 'ConnectivityResult.none' ||
+                              _connectionStatus == 'unknown') {
+                            Fluttertoast.showToast(
+                                msg: Languages.of(context)
+                                    .labelNoItemTileInternet,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          } else {
+                            if (!_bloodLevelProvider.isSubmittingData) if (_formKey
+                                .currentState
+                                .validate()) {
+                              _bloodLevelProvider
+                                  .postBloodLevel(
+                                quantity:
+                                    double.parse(_valueEditingController.text),
+                                date: _dateEditingController.text,
+                              )
+                                  .then((value) {
+                                if (!value) {
+                                  Navigator.pop(context);
+                                } else {}
+                              });
+                            } else {}
+                          }
                         },
                       ),
                     ),

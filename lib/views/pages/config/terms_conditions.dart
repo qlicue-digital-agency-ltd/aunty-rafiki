@@ -8,8 +8,11 @@ import 'package:aunty_rafiki/providers/config_provider.dart';
 import 'package:aunty_rafiki/providers/utility_provider.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
 import 'package:aunty_rafiki/views/components/logo.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,6 +22,56 @@ class TermsConditionPage extends StatefulWidget {
 }
 
 class _TermsConditionPageState extends State<TermsConditionPage> {
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool _loading = false;
@@ -204,22 +257,36 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
                             ),
                       onPressed: () {
                         if (_utilityProvider.configTerms == ConfigTerms.ALL) {
-                          setState(() {
-                            _loading = true;
-                          });
-                          Timer(Duration(milliseconds: 2000), () {
-                            _configProvider.setConfigurationStep =
-                                Configuration.SignUp;
-                            _utilityProvider
-                                .storeTerms(_utilityProvider.checkBoxList)
-                                .then((value) {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(landingPage);
-                            });
+                          if (_connectionStatus == 'ConnectivityResult.none' ||
+                              _connectionStatus == 'unknown') {
+                            Fluttertoast.showToast(
+                                msg: Languages.of(context)
+                                    .labelNoItemTileInternet,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          } else {
                             setState(() {
-                              _loading = false;
+                              _loading = true;
                             });
-                          });
+
+                            Timer(Duration(milliseconds: 2000), () {
+                              _configProvider.setConfigurationStep =
+                                  Configuration.SignUp;
+                              _utilityProvider
+                                  .storeTerms(_utilityProvider.checkBoxList)
+                                  .then((value) {
+                                Navigator.of(context)
+                                    .pushReplacementNamed(landingPage);
+                              });
+                              setState(() {
+                                _loading = false;
+                              });
+                            });
+                          }
                         } else {
                           _utilityProvider.selectAllTerms();
                         }
@@ -273,7 +340,8 @@ class _TermsConditionPageState extends State<TermsConditionPage> {
         queryParameters: {'subject': ''});
     launch(_emailLaunchUri.toString());
   }
-    void _launchURL(String uri) async {
+
+  void _launchURL(String uri) async {
     String url = uri;
     if (await canLaunch(url)) {
       await launch(url);

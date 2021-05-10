@@ -1,12 +1,17 @@
+import 'dart:async';
 import 'dart:io' as io;
 
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:emoji_picker/emoji_picker.dart';
 import 'package:file/local.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -56,7 +61,53 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
     super.initState();
     db = FirebaseFirestore.instance;
     _controller = TextEditingController();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     focusNode = FocusNode();
+  }
+
+  ///check for internet connection
+  String _connectionStatus = 'unknown';
+
+  final Connectivity _connectivity = Connectivity();
+
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'unknown');
+        break;
+    }
   }
 
   @override
@@ -211,22 +262,36 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                                   }
                                 },
                                 onSubmitted: (text) {
-                                  _chatProvider
-                                      .onSendPrivateMessage(
-                                    content: _controller.text,
-                                    time: Timestamp.fromDate(DateTime.now()),
-                                    senderId:
-                                        FirebaseAuth.instance.currentUser.uid,
-                                    groupChatId: groupChatId,
-                                    peerId: peer.uid,
-                                  )
-                                      .then((value) {
-                                    _controller.clear();
-                                    setState(() {
-                                      _isSending = false;
+                                  if (_connectionStatus ==
+                                          'ConnectivityResult.none' ||
+                                      _connectionStatus == 'unknown') {
+                                    Fluttertoast.showToast(
+                                        msg: Languages.of(context)
+                                            .labelNoItemTileInternet,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.black54,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  } else {
+                                    _chatProvider
+                                        .onSendPrivateMessage(
+                                      content: _controller.text,
+                                      time: Timestamp.fromDate(DateTime.now()),
+                                      senderId:
+                                          FirebaseAuth.instance.currentUser.uid,
+                                      groupChatId: groupChatId,
+                                      peerId: peer.uid,
+                                    )
+                                        .then((value) {
+                                      _controller.clear();
+                                      setState(() {
+                                        _isSending = false;
+                                      });
+                                      _chatProvider.scrollToBootomOfChats();
                                     });
-                                    _chatProvider.scrollToBootomOfChats();
-                                  });
+                                  }
                                 },
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -268,26 +333,39 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                 onPressed: _isSending
                     ? null
                     : () {
-                        setState(() {
-                          _isSending = true;
-                          _showEmojiPicker = false;
-                        });
-
-                        _chatProvider
-                            .onSendPrivateMessage(
-                          content: _controller.text,
-                          time: Timestamp.fromDate(DateTime.now()),
-                          senderId: FirebaseAuth.instance.currentUser.uid,
-                          groupChatId: groupChatId,
-                          peerId: peer.uid,
-                        )
-                            .then((value) {
-                          _controller.clear();
+                        if (_connectionStatus == 'ConnectivityResult.none' ||
+                            _connectionStatus == 'unknown') {
+                          Fluttertoast.showToast(
+                              msg:
+                                  Languages.of(context).labelNoItemTileInternet,
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black54,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        } else {
                           setState(() {
-                            _isSending = false;
+                            _isSending = true;
+                            _showEmojiPicker = false;
                           });
-                          _chatProvider.scrollToBootomOfChats();
-                        });
+
+                          _chatProvider
+                              .onSendPrivateMessage(
+                            content: _controller.text,
+                            time: Timestamp.fromDate(DateTime.now()),
+                            senderId: FirebaseAuth.instance.currentUser.uid,
+                            groupChatId: groupChatId,
+                            peerId: peer.uid,
+                          )
+                              .then((value) {
+                            _controller.clear();
+                            setState(() {
+                              _isSending = false;
+                            });
+                            _chatProvider.scrollToBootomOfChats();
+                          });
+                        }
                       },
                 color: Colors.white,
               ),
@@ -320,12 +398,5 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
 
   void dismissKeyboard() {
     focusNode.unfocus();
-  }
-
-  @override
-  void dispose() {
-    focusNode.dispose();
-
-    super.dispose();
   }
 }
