@@ -345,7 +345,10 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
               setState(() {
                 _isPressed = true;
               });
-
+              _bloodLevelProvider.postBloodLevel(
+                quantity: _haemoglobinLevel.toDouble(),
+                date: _haemoglobinLevelDate.toString(),
+              );
               _authProvider
                   .updateAdditionalInfo(
                       haemoLevel: _haemoglobinLevel,
@@ -363,10 +366,6 @@ class _MoreInfoScreenState extends State<MoreInfoScreen> {
                   //send data to af server...
 
                   _configProvider.setConfigurationStep = Configuration.Done;
-                  _bloodLevelProvider.postBloodLevel(
-                    quantity: _haemoglobinLevel.toDouble(),
-                    date: _haemoglobinLevelDate.toString(),
-                  );
 
                   Navigator.pushNamed(context, landingPage);
                 }
