@@ -1,7 +1,6 @@
 import 'package:aunty_rafiki/constants/colors/custom_colors.dart';
 import 'package:aunty_rafiki/models/post.dart';
 import 'package:aunty_rafiki/views/components/loader/loading.dart';
-import 'package:aunty_rafiki/views/pages/post_details_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

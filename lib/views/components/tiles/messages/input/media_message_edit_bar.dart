@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/auth_provider.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -128,40 +130,54 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                         controller: _controller,
                         enabled: !_isSending,
                         onSubmitted: (text) {
-                          if (chat != null) {
-                            _chatProvider
-                                .sendMessage(
-                                    text: _controller.text,
-                                    time: Timestamp.fromDate(DateTime.now()),
-                                    user: FirebaseAuth.instance.currentUser.uid,
-                                    chat: chat,
-                                    repliedMessage:
-                                        _chatProvider.messageToReply,
-                                    senderName:
-                                        _authProvider.currentUser.displayName)
-                                .then((value) {
-                              _controller.clear();
-                              setState(() {
-                                _isSending = false;
-                              });
-                              Navigator.pop(context);
-                            });
+                          if (_connectionStatus == 'ConnectivityResult.none' ||
+                              _connectionStatus == 'unknown') {
+                            Fluttertoast.showToast(
+                                msg: Languages.of(context)
+                                    .labelNoItemTileInternet,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
                           } else {
-                            _chatProvider
-                                .onSendPrivateMessage(
-                                    content: _controller.text,
-                                    time: Timestamp.fromDate(DateTime.now()),
-                                    groupChatId: _chatProvider.groupChatId,
-                                    peerId: _chatProvider.peerId,
-                                    senderId:
-                                        FirebaseAuth.instance.currentUser.uid)
-                                .then((value) {
-                              _controller.clear();
-                              setState(() {
-                                _isSending = false;
+                            if (chat != null) {
+                              _chatProvider
+                                  .sendMessage(
+                                      text: _controller.text,
+                                      time: Timestamp.fromDate(DateTime.now()),
+                                      user:
+                                          FirebaseAuth.instance.currentUser.uid,
+                                      chat: chat,
+                                      repliedMessage:
+                                          _chatProvider.messageToReply,
+                                      senderName:
+                                          _authProvider.currentUser.displayName)
+                                  .then((value) {
+                                _controller.clear();
+                                setState(() {
+                                  _isSending = false;
+                                });
+                                Navigator.pop(context);
                               });
-                              Navigator.pop(context);
-                            });
+                            } else {
+                              _chatProvider
+                                  .onSendPrivateMessage(
+                                      content: _controller.text,
+                                      time: Timestamp.fromDate(DateTime.now()),
+                                      groupChatId: _chatProvider.groupChatId,
+                                      peerId: _chatProvider.peerId,
+                                      senderId:
+                                          FirebaseAuth.instance.currentUser.uid)
+                                  .then((value) {
+                                _controller.clear();
+                                setState(() {
+                                  _isSending = false;
+                                });
+                                Navigator.pop(context);
+                              });
+                            }
                           }
                         },
                         decoration: InputDecoration(
@@ -197,40 +213,53 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
             onPressed: _isSending
                 ? null
                 : () {
-                    setState(() {
-                      _isSending = true;
-                    });
-                    if (chat != null) {
-                      _chatProvider
-                          .sendMessage(
-                              text: _controller.text,
-                              time: Timestamp.fromDate(DateTime.now()),
-                              user: FirebaseAuth.instance.currentUser.uid,
-                              chat: chat,
-                              repliedMessage: _chatProvider.messageToReply,
-                              senderName: _authProvider.currentUser.displayName)
-                          .then((value) {
-                        _controller.clear();
-                        setState(() {
-                          _isSending = false;
-                        });
-                        Navigator.pop(context);
-                      });
+                    if (_connectionStatus == 'ConnectivityResult.none' ||
+                        _connectionStatus == 'unknown') {
+                      Fluttertoast.showToast(
+                          msg: Languages.of(context).labelNoItemTileInternet,
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black54,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     } else {
-                      _chatProvider
-                          .onSendPrivateMessage(
-                              content: _controller.text,
-                              time: Timestamp.fromDate(DateTime.now()),
-                              groupChatId: _chatProvider.groupChatId,
-                              peerId: _chatProvider.peerId,
-                              senderId: FirebaseAuth.instance.currentUser.uid)
-                          .then((value) {
-                        _controller.clear();
-                        setState(() {
-                          _isSending = false;
-                        });
-                        Navigator.pop(context);
+                      setState(() {
+                        _isSending = true;
                       });
+                      if (chat != null) {
+                        _chatProvider
+                            .sendMessage(
+                                text: _controller.text,
+                                time: Timestamp.fromDate(DateTime.now()),
+                                user: FirebaseAuth.instance.currentUser.uid,
+                                chat: chat,
+                                repliedMessage: _chatProvider.messageToReply,
+                                senderName:
+                                    _authProvider.currentUser.displayName)
+                            .then((value) {
+                          _controller.clear();
+                          setState(() {
+                            _isSending = false;
+                          });
+                          Navigator.pop(context);
+                        });
+                      } else {
+                        _chatProvider
+                            .onSendPrivateMessage(
+                                content: _controller.text,
+                                time: Timestamp.fromDate(DateTime.now()),
+                                groupChatId: _chatProvider.groupChatId,
+                                peerId: _chatProvider.peerId,
+                                senderId: FirebaseAuth.instance.currentUser.uid)
+                            .then((value) {
+                          _controller.clear();
+                          setState(() {
+                            _isSending = false;
+                          });
+                          Navigator.pop(context);
+                        });
+                      }
                     }
                   },
             color: Colors.white,

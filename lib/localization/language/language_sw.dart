@@ -223,7 +223,7 @@ class LanguageSw extends Languages {
   //No Items Tile
   @override
   String get labelNoItemTileGroup =>
-      "Bado hauko katika kikundi chochote cha soga";
+      "Bado hauko katika kikundi";
   @override
   String get labelNoItemTilePeers => "Akuna watu";
   @override

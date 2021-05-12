@@ -11,6 +11,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class AddAppointmentPage extends StatefulWidget {
@@ -305,25 +306,38 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
                                     fontWeight: FontWeight.w900),
                               ),
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            print('save the data');
-                            _appointmentProvider
-                                .createAppointment(
-                                    name: _descriptionEditingController.text,
-                                    profession: _selectedProfession,
-                                    date: _dateEditingController.text,
-                                    time: _timeEditingController.text,
-                                    additionalNotes:
-                                        _notesEditingController.text,
-                                    syncToCalendar: _syncToCalendar)
-                                .then((value) {
-                              if (!value) {
-                                Navigator.pop(context);
-                              } else {
-                                print('Error while submitting data');
-                              }
-                            });
-                          } else {}
+                          if (_connectionStatus == 'ConnectivityResult.none' ||
+                              _connectionStatus == 'unknown') {
+                            Fluttertoast.showToast(
+                                msg: Languages.of(context)
+                                    .labelNoItemTileInternet,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          } else {
+                            if (_formKey.currentState.validate()) {
+                              print('save the data');
+                              _appointmentProvider
+                                  .createAppointment(
+                                      name: _descriptionEditingController.text,
+                                      profession: _selectedProfession,
+                                      date: _dateEditingController.text,
+                                      time: _timeEditingController.text,
+                                      additionalNotes:
+                                          _notesEditingController.text,
+                                      syncToCalendar: _syncToCalendar)
+                                  .then((value) {
+                                if (!value) {
+                                  Navigator.pop(context);
+                                } else {
+                                  print('Error while submitting data');
+                                }
+                              });
+                            } else {}
+                          }
                         },
                       ),
                     ),

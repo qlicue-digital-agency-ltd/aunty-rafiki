@@ -121,6 +121,7 @@ class _PrivateChatsState extends State<PrivateChats> {
                   );
                 } else {
                   List<User> userList = snapshot.data;
+                  userList.removeWhere((user) => user.uid == currentUserId);
                   return userList.isEmpty
                       ? Center(
                           child: (Column(
@@ -170,12 +171,8 @@ class _PrivateChatsState extends State<PrivateChats> {
   }
 
   Widget buildItem(BuildContext context, User peer) {
-    if (peer.uid == currentUserId) {
-      return Container();
-    } else {
-      return PrivateChartcard(
-        peer: peer,
-      );
-    }
+    return PrivateChartcard(
+      peer: peer,
+    );
   }
 }

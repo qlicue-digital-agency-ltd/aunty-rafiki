@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 typedef NumberCounterOnTap = Function(int);
 
 class NumberCounter extends StatelessWidget {
@@ -50,20 +49,13 @@ class NumberCounter extends StatelessWidget {
                     )),
               ),
             ),
-           SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Text(
-                    counter.toString(),
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  ),
-            IconButton(
-                icon: Icon(
-                  Icons.arrow_drop_up,
-                  color: Theme.of(context).primaryColor,
-                  size: 40,
-                ),
-                onPressed: () {
-                  return onTap(1);
-                }),
+              counter.toString(),
+              style: TextStyle(fontSize: 20, color: Colors.black),
+            ),
             IconButton(
                 icon: Icon(
                   Icons.arrow_drop_down,
@@ -72,6 +64,15 @@ class NumberCounter extends StatelessWidget {
                 ),
                 onPressed: () {
                   return onTap(-1);
+                }),
+            IconButton(
+                icon: Icon(
+                  Icons.arrow_drop_up,
+                  color: Theme.of(context).primaryColor,
+                  size: 40,
+                ),
+                onPressed: () {
+                  return onTap(1);
                 }),
             SizedBox(
               width: 20,
