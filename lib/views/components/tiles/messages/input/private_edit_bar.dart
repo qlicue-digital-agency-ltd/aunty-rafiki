@@ -126,7 +126,7 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                   color: Colors.white,
                   child: Column(
                     children: [
-                      _chatProvider.messageToReply != null
+                      _chatProvider.privateMessageToReply != null
                           ? Container(
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey[100]),
@@ -142,7 +142,9 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                                       Container(
                                         color: Colors.pink,
                                         height: _chatProvider
-                                                .messageToReply.media.isEmpty
+                                                .privateMessageToReply
+                                                .media
+                                                .isEmpty
                                             ? 60
                                             : 100,
                                         width: 5,
@@ -161,10 +163,10 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                                                 FirebaseAuth.instance
                                                             .currentUser.uid ==
                                                         _chatProvider
-                                                            .messageToReply
-                                                            .sender
+                                                            .privateMessageToReply
+                                                            .idFrom
                                                     ? 'You'
-                                                    : '${_chatProvider.messageToReply.senderName}',
+                                                    : '',
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight:
@@ -172,7 +174,8 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                                               ),
                                               Text(
                                                 _chatProvider
-                                                    .messageToReply.text,
+                                                    .privateMessageToReply
+                                                    .content,
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                 ),
@@ -181,7 +184,8 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                                           ),
                                         ),
                                       ),
-                                      _chatProvider.messageToReply.media.isEmpty
+                                      _chatProvider.privateMessageToReply.media
+                                              .isEmpty
                                           ? SizedBox(
                                               width: 20,
                                             )
@@ -191,7 +195,8 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                                               child: FadeInImage.memoryNetwork(
                                                 placeholder: kTransparentImage,
                                                 image: _chatProvider
-                                                    .messageToReply.media[0],
+                                                    .privateMessageToReply
+                                                    .media[0],
                                                 height: 100,
                                                 fit: BoxFit.cover,
                                               ),
@@ -207,8 +212,8 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                                           color: Colors.pink,
                                         ),
                                         onTap: () {
-                                          _chatProvider.setMessageToReply =
-                                              null;
+                                          _chatProvider
+                                              .setPrivateMessageToReply = null;
                                         }),
                                   )
                                 ],
@@ -283,6 +288,8 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                                           FirebaseAuth.instance.currentUser.uid,
                                       groupChatId: groupChatId,
                                       peerId: peer.uid,
+                                      repliedMessage:
+                                          _chatProvider.privateMessageToReply,
                                     )
                                         .then((value) {
                                       _controller.clear();
@@ -357,6 +364,7 @@ class _MessageEditBarState extends State<PrivateMessageEditBar> {
                             senderId: FirebaseAuth.instance.currentUser.uid,
                             groupChatId: groupChatId,
                             peerId: peer.uid,
+                            repliedMessage: _chatProvider.privateMessageToReply,
                           )
                               .then((value) {
                             _controller.clear();

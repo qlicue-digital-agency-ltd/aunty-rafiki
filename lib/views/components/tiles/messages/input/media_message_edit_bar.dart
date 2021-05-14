@@ -52,7 +52,6 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     db = FirebaseFirestore.instance;
     _controller = TextEditingController();
-   
   }
 
   @override
@@ -170,7 +169,9 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                                       groupChatId: _chatProvider.groupChatId,
                                       peerId: _chatProvider.peerId,
                                       senderId:
-                                          FirebaseAuth.instance.currentUser.uid)
+                                          FirebaseAuth.instance.currentUser.uid,
+                                      repliedMessage:
+                                          _chatProvider.privateMessageToReply)
                                   .then((value) {
                                 _controller.clear();
                                 setState(() {
@@ -252,7 +253,9 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
                                 time: Timestamp.fromDate(DateTime.now()),
                                 groupChatId: _chatProvider.groupChatId,
                                 peerId: _chatProvider.peerId,
-                                senderId: FirebaseAuth.instance.currentUser.uid)
+                                senderId: FirebaseAuth.instance.currentUser.uid,
+                                repliedMessage:
+                                    _chatProvider.privateMessageToReply)
                             .then((value) {
                           _controller.clear();
                           setState(() {

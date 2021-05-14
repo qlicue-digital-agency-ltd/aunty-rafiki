@@ -344,9 +344,7 @@ class ChatProvider with ChangeNotifier {
           ?.files;
     } on PlatformException catch (e) {
       print("Unsupported operation" + e.toString());
-    } catch (ex) {
-    
-    }
+    } catch (ex) {}
     notifyListeners();
   }
 
@@ -490,6 +488,7 @@ class ChatProvider with ChangeNotifier {
       @required String groupChatId,
       @required String peerId,
       @required String senderId,
+      @required PrivateMessage repliedMessage,
       @required dynamic time}) async {
     ///add chat to user
     addChatToUser(senderId, peerId);
@@ -510,7 +509,7 @@ class ChatProvider with ChangeNotifier {
           'time': time,
           'content': content,
           'media': [],
-          'repliedUID': null,
+          'repliedUID': repliedMessage != null ? repliedMessage.id : null,
           'mediaType': _mediaType.replaceAll('FileType.', ''),
           'showDeletedMessage': true
         },
@@ -522,7 +521,7 @@ class ChatProvider with ChangeNotifier {
       } else {
         _isSendingMessage = false;
         _mediaType = "NON";
-        setMessageToReply = null;
+        setPrivateMessageToReply = null;
         notifyListeners();
       }
     });
