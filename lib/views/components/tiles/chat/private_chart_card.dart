@@ -6,14 +6,21 @@ import 'package:flutter/material.dart';
 
 class PrivateChartcard extends StatelessWidget {
   final User peer;
+  final Function onLongPress;
+  final bool isSelected;
 
-  const PrivateChartcard({Key key, @required this.peer}) : super(key: key);
+  const PrivateChartcard(
+      {Key key,
+      @required this.peer,
+      @required this.onLongPress,
+      @required this.isSelected})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return InkWell(
       child: Material(
-        color: Colors.white,
+        color: isSelected ? Colors.pink[50].withOpacity(0.5) : Colors.white,
         child: Container(
           padding: EdgeInsets.only(left: 16, right: 16, bottom: 5),
           child: Column(
@@ -61,7 +68,7 @@ class PrivateChartcard extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                   '${peer.displayName}',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
                                   height: 6,
@@ -103,6 +110,7 @@ class PrivateChartcard extends StatelessWidget {
                       peer: peer,
                     )));
       },
+      onLongPress: onLongPress,
     );
   }
 }

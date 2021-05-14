@@ -9,6 +9,7 @@ class SelectContactPageAppBar extends StatelessWidget
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
+      iconTheme: IconThemeData(color: Colors.black54),
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       flexibleSpace: SafeArea(

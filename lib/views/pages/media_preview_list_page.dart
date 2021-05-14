@@ -16,9 +16,9 @@ class MediaPreviewListPage extends StatelessWidget {
         title:
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: []),
         actions: [
-          IconButton(icon: Icon(Icons.star_border), onPressed: () {}),
-          IconButton(icon: Icon(Icons.share), onPressed: () {}),
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {})
+          // IconButton(icon: Icon(Icons.star_border), onPressed: () {}),
+          // IconButton(icon: Icon(Icons.share), onPressed: () {}),
+          // IconButton(icon: Icon(Icons.more_vert), onPressed: () {})
         ],
       ),
       backgroundColor: Colors.black,

@@ -225,7 +225,7 @@ class LanguageSw extends Languages {
   String get labelNoItemTileGroup =>
       "Bado hauko katika kikundi";
   @override
-  String get labelNoItemTilePeers => "Akuna watu";
+  String get labelNoItemTilePeers => "Akuna jumbe";
   @override
   String get labelNoItemTileBloodLevel => "Hakuna viwango vya damu";
   @override

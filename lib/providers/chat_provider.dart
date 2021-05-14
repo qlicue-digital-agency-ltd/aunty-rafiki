@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/models/message.dart';
 import 'package:aunty_rafiki/models/private_message.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -22,6 +23,7 @@ class ChatProvider with ChangeNotifier {
   String _mediaType = "NON";
 
   Map<String, Message> _selectedMessages = {};
+  Map<int, String> _selectedUsers = {};
   Map<String, PrivateMessage> _selectedPrivateMessages = {};
   int _limit = 20;
   int _limitIncrement = 20;
@@ -64,8 +66,8 @@ class ChatProvider with ChangeNotifier {
   }
 
   setPrivateMessage({@required String uid, @required PrivateMessage message}) {
-    if (_selectedMessages.containsKey(uid)) {
-      _selectedMessages.remove(uid);
+    if (_selectedPrivateMessages.containsKey(uid)) {
+      _selectedPrivateMessages.remove(uid);
       print('removed');
     } else {
       _selectedPrivateMessages[uid] = message;
@@ -107,6 +109,8 @@ class ChatProvider with ChangeNotifier {
   bool get loadingPath => _loadingPath;
 
   Map<String, Message> get selectedMessages => _selectedMessages;
+  Map<int, String> get selectedUsers => _selectedUsers;
+
   Map<String, PrivateMessage> get selectedPrivateMessages =>
       _selectedPrivateMessages;
   bool get isCreatingGroup => _isSendingMessage;
@@ -367,8 +371,6 @@ class ChatProvider with ChangeNotifier {
       messageUID,
       @required Chat chat,
       @required userUID}) async {
-
-        
     switch (choice) {
       case 'me_only':
 
@@ -493,6 +495,10 @@ class ChatProvider with ChangeNotifier {
       @required String peerId,
       @required String senderId,
       @required dynamic time}) async {
+    ///add chat to user
+    addChatToUser(senderId, peerId);
+
+    ///sending the sms
     var documentReference = FirebaseFirestore.instance
         .collection('messages')
         .doc(groupChatId)
@@ -524,5 +530,45 @@ class ChatProvider with ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  //user private sms list
+  addChatToUser(String senderId, String peerId) async {
+    //adding chat to sender
+    db.collection('users').doc(senderId).update({
+      'chats': FieldValue.arrayUnion([peerId]),
+    });
+
+    //adding chat to sender
+    db.collection('users').doc(peerId).update({
+      'chats': FieldValue.arrayUnion([senderId]),
+    });
+  }
+
+  deleteUserChat() async {
+    _selectedUsers.forEach(((index, peerId) async {
+      //remove user reference
+      await db
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser.uid)
+          .update({
+        'chats': FieldValue.arrayRemove([peerId])
+      });
+      _selectedUsers.remove(index);
+    }));
+
+    notifyListeners();
+  }
+
+  selectContact({@required int index, @required String uid}) {
+    print(index);
+    print(uid);
+    if (_selectedUsers.containsKey(index)) {
+      _selectedUsers.remove(index);
+    } else {
+      _selectedUsers[index] = uid;
+    }
+    print(_selectedUsers.length);
+    notifyListeners();
   }
 }

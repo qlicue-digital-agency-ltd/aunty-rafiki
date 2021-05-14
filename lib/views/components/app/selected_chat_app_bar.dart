@@ -25,6 +25,7 @@ class SelectedChatAppBar extends StatelessWidget
     final _chatProvider = Provider.of<ChatProvider>(context);
     return AppBar(
       elevation: 0,
+      iconTheme: IconThemeData(color: Colors.black54),
       backgroundColor: Colors.transparent,
       title: Text(
         '${listMessage.length}',
@@ -40,12 +41,12 @@ class SelectedChatAppBar extends StatelessWidget
                   _chatProvider.clearSelectedChats();
                 })
             : Container(),
-        IconButton(
-            icon: Icon(Icons.star, color: Colors.black54), onPressed: () {}),
+        // IconButton(
+        //     icon: Icon(Icons.star, color: Colors.black54), onPressed: () {}),
         IconButton(
             icon: Icon(
               Icons.delete,
-              color: Colors.black54,
+              color: Colors.pink,
             ),
             onPressed: () {
               showDialog(
@@ -82,9 +83,9 @@ class SelectedChatAppBar extends StatelessWidget
                     );
                   });
             }),
-        IconButton(
-            icon: FaIcon(FontAwesomeIcons.share, color: Colors.black54),
-            onPressed: () {}),
+        // IconButton(
+        //     icon: FaIcon(FontAwesomeIcons.share, color: Colors.black54),
+        //     onPressed: () {}),
         PopupMenuButton<ChatGroupPopMenu>(
           icon: Icon(
             Icons.more_vert,

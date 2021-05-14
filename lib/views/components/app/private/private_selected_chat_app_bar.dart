@@ -22,6 +22,7 @@ class PrivateSelectedChatAppBar extends StatelessWidget
     final _chatProvider = Provider.of<ChatProvider>(context);
     return AppBar(
       backgroundColor: Colors.transparent,
+      iconTheme: IconThemeData(color: Colors.black54),
       elevation: 0,
       title: Text(
         '${listMessage.length}',
@@ -37,12 +38,12 @@ class PrivateSelectedChatAppBar extends StatelessWidget
                   _chatProvider.clearSelectedChats();
                 })
             : Container(),
-        IconButton(
-            icon: Icon(Icons.star, color: Colors.black54), onPressed: () {}),
+        // IconButton(
+        //     icon: Icon(Icons.star, color: Colors.black54), onPressed: () {}),
         IconButton(
             icon: Icon(
               Icons.delete,
-              color: Colors.black54,
+              color: Colors.pink,
             ),
             onPressed: () {
               showDialog(
@@ -77,9 +78,9 @@ class PrivateSelectedChatAppBar extends StatelessWidget
                     );
                   });
             }),
-        IconButton(
-            icon: FaIcon(FontAwesomeIcons.share, color: Colors.black54),
-            onPressed: () {}),
+        // IconButton(
+        //     icon: FaIcon(FontAwesomeIcons.share, color: Colors.black54),
+        //     onPressed: () {}),
         PopupMenuButton<ChatGroupPopMenu>(
           icon: Icon(
             Icons.more_vert,
@@ -113,20 +114,12 @@ class PrivateSelectedChatAppBar extends StatelessWidget
           itemBuilder: (BuildContext context) =>
               <PopupMenuEntry<ChatGroupPopMenu>>[
             const PopupMenuItem<ChatGroupPopMenu>(
-              value: ChatGroupPopMenu.GroupInfo,
-              child: Text('Group Info'),
-            ),
-            const PopupMenuItem<ChatGroupPopMenu>(
               value: ChatGroupPopMenu.MuteNotification,
               child: Text('Mute Notifications'),
             ),
             const PopupMenuItem<ChatGroupPopMenu>(
               value: ChatGroupPopMenu.ClearChat,
               child: Text('Clear Chat'),
-            ),
-            const PopupMenuItem<ChatGroupPopMenu>(
-              value: ChatGroupPopMenu.ExitGroup,
-              child: Text('Exit Group'),
             ),
           ],
         )

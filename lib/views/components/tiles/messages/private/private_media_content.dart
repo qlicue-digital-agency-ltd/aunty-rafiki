@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 // ignore: must_be_immutable
 class PrivateMediaContent extends StatelessWidget {
   final PrivateMessage message;
@@ -32,21 +31,6 @@ class PrivateMediaContent extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            byMe
-                ? Container()
-                : Padding(
-                    padding:
-                        const EdgeInsets.only(left: 6.0, top: 8.0, right: 6.0),
-                    child: RichText(
-                        text: TextSpan(
-                      text: '${message.idFrom}',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                      ),
-                    )),
-                  ),
             message.media.length < 4
                 ? InkWell(
                     onTap: () {

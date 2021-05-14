@@ -51,7 +51,11 @@ class _MessageEditBarState extends State<MessageEditBar> {
   @override
   void initState() {
     super.initState();
+    db = FirebaseFirestore.instance;
+    _controller = TextEditingController();
+    focusNode = FocusNode();
     initConnectivity();
+
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
@@ -91,7 +95,6 @@ class _MessageEditBarState extends State<MessageEditBar> {
         break;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

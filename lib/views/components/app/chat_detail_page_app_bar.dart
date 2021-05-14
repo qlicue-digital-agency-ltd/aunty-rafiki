@@ -32,6 +32,7 @@ class ChatDetailPageAppBar extends StatelessWidget
 
     return AppBar(
       elevation: 0,
+      iconTheme: IconThemeData(color: Colors.black54),
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       flexibleSpace: SafeArea(
@@ -129,14 +130,14 @@ class ChatDetailPageAppBar extends StatelessWidget
                     value: ChatGroupPopMenu.GroupInfo,
                     child: Text('Group Info'),
                   ),
-                  const PopupMenuItem<ChatGroupPopMenu>(
-                    value: ChatGroupPopMenu.MuteNotification,
-                    child: Text('Mute Notifications'),
-                  ),
-                  const PopupMenuItem<ChatGroupPopMenu>(
-                    value: ChatGroupPopMenu.ClearChat,
-                    child: Text('Clear Chat'),
-                  ),
+                  // const PopupMenuItem<ChatGroupPopMenu>(
+                  //   value: ChatGroupPopMenu.MuteNotification,
+                  //   child: Text('Mute Notifications'),
+                  // ),
+                  // const PopupMenuItem<ChatGroupPopMenu>(
+                  //   value: ChatGroupPopMenu.ClearChat,
+                  //   child: Text('Clear Chat'),
+                 // ),
                 ],
               )
             ],

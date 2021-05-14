@@ -34,7 +34,7 @@ class ChatMessage extends StatelessWidget {
                     : MainAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.fromLTRB(8, 4, 8, 2),
+                padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
                 child: Material(
                     elevation: 1,
                     borderRadius: BorderRadius.all(Radius.circular(3)),
@@ -49,7 +49,7 @@ class ChatMessage extends StatelessWidget {
                                 message: message,
                                 width: MediaQuery.of(context).size.width,
                                 byMe: FirebaseAuth.instance.currentUser.uid ==
-                                message.sender,
+                                    message.sender,
                               )
                             : message.mediaType == "audio"
                                 ? Container(

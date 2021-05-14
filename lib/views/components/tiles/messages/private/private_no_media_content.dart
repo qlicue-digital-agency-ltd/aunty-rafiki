@@ -6,7 +6,8 @@ class PrivateNoMediaContent extends StatelessWidget {
   final PrivateMessage message;
   final bool byMe;
 
-  const PrivateNoMediaContent({Key key, @required this.message, @required this.byMe})
+  const PrivateNoMediaContent(
+      {Key key, @required this.message, @required this.byMe})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -23,18 +24,13 @@ class PrivateNoMediaContent extends StatelessWidget {
             ),
             child: RichText(
                 text: TextSpan(
-                    text: byMe ? "" : '${message.idFrom}\n',
+                    text: message.content,
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
                     ),
-                    children: <TextSpan>[
-                  TextSpan(
-                      text: message.content,
-                      style: TextStyle(color: Colors.black45, fontSize: 15))
-                ]))
-                ),
+                    children: <TextSpan>[]))),
         Container(
           padding: const EdgeInsets.only(right: 4, bottom: 2),
           child: Text(

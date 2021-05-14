@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class User {
   String displayName;
   List<dynamic> groups;
+  List<dynamic> chats;
   String nameInitials;
   String phoneNumber;
   String photoUrl;
@@ -27,6 +28,7 @@ class User {
       {@required this.phoneNumber,
       this.displayName,
       this.groups,
+      this.chats,
       this.nameInitials,
       this.photoUrl,
       this.gravida,
@@ -76,6 +78,7 @@ class User {
         takenTetanusVaccine = map['takenTetanusVaccine'],
         yearOfBirth = map['yearOfBirth'],
         hasProfile = map['hasProfile'],
+        chats = map['chats'],
         groups = map['groups'];
 
   User.fromFirestore(DocumentSnapshot doc)
@@ -98,6 +101,7 @@ class User {
         takenTetanusVaccine = doc.data()['takenTetanusVaccine'],
         yearOfBirth = doc.data()['yearOfBirth'],
         hasProfile = doc.data()['hasProfile'],
+        chats = doc.data()['chats'],
         groups = doc.data()['groups'];
 }
 

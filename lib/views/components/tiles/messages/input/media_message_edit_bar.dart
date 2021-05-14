@@ -52,6 +52,7 @@ class _MediaMessageEditBarState extends State<MediaMessageEditBar> {
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     db = FirebaseFirestore.instance;
     _controller = TextEditingController();
+   
   }
 
   @override

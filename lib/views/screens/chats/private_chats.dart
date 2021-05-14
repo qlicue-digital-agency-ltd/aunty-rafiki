@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:aunty_rafiki/localization/language/languages.dart';
 import 'package:aunty_rafiki/models/user.dart';
+import 'package:aunty_rafiki/providers/auth_provider.dart';
+import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:aunty_rafiki/views/components/tiles/chat/loader_chart_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/chat/private_chart_card.dart';
 import 'package:aunty_rafiki/views/components/tiles/no_items.dart';
@@ -11,6 +13,7 @@ import 'package:connectivity/connectivity.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class PrivateChats extends StatefulWidget {
   final String currentUserId;
@@ -30,6 +33,7 @@ class _PrivateChatsState extends State<PrivateChats> {
   int _limit = 20;
   int _limitIncrement = 20;
   bool isLoading = false;
+  bool isLoa = false;
 
   ///chech for internet connection
   String _connectionStatus = 'unknown';
@@ -97,6 +101,8 @@ class _PrivateChatsState extends State<PrivateChats> {
 
   @override
   Widget build(BuildContext context) {
+    final _chatProvider = Provider.of<ChatProvider>(context);
+    final _authProvider = Provider.of<AuthProvider>(context);
     return WillPopScope(
       child: Stack(
         children: <Widget>[
@@ -117,7 +123,7 @@ class _PrivateChatsState extends State<PrivateChats> {
                 if (!snapshot.hasData) {
                   return ListView.builder(
                     itemBuilder: (context, index) => LoaderChartcard(),
-                    itemCount: 20,
+                    itemCount: 10,
                   );
                 } else {
                   List<User> userList = snapshot.data;
@@ -155,8 +161,44 @@ class _PrivateChatsState extends State<PrivateChats> {
                           ],
                         )))
                       : ListView.builder(
-                          itemBuilder: (context, index) =>
-                              buildItem(context, userList[index]),
+                          itemBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: _authProvider.currentUser.chats
+                                    .contains(userList[index].uid)
+                                ? Container(
+                                    padding: const EdgeInsets.only(top: 10.0),
+                                    color: _chatProvider.selectedUsers
+                                            .containsKey(index)
+                                        ? Colors.pink[50].withOpacity(0.5)
+                                        : Colors.transparent,
+                                    child: PrivateChartcard(
+                                      peer: userList[index],
+                                      onLongPress: () {
+                                        setState(() {
+                                          _chatProvider.selectContact(
+                                              index: index,
+                                              uid: userList[index].uid);
+                                        });
+                                      },
+                                      isSelected: _chatProvider.selectedUsers
+                                          .containsKey(index),
+                                    ),
+                                  )
+                                : Center(
+                                  child: Column(
+                                    children: [
+                                         SizedBox(
+                              height: MediaQuery.of(context).size.height / 3.5,
+                            ),
+                                      NoItemTile(
+                                              icon: 'assets/icons/chat.png',
+                                              title: Languages.of(context)
+                                                  .labelNoItemTilePeers,
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                          ),
                           itemCount: userList.length,
                           controller: _listScrollController,
                         );
@@ -167,12 +209,6 @@ class _PrivateChatsState extends State<PrivateChats> {
         ],
       ),
       onWillPop: onBackPress,
-    );
-  }
-
-  Widget buildItem(BuildContext context, User peer) {
-    return PrivateChartcard(
-      peer: peer,
     );
   }
 }

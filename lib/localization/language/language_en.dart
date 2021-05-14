@@ -231,7 +231,7 @@ class LanguageEn extends Languages {
   @override
   String get labelNoItemTileGroup => "You are not in any chat group yet";
   @override
-  String get labelNoItemTilePeers => "No peers";
+  String get labelNoItemTilePeers => "No messages";
   @override
   String get labelNoItemTileInternet => "No internet connection";
   @override

@@ -168,6 +168,10 @@ class _GroupChatsState extends State<GroupChats> {
                                     },
                                   )
                                 : NoItemTile(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, selectContactsPage);
+                                    },
                                     icon: 'assets/icons/chat.png',
                                     title: Languages.of(context)
                                         .labelNoItemTileGroup,

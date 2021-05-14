@@ -119,21 +119,23 @@ class GroupInfoPage extends StatelessWidget {
               //     color: Colors.white,
               //   ),
               //   onPressed: () {},
-             // )
+              // )
             ],
             onStretchTrigger: () {
               return;
             },
             flexibleSpace: FlexibleSpaceBar(
-              title: RichText(
-                  text: TextSpan(
-                      text: chat.name + '\n',
-                      style: TextStyle(color: Colors.black, fontSize: 13),
-                      children: <TextSpan>[
-                    TextSpan(
-                        text: 'created by robbyn on 12/12/2020',
-                        style: TextStyle(color: Colors.black, fontSize: 9))
-                  ])),
+              title: Container(
+                child: RichText(
+                    text: TextSpan(
+                        text: chat.name + '\n',
+                        style: TextStyle(color: Colors.white, fontSize: 13),
+                        children: <TextSpan>[
+                      // TextSpan(
+                      //     text: 'created on ',
+                      //     style: TextStyle(color: Colors.white, fontSize: 9))
+                    ])),
+              ),
               centerTitle: false,
               stretchModes: [
                 StretchMode.zoomBackground,

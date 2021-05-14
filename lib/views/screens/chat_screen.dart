@@ -1,13 +1,16 @@
 import 'package:aunty_rafiki/localization/language/languages.dart';
+import 'package:aunty_rafiki/providers/chat_provider.dart';
 import 'package:aunty_rafiki/views/components/headers/home_screen_header.dart';
 import 'package:aunty_rafiki/views/screens/chats/group_chats.dart';
 import 'package:aunty_rafiki/views/screens/chats/private_chats.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _chatProvider = Provider.of<ChatProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -16,8 +19,24 @@ class ChatScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                HomeScreenHeader(
-                  title: Languages.of(context).labelChat,
+                Row(
+                  children: [
+                    Expanded(
+                      child: HomeScreenHeader(
+                        title: Languages.of(context).labelChat,
+                      ),
+                    ),
+                    _chatProvider.selectedUsers.isNotEmpty
+                        ? IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.pink,
+                            ),
+                            onPressed: () {
+                              _chatProvider.deleteUserChat();
+                            })
+                        : Container()
+                  ],
                 ),
                 TabBar(
                   labelColor: Colors.pink,

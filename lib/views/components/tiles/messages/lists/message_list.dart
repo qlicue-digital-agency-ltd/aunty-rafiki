@@ -2,9 +2,11 @@ import 'package:aunty_rafiki/models/message.dart';
 
 import 'package:aunty_rafiki/models/chat.dart';
 import 'package:aunty_rafiki/providers/chat_provider.dart';
+import 'package:aunty_rafiki/providers/group_provider.dart';
 
 import 'package:aunty_rafiki/views/components/tiles/messages/message.dart';
 import 'package:aunty_rafiki/views/components/tiles/messages/reply_message.dart';
+import 'package:aunty_rafiki/views/pages/private_chat_room_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,7 +16,54 @@ class MessageList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _chatProvider = Provider.of<ChatProvider>(context);
+    final _groupProvider = Provider.of<GroupProvider>(context);
     Chat chat = Provider.of<Chat>(context);
+
+    Future<void> _showMyDialog({@required Message message}) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    leading: Icon(Icons.message, color: Colors.pink),
+                    title: Text('Message ${message.senderName}'),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Send'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PrivateChatRoomPage(
+                                peer: _groupProvider.currentGroupMembers
+                                    .where((user) => user.uid == message.sender)
+                                    .first,
+                              )));
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     return StreamBuilder<List<Message>>(
       stream: FirebaseFirestore.instance
@@ -79,7 +128,9 @@ class MessageList extends StatelessWidget {
                                 message: docs[index], uid: docs[index].id);
                           },
                     onTap: _chatProvider.selectedMessages.isEmpty
-                        ? null
+                        ? () {
+                            _showMyDialog(message: docs[index]);
+                          }
                         : () {
                             print('we good...');
                             _chatProvider.setMessage(

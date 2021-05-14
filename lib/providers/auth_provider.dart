@@ -223,7 +223,6 @@ class AuthProvider with ChangeNotifier {
     final user = users.where(FieldPath.documentId,
         isEqualTo: "${FirebaseAuth.instance.currentUser.uid}");
 
-    print('=====================================');
     await user.get().then((snap) {
       if (snap.docs.isEmpty) {
         users.doc(userCredential.user.uid).set({
@@ -267,10 +266,6 @@ class AuthProvider with ChangeNotifier {
         print(
             'Progress: ${(snapshot.totalBytes / snapshot.bytesTransferred) * 100} %');
       }, onError: (e) {
-        // The final snapshot is also available on the task via `.snapshot`,
-        // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
-        //print(task.snapshot);
-        print('User does not have ');
         if (e.code == 'permission-denied') {
           print('User does not have permission to upload to this reference.');
         }

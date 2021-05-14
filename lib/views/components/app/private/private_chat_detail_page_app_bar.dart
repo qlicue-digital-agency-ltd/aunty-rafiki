@@ -32,6 +32,7 @@ class PrivateChatDetailPageAppBar extends StatelessWidget
 
     return AppBar(
       elevation: 0,
+      iconTheme: IconThemeData(color: Colors.black54),
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       flexibleSpace: SafeArea(
