@@ -57,7 +57,7 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black54),
         elevation: 0,
-          backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         title: Text(
           Languages.of(context).labelProfileTitle,
           style: TextStyle(color: Colors.black54),
@@ -91,10 +91,10 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
       body: RefreshIndicator(
-         onRefresh: () {
-        return _authProvider.getUserProfile();
-      },
-              child: CustomScrollView(slivers: [
+        onRefresh: () {
+          return _authProvider.getUserProfile();
+        },
+        child: CustomScrollView(slivers: [
           SliverList(
             delegate: SliverChildListDelegate([
               Padding(
@@ -143,9 +143,10 @@ class ProfilePage extends StatelessWidget {
               profileItem: menuList[index],
               onTap: () {
                 print(menuList[index].title);
-                if (menuList[index].title == Languages.of(context).labelAboutUs) {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => AppInfoPage()));
+                if (menuList[index].title ==
+                    Languages.of(context).labelAboutUs) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => AppInfoPage()));
                 }
                 if (menuList[index].title ==
                     Languages.of(context).labelContactUs) {
@@ -155,7 +156,7 @@ class ProfilePage extends StatelessWidget {
                 if (menuList[index].title ==
                     Languages.of(context).labelPrivacyPolicy) {
                   _launchURL(
-                      'https://auntierafiki.co.tz/legal/update/privacy-policy');
+                      'https://auntierafiki.co.tz/legal/update/privacy-policy.html');
                 }
               },
             );
