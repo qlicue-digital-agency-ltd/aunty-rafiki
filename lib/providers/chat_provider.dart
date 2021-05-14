@@ -56,10 +56,8 @@ class ChatProvider with ChangeNotifier {
   setMessage({@required String uid, @required Message message}) {
     if (_selectedMessages.containsKey(uid)) {
       _selectedMessages.remove(uid);
-      print('removed');
     } else {
       _selectedMessages[uid] = message;
-      print('added');
     }
     print(_selectedMessages.length);
     notifyListeners();
@@ -68,10 +66,8 @@ class ChatProvider with ChangeNotifier {
   setPrivateMessage({@required String uid, @required PrivateMessage message}) {
     if (_selectedPrivateMessages.containsKey(uid)) {
       _selectedPrivateMessages.remove(uid);
-      print('removed');
     } else {
       _selectedPrivateMessages[uid] = message;
-      print('added');
     }
 
     notifyListeners();
@@ -349,7 +345,7 @@ class ChatProvider with ChangeNotifier {
     } on PlatformException catch (e) {
       print("Unsupported operation" + e.toString());
     } catch (ex) {
-      print(ex);
+    
     }
     notifyListeners();
   }
@@ -561,14 +557,12 @@ class ChatProvider with ChangeNotifier {
   }
 
   selectContact({@required int index, @required String uid}) {
-    print(index);
-    print(uid);
     if (_selectedUsers.containsKey(index)) {
       _selectedUsers.remove(index);
     } else {
       _selectedUsers[index] = uid;
     }
-    print(_selectedUsers.length);
+
     notifyListeners();
   }
 }

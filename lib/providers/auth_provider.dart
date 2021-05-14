@@ -58,8 +58,6 @@ class AuthProvider with ChangeNotifier {
       _initialized = true;
       notifyListeners();
     } catch (e) {
-      // Set `_error` state to true if Firebase initialization fails
-      print('Error in initializing app ${e.toString()}');
       _error = true;
       notifyListeners();
     }
@@ -103,44 +101,9 @@ class AuthProvider with ChangeNotifier {
       ));
 
       if (credential.user != null) {
-        print("Auth User Phone: " + credential.user.phoneNumber);
         saveUserToFirestore(userCredential: credential);
       }
-    } catch (e) {
-      // authProblems errorType;
-      // if (Platform.isAndroid) {
-      //   switch (e.message) {
-      //     case 'There is no user record corresponding to this identifier. The user may have been deleted.':
-      //       errorType = authProblems.UserNotFound;
-      //       break;
-      //     case 'The password is invalid or the user does not have a password.':
-      //       errorType = authProblems.PasswordNotValid;
-      //       break;
-      //     case 'A network error (such as timeout, interrupted connection or unreachable host) has occurred.':
-      //       errorType = authProblems.NetworkError;
-      //       break;
-      //     // ...
-      //     default:
-      //       print('Case ${e.message} is not yet implemented');
-      //   }
-      // } else if (Platform.isIOS) {
-      //   switch (e.code) {
-      //     case 'Error 17011':
-      //       errorType = authProblems.UserNotFound;
-      //       break;
-      //     case 'Error 17009':
-      //       errorType = authProblems.PasswordNotValid;
-      //       break;
-      //     case 'Error 17020':
-      //       errorType = authProblems.NetworkError;
-      //       break;
-      //     // ...
-      //     default:
-      //       print('Case ${e.message} is not yet implemented');
-      //   }
-      // }
-      print('The error is $e');
-    }
+    } catch (e) {}
     _isVerifyingCode = false;
     notifyListeners();
     return credential;
@@ -171,9 +134,6 @@ class AuthProvider with ChangeNotifier {
   _verificationFailed(FirebaseAuthException exception) {
     _isSendingPhone = false;
     _sendingCode = false;
-    print('+++++++++++++++++++++++');
-    print(exception);
-    print('+++++++++++++++++++++++');
     notifyListeners();
   }
 
@@ -187,7 +147,6 @@ class AuthProvider with ChangeNotifier {
     _phone = _phone.replaceAll('-', '');
     _phone = _phone.replaceAll(' ', '');
 
-    print(_phone);
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
           timeout: Duration(seconds: 90),
@@ -235,15 +194,10 @@ class AuthProvider with ChangeNotifier {
           'pregnancyWeeks': 0,
           'hasProfile': false
         });
-        print('Mojaaa');
       } else if (snap.docs.first.data()['hasProfile']) {
-        print('Mbili');
-      } else {
-        print('Tatu');
-      }
+      } else {}
     });
 
-    print('++++++++++++++++++++++++++++++++++++++');
   }
 
   void cleaeSelectedImage() {
@@ -262,12 +216,12 @@ class AuthProvider with ChangeNotifier {
           .putFile(uploadFile);
 
       task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
-        print('Task state: ${snapshot.state}');
-        print(
-            'Progress: ${(snapshot.totalBytes / snapshot.bytesTransferred) * 100} %');
+        // print('Task state: ${snapshot.state}');
+        // print(
+        //     'Progress: ${(snapshot.totalBytes / snapshot.bytesTransferred) * 100} %');
       }, onError: (e) {
         if (e.code == 'permission-denied') {
-          print('User does not have permission to upload to this reference.');
+          // print('User does not have permission to upload to this reference.');
         }
       });
       try {
@@ -277,14 +231,14 @@ class AuthProvider with ChangeNotifier {
         String photoURL = await url.ref.getDownloadURL();
 
         updateProfile(key: 'photoURL', data: photoURL);
-        print('Upload complete.' + photoURL);
+   
       } on firebase_core.FirebaseException catch (e) {
         // The final snapshot is also available on the task via `.snapshot`,
         // this can include 2 additional states, `TaskState.error` & `TaskState.canceled`
-        print(task.snapshot);
+    
 
         if (e.code == 'permission-denied') {
-          print('User does not have permission to upload to this reference.');
+          // print('User does not have permission to upload to this reference.');
         }
         // ...
       }
@@ -303,9 +257,9 @@ class AuthProvider with ChangeNotifier {
       ))
           ?.files;
     } on PlatformException catch (e) {
-      print("Unsupported operation" + e.toString());
+      // print("Unsupported operation" + e.toString());
     } catch (ex) {
-      print(ex);
+      // print(ex);
     }
 
     if (_paths == null) {
@@ -417,13 +371,10 @@ class AuthProvider with ChangeNotifier {
     await user.get().then((snap) {
       if (snap.docs.isEmpty) {
         _hasProfile = false;
-        print('Mojaaa');
       } else if (snap.docs.first.data()['hasProfile']) {
         _hasProfile = true;
-        print('Mbili');
       } else {
         _hasProfile = false;
-        print('Tatu');
       }
     });
 

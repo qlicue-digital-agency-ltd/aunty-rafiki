@@ -44,18 +44,13 @@ class BloodLevelProvider extends ChangeNotifier {
         });
         hasError = false;
       }
-
-      print(_fetchedBloodLevels);
     } catch (error) {
-      print('---------------------------');
-      print(error);
       hasError = true;
     }
 
     _availableBloodLevels = _fetchedBloodLevels;
     _isFetchingBloodLevelData = false;
 
-    print(_availableBloodLevels.length);
     notifyListeners();
 
     return hasError;
@@ -104,16 +99,9 @@ class BloodLevelProvider extends ChangeNotifier {
         hasError = false;
       }
     } catch (error) {
-      print('-----------+++++----------------');
-      print(error);
-
       hasError = true;
     }
 
-    print(_availableBloodLevels.length);
-    print("-----------------------------------");
-    print(availableBloodLevels.length);
-    print("-----------------------------------");
     _isSubmittingData = false;
     notifyListeners();
     return hasError;
