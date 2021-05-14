@@ -49,7 +49,7 @@ class PrivateRepliedContent extends StatelessWidget {
                           text: TextSpan(
                               text: byMe
                                   ? 'You\n'
-                                  : '${originalMessage.idFrom}\n',
+                                  : '',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 13),
                               children: <TextSpan>[
